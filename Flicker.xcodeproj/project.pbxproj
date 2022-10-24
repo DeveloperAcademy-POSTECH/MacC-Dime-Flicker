@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CB33C1BA29061ABD00F37626 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1B929061ABD00F37626 /* FirebaseAuth */; };
-		CB33C1BC29061ABD00F37626 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BB29061ABD00F37626 /* FirebaseFirestore */; };
-		CB33C1BE29061ABD00F37626 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */; };
-		CB33C1C029061ABD00F37626 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BF29061ABD00F37626 /* FirebaseMessaging */; };
-		CB33C1C229061ABD00F37626 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C129061ABD00F37626 /* FirebaseStorage */; };
-		CB33C1C529061AF400F37626 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C429061AF400F37626 /* SnapKit */; };
-		CB33C1C829061B1700F37626 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C729061B1700F37626 /* Then */; };
-		CB33C1CB29061B4F00F37626 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1CA29061B4F00F37626 /* Lottie */; };
-		CB33C1CE29061BB000F37626 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1CD29061BB000F37626 /* MessageKit */; };
+		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
+		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
+		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
+		10FE6B6629064FE60064201F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6529064FE60064201F /* FirebaseMessaging */; };
+		10FE6B6829064FE60064201F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6729064FE60064201F /* FirebaseStorage */; };
+		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
+		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
+		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
+		10FE6B74290651E10064201F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B73290651E10064201F /* MessageKit */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
@@ -107,15 +107,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB33C1C029061ABD00F37626 /* FirebaseMessaging in Frameworks */,
-				CB33C1BA29061ABD00F37626 /* FirebaseAuth in Frameworks */,
-				CB33C1BC29061ABD00F37626 /* FirebaseFirestore in Frameworks */,
-				CB33C1CE29061BB000F37626 /* MessageKit in Frameworks */,
-				CB33C1C829061B1700F37626 /* Then in Frameworks */,
-				CB33C1C529061AF400F37626 /* SnapKit in Frameworks */,
-				CB33C1C229061ABD00F37626 /* FirebaseStorage in Frameworks */,
-				CB33C1BE29061ABD00F37626 /* FirebaseFirestoreSwift in Frameworks */,
-				CB33C1CB29061B4F00F37626 /* Lottie in Frameworks */,
+				10FE6B6629064FE60064201F /* FirebaseMessaging in Frameworks */,
+				10FE6B6829064FE60064201F /* FirebaseStorage in Frameworks */,
+				10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */,
+				10FE6B74290651E10064201F /* MessageKit in Frameworks */,
+				10FE6B712906519E0064201F /* Then in Frameworks */,
+				10FE6B6E290651630064201F /* SnapKit in Frameworks */,
+				10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */,
+				10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */,
+				10FE6B6B290651150064201F /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,15 +371,15 @@
 			);
 			name = Flicker;
 			packageProductDependencies = (
-				CB33C1B929061ABD00F37626 /* FirebaseAuth */,
-				CB33C1BB29061ABD00F37626 /* FirebaseFirestore */,
-				CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */,
-				CB33C1BF29061ABD00F37626 /* FirebaseMessaging */,
-				CB33C1C129061ABD00F37626 /* FirebaseStorage */,
-				CB33C1C429061AF400F37626 /* SnapKit */,
-				CB33C1C729061B1700F37626 /* Then */,
-				CB33C1CA29061B4F00F37626 /* Lottie */,
-				CB33C1CD29061BB000F37626 /* MessageKit */,
+				10FE6B5F29064FE60064201F /* FirebaseAuth */,
+				10FE6B6129064FE60064201F /* FirebaseFirestore */,
+				10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */,
+				10FE6B6529064FE60064201F /* FirebaseMessaging */,
+				10FE6B6729064FE60064201F /* FirebaseStorage */,
+				10FE6B6A290651150064201F /* Lottie */,
+				10FE6B6D290651630064201F /* SnapKit */,
+				10FE6B702906519E0064201F /* Then */,
+				10FE6B73290651E10064201F /* MessageKit */,
 			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
@@ -410,11 +410,11 @@
 			);
 			mainGroup = CBDC03C729060E6600C6CF30;
 			packageReferences = (
-				CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */,
-				CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */,
+				10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = CBDC03D129060E6600C6CF30 /* Products */;
 			projectDirPath = "";
@@ -698,41 +698,41 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 9.0.0;
 			};
 		};
-		CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
 			};
 		};
-		CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */ = {
+		10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/devxoul/Then.git";
+			repositoryURL = "https://github.com/devxoul/Then";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.0.0;
 			};
 		};
-		CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-		CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.0.0;
@@ -741,49 +741,49 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CB33C1B929061ABD00F37626 /* FirebaseAuth */ = {
+		10FE6B5F29064FE60064201F /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		CB33C1BB29061ABD00F37626 /* FirebaseFirestore */ = {
+		10FE6B6129064FE60064201F /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */ = {
+		10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
 		};
-		CB33C1BF29061ABD00F37626 /* FirebaseMessaging */ = {
+		10FE6B6529064FE60064201F /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
-		CB33C1C129061ABD00F37626 /* FirebaseStorage */ = {
+		10FE6B6729064FE60064201F /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 10FE6B5E29064FE60064201F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
-		CB33C1C429061AF400F37626 /* SnapKit */ = {
+		10FE6B6A290651150064201F /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		CB33C1C729061B1700F37626 /* Then */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */;
-			productName = Then;
-		};
-		CB33C1CA29061B4F00F37626 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
-		CB33C1CD29061BB000F37626 /* MessageKit */ = {
+		10FE6B6D290651630064201F /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			package = 10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		10FE6B702906519E0064201F /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		10FE6B73290651E10064201F /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
