@@ -7,23 +7,99 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB33C1BA29061ABD00F37626 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1B929061ABD00F37626 /* FirebaseAuth */; };
+		CB33C1BC29061ABD00F37626 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BB29061ABD00F37626 /* FirebaseFirestore */; };
+		CB33C1BE29061ABD00F37626 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */; };
+		CB33C1C029061ABD00F37626 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1BF29061ABD00F37626 /* FirebaseMessaging */; };
+		CB33C1C229061ABD00F37626 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C129061ABD00F37626 /* FirebaseStorage */; };
+		CB33C1C529061AF400F37626 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C429061AF400F37626 /* SnapKit */; };
+		CB33C1C829061B1700F37626 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1C729061B1700F37626 /* Then */; };
+		CB33C1CB29061B4F00F37626 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1CA29061B4F00F37626 /* Lottie */; };
+		CB33C1CE29061BB000F37626 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB33C1CD29061BB000F37626 /* MessageKit */; };
+		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
-		CBDC03D829060E6600C6CF30 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D729060E6600C6CF30 /* ViewController.swift */; };
-		CBDC03DB29060E6600C6CF30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBDC03D929060E6600C6CF30 /* Main.storyboard */; };
+		CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D729060E6600C6CF30 /* MainViewController.swift */; };
 		CBDC03DD29060E6600C6CF30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBDC03DC29060E6600C6CF30 /* Assets.xcassets */; };
 		CBDC03E029060E6600C6CF30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBDC03DE29060E6600C6CF30 /* LaunchScreen.storyboard */; };
+		CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03F029060F0800C6CF30 /* ImageLiteral.swift */; };
+		CBDC03F329060F2500C6CF30 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03F229060F2500C6CF30 /* BaseViewController.swift */; };
+		CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03F429060F3400C6CF30 /* BaseCollectionViewCell.swift */; };
+		CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03F629060F3B00C6CF30 /* BaseTableViewCell.swift */; };
+		CBDC03F929060F6400C6CF30 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03F829060F6400C6CF30 /* Logger.swift */; };
+		CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */; };
+		CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */; };
+		CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03FE29060FBC00C6CF30 /* UIColor+Extension.swift */; };
+		CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC040029060FD600C6CF30 /* UIViewController+Extension.swift */; };
+		CBDC040329060FEB00C6CF30 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC040229060FEB00C6CF30 /* UITableView+Extension.swift */; };
+		CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04042906100D00C6CF30 /* UICollectionView+Extension.swift */; };
+		CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04062906102000C6CF30 /* NSObject+Extension.swift */; };
+		CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04082906102F00C6CF30 /* UIView+Extension.swift */; };
+		CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC040A2906104800C6CF30 /* UILabel+Extension.swift */; };
+		CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC040C2906106500C6CF30 /* Notification+Extension.swift */; };
+		CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC040E2906107900C6CF30 /* UIFont+Extension.swift */; };
+		CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */; };
+		CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */; };
+		CBDC04162906116E00C6CF30 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04152906116E00C6CF30 /* BackButton.swift */; };
+		CBDC041C290611CC00C6CF30 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC041B290611CC00C6CF30 /* User.swift */; };
+		CBDC041E290611DB00C6CF30 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC041D290611DB00C6CF30 /* Channel.swift */; };
+		CBDC0420290611E900C6CF30 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC041F290611E900C6CF30 /* Message.swift */; };
+		CBDC0422290611FC00C6CF30 /* ImageMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC0421290611FC00C6CF30 /* ImageMediaItem.swift */; };
+		CBDC04242906121400C6CF30 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04232906121400C6CF30 /* Sender.swift */; };
+		CBDC04262906122200C6CF30 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04252906122200C6CF30 /* Mocks.swift */; };
+		CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04292906124600C6CF30 /* SignUpViewController.swift */; };
+		CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC042B2906125A00C6CF30 /* LoginViewController.swift */; };
+		CBDC0431290612FC00C6CF30 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC0430290612FC00C6CF30 /* MessageViewController.swift */; };
+		CBDC04332906130E00C6CF30 /* MessageRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04322906130E00C6CF30 /* MessageRoomViewController.swift */; };
+		CBDC04372906133100C6CF30 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04362906133100C6CF30 /* MessageTableViewCell.swift */; };
+		CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04392906143200C6CF30 /* TabbarViewController.swift */; };
+		CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC043C290614C100C6CF30 /* SearchViewController.swift */; };
+		CBDC04402906151600C6CF30 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC043F2906151600C6CF30 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
+		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDC03D329060E6600C6CF30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CBDC03D729060E6600C6CF30 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CBDC03DA29060E6600C6CF30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CBDC03D729060E6600C6CF30 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CBDC03DC29060E6600C6CF30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBDC03DF29060E6600C6CF30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CBDC03E129060E6600C6CF30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CBDC03F029060F0800C6CF30 /* ImageLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLiteral.swift; sourceTree = "<group>"; };
+		CBDC03F229060F2500C6CF30 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		CBDC03F429060F3400C6CF30 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		CBDC03F629060F3B00C6CF30 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		CBDC03F829060F6400C6CF30 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		CBDC03FE29060FBC00C6CF30 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		CBDC040029060FD600C6CF30 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		CBDC040229060FEB00C6CF30 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		CBDC04042906100D00C6CF30 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		CBDC04062906102000C6CF30 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
+		CBDC04082906102F00C6CF30 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CBDC040A2906104800C6CF30 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		CBDC040C2906106500C6CF30 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
+		CBDC040E2906107900C6CF30 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
+		CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
+		CBDC04152906116E00C6CF30 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		CBDC041B290611CC00C6CF30 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CBDC041D290611DB00C6CF30 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		CBDC041F290611E900C6CF30 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		CBDC0421290611FC00C6CF30 /* ImageMediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMediaItem.swift; sourceTree = "<group>"; };
+		CBDC04232906121400C6CF30 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		CBDC04252906122200C6CF30 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		CBDC04292906124600C6CF30 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		CBDC042B2906125A00C6CF30 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CBDC0430290612FC00C6CF30 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		CBDC04322906130E00C6CF30 /* MessageRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoomViewController.swift; sourceTree = "<group>"; };
+		CBDC04362906133100C6CF30 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		CBDC04392906143200C6CF30 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
+		CBDC043C290614C100C6CF30 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		CBDC043F2906151600C6CF30 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +107,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB33C1C029061ABD00F37626 /* FirebaseMessaging in Frameworks */,
+				CB33C1BA29061ABD00F37626 /* FirebaseAuth in Frameworks */,
+				CB33C1BC29061ABD00F37626 /* FirebaseFirestore in Frameworks */,
+				CB33C1CE29061BB000F37626 /* MessageKit in Frameworks */,
+				CB33C1C829061B1700F37626 /* Then in Frameworks */,
+				CB33C1C529061AF400F37626 /* SnapKit in Frameworks */,
+				CB33C1C229061ABD00F37626 /* FirebaseStorage in Frameworks */,
+				CB33C1BE29061ABD00F37626 /* FirebaseFirestoreSwift in Frameworks */,
+				CB33C1CB29061B4F00F37626 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,15 +141,217 @@
 		CBDC03D229060E6600C6CF30 /* Flicker */ = {
 			isa = PBXGroup;
 			children = (
-				CBDC03D329060E6600C6CF30 /* AppDelegate.swift */,
-				CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */,
-				CBDC03D729060E6600C6CF30 /* ViewController.swift */,
-				CBDC03D929060E6600C6CF30 /* Main.storyboard */,
-				CBDC03DC29060E6600C6CF30 /* Assets.xcassets */,
-				CBDC03DE29060E6600C6CF30 /* LaunchScreen.storyboard */,
-				CBDC03E129060E6600C6CF30 /* Info.plist */,
+				CB33C1CF2906214200F37626 /* Flicker.entitlements */,
+				CBDC0417290611A400C6CF30 /* Models */,
+				CBDC03E729060E9C00C6CF30 /* Global */,
+				CBDC0414290610F300C6CF30 /* Screens */,
 			);
 			path = Flicker;
+			sourceTree = "<group>";
+		};
+		CBDC03E729060E9C00C6CF30 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03E829060EAF00C6CF30 /* Literal */,
+				CBDC03E929060EB700C6CF30 /* Base */,
+				CBDC03EC29060ED200C6CF30 /* Extensions */,
+				CBDC03EE29060EE000C6CF30 /* UIComponent */,
+				CBDC03EB29060ECA00C6CF30 /* Utils */,
+				CBDC03EA29060EBD00C6CF30 /* Protocol */,
+				CBDC03ED29060ED900C6CF30 /* Resource */,
+				CBDC03EF29060EEA00C6CF30 /* Supports */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		CBDC03E829060EAF00C6CF30 /* Literal */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03F029060F0800C6CF30 /* ImageLiteral.swift */,
+			);
+			path = Literal;
+			sourceTree = "<group>";
+		};
+		CBDC03E929060EB700C6CF30 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03F229060F2500C6CF30 /* BaseViewController.swift */,
+				CBDC03F429060F3400C6CF30 /* BaseCollectionViewCell.swift */,
+				CBDC03F629060F3B00C6CF30 /* BaseTableViewCell.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		CBDC03EA29060EBD00C6CF30 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		CBDC03EB29060ECA00C6CF30 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03F829060F6400C6CF30 /* Logger.swift */,
+				CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */,
+				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		CBDC03EC29060ED200C6CF30 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03FE29060FBC00C6CF30 /* UIColor+Extension.swift */,
+				CBDC040029060FD600C6CF30 /* UIViewController+Extension.swift */,
+				CBDC040229060FEB00C6CF30 /* UITableView+Extension.swift */,
+				CBDC04042906100D00C6CF30 /* UICollectionView+Extension.swift */,
+				CBDC04062906102000C6CF30 /* NSObject+Extension.swift */,
+				CBDC04082906102F00C6CF30 /* UIView+Extension.swift */,
+				CBDC040A2906104800C6CF30 /* UILabel+Extension.swift */,
+				CBDC040C2906106500C6CF30 /* Notification+Extension.swift */,
+				CBDC040E2906107900C6CF30 /* UIFont+Extension.swift */,
+				CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */,
+				CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CBDC03ED29060ED900C6CF30 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03DC29060E6600C6CF30 /* Assets.xcassets */,
+				CBDC03DE29060E6600C6CF30 /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		CBDC03EE29060EE000C6CF30 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04152906116E00C6CF30 /* BackButton.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		CBDC03EF29060EEA00C6CF30 /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03D329060E6600C6CF30 /* AppDelegate.swift */,
+				CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */,
+				CBDC03E129060E6600C6CF30 /* Info.plist */,
+				CB33C1D0290621C200F37626 /* GoogleService-Info.plist */,
+			);
+			path = Supports;
+			sourceTree = "<group>";
+		};
+		CBDC0414290610F300C6CF30 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04382906142600C6CF30 /* Tabbar */,
+				CBDC04282906123700C6CF30 /* Login */,
+				CBDC04272906123100C6CF30 /* SignUp */,
+				CBDC042D2906126B00C6CF30 /* Main */,
+				CBDC042F290612EE00C6CF30 /* Message */,
+				CBDC043B2906149000C6CF30 /* Search */,
+				CBDC043E290614FD00C6CF30 /* Profile */,
+				CBDC042E290612E600C6CF30 /* MessageRoom */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		CBDC0417290611A400C6CF30 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC0418290611B800C6CF30 /* Message */,
+				CBDC041B290611CC00C6CF30 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CBDC0418290611B800C6CF30 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC041D290611DB00C6CF30 /* Channel.swift */,
+				CBDC041F290611E900C6CF30 /* Message.swift */,
+				CBDC0421290611FC00C6CF30 /* ImageMediaItem.swift */,
+				CBDC04232906121400C6CF30 /* Sender.swift */,
+				CBDC04252906122200C6CF30 /* Mocks.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		CBDC04272906123100C6CF30 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04292906124600C6CF30 /* SignUpViewController.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		CBDC04282906123700C6CF30 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC042B2906125A00C6CF30 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CBDC042D2906126B00C6CF30 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC03D729060E6600C6CF30 /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		CBDC042E290612E600C6CF30 /* MessageRoom */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04322906130E00C6CF30 /* MessageRoomViewController.swift */,
+			);
+			path = MessageRoom;
+			sourceTree = "<group>";
+		};
+		CBDC042F290612EE00C6CF30 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04352906132500C6CF30 /* Cell */,
+				CBDC0430290612FC00C6CF30 /* MessageViewController.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		CBDC04352906132500C6CF30 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04362906133100C6CF30 /* MessageTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		CBDC04382906142600C6CF30 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC04392906143200C6CF30 /* TabbarViewController.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		CBDC043B2906149000C6CF30 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC043C290614C100C6CF30 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		CBDC043E290614FD00C6CF30 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC043F2906151600C6CF30 /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +370,17 @@
 			dependencies = (
 			);
 			name = Flicker;
+			packageProductDependencies = (
+				CB33C1B929061ABD00F37626 /* FirebaseAuth */,
+				CB33C1BB29061ABD00F37626 /* FirebaseFirestore */,
+				CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */,
+				CB33C1BF29061ABD00F37626 /* FirebaseMessaging */,
+				CB33C1C129061ABD00F37626 /* FirebaseStorage */,
+				CB33C1C429061AF400F37626 /* SnapKit */,
+				CB33C1C729061B1700F37626 /* Then */,
+				CB33C1CA29061B4F00F37626 /* Lottie */,
+				CB33C1CD29061BB000F37626 /* MessageKit */,
+			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +409,13 @@
 				Base,
 			);
 			mainGroup = CBDC03C729060E6600C6CF30;
+			packageReferences = (
+				CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */,
+				CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			productRefGroup = CBDC03D129060E6600C6CF30 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +432,7 @@
 			files = (
 				CBDC03E029060E6600C6CF30 /* LaunchScreen.storyboard in Resources */,
 				CBDC03DD29060E6600C6CF30 /* Assets.xcassets in Resources */,
-				CBDC03DB29060E6600C6CF30 /* Main.storyboard in Resources */,
+				CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +443,48 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBDC03D829060E6600C6CF30 /* ViewController.swift in Sources */,
+				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
+				CBDC041E290611DB00C6CF30 /* Channel.swift in Sources */,
+				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
+				CBDC04162906116E00C6CF30 /* BackButton.swift in Sources */,
+				CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */,
+				CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */,
+				CBDC04402906151600C6CF30 /* ProfileViewController.swift in Sources */,
+				CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */,
+				CBDC0420290611E900C6CF30 /* Message.swift in Sources */,
+				CBDC03F329060F2500C6CF30 /* BaseViewController.swift in Sources */,
+				CBDC0422290611FC00C6CF30 /* ImageMediaItem.swift in Sources */,
+				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
+				CBDC04262906122200C6CF30 /* Mocks.swift in Sources */,
+				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
+				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
+				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
+				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
+				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
+				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
+				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
+				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
+				CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */,
+				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
+				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
+				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
+				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
+				CBDC0431290612FC00C6CF30 /* MessageViewController.swift in Sources */,
+				CBDC04372906133100C6CF30 /* MessageTableViewCell.swift in Sources */,
+				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
+				CBDC04332906130E00C6CF30 /* MessageRoomViewController.swift in Sources */,
+				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
+				CBDC03F929060F6400C6CF30 /* Logger.swift in Sources */,
+				CBDC040329060FEB00C6CF30 /* UITableView+Extension.swift in Sources */,
+				CBDC041C290611CC00C6CF30 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CBDC03D929060E6600C6CF30 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CBDC03DA29060E6600C6CF30 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CBDC03DE29060E6600C6CF30 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -216,7 +546,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -285,16 +615,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Flicker/Flicker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3Y8YH8GWMM;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Flicker/Info.plist;
+				INFOPLIST_FILE = Flicker/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,9 +633,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dime.Flicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -313,16 +647,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Flicker/Flicker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3Y8YH8GWMM;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Flicker/Info.plist;
+				INFOPLIST_FILE = Flicker/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,9 +665,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dime.Flicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -358,6 +696,97 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB33C1B929061ABD00F37626 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CB33C1BB29061ABD00F37626 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		CB33C1BD29061ABD00F37626 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		CB33C1BF29061ABD00F37626 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		CB33C1C129061ABD00F37626 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1B829061ABD00F37626 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		CB33C1C429061AF400F37626 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1C329061AF400F37626 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CB33C1C729061B1700F37626 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1C629061B1700F37626 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		CB33C1CA29061B4F00F37626 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1C929061B4F00F37626 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		CB33C1CD29061BB000F37626 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB33C1CC29061BB000F37626 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CBDC03C829060E6600C6CF30 /* Project object */;
 }
