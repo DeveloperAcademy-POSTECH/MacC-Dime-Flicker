@@ -12,6 +12,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "HeaderCollectionReusableView"
 
     private var imageScrollView = UIScrollView().then {
+        $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
         $0.isScrollEnabled = true
     }
