@@ -16,7 +16,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isScrollEnabled = true
     }
 
-    private let imageHeight: Int = 400
+    private let imageHeight: Int = 380
     private let profileImageSize: Int = 45
 
     private let images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
@@ -35,7 +35,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private let sellerNickName = UILabel().then {
-        $0.text = "곽규보 작가님"
+        $0.text = "장루키 작가님"
         $0.font = .preferredFont(forTextStyle: .title3, weight: .bold)
     }
 
@@ -53,7 +53,15 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private let firstSeperator = UIView().then {
-        $0.backgroundColor = .systemGray4
+        $0.backgroundColor = .systemGray5
+    }
+
+    private let secondSeperator = UIView().then {
+        $0.backgroundColor = .systemGray5
+    }
+
+    private let thirdSeperator = UIView().then {
+        $0.backgroundColor = .systemGray5
     }
 
     private let introductionLabel = UILabel().then {
@@ -69,9 +77,48 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isUserInteractionEnabled = false
     }
 
+    private let regionInfo = UILabel().then {
+        $0.text = "서초구, 서대문구, 은평구"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.textColor = .black
+    }
+
+    private let scheduleInfo = UILabel().then {
+        $0.text = "주중/주말 무관"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.textColor = .black
+    }
+
+    private let hourInfo = UILabel().then {
+        $0.text = "오후 6시 이후 (협의 가능)"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.textColor = .black
+    }
+
+    private let photoshopInfo = UILabel().then {
+        $0.text = "주변 풍경 및 개인별 얼굴"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .light)
+        $0.textColor = .black
+    }
+
+    private let deviceInfo = UILabel().then {
+        $0.text = "Sony a7m3 / Sony 50mm f1.8 GM"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.textColor = .black
+    }
+
+    private let portfolioInfo = UILabel().then {
+        $0.text = "포트폴리오 사용 가능"
+        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.textColor = .black
+    }
+
     override init (frame: CGRect) {
         super.init(frame: frame)
-        self.addSubviews(imageScrollView, pageControl, sellerInformationCell, sellerProfileImage, sellerNickName, sellerInformation, introductionLabel, introductionTextView)
+        // subview
+        self.addSubviews(imageScrollView, pageControl, sellerInformationCell, sellerProfileImage, sellerNickName, sellerInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
+        self.addSubviews(regionInfo, scheduleInfo, hourInfo, photoshopInfo, deviceInfo, portfolioInfo)
+
         configureImageScrollView()
         setFunctionAndDelegate()
     }
@@ -121,18 +168,58 @@ class HeaderCollectionReusableView: UICollectionReusableView {
 
         sellerInformation.snp.makeConstraints {
             $0.leading.equalTo(sellerNickName)
-            $0.top.equalTo(sellerNickName.snp.bottom).offset(5)
+            $0.top.equalTo(sellerNickName.snp.bottom).offset(3)
+        }
+
+        firstSeperator.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(sellerInformationCell.snp.bottom).offset(3)
+            $0.width.equalToSuperview().inset(20)
+            $0.height.equalTo(1)
         }
 
         introductionLabel.snp.makeConstraints {
             $0.leading.equalTo(sellerProfileImage)
-            $0.top.equalTo(sellerInformationCell.snp.bottom).offset(5)
+            $0.top.equalTo(firstSeperator.snp.bottom).offset(9)
         }
 
         introductionTextView.snp.makeConstraints {
             $0.leading.equalTo(introductionLabel)
             $0.width.equalToSuperview().inset(20)
             $0.top.equalTo(introductionLabel.snp.bottom).offset(5)
+        }
+        
+        secondSeperator.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(introductionTextView.snp.bottom).offset(5)
+            $0.width.equalToSuperview().inset(20)
+            $0.height.equalTo(1)
+        }
+
+        // Photographer Information
+        regionInfo.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+        }
+
+        scheduleInfo.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+        }
+
+        hourInfo.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(scheduleInfo.snp.bottom).offset(5)
+        }
+
+        photoshopInfo.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(hourInfo.snp.bottom).offset(5)
+        }
+
+        deviceInfo.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(photoshopInfo.snp.bottom).offset(5)
         }
     }
 

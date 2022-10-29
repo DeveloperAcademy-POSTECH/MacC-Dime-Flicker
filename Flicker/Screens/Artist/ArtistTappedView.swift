@@ -15,6 +15,20 @@ class ArtistTappedView: UIViewController {
         collectionView.contentInsetAdjustmentBehavior = .never
         return collectionView
     }()
+
+    private let bottomBackgroundView = {
+        let UIView = UIView()
+        UIView.backgroundColor = .white
+        return UIView
+    }()
+
+    private let counselingButton = UIButton().then {
+        $0.setTitle("문의하기", for: .normal)
+        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .systemBlue
+        $0.layer.cornerRadius = 15
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad ()
@@ -23,7 +37,7 @@ class ArtistTappedView: UIViewController {
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
 
         setDelegateAndDataSource()
-        view.addSubview(collectionView)
+        view.addSubviews(collectionView, bottomBackgroundView, counselingButton)
     }
 
     private func setDelegateAndDataSource() {
@@ -35,9 +49,26 @@ class ArtistTappedView: UIViewController {
     override func viewDidLayoutSubviews () {
         super.viewDidLayoutSubviews()
         collectionView.snp.makeConstraints {
-            $0.height.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
             $0.centerX.centerY.equalToSuperview()
             $0.width.equalToSuperview()
+        }
+
+        bottomBackgroundView.addSubview(counselingButton)
+
+        bottomBackgroundView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(100)
+            $0.width.equalToSuperview()
+        }
+
+        counselingButton.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(50)
+            $0.width.equalToSuperview().inset(20)
         }
     }
 }
@@ -46,7 +77,7 @@ extension ArtistTappedView: UICollectionViewDelegate, UICollectionViewDataSource
 
     // numberOfCell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return 15
     }
 
     // ReusableCell
@@ -64,7 +95,7 @@ extension ArtistTappedView: UICollectionViewDelegate, UICollectionViewDataSource
 
     // header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 1.2)
+        return CGSize(width: view.frame.width, height: view.frame.height / 1 - 130)
     }
 
     // cell size
