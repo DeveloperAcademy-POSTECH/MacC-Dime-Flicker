@@ -10,6 +10,10 @@ import Foundation
 
 class ArtistTappedView: UIViewController {
 
+    private let networkManager = NetworkManager.shared
+
+    private var posts: [Post] = []
+
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView( frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.contentInsetAdjustmentBehavior = .never
@@ -32,12 +36,14 @@ class ArtistTappedView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad ()
-        collectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: MyCollectionViewCell.identifier)
+        collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
 
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
 
         setDelegateAndDataSource()
         view.addSubviews(collectionView, bottomBackgroundView, counselingButton)
+
+        queryImageDataSet()
     }
 
     private func setDelegateAndDataSource() {
@@ -71,19 +77,52 @@ class ArtistTappedView: UIViewController {
             $0.width.equalToSuperview().inset(20)
         }
     }
+
+    private func queryImageDataSet() {
+        networkManager.queryDB(query: "cat") { [weak self] posts, error in
+            if let error = error {
+                print("error occured \(error.localizedDescription)")
+                return
+            }
+
+            self?.posts = posts!
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension ArtistTappedView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     // numberOfCell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return posts.count
     }
 
-    // ReusableCell
+    // ReusableCell setting + image loading
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCollectionViewCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.identifier, for: indexPath) as! ArtistPortfolioCell
+
+        let post = posts[indexPath.item]
+
+        cell.image = nil
+
+        func imageOptionalBind(data: Data?) -> UIImage? {
+            if let data = data {
+                return UIImage(data: data)
+            }
+            return UIImage(systemName: "picture")
+        }
+
+        networkManager.loadImageCheckingCached(post: post) { data, error  in
+            let img = imageOptionalBind(data: data)
+            DispatchQueue.main.async {
+                cell.image = img
+            }
+        }
+
         return cell
     }
 

@@ -30,39 +30,13 @@ class NetworkManager {
 
     private func makeURLRequest(url: URL) -> URLRequest {
         var request = URLRequest(url: url)
-        request.addValue("Client-ID \(accessKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("Client-ID \(AccessKey.accessKey)", forHTTPHeaderField: "Authorization")
         return request
     }
 
-    func queryDB(query: String, completion: @escaping ([Post]?, Error?) -> (Void)) {
-        var URLComponent = makeURLComponents()
-        URLComponent.queryItems = [ URLQueryItem(name: "query", value: query) ]
-        let request = makeURLRequest(url: URLComponent.url!)
-
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-
-            guard let httpResonse = response as? HTTPURLResponse, (200...299).contains(httpResonse.statusCode) else {
-                completion(nil, NetworkManagerError.badResponse(response))
-                return
-            }
-
-            guard let data = data else {
-                completion(nil, NetworkManagerError.badData)
-                return
-            }
-
-            do {
-                let response = try JSONDecoder().decode(APIResponse.self, from: data)
-                completion(response.results, nil)
-            } catch let error {
-                completion(nil, error)
-            }
-        }
-        task.resume()
+    func loadImageCheckingCached(post: Post, completion: @escaping (Data?, Error?) -> (Void)) {
+        let url = URL(string: post.urls.regular)!
+        loadImage(imageURL: url, completion: completion)
     }
 
     private func loadImage(imageURL: URL, completion: @escaping (Data?, Error?) -> (Void)) {
@@ -100,14 +74,38 @@ class NetworkManager {
         task.resume()
     }
 
-    func loadImageCheckingCached(post: Post, completion: @escaping (Data?, Error?) -> (Void)) {
-        let url = URL(string: post.urls.regular)!
-        loadImage(imageURL: url, completion: completion)
-    }
+    func queryDB(query: String, completion: @escaping ([Post]?, Error?) -> (Void)) {
+        var URLComponent = makeURLComponents()
+        URLComponent.queryItems = [ URLQueryItem(name: "query", value: query) ]
+        let request = makeURLRequest(url: URLComponent.url!)
 
-    func profileImage(post: Post, completion: @escaping (Data?, Error?) -> (Void)) {
-        let url = URL(string: post.user.profile_image.medium)!
-        loadImage(imageURL: url, completion: completion)
-    }
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
 
+            // optional binding
+            guard let httpResonse = response as? HTTPURLResponse, (200...299).contains(httpResonse.statusCode) else {
+                completion(nil, NetworkManagerError.badResponse(response))
+                return
+            }
+
+            guard let data = data else {
+                completion(nil, NetworkManagerError.badData)
+                return
+            }
+
+            // response handling
+            do {
+                let response = try JSONDecoder().decode(APIResponse.self, from: data)
+                completion(response.results, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }
+
+        // asynch task resume
+        task.resume()
+    }
 }

@@ -20,7 +20,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     private let imageHeight: Int = 380
     private let profileImageSize: Int = 45
 
-    private let images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
+    private let images: [UIImage?] = [UIImage(named: "port2"), UIImage(named: "port1"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
         $0.numberOfPages = images.count
