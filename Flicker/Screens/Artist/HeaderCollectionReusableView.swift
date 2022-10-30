@@ -31,22 +31,22 @@ class HeaderCollectionReusableView: UICollectionReusableView {
 
     // seller information
 
-    private let sellerInformationCell = UIView().then {
+    private let artistUIView = UIView().then {
         $0.isUserInteractionEnabled = true
     }
 
-    private let sellerNickName = UILabel().then {
+    private let artistNickname = UILabel().then {
         $0.text = "장루키 작가님"
         $0.font = .preferredFont(forTextStyle: .title3, weight: .bold)
     }
 
-    private let sellerInformation = UILabel().then {
+    private let artistInformation = UILabel().then {
         $0.text = "#우정사진 #필름사진 #웨딩촬영"
         $0.font = .preferredFont(forTextStyle: .footnote, weight: .light)
         $0.textColor = .systemGray
     }
 
-    private lazy var sellerProfileImage = UIImageView().then {
+    private lazy var artistProfileImage = UIImageView().then {
         $0.image = UIImage(named: "장루키")
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
@@ -117,7 +117,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
-        self.addSubviews(imageScrollView, pageControl, sellerInformationCell, sellerProfileImage, sellerNickName, sellerInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
+        self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
         self.addSubviews(regionInfo, scheduleInfo, hourInfo, photoshopInfo, deviceInfo, portfolioInfo)
 
         configureImageScrollView()
@@ -145,42 +145,42 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             $0.width.equalTo(300)
         }
 
-        // sellerInformaiton
-        sellerInformationCell.snp.makeConstraints {
+        // artistInformaiton
+        artistUIView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(imageScrollView.snp.bottom).offset(5)
             $0.width.equalToSuperview().inset(20)
             $0.height.equalTo(70)
         }
 
-        sellerInformationCell.addSubviews(sellerProfileImage, sellerNickName, sellerInformation)
+        artistUIView.addSubviews(artistProfileImage, artistNickname, artistInformation)
 
-        sellerProfileImage.snp.makeConstraints {
+        artistProfileImage.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.width.equalTo(profileImageSize)
             $0.height.equalTo(profileImageSize)
         }
 
-        sellerNickName.snp.makeConstraints {
-            $0.leading.equalTo(sellerProfileImage.snp.trailing).offset(10)
-            $0.top.equalTo(sellerProfileImage)
+        artistNickname.snp.makeConstraints {
+            $0.leading.equalTo(artistProfileImage.snp.trailing).offset(10)
+            $0.top.equalTo(artistProfileImage)
         }
 
-        sellerInformation.snp.makeConstraints {
-            $0.leading.equalTo(sellerNickName)
-            $0.top.equalTo(sellerNickName.snp.bottom).offset(3)
+        artistInformation.snp.makeConstraints {
+            $0.leading.equalTo(artistNickname)
+            $0.top.equalTo(artistNickname.snp.bottom).offset(3)
         }
 
         firstSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(sellerInformationCell.snp.bottom).offset(3)
+            $0.top.equalTo(artistUIView.snp.bottom).offset(3)
             $0.width.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
 
         introductionLabel.snp.makeConstraints {
-            $0.leading.equalTo(sellerProfileImage)
+            $0.leading.equalTo(artistProfileImage)
             $0.top.equalTo(firstSeperator.snp.bottom).offset(9)
         }
 
@@ -247,7 +247,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 }
 
-
 //delegate
 extension HeaderCollectionReusableView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -255,7 +254,6 @@ extension HeaderCollectionReusableView: UIScrollViewDelegate {
         selectedPage(Int(round(size)))
     }
 }
-
 
 extension HeaderCollectionReusableView {
     @objc func pageControlDidChange(_ sender: UIPageControl) {
