@@ -34,6 +34,7 @@ class NetworkManager {
         return request
     }
 
+    // TODO: DTO에 따라 파라미터 변경 가능
     func loadImageCheckingCached(post: Post, completion: @escaping (Data?, Error?) -> (Void)) {
         let url = URL(string: post.urls.regular)!
         loadImage(imageURL: url, completion: completion)
