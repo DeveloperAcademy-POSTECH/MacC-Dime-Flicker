@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let AuthController = UINavigationController(rootViewController: LogInViewController())
         
-        window?.rootViewController = Auth.auth().currentUser != nil ? ArtistTappedView() : AuthController
+        window?.rootViewController = Auth.auth().currentUser != nil ? ArtistTappedViewController() : AuthController
         window?.makeKeyAndVisible()
     }
     

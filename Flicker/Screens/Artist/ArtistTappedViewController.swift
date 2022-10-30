@@ -8,7 +8,7 @@ import UIKit
 import SnapKit
 import Foundation
 
-class ArtistTappedView: UIViewController {
+class ArtistTappedViewController: UIViewController {
 
     private let networkManager = NetworkManager.shared
 
@@ -93,7 +93,7 @@ class ArtistTappedView: UIViewController {
     }
 }
 
-extension ArtistTappedView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     // numberOfCell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -105,6 +105,7 @@ extension ArtistTappedView: UICollectionViewDelegate, UICollectionViewDataSource
     -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.identifier, for: indexPath) as! ArtistPortfolioCell
 
+        // 이미지 URL을 가진 response 배열
         let post = posts[indexPath.item]
 
         cell.image = nil
