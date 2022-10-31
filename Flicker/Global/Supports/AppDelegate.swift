@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             switch credentialState {
             case .authorized:
                 print("1")
-                break // The Apple ID credential is valid.
+                break // 이미 로그인을 했으면 넘어가는 로직
             case .revoked, .notFound:
                 print("2")
-                // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                // 로그인이 되어있지 않으면 로그인뷰로 이동
                 DispatchQueue.main.async {
                     print("3")
                     self.window?.rootViewController = AuthController
