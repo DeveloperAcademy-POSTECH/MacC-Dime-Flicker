@@ -10,27 +10,51 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
-    
+    var window: UIWindow?
     var userToken: String = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
+        let AuthController = UINavigationController(rootViewController: LogInViewController())
         
-        Messaging.messaging().delegate = self
-        UNUserNotificationCenter.current().delegate = self
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, _ in
-            guard success else {
-                return
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
+            if let error = error {
+                print(error)
             }
-            
-            print("Success in APNS registry")
+            switch credentialState {
+            case .authorized:
+                print("1")
+                break // The Apple ID credential is valid.
+            case .revoked, .notFound:
+                print("2")
+                // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                DispatchQueue.main.async {
+                    print("3")
+                    self.window?.rootViewController = AuthController
+                }
+            default:
+                break
+            }
+            print("4")
         }
-        
-        application.registerForRemoteNotifications()
+        FirebaseApp.configure()
+//
+//        Messaging.messaging().delegate = self
+//        UNUserNotificationCenter.current().delegate = self
+//
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, _ in
+//            guard success else {
+//                return
+//            }
+//
+//            print("Success in APNS registry")
+//        }
+//
+//        application.registerForRemoteNotifications()
         
         return true
     }

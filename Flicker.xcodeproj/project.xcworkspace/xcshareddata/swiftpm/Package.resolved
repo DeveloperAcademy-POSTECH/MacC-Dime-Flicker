@@ -73,15 +73,6 @@
       }
     },
     {
-      "identity" : "inputbaraccessoryview",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nathantannar4/InputBarAccessoryView",
-      "state" : {
-        "revision" : "0c4431a7f765ecb81dd97615023ff858bf65f89c",
-        "version" : "6.1.1"
-      }
-    },
-    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -97,15 +88,6 @@
       "state" : {
         "revision" : "b4bd0604ded9574807f41b4004b57dd1226a30a4",
         "version" : "3.5.0"
-      }
-    },
-    {
-      "identity" : "messagekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MessageKit/MessageKit.git",
-      "state" : {
-        "revision" : "14bfa7eb9f93267c3d7b8cdf58615bba27be672a",
-        "version" : "4.1.1"
       }
     },
     {
