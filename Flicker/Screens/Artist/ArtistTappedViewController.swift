@@ -6,7 +6,6 @@
 //
 import UIKit
 import SnapKit
-import Foundation
 
 class ArtistTappedViewController: UIViewController {
 

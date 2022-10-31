@@ -30,7 +30,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     // seller information
-
     private let artistUIView = UIView().then {
         $0.isUserInteractionEnabled = true
     }
@@ -40,6 +39,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.font = .preferredFont(forTextStyle: .title3, weight: .bold)
     }
 
+    //TODO: 추후에 horizontal stackView로 바꾸기
     private let artistInformation = UILabel().then {
         $0.text = "#우정사진 #필름사진 #웨딩촬영"
         $0.font = .preferredFont(forTextStyle: .footnote, weight: .light)
@@ -78,6 +78,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isUserInteractionEnabled = false
     }
 
+    //TODO: 추후에 horizontal stackView로 바꾸기
     private let regionInfo = UILabel().then {
         $0.text = "서초구, 서대문구, 은평구"
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)

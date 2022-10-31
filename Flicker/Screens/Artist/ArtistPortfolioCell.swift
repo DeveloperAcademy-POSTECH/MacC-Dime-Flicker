@@ -5,7 +5,6 @@
 //  Created by Jisu Jang on 2022/10/29.
 //
 import UIKit
-import Foundation
 
 class ArtistPortfolioCell: UICollectionViewCell {
     static let identifier =
