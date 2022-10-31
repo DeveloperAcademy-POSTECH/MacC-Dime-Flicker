@@ -122,6 +122,8 @@ class HeaderCollectionReusableView: UICollectionReusableView {
 
         configureImageScrollView()
         setFunctionAndDelegate()
+
+        print("this is headerView frame size \(self.frame.height)")
     }
 
     required init?(coder: NSCoder) {

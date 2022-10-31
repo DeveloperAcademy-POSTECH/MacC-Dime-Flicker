@@ -14,8 +14,11 @@ class ArtistTappedViewController: UIViewController {
 
     private var posts: [Post] = []
 
-    private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView( frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView( frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let layout = UICollectionViewFlowLayout()
+//        layout.headerReferenceSize = CGSize(width: view.frame.width, height: HeaderCollectionReusableView().frame.height)
+        collectionView.collectionViewLayout = layout
         collectionView.contentInsetAdjustmentBehavior = .never
         return collectionView
     }()
@@ -36,6 +39,7 @@ class ArtistTappedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad ()
+        print("ViewControlelr header \(HeaderCollectionReusableView().frame.height)")
         collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
 
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
@@ -66,12 +70,12 @@ class ArtistTappedViewController: UIViewController {
         bottomBackgroundView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.height.equalTo(view.frame.height / 9)
             $0.width.equalToSuperview()
         }
 
         counselingButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.centerY.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.height.equalTo(50)
             $0.width.equalToSuperview().inset(20)
@@ -133,9 +137,9 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
     }
 
 
-    // header size
+   //  header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 1 - 130)
+        return CGSize(width: view.frame.width, height: 720)
     }
 
     // cell size
