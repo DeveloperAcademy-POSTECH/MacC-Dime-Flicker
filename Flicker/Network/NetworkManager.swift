@@ -9,7 +9,7 @@ import Foundation
 
 class NetworkManager {
 
-    static var shared = NetworkManager()
+    static let shared = NetworkManager()
 
     private var cachedImages = NSCache<NSString, NSData>()
 
