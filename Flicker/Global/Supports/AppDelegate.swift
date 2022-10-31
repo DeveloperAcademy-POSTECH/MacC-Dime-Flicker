@@ -10,27 +10,51 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
-    
+    var window: UIWindow?
     var userToken: String = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
+        let AuthController = UINavigationController(rootViewController: LogInViewController())
         
-        Messaging.messaging().delegate = self
-        UNUserNotificationCenter.current().delegate = self
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, _ in
-            guard success else {
-                return
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
+            if let error = error {
+                print(error)
             }
-            
-            print("Success in APNS registry")
+            switch credentialState {
+            case .authorized:
+                print("1")
+                break // 이미 로그인을 했으면 넘어가는 로직
+            case .revoked, .notFound:
+                print("2")
+                // 로그인이 되어있지 않으면 로그인뷰로 이동
+                DispatchQueue.main.async {
+                    print("3")
+                    self.window?.rootViewController = AuthController
+                }
+            default:
+                break
+            }
+            print("4")
         }
-        
-        application.registerForRemoteNotifications()
+        FirebaseApp.configure()
+//
+//        Messaging.messaging().delegate = self
+//        UNUserNotificationCenter.current().delegate = self
+//
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, _ in
+//            guard success else {
+//                return
+//            }
+//
+//            print("Success in APNS registry")
+//        }
+//
+//        application.registerForRemoteNotifications()
         
         return true
     }

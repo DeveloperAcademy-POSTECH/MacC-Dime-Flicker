@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1066BFE729097BB2000B8555 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066BFE629097BB2000B8555 /* KeychainItem.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -15,7 +16,6 @@
 		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
 		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
 		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
-		10FE6B74290651E10064201F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B73290651E10064201F /* MessageKit */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
@@ -58,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,7 +111,6 @@
 				10FE6B6629064FE60064201F /* FirebaseMessaging in Frameworks */,
 				10FE6B6829064FE60064201F /* FirebaseStorage in Frameworks */,
 				10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */,
-				10FE6B74290651E10064201F /* MessageKit in Frameworks */,
 				10FE6B712906519E0064201F /* Then in Frameworks */,
 				10FE6B6E290651630064201F /* SnapKit in Frameworks */,
 				10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */,
@@ -293,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				CBDC042B2906125A00C6CF30 /* LoginViewController.swift */,
+				1066BFE629097BB2000B8555 /* KeychainItem.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -379,7 +380,6 @@
 				10FE6B6A290651150064201F /* Lottie */,
 				10FE6B6D290651630064201F /* SnapKit */,
 				10FE6B702906519E0064201F /* Then */,
-				10FE6B73290651E10064201F /* MessageKit */,
 			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
@@ -414,7 +414,6 @@
 				10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */,
-				10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = CBDC03D129060E6600C6CF30 /* Products */;
 			projectDirPath = "";
@@ -473,6 +472,7 @@
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
 				CBDC0431290612FC00C6CF30 /* MessageViewController.swift in Sources */,
 				CBDC04372906133100C6CF30 /* MessageTableViewCell.swift in Sources */,
+				1066BFE729097BB2000B8555 /* KeychainItem.swift in Sources */,
 				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
 				CBDC04332906130E00C6CF30 /* MessageRoomViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
@@ -637,7 +637,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dime.Flicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Flicker;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FlickerProvisioning;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -674,7 +674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dime.Flicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Flicker;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FlickerProvisioning;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -740,14 +740,6 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -790,11 +782,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
-		};
-		10FE6B73290651E10064201F /* MessageKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 10FE6B72290651E00064201F /* XCRemoteSwiftPackageReference "MessageKit" */;
-			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
