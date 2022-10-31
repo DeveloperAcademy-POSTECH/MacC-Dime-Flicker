@@ -17,7 +17,6 @@ class ArtistTappedViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView( frame: .zero, collectionViewLayout: UICollectionViewLayout())
         let layout = UICollectionViewFlowLayout()
-//        layout.headerReferenceSize = CGSize(width: view.frame.width, height: HeaderCollectionReusableView().frame.height)
         collectionView.collectionViewLayout = layout
         collectionView.contentInsetAdjustmentBehavior = .never
         return collectionView
@@ -61,7 +60,7 @@ class ArtistTappedViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.width.equalToSuperview()
         }
 
@@ -75,8 +74,7 @@ class ArtistTappedViewController: UIViewController {
         }
 
         counselingButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.height.equalTo(50)
             $0.width.equalToSuperview().inset(20)
         }
@@ -127,7 +125,6 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
                 cell.image = img
             }
         }
-
         return cell
     }
 
@@ -135,7 +132,6 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath)
     }
-
 
    //  header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
