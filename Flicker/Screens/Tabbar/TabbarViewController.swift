@@ -9,7 +9,7 @@ import UIKit
 
 final class TabbarViewController: UITabBarController {
     
-    private let mainViewController = UINavigationController(rootViewController: MainViewController())
+    private let mainViewController = UINavigationController(rootViewController: ArtistTappedViewController())
     private let searchViewController = UINavigationController(rootViewController: SearchViewController())
 //    private let messageViewController = UINavigationController(rootViewController: MessageViewController())
     private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
