@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1066BFE729097BB2000B8555 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066BFE629097BB2000B8555 /* KeychainItem.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -58,7 +57,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				CBDC042B2906125A00C6CF30 /* LoginViewController.swift */,
-				1066BFE629097BB2000B8555 /* KeychainItem.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -472,7 +469,6 @@
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
 				CBDC0431290612FC00C6CF30 /* MessageViewController.swift in Sources */,
 				CBDC04372906133100C6CF30 /* MessageTableViewCell.swift in Sources */,
-				1066BFE729097BB2000B8555 /* KeychainItem.swift in Sources */,
 				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
 				CBDC04332906130E00C6CF30 /* MessageRoomViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
