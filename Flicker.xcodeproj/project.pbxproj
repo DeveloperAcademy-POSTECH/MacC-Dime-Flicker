@@ -21,6 +21,15 @@
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
 		7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */; };
+		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
+		58118D39291132FB00F08D35 /* ArtistRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */; };
+		58118D3B2911332000F08D35 /* RegisterWelcomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D3A2911332000F08D35 /* RegisterWelcomView.swift */; };
+		58118D3D2911332A00F08D35 /* RegisterRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D3C2911332A00F08D35 /* RegisterRegionView.swift */; };
+		58118D3F2911335600F08D35 /* RegisterGearsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D3E2911335600F08D35 /* RegisterGearsView.swift */; };
+		58118D412911336F00F08D35 /* RegisterTextDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D402911336F00F08D35 /* RegisterTextDescriptionView.swift */; };
+		58118D43291133C900F08D35 /* RegisterPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D42291133C900F08D35 /* RegisterPortfolioView.swift */; };
+		58118D45291133E000F08D35 /* RegisterConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D44291133E000F08D35 /* RegisterConfirmView.swift */; };
+		58118D47291133F800F08D35 /* RegisterEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D46291133F800F08D35 /* RegisterEndView.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
@@ -84,6 +93,15 @@
 		7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEnumeration.swift; sourceTree = "<group>"; };
 		1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
+		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRegisterViewController.swift; sourceTree = "<group>"; };
+		58118D3A2911332000F08D35 /* RegisterWelcomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWelcomView.swift; sourceTree = "<group>"; };
+		58118D3C2911332A00F08D35 /* RegisterRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionView.swift; sourceTree = "<group>"; };
+		58118D3E2911335600F08D35 /* RegisterGearsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGearsView.swift; sourceTree = "<group>"; };
+		58118D402911336F00F08D35 /* RegisterTextDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextDescriptionView.swift; sourceTree = "<group>"; };
+		58118D42291133C900F08D35 /* RegisterPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioView.swift; sourceTree = "<group>"; };
+		58118D44291133E000F08D35 /* RegisterConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmView.swift; sourceTree = "<group>"; };
+		58118D46291133F800F08D35 /* RegisterEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEndView.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -164,6 +182,27 @@
 				7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */,
 			);
 			path = Cell;
+		58118D372911328A00F08D35 /* ArtistRegister */ = {
+			isa = PBXGroup;
+			children = (
+				58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */,
+				58118D48291133FB00F08D35 /* Views */,
+			);
+			path = ArtistRegister;
+			sourceTree = "<group>";
+		};
+		58118D48291133FB00F08D35 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				58118D3A2911332000F08D35 /* RegisterWelcomView.swift */,
+				58118D3C2911332A00F08D35 /* RegisterRegionView.swift */,
+				58118D3E2911335600F08D35 /* RegisterGearsView.swift */,
+				58118D402911336F00F08D35 /* RegisterTextDescriptionView.swift */,
+				58118D42291133C900F08D35 /* RegisterPortfolioView.swift */,
+				58118D44291133E000F08D35 /* RegisterConfirmView.swift */,
+				58118D46291133F800F08D35 /* RegisterEndView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		A94957F4290E3A3500B74693 /* Network */ = {
@@ -323,6 +362,7 @@
 		CBDC0414290610F300C6CF30 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				58118D372911328A00F08D35 /* ArtistRegister */,
 				A9F1F2E2290CB9860018C73F /* Artist */,
 				CBDC04382906142600C6CF30 /* Tabbar */,
 				CBDC04282906123700C6CF30 /* Login */,
@@ -547,10 +587,15 @@
 				1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
 				CBDC04162906116E00C6CF30 /* BackButton.swift in Sources */,
+				58118D39291132FB00F08D35 /* ArtistRegisterViewController.swift in Sources */,
+				58118D45291133E000F08D35 /* RegisterConfirmView.swift in Sources */,
 				A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */,
 				CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */,
 				CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */,
+				CBDC04402906151600C6CF30 /* ProfileViewController.swift in Sources */,
+				58118D47291133F800F08D35 /* RegisterEndView.swift in Sources */,
 				CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */,
+				58118D3D2911332A00F08D35 /* RegisterRegionView.swift in Sources */,
 				CBDC0420290611E900C6CF30 /* Message.swift in Sources */,
 				CBDC03F329060F2500C6CF30 /* BaseViewController.swift in Sources */,
 				CBDC0422290611FC00C6CF30 /* ImageMediaItem.swift in Sources */,
@@ -567,9 +612,11 @@
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
+				58118D43291133C900F08D35 /* RegisterPortfolioView.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
+				58118D3B2911332000F08D35 /* RegisterWelcomView.swift in Sources */,
 				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
 				CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */,
@@ -580,12 +627,14 @@
 				7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */,
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
+				58118D3F2911335600F08D35 /* RegisterGearsView.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
 				CBDC0431290612FC00C6CF30 /* MessageViewController.swift in Sources */,
 				CBDC04372906133100C6CF30 /* MessageTableViewCell.swift in Sources */,
 				7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */,
 				7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */,
 				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
+				58118D412911336F00F08D35 /* RegisterTextDescriptionView.swift in Sources */,
 				CBDC04332906130E00C6CF30 /* MessageRoomViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
 				CBDC03F929060F6400C6CF30 /* Logger.swift in Sources */,
