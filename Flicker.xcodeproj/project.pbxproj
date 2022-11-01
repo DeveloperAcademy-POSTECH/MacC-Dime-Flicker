@@ -16,6 +16,7 @@
 		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
 		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
 		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
+		7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				CBDC043F2906151600C6CF30 /* ProfileViewController.swift */,
+				7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
+				7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */,
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
