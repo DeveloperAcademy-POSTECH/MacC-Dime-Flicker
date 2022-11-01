@@ -39,9 +39,7 @@ final class RegisterWelcomView: UIView {
     }
     
     private func render() {
-        self.addSubview(mainTitleLabel)
-        self.addSubview(subTitleLabel)
-        self.addSubview(mainImage)
+        self.addSubviews(mainTitleLabel, subTitleLabel, mainImage)
         
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(40)
