@@ -21,15 +21,13 @@ final class ArtistRegisterViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        self.view = pageOneWelcome
+        self.view = pageTwoRegion
         print("It's working, sir")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.snp.makeConstraints {
-//            $0.
-//        }
+
     }
 
 }
