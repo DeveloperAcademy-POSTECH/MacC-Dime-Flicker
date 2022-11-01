@@ -35,4 +35,16 @@ extension UILabel {
         let queue: DispatchQueue = .init(label: "typespeed", qos: .userInteractive)
         queue.asyncAfter(deadline: .now() + 0.7, execute: writingTask)
     }
+    
+    @available(iOS 13.0, *)
+    func setLineSpacing(spacing: CGFloat) {
+        guard let text = text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = spacing
+        attributedString.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: attributedString.length))
+        attributedText = attributedString
+    }
+    
 }
