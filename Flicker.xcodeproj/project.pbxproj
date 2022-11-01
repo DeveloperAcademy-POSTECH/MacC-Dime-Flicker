@@ -16,6 +16,14 @@
 		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
 		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
 		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
+
+		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
+		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
+		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
+		A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957FB290E3DF500B74693 /* AccessKey.swift */; };
+		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
+		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
+		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
@@ -58,6 +66,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
+		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
+		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		A94957FB290E3DF500B74693 /* AccessKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessKey.swift; sourceTree = "<group>"; };
+		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
+		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
+		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -122,6 +137,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A94957F4290E3A3500B74693 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */,
+				A94957F7290E3A6000B74693 /* APIResponseDTO.swift */,
+				A94957F9290E3A8300B74693 /* NetworkManager.swift */,
+				A94957FB290E3DF500B74693 /* AccessKey.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A9F1F2E2290CB9860018C73F /* Artist */ = {
+			isa = PBXGroup;
+			children = (
+				A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */,
+				A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */,
+				A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */,
+			);
+			path = Artist;
+			sourceTree = "<group>";
+		};
 		CBDC03C729060E6600C6CF30 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +177,7 @@
 		CBDC03D229060E6600C6CF30 /* Flicker */ = {
 			isa = PBXGroup;
 			children = (
+				A94957F4290E3A3500B74693 /* Network */,
 				CB33C1CF2906214200F37626 /* Flicker.entitlements */,
 				CBDC0417290611A400C6CF30 /* Models */,
 				CBDC03E729060E9C00C6CF30 /* Global */,
@@ -248,6 +285,7 @@
 		CBDC0414290610F300C6CF30 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				A9F1F2E2290CB9860018C73F /* Artist */,
 				CBDC04382906142600C6CF30 /* Tabbar */,
 				CBDC04282906123700C6CF30 /* Login */,
 				CBDC04272906123100C6CF30 /* SignUp */,
@@ -443,9 +481,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
+				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
 				CBDC041E290611DB00C6CF30 /* Channel.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
 				CBDC04162906116E00C6CF30 /* BackButton.swift in Sources */,
+				A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */,
 				CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */,
 				CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */,
 				CBDC04402906151600C6CF30 /* ProfileViewController.swift in Sources */,
@@ -455,13 +495,17 @@
 				CBDC0422290611FC00C6CF30 /* ImageMediaItem.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CBDC04262906122200C6CF30 /* Mocks.swift in Sources */,
+				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
+				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
+				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
+				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
 				CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */,
 				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
@@ -479,6 +523,7 @@
 				CBDC03F929060F6400C6CF30 /* Logger.swift in Sources */,
 				CBDC040329060FEB00C6CF30 /* UITableView+Extension.swift in Sources */,
 				CBDC041C290611CC00C6CF30 /* User.swift in Sources */,
+				A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
