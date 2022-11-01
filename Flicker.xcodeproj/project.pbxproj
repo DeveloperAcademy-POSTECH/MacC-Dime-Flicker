@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -57,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +220,7 @@
 		CBDC03ED29060ED900C6CF30 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */,
 				CBDC03DC29060E6600C6CF30 /* Assets.xcassets */,
 				CBDC03DE29060E6600C6CF30 /* LaunchScreen.storyboard */,
 			);
@@ -426,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */,
 				CBDC03E029060E6600C6CF30 /* LaunchScreen.storyboard in Resources */,
 				CBDC03DD29060E6600C6CF30 /* Assets.xcassets in Resources */,
 				CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */,
