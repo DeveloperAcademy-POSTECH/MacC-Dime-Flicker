@@ -6,24 +6,30 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
-class ArtistRegisterViewController: UIViewController {
+final class ArtistRegisterViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    private let pageOneWelcome = RegisterWelcomView()
+    private let pageTwoRegion = RegisterRegionView()
+    private let pageThreeGears = RegisterGearsView()
+    private let pageFourTextDescription = RegisterTextDescriptionView()
+    private let pageFivePortpolio = RegisterPortfolioView()
+    private let pageSixConfirm = RegisterConfirmView()
+    private let pageSevenEnd = RegisterEndView()
+    
+    override func loadView() {
+        super.loadView()
+        self.view = pageOneWelcome
+        print("It's working, sir")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        self.view.snp.makeConstraints {
+//            $0.
+//        }
     }
-    */
 
 }
