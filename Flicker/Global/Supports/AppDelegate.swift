@@ -21,10 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
         FirebaseApp.configure()
 
-        if let user = FirebaseAuth.Auth.auth().currentUser {
-            print("로그인되어있음", user.uid, user.email ?? "-")
-        }
-
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
 
