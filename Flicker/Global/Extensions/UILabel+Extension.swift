@@ -8,6 +8,17 @@
 import UIKit
 
 extension UILabel {
+    @available(iOS 13.0, *)
+    func setLineSpacing(spacing: CGFloat) {
+        guard let text = text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = spacing
+        attributedString.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: attributedString.length))
+        attributedText = attributedString
+    }
+    
     @available(iOS 14.0, *)
     func addLabelSpacing(kernValue: Double = 0.0, lineSpacing: CGFloat = 6.0) {
         if let labelText = self.text, labelText.count > 0 {
@@ -36,15 +47,5 @@ extension UILabel {
         queue.asyncAfter(deadline: .now() + 0.7, execute: writingTask)
     }
     
-    @available(iOS 13.0, *)
-    func setLineSpacing(spacing: CGFloat) {
-        guard let text = text else { return }
-        
-        let attributedString = NSMutableAttributedString(string: text)
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = spacing
-        attributedString.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: attributedString.length))
-        attributedText = attributedString
-    }
     
 }
