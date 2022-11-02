@@ -6,22 +6,22 @@
 //
 
 import UIKit
-import AuthenticationServices
 
 import SnapKit
 import Then
+import AuthenticationServices
+import FirebaseAuth
 
 final class ProfileViewController: BaseViewController {
 
     // MARK: - property
     private let signOutButton = UIButton().then {
-          $0.backgroundColor = .mainBlack
-          $0.setTitleColor(.white, for: .normal)
-          $0.setTitle("Sign Out", for: .normal)
+        $0.backgroundColor = .mainBlack
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle("Sign Out", for: .normal)
         $0.addTarget(self, action: #selector(signOutButtonPress), for: .touchUpInside)
-      }
+    }
 
-    
     private let screenText = UILabel().then {
         $0.textColor = .red
         $0.text = "프로필"
@@ -45,12 +45,23 @@ final class ProfileViewController: BaseViewController {
 
 extension ProfileViewController {
 
+    private func goLogin() {
+        let viewController = LogInViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
+    }
+
     @objc private func signOutButtonPress() {
-        
-        KeychainItem.deleteUserIdentifierFromKeychain()
-        print("workOut")
-//        DispatchQueue.main.async {
-//            self.LogInViewController()
-//        }
+
+        let firebaseAuth = Auth.auth()
+    do {
+      try firebaseAuth.signOut()
+    } catch let signOutError as NSError {
+      print("Error signing out: %@", signOutError)
+    }
+        DispatchQueue.main.async {
+            self.goLogin()
+        }
     }
 }
