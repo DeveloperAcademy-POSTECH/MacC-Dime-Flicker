@@ -11,6 +11,8 @@ import Then
 
 class RegisterRegionView: UIView {
     
+    var selectedRegion: [String] = []
+    
     private let seoulNorthDistricts: [String] = ["도봉구", "노원구", "강북구", "성북구", "은평구", "중랑구", "종로구", "동대문구", "서대문구", "중구", "성동구", "광진구", "마포구", "용산구"]
     
     private let seoulSouthDistricts: [String] = ["강서구", "양천구", "영등포구", "구로구", "동작구", "금천구", "관악구", "서초구", "강남구", "송파구", "강동구"]
@@ -37,33 +39,36 @@ class RegisterRegionView: UIView {
     
     private let tagFirstCollectionView: UICollectionView = {
         let layout = LeftAlignedCollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 9
+        layout.minimumInteritemSpacing = 7
         
         let tagListView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-//        tagListView.backgroundColor = .blue
         tagListView.tag = 1
+        tagListView.isScrollEnabled = false
         return tagListView
     }()
     
     private let tagSecondCollectionView: UICollectionView = {
         let layout = LeftAlignedCollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 9
+        layout.minimumInteritemSpacing = 7
         
         let tagListView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-//        tagListView.backgroundColor = .green
         tagListView.tag = 2
+        tagListView.isScrollEnabled = false
         return tagListView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
+        
         tagFirstCollectionView.delegate = self
         tagFirstCollectionView.dataSource = self
+        tagFirstCollectionView.allowsMultipleSelection = true
         tagSecondCollectionView.delegate = self
         tagSecondCollectionView.dataSource = self
+        tagSecondCollectionView.allowsMultipleSelection = true
         tagFirstCollectionView.register(RegisterRegionTagCell.self, forCellWithReuseIdentifier: districtIdentifier.north.rawValue)
         tagSecondCollectionView.register(RegisterRegionTagCell.self, forCellWithReuseIdentifier: districtIdentifier.south.rawValue)
     }
@@ -142,10 +147,49 @@ extension RegisterRegionView: UICollectionViewDataSource {
 
 extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    // delegate 자리
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if selectedRegion.count < 3 {
+            switch collectionView.tag {
+            case 1:
+                guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
+                guard let cellText = cell.tagLabel.text else { return }
+                cell.toggleSelected()
+                selectedRegion.append(cellText)
+                print(selectedRegion, selectedRegion.count)
+            case 2:
+                guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
+                guard let cellText = cell.tagLabel.text else { return }
+                cell.toggleSelected()
+                selectedRegion.append(cellText)
+                print(selectedRegion, selectedRegion.count)
+            default:
+                return
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        switch collectionView.tag {
+        case 1:
+            guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
+            guard let cellText = cell.tagLabel.text else { return }
+            cell.toggleSelected()
+            let newRegions = selectedRegion.filter { $0 != cellText }
+            selectedRegion = newRegions
+            print(selectedRegion, selectedRegion.count)
+        case 2:
+            guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
+            guard let cellText = cell.tagLabel.text else { return }
+            cell.toggleSelected()
+            let newRegions = selectedRegion.filter { $0 != cellText }
+            selectedRegion = newRegions
+            print(selectedRegion, selectedRegion.count)
+        default:
+            return
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         switch collectionView.tag {
         case 1:
             let label = UILabel().then {
@@ -154,7 +198,7 @@ extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegate
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + 18, height: size.height + 9)
+            return CGSize(width: size.width + 18, height: size.height + 10)
         case 2:
             let label = UILabel().then {
                 $0.text = seoulSouthDistricts.sorted()[indexPath.row]
@@ -162,7 +206,7 @@ extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegate
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + 18, height: size.height + 9)
+            return CGSize(width: size.width + 18, height: size.height + 10)
         default:
             return CGSize()
         }

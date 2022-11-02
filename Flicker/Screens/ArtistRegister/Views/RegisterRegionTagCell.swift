@@ -38,6 +38,14 @@ class RegisterRegionTagCell: UICollectionViewCell {
         self.layer.cornerRadius = 10
     }
     
+    func toggleSelected() {
+        if isSelected {
+            self.backgroundColor = .systemPink
+        } else {
+            self.backgroundColor = .regionBlue
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
