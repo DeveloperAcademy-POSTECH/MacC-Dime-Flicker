@@ -11,36 +11,39 @@ import Then
 
 class AccountDeleteViewController: BaseViewController {
     private let topTitle = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .TextHeadlineBlack
         $0.text = "회원탈퇴"
-        $0.font = .boldSystemFont(ofSize: 18)
+        $0.font = .preferredFont(forTextStyle: .headline, weight: .regular)
     }
+//    private let navBar = UINavigationBar(x:0, y:0, width: view.frame.size.width, height: 44).then {
+//        $0.frame(x: 0, y: 0, width: view.frame.size.width)
+//    }
     private let topBar = UIView().then {
         $0.backgroundColor = .systemGray
     }
-    private let text1 = UILabel().then {
-        $0.textColor = .black
+    private let textFirst = UILabel().then {
+        $0.textColor = .TextMainBlack
         $0.text = "고마웠어요!"
-        $0.font = .boldSystemFont(ofSize: 32)
+        $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
     }
-    private let text2 = UILabel().then {
-        $0.textColor = .black
+    private let textSecond = UILabel().then {
+        $0.textColor = .TextSubBlack
         $0.text = "순간을 기념하고 싶을 때 \n언제든 다시 찾아주세요!"
         $0.numberOfLines = 2
-        $0.font = .boldSystemFont(ofSize: 20)
+        $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
     }
-    private let text3 = UILabel().then {
-        $0.textColor = .black
+    private let textThird = UILabel().then {
+        $0.textColor = .MainTintColor
         $0.text = "SHUGGLE"
         // TODO: 여기 폰트 츠키미로 바꿔 넣어야함
-        $0.font = .boldSystemFont(ofSize: 32)
+        $0.font = .preferredFont(forTextStyle: .title1, weight: .bold)
     }
     private lazy var button = UIButton().then {
         $0.addTarget(self, action: #selector(btnPressed(_:)), for: .touchUpInside)
-        $0.backgroundColor = .systemPink
+        $0.backgroundColor = .MainTintColor
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 20
+        $0.layer.cornerRadius = self.view.bounds.width / 16
     }
     @objc func btnPressed(_ sender: Any) {
         let alert = UIAlertController(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보가 삭제되며 \n 복구가 불가능합니다.", preferredStyle: .alert)
@@ -55,35 +58,44 @@ class AccountDeleteViewController: BaseViewController {
         present(alert, animated: true, completion: nil)
     }
     override func render() {
-        view.addSubviews(topTitle, topBar, text1, text2, text3, button)
+        // createNavigationBar()
+        view.addSubviews(topTitle, topBar, textFirst, textSecond, textThird, button)
         topTitle.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).multipliedBy(1.2)
         }
         topBar.snp.makeConstraints {
             $0.top.equalTo(topTitle.snp.bottom).multipliedBy(1.1)
+            //$0.top.equalToSuperview().inset(100)
             $0.bottom.equalTo(topBar.snp.top).offset(1)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
-        text1.snp.makeConstraints {
+        textFirst.snp.makeConstraints {
             $0.top.equalTo(topBar.snp.bottom).multipliedBy(2.5)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
         }
-        text2.snp.makeConstraints {
-            $0.top.equalTo(text1.snp.bottom).multipliedBy(1.1)
+        textSecond.snp.makeConstraints {
+            $0.top.equalTo(textFirst.snp.bottom).multipliedBy(1.1)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
         }
-        text3.snp.makeConstraints {
-            $0.top.equalTo(text2.snp.bottom).multipliedBy(1.15)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+        textThird.snp.makeConstraints {
+            $0.top.equalTo(textSecond.snp.bottom).multipliedBy(1.15)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(30)
         }
         button.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalToSuperview().dividedBy(13)
         }
     }
-    
+    private func createNavigationBar() {
+        let width = self.view.frame.width
+        let navigationBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: width, height: 44))
+        self.navigationController?.navigationBar.barTintColor = .black
+        self.navigationItem.title = "회원 탈퇴"
+        view.backgroundColor = .white
+        navigationBar.setItems([navigationItem], animated: false)
+        self.view.addSubview(navigationBar)
+    }
 }
