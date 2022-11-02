@@ -144,7 +144,6 @@ extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegate
     
     // delegate 자리
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         switch collectionView.tag {
