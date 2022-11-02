@@ -33,10 +33,11 @@ class AccountDeleteViewController: BaseViewController {
         $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
     }
     private let textThird = UILabel().then {
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 28)
         $0.textColor = .MainTintColor
         $0.text = "SHUGGLE"
-        // TODO: 여기 폰트 츠키미로 바꿔 넣어야함
-        $0.font = .preferredFont(forTextStyle: .title1, weight: .bold)
+        // MARK: 커스텀폰트로 할경우 아래처럼 텍스트 스타일을 통한 사이즈 지정이 안 되는데 이를 어찌해야할지
+        //$0.font = .preferredFont(forTextStyle: .title1, weight: .bold)
     }
     private lazy var button = UIButton().then {
         $0.addTarget(self, action: #selector(btnPressed(_:)), for: .touchUpInside)
