@@ -22,6 +22,14 @@ extension UIColor {
     static var regionBlue: UIColor {
         return UIColor(hex: "B4CDDB")
     }
+
+    static var mainPink: UIColor {
+        return UIColor(hex: "E48D93")
+    }
+
+    static var loginGray: UIColor {
+        return UIColor(hex: "D8D8D8")
+    }
 }
 
 extension UIColor {
