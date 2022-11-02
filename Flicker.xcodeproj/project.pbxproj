@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */; };
+		1032FFA72911EE6400AE3363 /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1032FFA62911EE6400AE3363 /* ProfileSettingViewController.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -16,7 +17,6 @@
 		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
 		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
 		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
-
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
@@ -67,6 +67,7 @@
 
 /* Begin PBXFileReference section */
 		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
+		1032FFA62911EE6400AE3363 /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -74,7 +75,6 @@
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
-		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				CBDC04292906124600C6CF30 /* SignUpViewController.swift */,
+				1032FFA62911EE6400AE3363 /* ProfileSettingViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -485,6 +486,7 @@
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
 				CBDC041E290611DB00C6CF30 /* Channel.swift in Sources */,
+				1032FFA72911EE6400AE3363 /* ProfileSettingViewController.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
 				CBDC04162906116E00C6CF30 /* BackButton.swift in Sources */,
 				A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */,

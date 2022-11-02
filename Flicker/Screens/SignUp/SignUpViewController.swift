@@ -13,12 +13,14 @@ import Then
 final class SignUpViewController: BaseViewController {
 
     private let signUpTitleLabel = UILabel().then {
+        $0.tintColor = .black
         $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "반가워요!"
     }
 
     private let signUpLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.tintColor = .black
+        $0.font = .preferredFont(forTextStyle: .body, weight: .semibold)
         $0.numberOfLines = 2
         $0.text = "로그인에 사용될 이메일과 비밀번호를 설정해주세요"
     }
@@ -77,7 +79,7 @@ final class SignUpViewController: BaseViewController {
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(signUpTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(30)
-            $0.width.equalTo(200)
+            $0.width.equalTo(250)
         }
 
         emailField.snp.makeConstraints {
