@@ -18,6 +18,10 @@ extension UIColor {
     static var mainYellow: UIColor {
         return UIColor(hex: "#DDC328")
     }
+    
+    static var regionBlue: UIColor {
+        return UIColor(hex: "B4CDDB")
+    }
 }
 
 extension UIColor {
