@@ -30,6 +30,8 @@
 		58118D43291133C900F08D35 /* RegisterPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D42291133C900F08D35 /* RegisterPortfolioView.swift */; };
 		58118D45291133E000F08D35 /* RegisterConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D44291133E000F08D35 /* RegisterConfirmView.swift */; };
 		58118D47291133F800F08D35 /* RegisterEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D46291133F800F08D35 /* RegisterEndView.swift */; };
+		58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */; };
+		58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
@@ -102,6 +104,8 @@
 		58118D42291133C900F08D35 /* RegisterPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioView.swift; sourceTree = "<group>"; };
 		58118D44291133E000F08D35 /* RegisterConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmView.swift; sourceTree = "<group>"; };
 		58118D46291133F800F08D35 /* RegisterEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEndView.swift; sourceTree = "<group>"; };
+		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
+		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -187,6 +191,7 @@
 			children = (
 				58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */,
 				58118D48291133FB00F08D35 /* Views */,
+				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = ArtistRegister;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 				58118D42291133C900F08D35 /* RegisterPortfolioView.swift */,
 				58118D44291133E000F08D35 /* RegisterConfirmView.swift */,
 				58118D46291133F800F08D35 /* RegisterEndView.swift */,
+				58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -612,6 +618,7 @@
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
+				58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				58118D43291133C900F08D35 /* RegisterPortfolioView.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
@@ -622,6 +629,7 @@
 				CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */,
 				CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */,
 				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
+				58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
 				7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */,

@@ -50,6 +50,10 @@ extension UIColor {
     static var FreeDealBlue: UIColor {
         return UIColor(hex: "#B4CDDB")
     }
+    
+    static var regionBlue: UIColor {
+        return UIColor(hex: "B4CDDB")
+    }
 }
 
 extension UIColor {
