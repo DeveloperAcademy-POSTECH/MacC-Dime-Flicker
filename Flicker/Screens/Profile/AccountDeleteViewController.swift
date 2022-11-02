@@ -79,7 +79,7 @@ class AccountDeleteViewController: BaseViewController {
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
         }
         button.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalToSuperview().dividedBy(13)
