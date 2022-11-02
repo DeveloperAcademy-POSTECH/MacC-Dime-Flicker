@@ -18,6 +18,14 @@ extension UIColor {
     static var mainYellow: UIColor {
         return UIColor(hex: "#DDC328")
     }
+
+    static var mainPink: UIColor {
+        return UIColor(hex: "E48D93")
+    }
+
+    static var loginGray: UIColor {
+        return UIColor(hex: "D8D8D8")
+    }
 }
 
 extension UIColor {
