@@ -26,6 +26,18 @@ extension UIColor {
     static var loginGray: UIColor {
         return UIColor(hex: "D8D8D8")
     }
+
+    static var textSubBlack: UIColor {
+        return UIColor(hex: "6A6262")
+    }
+
+    static var textHeadLineBlack: UIColor {
+        return UIColor(hex: "4D4444")
+    }
+
+    static var textMainBlack: UIColor {
+        return UIColor(hex: "373333")
+    }
 }
 
 extension UIColor {

@@ -12,7 +12,7 @@ import Then
 class BaseViewController: UIViewController {
     
     // MARK: - property
-    
+//
     private lazy var backButton = BackButton().then {
         $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
@@ -25,7 +25,7 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         render()
         configUI()
-//        setupBackButton()
+        setupBackButton()
         hidekeyboardWhenTappedAround()
         setupNavigationBar()
         
@@ -57,7 +57,7 @@ class BaseViewController: UIViewController {
         appearance.largeTitleTextAttributes = [.font: largeFont]
         appearance.shadowColor = .clear
         appearance.backgroundColor = .white
-        
+
         navigationBar.standardAppearance = appearance
         navigationBar.compactAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance
@@ -78,12 +78,12 @@ class BaseViewController: UIViewController {
     
     // MARK: - private func
     
-//    private func setupBackButton() {
-//        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 10)
-//        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
-//
-//        navigationItem.leftBarButtonItem = backButton
-//    }
+    private func setupBackButton() {
+        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 10)
+        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
+
+        navigationItem.leftBarButtonItem = backButton
+    }
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
