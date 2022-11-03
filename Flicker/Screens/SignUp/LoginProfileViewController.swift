@@ -85,6 +85,8 @@ class LoginProfileViewController: BaseViewController {
     override func render() {
         nickNameField.delegate = self
 
+        signUpButton.isEnabled = false
+
         view.addSubviews(profileImageButton, profileLabel1, profileLabel2, nickNameLabel, isArtistLabel, afterjoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -170,7 +172,7 @@ class LoginProfileViewController: BaseViewController {
         artistFalseButton.setTitleColor(.black, for: .normal)
 
         if isNickNameWrite {
-            print("123")
+            signUpButton.isEnabled = true
             signUpButton.backgroundColor = .mainPink
         }
     }
@@ -182,7 +184,7 @@ class LoginProfileViewController: BaseViewController {
         artistFalseButton.setTitleColor(.white, for: .normal)
 
         if isNickNameWrite {
-            print("123123")
+            signUpButton.isEnabled = true
             signUpButton.backgroundColor = .mainPink
         }
     }
