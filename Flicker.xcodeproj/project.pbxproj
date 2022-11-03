@@ -26,6 +26,7 @@
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
+		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
 		CB5B1C3029134F75001E1EBD /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB5B1C2F29134F75001E1EBD /* Then */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
@@ -82,6 +83,7 @@
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
+		CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistThumnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDC03D329060E6600C6CF30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */,
+				CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CBDC04262906122200C6CF30 /* Mocks.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
+				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,

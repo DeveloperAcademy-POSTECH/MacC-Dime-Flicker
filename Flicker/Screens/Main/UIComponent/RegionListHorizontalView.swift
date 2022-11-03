@@ -82,7 +82,6 @@ extension RegionListHorizontalView: UICollectionViewDataSource {
         
         if indexPath.item == 0 {
             cell.isSelected = true
-            collectionView.selectItem(at: indexPath, animated: false , scrollPosition: .init())
         }
         
         cell.regionLabel.text = reigionList[indexPath.item]
@@ -94,7 +93,6 @@ extension RegionListHorizontalView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension RegionListHorizontalView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         parent?.setRegion(region: reigionList[indexPath.item])
     }
 }
