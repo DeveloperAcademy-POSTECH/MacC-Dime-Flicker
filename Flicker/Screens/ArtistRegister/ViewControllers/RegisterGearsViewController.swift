@@ -1,16 +1,16 @@
 //
-//  RegisterGearsView.swift
+//  RegisterGearsViewController.swift
 //  Flicker
 //
-//  Created by KYUBO A. SHIM on 2022/11/01.
+//  Created by KYUBO A. SHIM on 2022/11/02.
 //
 
 import UIKit
 import SnapKit
 import Then
 
-class RegisterGearsView: UIView {
-    
+class RegisterGearsViewController: UIViewController {
+
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "장비 정보"
@@ -26,36 +26,28 @@ class RegisterGearsView: UIView {
         $0.text = "메인으로 쓰는 카메라 바디와 렌즈를 하나씩만 적어주세요."
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-            
-    }
-    
-    override func updateConstraints() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         render()
-        super.updateConstraints()
     }
     
     private func render() {
-        self.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel)
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel)
         
         mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(40)
-            $0.leading.equalToSuperview().inset(40)
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().inset(45)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(30)
         }
         
         bodyTitleLabel.snp.makeConstraints {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(45)
+            $0.leading.equalToSuperview().inset(30)
         }
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
 }
