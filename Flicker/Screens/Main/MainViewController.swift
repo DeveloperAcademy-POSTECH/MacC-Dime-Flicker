@@ -93,6 +93,12 @@ extension MainViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistThumnailCollectionViewCell.className, for: indexPath) as? ArtistThumnailCollectionViewCell else {
             assert(false, "Wrong Cell")
         }
+        
+        cell.artistNameLabel.text = "킹도영"
+        cell.artistInfoLabel.text = "울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨"
+        cell.artistThumnailImageView.image = UIImage(named: "port1")
+        cell.artistProfileImageView.image = UIImage(named: "port2")
+        
         return cell
     }
 }
