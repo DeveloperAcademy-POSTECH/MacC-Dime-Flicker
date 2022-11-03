@@ -15,7 +15,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
-class LogInViewController: BaseViewController {
+final class LogInViewController: BaseViewController {
 
     fileprivate var currentNonce: String?
 

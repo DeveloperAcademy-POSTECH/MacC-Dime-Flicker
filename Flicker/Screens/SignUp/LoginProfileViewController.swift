@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class LoginProfileViewController: BaseViewController {
+final class LoginProfileViewController: BaseViewController {
 
     private var isNickNameWrite = false
 
