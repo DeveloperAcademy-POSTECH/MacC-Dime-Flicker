@@ -1,16 +1,16 @@
 //
-//  RegisterRegionView.swift
+//  RegisterRegionViewController.swift
 //  Flicker
 //
-//  Created by KYUBO A. SHIM on 2022/11/01.
+//  Created by KYUBO A. SHIM on 2022/11/02.
 //
 
 import UIKit
 import SnapKit
 import Then
 
-class RegisterRegionView: UIView {
-    
+class RegisterRegionViewController: UIViewController {
+
     var selectedRegion: [String] = []
     
     private let seoulNorthDistricts: [String] = ["도봉구", "노원구", "강북구", "성북구", "은평구", "중랑구", "종로구", "동대문구", "서대문구", "중구", "성동구", "광진구", "마포구", "용산구"]
@@ -59,10 +59,46 @@ class RegisterRegionView: UIView {
         return tagListView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .systemBackground
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configUI()
+        render()
+    }
+
+    private func render() {
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, tagFirstCollectionView, tagSecondCollectionView)
         
+        mainTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(30)
+        }
+        
+        subTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(30)
+        }
+        
+        bodyTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(subTitleLabel.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(30)
+        }
+        
+        // TODO: CollectionView 자체의 height 를 동적으로 바꾸고 싶은데...
+        tagFirstCollectionView.snp.makeConstraints {
+            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.greaterThanOrEqualTo(150)
+        }
+        
+        tagSecondCollectionView.snp.makeConstraints {
+            $0.top.equalTo(tagFirstCollectionView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.greaterThanOrEqualTo(110)
+        }
+    }
+    
+    private func configUI() {
+        view.backgroundColor = .systemBackground
         tagFirstCollectionView.delegate = self
         tagFirstCollectionView.dataSource = self
         tagFirstCollectionView.allowsMultipleSelection = true
@@ -72,51 +108,9 @@ class RegisterRegionView: UIView {
         tagFirstCollectionView.register(RegisterRegionTagCell.self, forCellWithReuseIdentifier: districtIdentifier.north.rawValue)
         tagSecondCollectionView.register(RegisterRegionTagCell.self, forCellWithReuseIdentifier: districtIdentifier.south.rawValue)
     }
-    
-    override func updateConstraints() {
-        render()
-        super.updateConstraints()
-    }
-    
-    private func render() {
-        self.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, tagFirstCollectionView, tagSecondCollectionView)
-        
-        mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(40)
-            $0.leading.equalToSuperview().inset(40)
-        }
-        
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().inset(45)
-        }
-        
-        bodyTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(45)
-        }
-        
-        // TODO: CollectionView 자체의 height 를 동적으로 바꾸고 싶은데...
-        tagFirstCollectionView.snp.makeConstraints {
-            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(45)
-            $0.height.greaterThanOrEqualTo(150)
-        }
-        
-        tagSecondCollectionView.snp.makeConstraints {
-            $0.top.equalTo(tagFirstCollectionView.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(45)
-            $0.height.greaterThanOrEqualTo(110)
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
-extension RegisterRegionView: UICollectionViewDataSource {
-    
+extension RegisterRegionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
         case 1:
@@ -145,8 +139,7 @@ extension RegisterRegionView: UICollectionViewDataSource {
     }
 }
 
-extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if selectedRegion.count < 3 {
             switch collectionView.tag {
@@ -198,7 +191,7 @@ extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegate
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + 18, height: size.height + 10)
+            return CGSize(width: size.width + 18, height: size.height + 12)
         case 2:
             let label = UILabel().then {
                 $0.text = seoulSouthDistricts.sorted()[indexPath.row]
@@ -206,7 +199,7 @@ extension RegisterRegionView: UICollectionViewDelegate, UICollectionViewDelegate
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + 18, height: size.height + 10)
+            return CGSize(width: size.width + 18, height: size.height + 12)
         default:
             return CGSize()
         }
