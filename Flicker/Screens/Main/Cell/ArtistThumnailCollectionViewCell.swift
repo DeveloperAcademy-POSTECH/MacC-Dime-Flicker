@@ -21,20 +21,21 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     let artistNameLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 22, weight: .regular)
+        $0.font = UIFont.preferredFont(forTextStyle: .title2, weight: .bold)
+        
         $0.textColor = .white
         $0.textAlignment = .center
     }
     
     private let artistLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .bold)
         $0.textColor = .white
         $0.textAlignment = .center
         $0.text = "작가님"
     }
     
     let artistInfoLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
         $0.textColor = .white
         $0.numberOfLines = 2
     }

@@ -15,7 +15,7 @@ final class RegionCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     let regionLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
         $0.textAlignment = .center
     }
     
