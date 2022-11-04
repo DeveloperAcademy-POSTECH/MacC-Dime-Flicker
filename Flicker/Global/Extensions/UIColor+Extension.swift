@@ -15,15 +15,15 @@ extension UIColor {
         return UIColor(hex: "#182629")
     }
     
-    static var TextMainBlack: UIColor {
+    static var textMainBlack: UIColor {
         return UIColor(hex: "#373333")
     }
     
-    static var TextHeadlineBlack: UIColor {
+    static var textHeadlineBlack: UIColor {
         return UIColor(hex: "#4D4444")
     }
     
-    static var TextSubBlack: UIColor {
+    static var textSubBlack: UIColor {
         return UIColor(hex: "#6A6262")
     }
     
