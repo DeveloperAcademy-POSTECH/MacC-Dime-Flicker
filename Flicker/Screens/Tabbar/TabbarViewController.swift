@@ -4,17 +4,19 @@
 //
 //  Created by COBY_PRO on 2022/10/24.
 //
-
+//TODO: navigationBackButton 지워야합니다앗 
 import UIKit
 
 final class TabbarViewController: UITabBarController {
     
-    private let mainViewController = UINavigationController(rootViewController: ArtistTappedViewController())
+    private let mainViewController = UINavigationController(rootViewController: MainViewController())
     private let searchViewController = UINavigationController(rootViewController: SearchViewController())
 //    private let messageViewController = UINavigationController(rootViewController: MessageViewController())
     private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
     
     override func viewDidLoad() {
+
+
         super.viewDidLoad()
         
         mainViewController.tabBarItem.image = ImageLiteral.btnMain
