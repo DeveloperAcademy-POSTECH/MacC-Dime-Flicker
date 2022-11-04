@@ -10,8 +10,15 @@ import SnapKit
 import Then
 
 final class ArtistRegisterViewController: UIViewController {
+    
+    // MARK: - custom navigation bar
+    private let customNavigationBarView = RegisterCustomNavigationView()
 
-    private var pageNumber = 0
+    // MARK: - pageViewController UI components
+    private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    private var pages: [UIViewController] = []
+    private var currentPage: UIViewController!
+    
     private let pageTwoRegion = RegisterRegionViewController()
     private let pageThreeGears = RegisterGearsViewController()
     private let pageFourTextDescription = RegisterTextDescriptionViewController()
@@ -19,6 +26,7 @@ final class ArtistRegisterViewController: UIViewController {
     private let pageSixConfirm = RegisterConfirmViewController()
     private let pageSevenEnd = RegisterEndViewController()
     
+    // MARK: - action button UI components
     private let dynamicNextButton = UIButton().then {
         $0.setTitle("다음", for: .normal)
         $0.tintColor = .black
@@ -26,11 +34,7 @@ final class ArtistRegisterViewController: UIViewController {
         $0.backgroundColor = .systemPink
     }
 
-    private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    private var pages: [UIViewController] = []
-    private var currentPage: UIViewController!
-    private let customNavigationBarView = RegisterCustomNavigationView()
-
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         pageSetup()
@@ -40,6 +44,7 @@ final class ArtistRegisterViewController: UIViewController {
         customBackButtom()
     }
     
+    // MARK: - navigation bar hide configurations with life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -51,6 +56,7 @@ final class ArtistRegisterViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
         view.addSubview(customNavigationBarView)
@@ -75,11 +81,13 @@ final class ArtistRegisterViewController: UIViewController {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .systemBackground
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
     }
     
+    // MARK: - pageViewControl setups
     private func pageSetup() {
         
         pages.append(pageTwoRegion)
@@ -99,6 +107,7 @@ final class ArtistRegisterViewController: UIViewController {
     }
 }
 
+    // MARK: - action functions
 extension ArtistRegisterViewController {
     private func nextButtonTap() {
         let buttonTapped = UITapGestureRecognizer(target: self, action: #selector(moveNextTapped))
@@ -112,7 +121,7 @@ extension ArtistRegisterViewController {
     
     @objc func moveNextTapped() {
         if currentPage == pages[4] {
-            navigationController?.pushViewController(RegisterEndViewController(), animated: true)
+            navigationController?.pushViewController(pageSevenEnd, animated: true)
         } else {
             guard let page = pages.firstIndex(of: currentPage) else { return }
             pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
@@ -129,5 +138,4 @@ extension ArtistRegisterViewController {
             currentPage = pages[page - 1]
         }
     }
-    
 }

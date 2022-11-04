@@ -9,8 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterGearsViewController: UIViewController {
-
+final class RegisterGearsViewController: UIViewController {
+    
+    // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "장비 정보"
@@ -26,11 +27,13 @@ class RegisterGearsViewController: UIViewController {
         $0.text = "메인으로 쓰는 카메라 바디와 렌즈를 하나씩만 적어주세요."
     }
     
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
     }
     
+    // MARK: - layout constraints
     private func render() {
         view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel)
         

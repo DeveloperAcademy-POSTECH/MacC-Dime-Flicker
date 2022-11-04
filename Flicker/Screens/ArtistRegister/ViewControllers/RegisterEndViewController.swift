@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterEndViewController: UIViewController {
+final class RegisterEndViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

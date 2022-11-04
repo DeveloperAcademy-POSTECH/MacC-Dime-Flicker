@@ -8,6 +8,7 @@
 import UIKit
 
 extension UILabel {
+    // MARK: - iOS 13.0 부터 사용 가능한 행간 조절 함수
     @available(iOS 13.0, *)
     func setLineSpacing(spacing: CGFloat) {
         guard let text = text else { return }

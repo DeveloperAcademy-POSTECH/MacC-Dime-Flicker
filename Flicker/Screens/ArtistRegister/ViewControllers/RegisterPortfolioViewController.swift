@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterPortfolioViewController: UIViewController {
+final class RegisterPortfolioViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
