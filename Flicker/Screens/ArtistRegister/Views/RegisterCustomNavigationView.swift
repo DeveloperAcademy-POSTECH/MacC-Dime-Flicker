@@ -9,8 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
+    // MARK: - custom Navigation bar view
 class RegisterCustomNavigationView: UIView {
     
+    // MARK: - back button UI components
     lazy var customBackButton = UIButton(type: .system).then {
         let config = UIImage.SymbolConfiguration(textStyle: .title1, scale: .medium)
         let image = UIImage(systemName: "chevron.left", withConfiguration: config)
@@ -19,16 +21,18 @@ class RegisterCustomNavigationView: UIView {
         $0.sizeToFit()
     }
     
+    // MARK: - life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
     }
     
+    // MARK: - layout constraints
     override func updateConstraints() {
         render()
         super.updateConstraints()
     }
-    
+
     private func render() {
         self.addSubview(customBackButton)
         
@@ -39,12 +43,7 @@ class RegisterCustomNavigationView: UIView {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+    // MARK: - RegisterRegionView 에 들어가는 지역들의 UI 컴포넌트
 class RegisterRegionTagCell: UICollectionViewCell {
     
     let tagLabel = UILabel().then {
@@ -16,13 +17,14 @@ class RegisterRegionTagCell: UICollectionViewCell {
         $0.textColor = .white
     }
     
+    // MARK: - life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.backgroundColor = .green
         render()
         configUI()
     }
     
+    // MARK: - layout constraints
     private func render() {
         self.addSubview(tagLabel)
         
@@ -31,6 +33,7 @@ class RegisterRegionTagCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         super.layoutSubviews()
         self.backgroundColor = .regionBlue
@@ -39,6 +42,7 @@ class RegisterRegionTagCell: UICollectionViewCell {
         self.layer.cornerRadius = 8
     }
     
+    // MARK: - check selected components
     func toggleSelected() {
         if isSelected {
             self.backgroundColor = .systemPink

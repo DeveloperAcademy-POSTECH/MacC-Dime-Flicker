@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterWelcomeViewController: UIViewController {
+final class RegisterWelcomeViewController: UIViewController {
     
+    // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
 
+    // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .title1, weight: .bold)
         $0.text = "작가님 어서오세요!"
@@ -30,6 +32,7 @@ class RegisterWelcomeViewController: UIViewController {
         $0.image = UIImage(named: "artistReg1.png")
     }
     
+    // MARK: - action button UI components
     private let dynamicNextButton = UIButton().then {
         $0.setTitle("등록 시작", for: .normal)
         $0.tintColor = .black
@@ -37,6 +40,7 @@ class RegisterWelcomeViewController: UIViewController {
         $0.backgroundColor = .systemPink
     }
     
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
@@ -45,6 +49,7 @@ class RegisterWelcomeViewController: UIViewController {
         customBackButtom()
     }
     
+    // MARK: - navigation bar hide configurations with life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -55,6 +60,7 @@ class RegisterWelcomeViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    // MARK: - layout constraints
     private func render() {
         view.addSubview(customNavigationBarView)
         view.addSubview(mainTitleLabel)
@@ -89,12 +95,14 @@ class RegisterWelcomeViewController: UIViewController {
         }
     }
     
+    // MARK: - view configurations
     private func configureUI() {
         view.backgroundColor = .systemBackground
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
     }
 }
 
+    // MARK: - action functions
 extension RegisterWelcomeViewController {
     private func nextButtonTap() {
         let buttonTapped = UITapGestureRecognizer(target: self, action: #selector(moveNextTapped))

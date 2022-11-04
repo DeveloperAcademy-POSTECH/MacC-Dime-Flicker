@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterConfirmViewController: UIViewController {
+final class RegisterConfirmViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

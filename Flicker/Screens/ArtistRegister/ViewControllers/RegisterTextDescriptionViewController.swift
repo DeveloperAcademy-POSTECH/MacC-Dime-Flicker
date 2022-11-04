@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterTextDescriptionViewController: UIViewController {
+final class RegisterTextDescriptionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
