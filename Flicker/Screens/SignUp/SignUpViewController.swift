@@ -11,13 +11,13 @@ import SnapKit
 import Then
 
 final class SignUpViewController: BaseViewController {
-
+    
     private let signUpTitleLabel = UILabel().then {
         $0.tintColor = .black
         $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "반가워요!"
     }
-
+    
     private let signUpLabel = UILabel().then {
         $0.tintColor = .black
         $0.font = .preferredFont(forTextStyle: .body, weight: .semibold)
@@ -30,7 +30,7 @@ final class SignUpViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
@@ -41,13 +41,13 @@ final class SignUpViewController: BaseViewController {
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
     }
-
+    
     private let passwordField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
         $0.layer.cornerRadius = 12
@@ -58,30 +58,37 @@ final class SignUpViewController: BaseViewController {
         $0.isSecureTextEntry = true
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
     }
-
+    
     private let signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("완료", for: .normal)
         $0.layer.cornerRadius = 20
+        $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
     }
-
+    
+    private let navigationDivider = UIView().then {
+        $0.backgroundColor = .loginGray
+    }
+    
     override func render() {
-        view.addSubviews(signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton)
+        emailField.delegate = self
+        passwordField.delegate = self
         
-        signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
-
+        view.addSubviews(signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider)
+        
+        
         signUpTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
-
+        
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(signUpTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(30)
             $0.width.equalTo(250)
         }
-
+        
         emailField.snp.makeConstraints {
             $0.top.equalTo(signUpLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -93,12 +100,18 @@ final class SignUpViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
-
+        
         
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
+        }
+        
+        navigationDivider.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(2)
         }
     }
     
@@ -111,26 +124,31 @@ final class SignUpViewController: BaseViewController {
         super.setupNavigationBar()
         
         title = "프로필 입력"
+        
     }
     
     @objc private func didTapSignUpButton() {
+        let viewController = LoginProfileViewController()
         guard let email = emailField.text, !email.isEmpty,
               let password = passwordField.text, !password.isEmpty else {
             print("Missing field data")
             return
         }
-        
+        //TODO: email값을 다음 뷰에 넘겨줘 다음 뷰에서 email값과 name값을 파베로 넘겨줘야 함
         Task { [weak self] in
             await FirebaseManager.shared.createNewAccount(email: email, password: password)
-//            await FirebaseManager.shared.storeUserInformation(email: email, name: name)
-            self?.goHome()
+            //            await FirebaseManager.shared.storeUserInformation(email: email, name: name)
+            self?.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
-    private func goHome() {
-        let homeController = TabbarViewController()
-        homeController.modalPresentationStyle = .fullScreen
-        self.present(homeController, animated: true, completion: nil)
-    }
-    
 }
+    extension SignUpViewController {
+        override func textFieldDidEndEditing(_ textField: UITextField) {
+            if !(emailField.text!.isEmpty || passwordField.text!.isEmpty) {
+                signUpButton.backgroundColor = .mainPink
+            } else {
+                signUpButton.backgroundColor = .loginGray
+            }
+        }
+    }
