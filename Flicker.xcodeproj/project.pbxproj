@@ -16,7 +16,6 @@
 		10FE6B6829064FE60064201F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6729064FE60064201F /* FirebaseStorage */; };
 		10FE6B6B290651150064201F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6A290651150064201F /* Lottie */; };
 		10FE6B6E290651630064201F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6D290651630064201F /* SnapKit */; };
-		10FE6B712906519E0064201F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B702906519E0064201F /* Then */; };
 		7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
@@ -26,6 +25,9 @@
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
+		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
+		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
+		CB5B1C3029134F75001E1EBD /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB5B1C2F29134F75001E1EBD /* Then */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
 		CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D729060E6600C6CF30 /* MainViewController.swift */; };
@@ -64,13 +66,14 @@
 		CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04392906143200C6CF30 /* TabbarViewController.swift */; };
 		CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC043C290614C100C6CF30 /* SearchViewController.swift */; };
 		CBDC04402906151600C6CF30 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC043F2906151600C6CF30 /* ProfileViewController.swift */; };
+		CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1066BFE629097BB2000B8555 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
-		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
 		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
 		1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProfileViewController.swift; sourceTree = "<group>"; };
+		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
+
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -80,6 +83,8 @@
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
+		CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistThumnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDC03D329060E6600C6CF30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 		CBDC04392906143200C6CF30 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		CBDC043C290614C100C6CF30 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		CBDC043F2906151600C6CF30 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +136,7 @@
 				10FE6B6629064FE60064201F /* FirebaseMessaging in Frameworks */,
 				10FE6B6829064FE60064201F /* FirebaseStorage in Frameworks */,
 				10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */,
-				10FE6B712906519E0064201F /* Then in Frameworks */,
+				CB5B1C3029134F75001E1EBD /* Then in Frameworks */,
 				10FE6B6E290651630064201F /* SnapKit in Frameworks */,
 				10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */,
 				10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */,
@@ -162,11 +168,19 @@
 			path = Artist;
 			sourceTree = "<group>";
 		};
+		CB5B1C2E29134F75001E1EBD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CBDC03C729060E6600C6CF30 = {
 			isa = PBXGroup;
 			children = (
 				CBDC03D229060E6600C6CF30 /* Flicker */,
 				CBDC03D129060E6600C6CF30 /* Products */,
+				CB5B1C2E29134F75001E1EBD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -344,6 +358,8 @@
 		CBDC042D2906126B00C6CF30 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				CBFBC05C2913431A00FBBD17 /* UIComponent */,
+				CBFBC05D2913432100FBBD17 /* Cell */,
 				CBDC03D729060E6600C6CF30 /* MainViewController.swift */,
 			);
 			path = Main;
@@ -399,6 +415,23 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		CBFBC05C2913431A00FBBD17 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		CBFBC05D2913432100FBBD17 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */,
+				CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -423,7 +456,7 @@
 				10FE6B6729064FE60064201F /* FirebaseStorage */,
 				10FE6B6A290651150064201F /* Lottie */,
 				10FE6B6D290651630064201F /* SnapKit */,
-				10FE6B702906519E0064201F /* Then */,
+				CB5B1C2F29134F75001E1EBD /* Then */,
 			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
@@ -504,17 +537,20 @@
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CBDC04262906122200C6CF30 /* Mocks.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
+				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
+				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
 				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
+				CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */,
 				CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */,
 				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
@@ -831,7 +867,7 @@
 			package = 10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		10FE6B702906519E0064201F /* Then */ = {
+		CB5B1C2F29134F75001E1EBD /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
