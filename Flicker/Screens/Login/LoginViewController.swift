@@ -15,11 +15,11 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
-class LogInViewController: BaseViewController {
+final class LogInViewController: BaseViewController {
 
     fileprivate var currentNonce: String?
 
-    private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .whiteOutline).then {
+    private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
         $0.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
     }
 
@@ -32,14 +32,14 @@ class LogInViewController: BaseViewController {
 
     private let loginBoldLabel = UILabel().then {
         $0.font = UIFont(name: "TsukimiRounded-Bold", size: 15)
-        $0.textColor = .black
+        $0.textColor = .textMainBlack
         $0.textAlignment = .center
         $0.text = "국내 최초의 지역 기반 사진활영 플랫폼 슈글!"
     }
 
     private let loginNormalLabel = UILabel().then {
         $0.font = UIFont(name: "TsukimiRounded-Bold", size:15)
-        $0.textColor = .black
+        $0.textColor = .textHeadLineBlack
         $0.textAlignment = .center
         $0.text = "로그인하고 내 주변의 작가님들을 만나보세요"
     }
@@ -87,38 +87,38 @@ class LogInViewController: BaseViewController {
 
     private let signUpButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)
-        $0.setTitleColor(.systemGray, for: .normal)
+        $0.setTitleColor( .textSubBlack, for: .normal)
         $0.backgroundColor = .clear
     }
 
     private let lookAroundButton = UIButton().then {
         $0.setTitle("둘러보기", for: .normal)
-        $0.setTitleColor(.systemGray, for: .normal)
+        $0.setTitleColor(.textSubBlack, for: .normal)
         $0.backgroundColor = .clear
     }
 
-    private let loginDivider1 = UIView().then {
+    private let loginDividerFirst = UIView().then {
         $0.backgroundColor = .loginGray
     }
 
-    private let loginDivider2 = UIView().then {
+    private let loginDividerSecond = UIView().then {
         $0.backgroundColor = .loginGray
     }
 
     private let loginDividerText = UILabel().then {
-        $0.textColor = .systemGray
+        $0.textColor = .textSubBlack
         $0.font = .preferredFont(forTextStyle: .subheadline, weight: .bold)
         $0.textAlignment = .center
         $0.text = "소셜로그인"
     }
     
     override func render() {
-        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, lookAroundButton, loginDivider1, loginDivider2, loginDividerText)
+        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, lookAroundButton, loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
-
+        lookAroundButton.addTarget(self, action: #selector(didTapLookAroundButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(60)
@@ -172,19 +172,20 @@ class LogInViewController: BaseViewController {
             $0.centerX.equalToSuperview()
         }
 
-        loginDivider1.snp.makeConstraints {
-            $0.width.equalTo(10)
+        loginDividerFirst.snp.makeConstraints {
+            $0.height.equalTo(2)
             $0.leading.equalToSuperview()
-            $0.trailing.equalTo(loginDividerText.snp.leading).offset(5)
+            $0.trailing.equalTo(loginDividerText.snp.leading).offset(-20)
             $0.centerY.equalTo(loginDividerText.snp.centerY)
         }
 
-        loginDivider2.snp.makeConstraints {
-            $0.width.equalTo(10)
+        loginDividerSecond.snp.makeConstraints {
+            $0.height.equalTo(2)
+            $0.leading.equalTo(loginDividerText.snp.trailing).offset(20)
             $0.trailing.equalToSuperview()
-            $0.leading.equalTo(loginDividerText.snp.trailing).inset(5)
-            $0.centerY.equalTo(loginDividerText.center)
+            $0.centerY.equalTo(loginDividerText.snp.centerY)
         }
+
         appleLoginButton.snp.makeConstraints {
             $0.top.equalTo(loginDividerText.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
@@ -208,6 +209,12 @@ class LogInViewController: BaseViewController {
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true, completion: nil)
+    }
+
+    private func goProfile() {
+        let viewController = LoginProfileViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 
     @available(iOS 13, *)
@@ -264,6 +271,13 @@ class LogInViewController: BaseViewController {
         let viewController = SignUpViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+    
+    //TODO: 둘러보기 클릭하면 일단 메인 화면으로 가도록 설정은 해놨는데, 어떤 값을 줘서 입력을 하려할때, 혹은 기능을 쓰려할때 로그인이 필요하다고 뜨도록 해야 할 것 같습니다.
+    @objc private func didTapLookAroundButton() {
+        let viewController = TabbarViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
 
 }
 
@@ -299,7 +313,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             FirebaseAuth.Auth.auth().signIn(with: credential) { (authDataResult, error) in
                 if let user = authDataResult?.user {
                     //로그인 성공 시
-                    self.goHome()
+                    self.goProfile()
                 }
 
                 if error != nil {

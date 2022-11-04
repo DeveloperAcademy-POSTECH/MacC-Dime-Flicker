@@ -20,14 +20,6 @@ body:
       placeholder: "닉네임 설정 시, 공백을 Submit하면 아무런 반응 없음"
     validations:
       required: true
-  - type: textarea
-    id: after-fix
-    attributes:
-      label: Current State
-      description: Fix 전(현재) 내용
-      placeholder: "닉네임 설정 시, 공백을 Submit하면 Alert 표시"
-    validations:
-      required: true
   - type: input
     id: expected-period
     attributes:
