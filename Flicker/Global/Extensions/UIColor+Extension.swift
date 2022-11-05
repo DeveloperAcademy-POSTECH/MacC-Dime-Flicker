@@ -49,6 +49,7 @@ extension UIColor {
 
     static var textMainBlack: UIColor {
         return UIColor(hex: "373333")
+    }
     
     static var MainTintColor: UIColor {
         return UIColor(hex: "#E48D93")
