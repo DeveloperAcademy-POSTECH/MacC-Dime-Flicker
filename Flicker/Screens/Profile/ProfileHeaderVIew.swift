@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
-class ProfileHeaderVIew: UIView {
-    
+final class ProfileHeaderVIew: UIView {
+    // MARK: 오토레이아웃 미적용
     private lazy var headerCard = UIView().then {
         $0.layer.cornerRadius = 20
         $0.backgroundColor = .white
