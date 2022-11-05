@@ -11,7 +11,7 @@ import Then
 
 class AccountDeleteViewController: BaseViewController {
     private let topTitle = UILabel().then {
-        $0.textColor = .TextHeadlineBlack
+        $0.textColor = .textHeadlineBlack
         $0.text = "회원탈퇴"
         $0.font = .preferredFont(forTextStyle: .headline, weight: .regular)
     }
@@ -22,12 +22,12 @@ class AccountDeleteViewController: BaseViewController {
         $0.backgroundColor = .systemGray
     }
     private let textFirst = UILabel().then {
-        $0.textColor = .TextMainBlack
+        $0.textColor = .textMainBlack
         $0.text = "고마웠어요!"
         $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
     }
     private let textSecond = UILabel().then {
-        $0.textColor = .TextSubBlack
+        $0.textColor = .textSubBlack
         $0.text = "순간을 기념하고 싶을 때 \n언제든 다시 찾아주세요!"
         $0.numberOfLines = 2
         $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
