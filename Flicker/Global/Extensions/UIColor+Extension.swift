@@ -30,6 +30,10 @@ extension UIColor {
     static var mainYellow: UIColor {
         return UIColor(hex: "#DDC328")
     }
+    
+    static var regionBlue: UIColor {
+        return UIColor(hex: "B4CDDB")
+    }
 
     static var mainPink: UIColor {
         return UIColor(hex: "E48D93")
@@ -42,6 +46,10 @@ extension UIColor {
     static var textHeadLineBlack: UIColor {
         return UIColor(hex: "4D4444")
     }
+    
+//    static var textMainBlack: UIColor {
+//        return UIColor(hex: "373333")
+//    } Conflict 으로 인해 혹시 몰라 주석처리로 마무리
     
     static var MainTintColor: UIColor {
         return UIColor(hex: "#E48D93")
