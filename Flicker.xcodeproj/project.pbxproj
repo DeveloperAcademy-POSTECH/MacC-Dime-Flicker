@@ -211,6 +211,8 @@
 				58A452AE2912A27700C9707D /* RegisterEndViewController.swift */,
 			);
 			path = ViewControllers;
+            sourceTree = "<group>";
+        };
 		7B3DC4392914DA0F00646909 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
