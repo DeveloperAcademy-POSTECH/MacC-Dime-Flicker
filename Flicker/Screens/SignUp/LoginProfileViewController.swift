@@ -21,23 +21,16 @@ final class LoginProfileViewController: BaseViewController {
         $0.backgroundColor = .loginGray
         $0.setImage(UIImage(systemName: "camera"), for: .normal)
     }
+    
+    private let testLabel = UILabel().makeBasicLabelEx(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private func labelTemplate(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
-        let label = UILabel().then {
-            $0.text = labelText
-            $0.textColor = textColor
-            $0.font = .preferredFont(forTextStyle: fontStyle, weight: fontWeight)
-        }
-        return label
-    }
+    private lazy var profileLabelFirst = makeBasicLabel(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private lazy var profileLabelFirst = labelTemplate(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private lazy var profileLabelSecond = makeBasicLabel(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private lazy var profileLabelSecond = labelTemplate(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
-    private lazy var nickNameLabel = labelTemplate(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var isArtistLabel = labelTemplate(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var afterJoinLabel = labelTemplate(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private lazy var nickNameLabel = makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private lazy var isArtistLabel = makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private lazy var afterJoinLabel = makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     
     private let nickNameField = UITextField().then {

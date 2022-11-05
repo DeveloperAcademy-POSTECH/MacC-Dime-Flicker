@@ -67,4 +67,13 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    func makeBasicLabel(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
+        let label = UILabel().then {
+            $0.text = labelText
+            $0.textColor = textColor
+            $0.font = .preferredFont(forTextStyle: fontStyle, weight: fontWeight)
+        }
+        return label
+    }
 }
