@@ -15,15 +15,15 @@ extension UIColor {
         return UIColor(hex: "#182629")
     }
     
-    static var TextMainBlack: UIColor {
+    static var textMainBlack: UIColor {
         return UIColor(hex: "#373333")
     }
     
-    static var TextHeadlineBlack: UIColor {
+    static var textHeadlineBlack: UIColor {
         return UIColor(hex: "#4D4444")
     }
     
-    static var TextSubBlack: UIColor {
+    static var textSubBlack: UIColor {
         return UIColor(hex: "#6A6262")
     }
     
@@ -43,17 +43,13 @@ extension UIColor {
         return UIColor(hex: "D8D8D8")
     }
 
-    static var textSubBlack: UIColor {
-        return UIColor(hex: "6A6262")
-    }
-
     static var textHeadLineBlack: UIColor {
         return UIColor(hex: "4D4444")
     }
-
-    static var textMainBlack: UIColor {
-        return UIColor(hex: "373333")
-    }
+    
+//    static var textMainBlack: UIColor {
+//        return UIColor(hex: "373333")
+//    } Conflict 으로 인해 혹시 몰라 주석처리로 마무리
     
     static var MainTintColor: UIColor {
         return UIColor(hex: "#E48D93")
