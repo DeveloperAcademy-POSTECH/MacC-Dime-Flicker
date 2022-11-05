@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class LoginProfileViewController: BaseViewController {
+final class LoginProfileViewController: BaseViewController {
 
     private var isNickNameWrite = false
 
@@ -39,13 +39,13 @@ class LoginProfileViewController: BaseViewController {
         return label
     }
 
-    private lazy var profileLabel1 = labelTemplate(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private lazy var profileLabelFirst = labelTemplate(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private lazy var profileLabel2 = labelTemplate(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private lazy var profileLabelSecond = labelTemplate(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     private lazy var nickNameLabel = labelTemplate(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private lazy var isArtistLabel = labelTemplate(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var afterjoinLabel = labelTemplate(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private lazy var afterJoinLabel = labelTemplate(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     
     private let nickNameField = UITextField().then {
@@ -95,7 +95,8 @@ class LoginProfileViewController: BaseViewController {
 
         signUpButton.isEnabled = false
 
-        view.addSubviews(profileImageView, profileLabel1, profileLabel2, nickNameLabel, isArtistLabel, afterjoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+        view.addSubviews(profileImageButton, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
@@ -114,18 +115,19 @@ class LoginProfileViewController: BaseViewController {
             $0.width.height.equalTo(100)
         }
 
-        profileLabel1.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(30)
+
+        profileLabelFirst.snp.makeConstraints {
+            $0.top.equalTo(profileImageButton.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
         }
 
-        profileLabel2.snp.makeConstraints {
-            $0.top.equalTo(profileLabel1.snp.bottom).offset(2)
+        profileLabelSecond.snp.makeConstraints {
+            $0.top.equalTo(profileLabelFirst.snp.bottom).offset(2)
             $0.centerX.equalToSuperview()
         }
 
         nickNameLabel.snp.makeConstraints {
-            $0.top.equalTo(profileLabel2.snp.bottom).offset(45)
+            $0.top.equalTo(profileLabelSecond.snp.bottom).offset(45)
             $0.leading.equalToSuperview().inset(20)
         }
 
@@ -139,19 +141,19 @@ class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
-        afterjoinLabel.snp.makeConstraints {
+        afterJoinLabel.snp.makeConstraints {
             $0.top.equalTo(isArtistLabel.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
         artistTrueButton.snp.makeConstraints {
-            $0.top.equalTo(afterjoinLabel.snp.bottom).offset(10)
+            $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
             $0.width.equalTo(170)
         }
 
         artistFalseButton.snp.makeConstraints {
-            $0.top.equalTo(afterjoinLabel.snp.bottom).offset(10)
+            $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().inset(20)
             $0.width.equalTo(170)
         }

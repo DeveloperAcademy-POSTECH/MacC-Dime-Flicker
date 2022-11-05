@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class SignUpViewController: BaseViewController {
+final class SignUpViewController: BaseViewController {
     
     private let signUpTitleLabel = UILabel().then {
         $0.tintColor = .black

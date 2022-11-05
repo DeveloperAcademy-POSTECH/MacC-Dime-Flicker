@@ -15,6 +15,18 @@ extension UIColor {
         return UIColor(hex: "#182629")
     }
     
+    static var TextMainBlack: UIColor {
+        return UIColor(hex: "#373333")
+    }
+    
+    static var TextHeadlineBlack: UIColor {
+        return UIColor(hex: "#4D4444")
+    }
+    
+    static var TextSubBlack: UIColor {
+        return UIColor(hex: "#6A6262")
+    }
+    
     static var mainYellow: UIColor {
         return UIColor(hex: "#DDC328")
     }
@@ -37,6 +49,13 @@ extension UIColor {
 
     static var textMainBlack: UIColor {
         return UIColor(hex: "373333")
+    
+    static var MainTintColor: UIColor {
+        return UIColor(hex: "#E48D93")
+    }
+    
+    static var FreeDealBlue: UIColor {
+        return UIColor(hex: "#B4CDDB")
     }
 }
 

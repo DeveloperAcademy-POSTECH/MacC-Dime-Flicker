@@ -15,7 +15,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
-class LogInViewController: BaseViewController {
+final class LogInViewController: BaseViewController {
 
     fileprivate var currentNonce: String?
 
@@ -97,11 +97,11 @@ class LogInViewController: BaseViewController {
         $0.backgroundColor = .clear
     }
 
-    private let loginDivider1 = UIView().then {
+    private let loginDividerFirst = UIView().then {
         $0.backgroundColor = .loginGray
     }
 
-    private let loginDivider2 = UIView().then {
+    private let loginDividerSecond = UIView().then {
         $0.backgroundColor = .loginGray
     }
 
@@ -113,7 +113,7 @@ class LogInViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, lookAroundButton, loginDivider1, loginDivider2, loginDividerText)
+        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, lookAroundButton, loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
@@ -172,14 +172,14 @@ class LogInViewController: BaseViewController {
             $0.centerX.equalToSuperview()
         }
 
-        loginDivider1.snp.makeConstraints {
+        loginDividerFirst.snp.makeConstraints {
             $0.height.equalTo(2)
             $0.leading.equalToSuperview()
             $0.trailing.equalTo(loginDividerText.snp.leading).offset(-20)
             $0.centerY.equalTo(loginDividerText.snp.centerY)
         }
 
-        loginDivider2.snp.makeConstraints {
+        loginDividerSecond.snp.makeConstraints {
             $0.height.equalTo(2)
             $0.leading.equalTo(loginDividerText.snp.trailing).offset(20)
             $0.trailing.equalToSuperview()
