@@ -222,6 +222,15 @@
 				58A452AE2912A27700C9707D /* RegisterEndViewController.swift */,
 			);
 			path = ViewControllers;
+            sourceTree = "<group>";
+        };
+		7B3DC4392914DA0F00646909 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */,
+				7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		A94957F4290E3A3500B74693 /* Network */ = {
