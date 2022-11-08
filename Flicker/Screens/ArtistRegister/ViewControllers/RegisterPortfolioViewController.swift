@@ -10,10 +10,8 @@ import PhotosUI
 import SnapKit
 import Then
 
-    // TODO: (다음 버전에..)
+    // TODO: (다음 버전에..) 1.PHPickerView 에서 취소 버튼을 누르면 없어지는 거 -> 어떻게든 로직짜서 만들어봐
 final class RegisterPortfolioViewController: UIViewController {
-
-    var dummyNUMBER: [UIColor] = [.red, .black, .systemGray3, .MainTintColor, .FreeDealBlue, .red, .red, .red, .red, .red, .red]
     
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
@@ -35,17 +33,17 @@ final class RegisterPortfolioViewController: UIViewController {
     }
     
     // MARK: - portfolio image components
+    private var portfolioPhotosFetched: [UIImage?] = []
+    
     private enum portfolioCellIdentifier: String {
         case images = "portfoilo"
         case addButton = "button"
     }
     
-    private var portfolioPhotosFetched: [UIImage?] = []
-    
     private let portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 80)/3
         $0.itemSize = CGSize(width: imageWidth , height: imageWidth)
-        $0.minimumLineSpacing = 4
+        $0.minimumLineSpacing = 10
     }
     
     private let portfolioPicker: PHPickerViewController = {
@@ -68,6 +66,7 @@ final class RegisterPortfolioViewController: UIViewController {
         render()
     }
     
+    // MARK: - layout constraints
     private func render() {
         view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, portfolioCollectionView)
         
@@ -93,23 +92,38 @@ final class RegisterPortfolioViewController: UIViewController {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         portfolioPicker.delegate = self
+        
         portfolioCollectionView.delegate = self
         portfolioCollectionView.dataSource = self
         portfolioCollectionView.register(RegisterPortfolioImageCell.self, forCellWithReuseIdentifier: portfolioCellIdentifier.images.rawValue)
         portfolioCollectionView.register(RegisterAddPhotosCollectionViewCell.self, forCellWithReuseIdentifier: portfolioCellIdentifier.addButton.rawValue)
     }
-
 }
 
+    // MARK: - PHPickerView delegate
+    // TODO: 여기서 이제 가져온 image 를 바로 서버에 보낼 수 있는 그런 형태인지 확인도 해야함, image 를 줄이는 건 confirm VC 에서 하자.
 extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        portfolioCollectionView.reloadData()
         picker.dismiss(animated: true)
+        self.portfolioPhotosFetched.removeAll()
+        
+        results.forEach { result in
+            result.itemProvider.loadObject(ofClass: UIImage.self) { photoDatas, error in
+                guard let image = photoDatas as? UIImage, error == nil else { return }
+                DispatchQueue.main.async {
+                    self.portfolioPhotosFetched.append(image)
+                    self.portfolioCollectionView.reloadData()
+                }
+            }
+        }
     }
-    
 }
 
+    // MARK: - UICollectionView datasource
 extension RegisterPortfolioViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return portfolioPhotosFetched.count + 1
@@ -118,13 +132,11 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row < portfolioPhotosFetched.count {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.images.rawValue, for: indexPath) as? RegisterPortfolioImageCell else { return UICollectionViewCell()}
-
-            cell.photoImage.tintColor = dummyNUMBER[indexPath.row]
+            cell.photoImage.image = self.portfolioPhotosFetched[indexPath.row]
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.addButton.rawValue, for: indexPath) as? RegisterAddPhotosCollectionViewCell else { return UICollectionViewCell()}
             if portfolioPhotosFetched.count != 0 {
-                cell.addImage.image = UIImage(systemName: "delete.backward.fill")
                 return cell
             }
             return cell
@@ -132,10 +144,11 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     }
 }
 
+    // MARK: - UICollectionView delegate
 extension RegisterPortfolioViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == portfolioPhotosFetched.count {
-            // 사진 기능
+            self.present(portfolioPicker, animated: true)
         }
     }
 }

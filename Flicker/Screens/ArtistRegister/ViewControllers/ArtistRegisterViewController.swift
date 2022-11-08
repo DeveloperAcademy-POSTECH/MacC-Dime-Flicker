@@ -79,7 +79,7 @@ final class ArtistRegisterViewController: UIViewController {
         dynamicNextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(view.bounds.height/14)
+            $0.height.equalTo(view.bounds.height/12)
         }
     }
     
