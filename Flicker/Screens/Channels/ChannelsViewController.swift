@@ -74,29 +74,18 @@ final class ChannelsViewController: BaseViewController {
     
     private func addRecentMessageToTable(_ recentMessage: RecentMessage) {
         let docId = recentMessage.id
-        if recentMessages.contains(where: { rm in
-            return rm.id == docId
-        }) {
-            return
-        }
         
+        if recentMessages.contains(where: { $0.id == docId }) { return }
         recentMessages.append(recentMessage)
         
-        guard let index = recentMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = recentMessages.firstIndex(where: { $0.id == docId }) else { return }
+        
         channelTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
     
     private func updateRecentMessageInTable(_ recentMessage: RecentMessage) {
         let docId = recentMessage.id
-        guard let index = recentMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = recentMessages.firstIndex(where: { $0.id == docId }) else { return }
         
         recentMessages[index] = recentMessage
         channelTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
@@ -104,11 +93,7 @@ final class ChannelsViewController: BaseViewController {
     
     private func removeRecentMessageFromTable(_ recentMessage: RecentMessage) {
         let docId = recentMessage.id
-        guard let index = recentMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = recentMessages.firstIndex(where: { $0.id == docId }) else { return }
         
         recentMessages.remove(at: index)
         channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
