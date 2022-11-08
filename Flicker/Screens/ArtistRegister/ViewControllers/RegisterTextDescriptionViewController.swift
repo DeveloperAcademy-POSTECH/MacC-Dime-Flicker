@@ -12,6 +12,9 @@ import Then
     // TODO: (다음 버전에..)
 final class RegisterTextDescriptionViewController: UIViewController {
 
+    // MARK: - custom delegate to send Datas
+    weak var delegate: RegisterTextInfoDelegate?
+    
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
@@ -31,6 +34,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
     }
     
     private let desriptionTextView = UITextView().then {
+        $0.text = ""
         $0.clipsToBounds = true
         $0.isScrollEnabled = false
         $0.dataDetectorTypes = .all
@@ -77,7 +81,18 @@ final class RegisterTextDescriptionViewController: UIViewController {
     
     // MARK: - view configurations
     private func configUI() {
+        desriptionTextView.delegate = self
         desriptionTextView.layer.cornerRadius = view.bounds.width/22
     }
+}
 
+extension RegisterTextDescriptionViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.delegate?.textViewDescribed(textView: textView.text)
+    }
+}
+
+// MARK: - RegisterTextDescription custom delegate protocol
+protocol RegisterTextInfoDelegate: AnyObject {
+    func textViewDescribed(textView textDescribed: String)
 }

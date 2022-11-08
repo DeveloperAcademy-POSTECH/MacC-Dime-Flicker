@@ -17,6 +17,9 @@ import Then
     // 5. 글자 제한 수를 둬야 한다.
 final class RegisterGearsViewController: UIViewController {
     
+    // MARK: - custom delegate to send Datas
+    weak var delegate: RegisterGearsDelegate?
+    
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
@@ -182,10 +185,17 @@ extension RegisterGearsViewController: UITextFieldDelegate {
 //
 //    }
     
-    // DidEndEditing
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//    }
+//     DidEndEditing
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 1:
+            self.delegate?.cameraBodySelected(cameraBody: textField.text ?? "카메라 바디")
+        case 2:
+            self.delegate?.cameraLensSelected(cameraLens: textField.text ?? "카메라 렌즈")
+        default:
+            return
+        }
+    }
     
     // ShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -193,5 +203,11 @@ extension RegisterGearsViewController: UITextFieldDelegate {
         self.dismiss(animated: true)
         return true
     }
+}
+
+// MARK: - RegisterGears custom delegate protocol
+protocol RegisterGearsDelegate: AnyObject {
+    func cameraBodySelected(cameraBody bodyName: String)
+    func cameraLensSelected(cameraLens lensName: String)
 }
 

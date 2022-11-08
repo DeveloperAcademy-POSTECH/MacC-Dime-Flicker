@@ -12,6 +12,9 @@ import Then
     // TODO: (다음 버전에..) 1.하나도 고르지 않았다면 다음 view 로 넘어가지 못하거나, 마지막 view 에서 다시 여기로 돌아오게 만들어야 함
 final class RegisterRegionViewController: UIViewController {
 
+    // MARK: - custom delegate to send Datas
+    weak var delegate: RegisterRegionDelegate?
+    
     // MARK: - data sets to post to the server
     // TODO: - deleate 만들어서 ArtistRegisterViewController 에 연결해야한다.
     private var selectedRegion: [String] = []
@@ -164,13 +167,13 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion, selectedRegion.count)
+                self.delegate?.regionSelected(regions: selectedRegion)
             case 2:
                 guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion, selectedRegion.count)
+                self.delegate?.regionSelected(regions: selectedRegion)
             default:
                 return
             }
@@ -185,14 +188,14 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion, selectedRegion.count)
+            self.delegate?.regionSelected(regions: selectedRegion)
         case 2:
             guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
             guard let cellText = cell.tagLabel.text else { return }
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion, selectedRegion.count)
+            self.delegate?.regionSelected(regions: selectedRegion)
         default:
             return
         }
@@ -221,4 +224,9 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
             return CGSize()
         }
     }
+}
+
+    // MARK: - RegisterRegion custom delegate protocol
+protocol RegisterRegionDelegate: AnyObject {
+    func regionSelected(regions regionDatas: [String])
 }

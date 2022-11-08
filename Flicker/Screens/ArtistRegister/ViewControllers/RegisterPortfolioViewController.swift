@@ -13,6 +13,9 @@ import Then
     // TODO: (다음 버전에..) 1.PHPickerView 에서 취소 버튼을 누르면 없어지는 거 -> 어떻게든 로직짜서 만들어봐
 final class RegisterPortfolioViewController: UIViewController {
     
+    // MARK: - custom delegate to send Datas
+    weak var delegate: RegisterPortfolioDelegate?
+    
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
@@ -33,7 +36,7 @@ final class RegisterPortfolioViewController: UIViewController {
     }
     
     // MARK: - portfolio image components
-    private var portfolioPhotosFetched: [UIImage?] = []
+    private var portfolioPhotosFetched: [UIImage] = []
     
     private enum portfolioCellIdentifier: String {
         case images = "portfoilo"
@@ -133,6 +136,7 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
         if indexPath.row < portfolioPhotosFetched.count {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.images.rawValue, for: indexPath) as? RegisterPortfolioImageCell else { return UICollectionViewCell()}
             cell.photoImage.image = self.portfolioPhotosFetched[indexPath.row]
+            self.delegate?.photoSelected(photos: portfolioPhotosFetched)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.addButton.rawValue, for: indexPath) as? RegisterAddPhotosCollectionViewCell else { return UICollectionViewCell()}
@@ -151,4 +155,9 @@ extension RegisterPortfolioViewController: UICollectionViewDelegate {
             self.present(portfolioPicker, animated: true)
         }
     }
+}
+
+// MARK: - RegisterPortfolio custom delegate protocol
+protocol RegisterPortfolioDelegate: AnyObject {
+    func photoSelected(photos imagesPicked: [UIImage])
 }

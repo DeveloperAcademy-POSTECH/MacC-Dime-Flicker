@@ -12,6 +12,14 @@ import Then
     // TODO: (다음 버전에..) 1.전 view에서넘어올때, dissolve 같은 간단한 애니메이션 추가 2.버튼 잠깐이라도 튀어오르는 애니메이션 추가
 final class ArtistRegisterViewController: UIViewController {
     
+    // MARK: - datas collected to post to the server
+    // TODO: 이미지데이터가 delegate 으로 먹히지 않아ㅏㅏㅏㅏㅏㅏㅏ
+    private var regionData: [String] = []
+    private var cameraBodyData: String = ""
+    private var cameraLensData: String = ""
+    private var textInfoDatas: String = ""
+    private var portfolioImageData: [UIImage] = []
+    
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
 
@@ -87,6 +95,10 @@ final class ArtistRegisterViewController: UIViewController {
     private func configUI() {
         view.backgroundColor = .systemBackground
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
+        
+        pageTwoRegion.delegate = self
+        pageThreeGears.delegate = self
+        pageFourTextDescription.delegate = self
     }
     
     // MARK: - pageViewControl setups
@@ -109,6 +121,30 @@ final class ArtistRegisterViewController: UIViewController {
     }
 }
 
+
+    // MARK: - data transfer delegates
+extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
+    func cameraBodySelected(cameraBody bodyName: String) {
+        self.cameraBodyData = bodyName
+    }
+    
+    func cameraLensSelected(cameraLens lensName: String) {
+        self.cameraLensData = lensName
+    }
+    
+    func regionSelected(regions regionDatas: [String]) {
+        self.regionData = regionDatas
+    }
+    
+    func textViewDescribed(textView textDescribed: String) {
+        self.textInfoDatas = textDescribed
+    }
+    
+    func photoSelected(photos imagesPicked: [UIImage]) {
+        self.portfolioImageData = imagesPicked
+    }
+}
+
     // MARK: - action functions
 extension ArtistRegisterViewController {
     private func nextButtonTap() {
@@ -124,10 +160,12 @@ extension ArtistRegisterViewController {
     @objc func moveNextTapped() {
         if currentPage == pages[4] {
             navigationController?.pushViewController(pageSevenEnd, animated: true)
+            print(regionData, cameraBodyData, cameraLensData, textInfoDatas, self.portfolioImageData)
         } else {
             guard let page = pages.firstIndex(of: currentPage) else { return }
             pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
             currentPage = pages[page + 1]
+            print(regionData, cameraBodyData, cameraLensData, textInfoDatas, self.portfolioImageData.count)
         }
     }
     
