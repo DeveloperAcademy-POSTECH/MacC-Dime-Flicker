@@ -95,7 +95,7 @@ final class LoginProfileViewController: BaseViewController {
 
         signUpButton.isEnabled = false
 
-        view.addSubviews(profileImageButton, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+        view.addSubviews(profileImageView, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -117,7 +117,7 @@ final class LoginProfileViewController: BaseViewController {
 
 
         profileLabelFirst.snp.makeConstraints {
-            $0.top.equalTo(profileImageButton.snp.bottom).offset(30)
+            $0.top.equalTo(profileImageView.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
         }
 
