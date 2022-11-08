@@ -235,7 +235,6 @@ final class LoginProfileViewController: BaseViewController {
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
-        print("workOut")
     }
 }
 
