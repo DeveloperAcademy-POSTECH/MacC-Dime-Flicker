@@ -38,14 +38,12 @@ final class LoginProfileViewController: BaseViewController {
         }
         return label
     }
+    private let profileLabelFirst = UILabel().makeBasicLabel(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private lazy var profileLabelFirst = labelTemplate(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
-    private lazy var profileLabelSecond = labelTemplate(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
-    private lazy var nickNameLabel = labelTemplate(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var isArtistLabel = labelTemplate(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var afterJoinLabel = labelTemplate(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private let profileLabelSecond = UILabel().makeBasicLabel(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private let nickNameLabel = UILabel().makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     
     private let nickNameField = UITextField().then {
@@ -95,7 +93,7 @@ final class LoginProfileViewController: BaseViewController {
 
         signUpButton.isEnabled = false
 
-        view.addSubviews(profileImageButton, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+        view.addSubviews(profileImageView, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -117,7 +115,7 @@ final class LoginProfileViewController: BaseViewController {
 
 
         profileLabelFirst.snp.makeConstraints {
-            $0.top.equalTo(profileImageButton.snp.bottom).offset(30)
+            $0.top.equalTo(profileImageView.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
         }
 
