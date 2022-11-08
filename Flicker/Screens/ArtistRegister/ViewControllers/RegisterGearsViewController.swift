@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) keyboard 관련된 액션을 넣어야함
+    // 1. 빈 곳을 누르면 키보드가 내려간다.
+    // 2. "카메라 TextField" 에서 return 버튼 누르면 그 다음 항목으로 저절로 이어진다.
+    // 3. "렌즈 TextField" 에서 return 버튼이 키보드를 내린다.
+    // 4. 이러나 저러나 모두 layout 을 위로 올린다.
+    // 5. 글자 제한 수를 둬야 한다.
 final class RegisterGearsViewController: UIViewController {
     
     // MARK: - view UI components
@@ -24,8 +30,9 @@ final class RegisterGearsViewController: UIViewController {
     
     private let bodyTitleLabel = UILabel().then {
         $0.numberOfLines = 2
+        $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
-        $0.text = "메인으로 쓰는 카메라 바디와 렌즈를\n하나씩만 적어주세요."
+        $0.text = "메인 카메라 바디와 렌즈를 하나씩 적어주세요."
     }
     
     private let cameraBodySectionLabel = UILabel().then {
@@ -53,42 +60,29 @@ final class RegisterGearsViewController: UIViewController {
     }
     
     // MARK: - textField UI components
-    // TODO: - keyboard 관련된 액션을 넣어야함
-    /// (0. 텍스트 필드를 누르면 search(mapping) 할 수 있는 창이 뜨게 하든지) - 기능 구현 문제
-    /// 1. 빈 곳을 누르면 키보드가 내려간다. ⚠️
-    /// 2. 텍스트 필드를 누르기 전에 뷰가 넘어오면서 키보드가 올라온다.
-    /// 3. 동시에 layout 이 올라간다.
-    /// 4. 다음 버튼이 어디로 가야할까?
-    ///     4-1. 버튼이 같이 위로 키보드 위로 올라와야 한다.
-    ///     4-2. 버튼이 다른 VC 에 있으므로 키보드의 return 버튼이 다음 항목으로 바로 넘어가게끔 한다든가 ⚠️
-    ///     4-3. return 버튼이 키보드를 내리게 해준다거나
-    /// mini 에서 써본 결과: 렌즈 적는 텍스트필드를 가리지 않는다.
-    /// ㄴ> 1. return 버튼을 누르면 키보드를 내려준다 ✅
-    ///    2. 이러나 저러나 모두 layout 을 위로 올린다. ⚠️
     private let cameraBodyTextField = UITextField().then {
-        $0.text = ""
         $0.tag = 1
-        $0.autocorrectionType = .no
-        $0.leftViewMode = .always
-        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
-        $0.layer.masksToBounds = true
+        $0.text = ""
         $0.clipsToBounds = true
-        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
-        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
+        $0.leftViewMode = .always
+        $0.autocorrectionType = .no
         $0.textColor = .textSubBlack
+        $0.layer.masksToBounds = true
+        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
         $0.placeholder = "카메라 바디의 이름을 적어주세요."
     }
     
     private let cameraLensTextField = UITextField().then {
-        $0.text = ""
         $0.tag = 2
-        $0.autocorrectionType = .no
+        $0.text = ""
         $0.leftViewMode = .always
-        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
-        $0.clipsToBounds = true
-        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
-        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
+        $0.autocorrectionType = .no
         $0.textColor = .textSubBlack
+        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
         $0.placeholder = "카메라 렌즈의 이름을 적어주세요."
     }
     
@@ -162,15 +156,17 @@ final class RegisterGearsViewController: UIViewController {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         cameraBodyTextField.delegate = self
         cameraLensTextField.delegate = self
         
-        cameraBodyTextField.layer.cornerRadius = view.bounds.width/20
-        cameraLensTextField.layer.cornerRadius = view.bounds.width/20
+        cameraBodyTextField.layer.cornerRadius = view.bounds.width/22
+        cameraLensTextField.layer.cornerRadius = view.bounds.width/22
     }
 }
 
+    // MARK: - textField delegate
 extension RegisterGearsViewController: UITextFieldDelegate {
     // ShouldBeginEditing ->
 //    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) - 1.메인사진바꾸기 2."작가님"만 강조 색깔 넣기
 final class RegisterWelcomeViewController: UIViewController {
     
     // MARK: - custom navigation bar
@@ -16,19 +17,22 @@ final class RegisterWelcomeViewController: UIViewController {
 
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .title1, weight: .bold)
+        $0.textColor = .textSubBlack
+        $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "작가님 어서오세요!"
     }
     
     private let subTitleLabel = UILabel().then {
+        $0.textColor = .systemGray
         $0.numberOfLines = 0
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+        $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.text = "슈글을 통해 사람들의 모습을 담고,\n훌륭한 작가로 성장하세요!"
         $0.setLineSpacing(spacing: 3.0)
     }
     
     private lazy var mainImage = UIImageView().then {
-        $0.contentMode = .scaleToFill
+        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
         $0.image = UIImage(named: "artistReg1.png")
     }
     
@@ -37,7 +41,7 @@ final class RegisterWelcomeViewController: UIViewController {
         $0.setTitle("등록 시작", for: .normal)
         $0.tintColor = .black
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .mainPink
+        $0.backgroundColor = .mainPink.withAlphaComponent(0.7)
     }
     
     // MARK: - life cycle
@@ -86,6 +90,7 @@ final class RegisterWelcomeViewController: UIViewController {
         mainImage.snp.makeConstraints {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.equalTo(UIScreen.main.bounds.height/2.5)
         }
         
         dynamicNextButton.snp.makeConstraints {
@@ -98,6 +103,7 @@ final class RegisterWelcomeViewController: UIViewController {
     // MARK: - view configurations
     private func configureUI() {
         view.backgroundColor = .systemBackground
+        mainImage.layer.cornerRadius = view.bounds.width/20
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
     }
 }

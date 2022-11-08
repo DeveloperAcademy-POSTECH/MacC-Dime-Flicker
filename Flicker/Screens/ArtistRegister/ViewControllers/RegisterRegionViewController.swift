@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) 1.하나도 고르지 않았다면 다음 view 로 넘어가지 못하거나, 마지막 view 에서 다시 여기로 돌아오게 만들어야 함
 final class RegisterRegionViewController: UIViewController {
 
     // MARK: - data sets to post to the server
@@ -32,12 +33,13 @@ final class RegisterRegionViewController: UIViewController {
     }
     
     private let subTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .headline, weight: .semibold)
+        $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.text = "주로 활동하는 지역을 알려주세요!"
     }
     
     private let bodyTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .medium)
+        $0.textColor = .systemGray
+        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
         $0.text = "지역은 최대 3개까지 설정할 수 있어요."
     }
     
