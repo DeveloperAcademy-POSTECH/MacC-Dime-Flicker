@@ -19,7 +19,7 @@ final class LogInViewController: BaseViewController {
 
     fileprivate var currentNonce: String?
 
-    private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
+    private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
         $0.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
     }
 
