@@ -24,8 +24,6 @@ final class FirebaseManager: NSObject {
         self.auth = Auth.auth()
         self.storage = Storage.storage()
         self.firestore = Firestore.firestore()
-        
-        super.init()
     }
     
     func signInUser(email: String, password: String) async -> String? {
@@ -219,7 +217,7 @@ final class FirebaseManager: NSObject {
     }
     
     func downloadImage(at imageUrl: String, completion: @escaping (UIImage?) -> Void) {
-        let ref = Storage.storage().reference(forURL: imageUrl)
+        let ref = storage.reference(forURL: imageUrl)
         let megaByte = Int64(1 * 1024 * 1024)
         
         ref.getData(maxSize: megaByte) { data, _ in

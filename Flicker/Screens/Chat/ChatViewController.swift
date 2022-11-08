@@ -117,29 +117,18 @@ final class ChatViewController: BaseViewController {
     
     private func addChatMessageToTable(_ chatMessage: ChatMessage) {
         let docId = chatMessage.id
-        if chatMessages.contains(where: { rm in
-            return rm.id == docId
-        }) {
-            return
-        }
         
+        if chatMessages.contains(where: { $0.id == docId }) { return }
         chatMessages.append(chatMessage)
         
-        guard let index = chatMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = chatMessages.firstIndex(where: { $0.id == docId }) else { return }
+        
         chatTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
     
     private func updateChatMessageInTable(_ chatMessage: ChatMessage) {
         let docId = chatMessage.id
-        guard let index = chatMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = chatMessages.firstIndex(where: { $0.id == docId }) else { return }
         
         chatMessages[index] = chatMessage
         chatTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
@@ -147,11 +136,7 @@ final class ChatViewController: BaseViewController {
     
     private func removeChatMessageFromTable(_ chatMessage: ChatMessage) {
         let docId = chatMessage.id
-        guard let index = chatMessages.firstIndex(where: { rm in
-            return rm.id == docId
-        }) else {
-            return
-        }
+        guard let index = chatMessages.firstIndex(where: { $0.id == docId }) else { return }
         
         chatMessages.remove(at: index)
         chatTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
