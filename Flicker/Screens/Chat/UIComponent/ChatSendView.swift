@@ -72,4 +72,3 @@ final class ChatSendView: UIView {
         self.layer.cornerRadius = 20
     }
 }
-https://www.notion.so/coby5502/CobyTalk-c895ad474df4406aacab3104e274bbc1
