@@ -37,7 +37,7 @@ final class RegisterWelcomeViewController: UIViewController {
         $0.setTitle("등록 시작", for: .normal)
         $0.tintColor = .black
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemPink
+        $0.backgroundColor = .mainPink
     }
     
     // MARK: - life cycle

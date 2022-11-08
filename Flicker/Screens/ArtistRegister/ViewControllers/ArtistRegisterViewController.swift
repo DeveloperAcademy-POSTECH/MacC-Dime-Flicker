@@ -27,11 +27,12 @@ final class ArtistRegisterViewController: UIViewController {
     private let pageSevenEnd = RegisterEndViewController()
     
     // MARK: - action button UI components
+    // TODO: 앞의 버튼과 차별점을 두기 위해 약간 튀어오르는 느낌 하나 있으면 좋을 것 같다.
     private let dynamicNextButton = UIButton().then {
         $0.setTitle("다음", for: .normal)
         $0.tintColor = .black
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemPink
+        $0.backgroundColor = .mainPink
     }
 
     // MARK: - life cycle
