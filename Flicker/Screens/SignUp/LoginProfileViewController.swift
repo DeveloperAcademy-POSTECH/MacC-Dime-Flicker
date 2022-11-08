@@ -21,13 +21,16 @@ final class LoginProfileViewController: BaseViewController {
     }
 
     private lazy var profileImageView = UIImageView().then {
-        $0.image = ImageLiteral.btnProfile
-        $0.tintColor = .loginGray
-        $0.layer.cornerRadius = 40
+        $0.backgroundColor = .loginGray
+        $0.layer.cornerRadius = 50
         $0.clipsToBounds = true
-
         $0.isUserInteractionEnabled = true
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectButtonTouched)))
+    }
+
+    private let cameraImage = UIImageView().then {
+        $0.tintColor = .black
+        $0.image = UIImage(systemName: "camera")
     }
 
     private func labelTemplate(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
@@ -44,23 +47,26 @@ final class LoginProfileViewController: BaseViewController {
     private let nickNameLabel = UILabel().makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
     
     private let nickNameField = UITextField().then {
         let attributes = [
-            NSAttributedString.Key.foregroundColor : UIColor.white,
-            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
+            NSAttributedString.Key.foregroundColor : UIColor.textSubBlack,
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .light)
         ]
 
-        $0.backgroundColor = .loginGray
-        $0.attributedPlaceholder = NSAttributedString(string: "닉네임", attributes: attributes)
+        $0.backgroundColor = .clear
+        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력 해 주세요!", attributes: attributes)
         $0.autocapitalizationType = .none
-        $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
-        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         $0.leftViewMode = .always
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+    }
+
+    private let nickNameTextFieldClearButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "x.circle"), for: .normal)
+        $0.tintColor = .textSubBlack
     }
 
     private let artistTrueButton = UIButton().then {
@@ -88,31 +94,40 @@ final class LoginProfileViewController: BaseViewController {
         $0.backgroundColor = .loginGray
     }
 
+    private let nickNameDivider = UIView().then {
+        $0.backgroundColor = .loginGray
+    }
+
     override func render() {
         nickNameField.delegate = self
 
         signUpButton.isEnabled = false
 
-        view.addSubviews(profileImageView, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
-
+        nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
 
         navigationDivider.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(2)
         }
-        
+
         profileImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }
 
+        cameraImage.snp.makeConstraints {
+            $0.center.equalTo(profileImageView.snp.center)
+            $0.width.equalTo(50)
+            $0.height.equalTo(40)
+        }
 
         profileLabelFirst.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom).offset(30)
@@ -131,6 +146,19 @@ final class LoginProfileViewController: BaseViewController {
 
         nickNameField.snp.makeConstraints {
             $0.top.equalTo(nickNameLabel.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(60)
+        }
+
+        nickNameTextFieldClearButton.snp.makeConstraints {
+            $0.centerY.equalTo(nickNameField.snp.centerY)
+            $0.leading.equalTo(nickNameField.snp.trailing)
+            $0.trailing.equalToSuperview().inset(30)
+        }
+
+        nickNameDivider.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(nickNameField.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
@@ -164,7 +192,6 @@ final class LoginProfileViewController: BaseViewController {
     }
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
-
         }
 
         override func setupNavigationBar() {
@@ -202,11 +229,14 @@ final class LoginProfileViewController: BaseViewController {
     }
 
     @objc private func didTapSignUpButton() {
-
         let viewController = TabbarViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
+    @objc private func didTapClearButton() {
+        self.nickNameField.text = ""
+        print("workOut")
+    }
 }
 
 extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
