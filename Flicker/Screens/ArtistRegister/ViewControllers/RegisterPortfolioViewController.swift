@@ -113,33 +113,31 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
         
         picker.dismiss(animated: true)
         
-        let imageItems = results
+        let photoItems = results
             .map { $0.itemProvider }
-            .filter { $0.canLoadObject(ofClass: UIImage.self) } // filter for possible UIImages
+            .filter { $0.canLoadObject(ofClass: UIImage.self) }
         
         let dispatchGroup = DispatchGroup()
-        var images = [UIImage]()
+        var temporaryImages = [UIImage]()
         
-        for imageItem in imageItems {
-            dispatchGroup.enter() // signal IN
-            
-            imageItem.loadObject(ofClass: UIImage.self) { image, _ in
-                if let image = image as? UIImage {
-                    images.append(image)
+        for photoItem in photoItems {
+            dispatchGroup.enter()
+
+            photoItem.loadObject(ofClass: UIImage.self) { photos, _ in
+                if let image = photos as? UIImage {
+                    temporaryImages.append(image)
                 }
-                dispatchGroup.leave() // signal OUT
+                dispatchGroup.leave()
             }
         }
-        
-        // This is called at the end; after all signals are matched (IN/OUT)
+
         dispatchGroup.notify(queue: .main) {
-            print(images)
-            // DO whatever you want with `images` array
-            
-            if (!images.isEmpty) {
-                self.portfolioPhotosFetched = images
+            if (!temporaryImages.isEmpty) {
+                self.portfolioPhotosFetched = temporaryImages
                 self.portfolioCollectionView.reloadData()
             }
+            
+            self.delegate?.photoSelected(photos: temporaryImages)
         }
     }
 }

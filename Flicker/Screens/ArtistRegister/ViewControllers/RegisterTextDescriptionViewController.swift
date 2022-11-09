@@ -16,7 +16,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
     weak var delegate: RegisterTextInfoDelegate?
     
     // MARK: - view UI components
-    private let mainTitleLabel = UILabel().then {
+    static let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "자기 소개"
     }
@@ -33,16 +33,16 @@ final class RegisterTextDescriptionViewController: UIViewController {
         $0.text = "촬영 경험과 자신의 촬영 스타일을 적어주세요!"
     }
     
-    private let desriptionTextView = UITextView().then {
+    private let descriptionTextView = UITextView().then {
         $0.text = ""
         $0.clipsToBounds = true
-        $0.isScrollEnabled = false
+        $0.isScrollEnabled = true
         $0.dataDetectorTypes = .all
         $0.textColor = .textSubBlack
         $0.autocorrectionType = .no
         $0.isUserInteractionEnabled = true
         $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
-        $0.textContainerInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        $0.textContainerInset = UIEdgeInsets(top: 25, left: 10, bottom: 20, right: 10)
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
     }
     
@@ -55,15 +55,15 @@ final class RegisterTextDescriptionViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, desriptionTextView)
+        view.addSubviews(RegisterTextDescriptionViewController.mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView)
         
-        mainTitleLabel.snp.makeConstraints {
+        RegisterTextDescriptionViewController.mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
+            $0.top.equalTo(RegisterTextDescriptionViewController.mainTitleLabel.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
         
@@ -72,20 +72,36 @@ final class RegisterTextDescriptionViewController: UIViewController {
             $0.leading.equalToSuperview().inset(30)
         }
         
-        desriptionTextView.snp.makeConstraints {
+        descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(UIScreen.main.bounds.height/2.5)
+            $0.height.equalTo(UIScreen.main.bounds.height/3)
         }
     }
     
     // MARK: - view configurations
     private func configUI() {
-        desriptionTextView.delegate = self
-        desriptionTextView.layer.cornerRadius = view.bounds.width/22
+        descriptionTextView.delegate = self
+        descriptionTextView.layer.cornerRadius = view.bounds.width/22
+    }
+    
+    // MARK: - keyboard touch dismiss
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let checkTextViewTextEmpty = descriptionTextView.text else { return }
+        if checkTextViewTextEmpty.isEmpty {
+            DispatchQueue.main.async {
+                self.descriptionTextView.becomeFirstResponder()
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
+    // MARK: - textView delegate
 extension RegisterTextDescriptionViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         self.delegate?.textViewDescribed(textView: textView.text)

@@ -17,7 +17,7 @@ final class RegisterWelcomeViewController: UIViewController {
 
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
-        $0.textColor = .textSubBlack
+        $0.textColor = .black
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "작가님 어서오세요!"
     }
@@ -39,7 +39,7 @@ final class RegisterWelcomeViewController: UIViewController {
     // MARK: - action button UI components
     private let dynamicNextButton = UIButton().then {
         $0.setTitle("등록 시작", for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .white.withAlphaComponent(0.8)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.backgroundColor = .mainPink.withAlphaComponent(0.7)
     }
@@ -48,9 +48,9 @@ final class RegisterWelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
-        configureUI()
+        configUI()
         nextButtonTap()
-        customBackButtom()
+        customBackButton()
     }
     
     // MARK: - navigation bar hide configurations with life cycle
@@ -89,7 +89,7 @@ final class RegisterWelcomeViewController: UIViewController {
         
         mainImage.snp.makeConstraints {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(UIScreen.main.bounds.height/2.5)
         }
         
@@ -101,7 +101,7 @@ final class RegisterWelcomeViewController: UIViewController {
     }
     
     // MARK: - view configurations
-    private func configureUI() {
+    private func configUI() {
         view.backgroundColor = .systemBackground
         mainImage.layer.cornerRadius = view.bounds.width/20
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
@@ -115,7 +115,7 @@ extension RegisterWelcomeViewController {
         dynamicNextButton.addGestureRecognizer(buttonTapped)
     }
     
-    private func customBackButtom() {
+    private func customBackButton() {
         let backButtonTapped = UITapGestureRecognizer(target: self, action: #selector(moveBackTapped))
         customNavigationBarView.customBackButton.addGestureRecognizer(backButtonTapped)
     }

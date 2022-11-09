@@ -115,6 +115,7 @@ final class RegisterRegionViewController: UIViewController {
     // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .systemBackground
+        
         tagFirstCollectionView.delegate = self
         tagFirstCollectionView.dataSource = self
         tagFirstCollectionView.allowsMultipleSelection = true

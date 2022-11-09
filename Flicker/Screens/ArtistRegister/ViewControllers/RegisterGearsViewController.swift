@@ -10,18 +10,19 @@ import SnapKit
 import Then
 
     // TODO: (다음 버전에..) keyboard 관련된 액션을 넣어야함
-    // 1. 빈 곳을 누르면 키보드가 내려간다.
-    // 2. "카메라 TextField" 에서 return 버튼 누르면 그 다음 항목으로 저절로 이어진다.
-    // 3. "렌즈 TextField" 에서 return 버튼이 키보드를 내린다.
-    // 4. 이러나 저러나 모두 layout 을 위로 올린다.
-    // 5. 글자 제한 수를 둬야 한다.
+    // 1. 빈 곳을 누르면 키보드가 내려간다. ✅
+    // 2. "카메라 TextField" 에서 return 버튼 누르면 그 다음 항목으로 저절로 이어진다.❓
+    // 3. "렌즈 TextField" 에서 return 버튼이 키보드를 내린다. ✅
+    // 4. 이러나 저러나 모두 layout 을 위로 올린다. ✅
+    // 5. 글자 제한 수를 둬야 한다.❓
 final class RegisterGearsViewController: UIViewController {
     
     // MARK: - custom delegate to send Datas
     weak var delegate: RegisterGearsDelegate?
     
     // MARK: - view UI components
-    private let mainTitleLabel = UILabel().then {
+    // MARK: mainVC 에서 UI layout 변경을 하고자 이렇게 static 으로 선언함
+    static let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "장비 정보"
     }
@@ -107,17 +108,21 @@ final class RegisterGearsViewController: UIViewController {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, cameraBodySectionLabel, cameraBodyExampleSectionLabel, cameraBodyTextField, cameraLensSectionLabel, cameraLensExampleSectionLabel, cameraLensTextField)
+        view.addSubviews(RegisterGearsViewController.mainTitleLabel, subTitleLabel, bodyTitleLabel, cameraBodySectionLabel, cameraBodyExampleSectionLabel, cameraBodyTextField, cameraLensSectionLabel, cameraLensExampleSectionLabel, cameraLensTextField)
         
-        mainTitleLabel.snp.makeConstraints {
+        RegisterGearsViewController.mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
+            $0.top.equalTo(RegisterGearsViewController.mainTitleLabel.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
         
@@ -169,23 +174,10 @@ final class RegisterGearsViewController: UIViewController {
     }
 }
 
+
     // MARK: - textField delegate
 extension RegisterGearsViewController: UITextFieldDelegate {
-    // ShouldBeginEditing ->
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//    }
-    
-    // DidBeginEditing
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        // 여기에 layout 이 바뀌는 그게 들어가야 하나?
-//    }
-    
-    // ShouldEndEditing
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//
-//    }
-    
-//     DidEndEditing
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField.tag {
         case 1:
@@ -197,7 +189,6 @@ extension RegisterGearsViewController: UITextFieldDelegate {
         }
     }
     
-    // ShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.dismiss(animated: true)
