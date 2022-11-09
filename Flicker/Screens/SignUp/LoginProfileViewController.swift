@@ -14,12 +14,20 @@ final class LoginProfileViewController: BaseViewController {
 
     private var isNickNameWrite = false
 
-    private let profileImageButton = UIButton().then {
-        //TODO: 이미지 크기 조정 및 버튼 이벤트로 갤러리 연동 해야함
-        $0.tintColor = .black
-        $0.layer.cornerRadius = 50
-        $0.backgroundColor = .loginGray
-        $0.setImage(UIImage(systemName: "camera"), for: .normal)
+    private lazy var imagePicker = UIImagePickerController().then {
+        $0.sourceType = .photoLibrary
+        $0.allowsEditing = true
+        $0.delegate = self
+    }
+
+    private lazy var profileImageView = UIImageView().then {
+        $0.image = ImageLiteral.btnProfile
+        $0.tintColor = .loginGray
+        $0.layer.cornerRadius = 40
+        $0.clipsToBounds = true
+
+        $0.isUserInteractionEnabled = true
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectButtonTouched)))
     }
 
     private func labelTemplate(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
@@ -30,14 +38,12 @@ final class LoginProfileViewController: BaseViewController {
         }
         return label
     }
+    private let profileLabelFirst = UILabel().makeBasicLabel(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private lazy var profileLabelFirst = labelTemplate(labelText: "자신을 보여줄 수 있는 간단한 프로필 사진을 보여주세요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
-    private lazy var profileLabelSecond = labelTemplate(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-
-    private lazy var nickNameLabel = labelTemplate(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var isArtistLabel = labelTemplate(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private lazy var afterJoinLabel = labelTemplate(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private let profileLabelSecond = UILabel().makeBasicLabel(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
+    private let nickNameLabel = UILabel().makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
+    private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     
     private let nickNameField = UITextField().then {
@@ -87,7 +93,8 @@ final class LoginProfileViewController: BaseViewController {
 
         signUpButton.isEnabled = false
 
-        view.addSubviews(profileImageButton, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+        view.addSubviews(profileImageView, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider)
+
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
@@ -100,14 +107,15 @@ final class LoginProfileViewController: BaseViewController {
             $0.height.equalTo(2)
         }
         
-        profileImageButton.snp.makeConstraints {
+        profileImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }
 
+
         profileLabelFirst.snp.makeConstraints {
-            $0.top.equalTo(profileImageButton.snp.bottom).offset(30)
+            $0.top.equalTo(profileImageView.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
         }
 
@@ -165,6 +173,10 @@ final class LoginProfileViewController: BaseViewController {
             title = "프로필 입력"
         }
 
+    @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {
+        self.present(imagePicker, animated: true)
+    }
+
     @objc private func didTapArtistTrueButton() {
         artistTrueButton.backgroundColor = .mainPink
         artistTrueButton.setTitleColor(.white, for: .normal)
@@ -197,8 +209,23 @@ final class LoginProfileViewController: BaseViewController {
 
 }
 
-extension LoginProfileViewController {
+extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     override func textFieldDidEndEditing(_ textField: UITextField) {
         isNickNameWrite = true
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        var newImage : UIImage? = nil // update 할 이미지
+
+        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            newImage = possibleImage    // 수정된 이미지가 있을 경우
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = possibleImage        // 원본 이미지가 있을 경우
+        }
+        self.profileImageView.image = newImage
+        dismiss(animated: true, completion: nil)
+    }
 }
+

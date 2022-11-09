@@ -21,9 +21,9 @@ final class RegisterConfirmViewController: UIViewController {
     
     private let subTitleLabel = UILabel().then {
         $0.textColor = .systemGray
-        $0.numberOfLines = 2
+        $0.numberOfLines = 0
         $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.text = "작가 등록 승인 받고 작가 활동을 시작해보세요.\n승인 여부는 3~4일 정도 소요될 수 있습니다."
+        $0.text = "작가 등록 승인 받고 작가 활동을 시작해보세요. 승인 여부는 3~4일 정도 소요될 수 있습니다."
         $0.setLineSpacing(spacing: 3.0)
     }
     
@@ -73,7 +73,7 @@ final class RegisterConfirmViewController: UIViewController {
         
         subTitleLabel.snp.makeConstraints {
             $0.top.equalTo(mainTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(30)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
         mainImage.snp.makeConstraints {
