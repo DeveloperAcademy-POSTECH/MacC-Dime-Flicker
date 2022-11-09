@@ -41,6 +41,7 @@ final class RegisterConfirmViewController: UIViewController {
         $0.backgroundColor = .blue.withAlphaComponent(0.7)
     }
     
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()

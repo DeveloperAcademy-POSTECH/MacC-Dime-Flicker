@@ -13,7 +13,6 @@ import Then
 final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
-    // TODO: 이미지데이터가 delegate 으로 먹히지 않아ㅏㅏㅏㅏㅏㅏㅏ
     private var regionData: [String] = []
     private var cameraBodyData: String = ""
     private var cameraLensData: String = ""
@@ -189,6 +188,7 @@ extension ArtistRegisterViewController {
         customNavigationBarView.customBackButton.addGestureRecognizer(backButtonTapped)
     }
     
+    // MARK: Alert (+ Networking)
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
