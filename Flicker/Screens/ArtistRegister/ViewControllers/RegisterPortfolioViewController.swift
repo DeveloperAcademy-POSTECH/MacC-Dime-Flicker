@@ -110,17 +110,35 @@ final class RegisterPortfolioViewController: UIViewController {
     // TODO: 여기서 이제 가져온 image 를 바로 서버에 보낼 수 있는 그런 형태인지 확인도 해야함, image 를 줄이는 건 confirm VC 에서 하자.
 extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        portfolioCollectionView.reloadData()
-        picker.dismiss(animated: true)
-        self.portfolioPhotosFetched.removeAll()
         
-        results.forEach { result in
-            result.itemProvider.loadObject(ofClass: UIImage.self) { photoDatas, error in
-                guard let image = photoDatas as? UIImage, error == nil else { return }
-                DispatchQueue.main.async {
-                    self.portfolioPhotosFetched.append(image)
-                    self.portfolioCollectionView.reloadData()
+        picker.dismiss(animated: true)
+        
+        let imageItems = results
+            .map { $0.itemProvider }
+            .filter { $0.canLoadObject(ofClass: UIImage.self) } // filter for possible UIImages
+        
+        let dispatchGroup = DispatchGroup()
+        var images = [UIImage]()
+        
+        for imageItem in imageItems {
+            dispatchGroup.enter() // signal IN
+            
+            imageItem.loadObject(ofClass: UIImage.self) { image, _ in
+                if let image = image as? UIImage {
+                    images.append(image)
                 }
+                dispatchGroup.leave() // signal OUT
+            }
+        }
+        
+        // This is called at the end; after all signals are matched (IN/OUT)
+        dispatchGroup.notify(queue: .main) {
+            print(images)
+            // DO whatever you want with `images` array
+            
+            if (!images.isEmpty) {
+                self.portfolioPhotosFetched = images
+                self.portfolioCollectionView.reloadData()
             }
         }
     }
