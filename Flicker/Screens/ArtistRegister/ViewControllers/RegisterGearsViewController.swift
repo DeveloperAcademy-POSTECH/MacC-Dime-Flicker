@@ -174,7 +174,6 @@ final class RegisterGearsViewController: UIViewController {
     }
 }
 
-
     // MARK: - textField delegate
 extension RegisterGearsViewController: UITextFieldDelegate {
 

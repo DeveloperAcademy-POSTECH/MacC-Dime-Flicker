@@ -62,10 +62,7 @@ final class RegisterConfirmViewController: UIViewController {
 
     // MARK: - layout constraints
     private func render() {
-        view.addSubview(mainTitleLabel)
-        view.addSubview(subTitleLabel)
-        view.addSubview(mainImage)
-        view.addSubview(dynamicNextButton)
+        view.addSubviews(mainTitleLabel, subTitleLabel, mainImage, dynamicNextButton)
         
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(UIScreen.main.bounds.height/8)

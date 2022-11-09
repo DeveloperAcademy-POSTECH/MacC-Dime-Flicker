@@ -20,7 +20,6 @@
 		58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */; };
 		58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */; };
-		5833A777291A56F10077855F /* GridCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A776291A56F10077855F /* GridCollectionViewFlowLayout.swift */; };
 		5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */; };
 		58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */; };
 		58A452A52912A22500C9707D /* RegisterRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A42912A22500C9707D /* RegisterRegionViewController.swift */; };
@@ -92,7 +91,6 @@
 		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
 		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioImageCell.swift; sourceTree = "<group>"; };
-		5833A776291A56F10077855F /* GridCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAddPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWelcomeViewController.swift; sourceTree = "<group>"; };
 		58A452A42912A22500C9707D /* RegisterRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionViewController.swift; sourceTree = "<group>"; };
@@ -184,7 +182,6 @@
 				5824E4A029155DB000916E0B /* Views */,
 				58A452A32912A21000C9707D /* ViewControllers */,
 				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
-				5833A776291A56F10077855F /* GridCollectionViewFlowLayout.swift */,
 			);
 			path = ArtistRegister;
 			sourceTree = "<group>";
@@ -599,7 +596,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5833A777291A56F10077855F /* GridCollectionViewFlowLayout.swift in Sources */,
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
 				CBDC041E290611DB00C6CF30 /* Channel.swift in Sources */,

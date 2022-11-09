@@ -66,11 +66,7 @@ final class RegisterWelcomeViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubview(customNavigationBarView)
-        view.addSubview(mainTitleLabel)
-        view.addSubview(subTitleLabel)
-        view.addSubview(mainImage)
-        view.addSubview(dynamicNextButton)
+        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, mainImage, dynamicNextButton)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
