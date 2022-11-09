@@ -10,39 +10,36 @@ import UIKit
 final class ProfileViewController: BaseViewController {
 
     private let sectionHeaderTitle = ["설정", "기타"]
-
     private let userProfileCell = UIView(frame: .zero)
-
-    private let profileTableView = UITableView(frame: CGRectZero, style: .grouped).then {
+    private let profileHeader = ProfileHeaderVIew()
+    private let profileTableView = UITableView(frame: CGRectZero, style: .insetGrouped).then {
         $0.isScrollEnabled = false
-        $0.backgroundColor = .lightGray
         $0.showsVerticalScrollIndicator = false
         $0.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.className)
-        // $0.tableFooterView = UIView(frame: .zero)
     }
-    
-    private let profileHeader = ProfileHeaderVIew().then {
-        $0.backgroundColor = .lightGray
-    }
-    
-    private let symbolConfiguration = UIImage.SymbolConfiguration(textStyle: .title1)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
         setFunctionsAndDelegate()
+        customSetUI()
+    }
+    private func customSetUI() {
+        view.addSubviews(profileTableView, profileHeader)
+        profileTableView.tableHeaderView = profileHeader
     }
 
     override func render() {
+        view.backgroundColor = .systemGray6
         view.addSubviews(profileTableView, profileHeader)
         profileTableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview()
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         profileHeader.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(10)
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(profileHeader.snp.top).inset(180)
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(profileTableView.snp.top)
+            $0.height.equalTo(180)
         }
         profileTableView.tableHeaderView = profileHeader
     }
@@ -69,6 +66,8 @@ extension ProfileViewController: UITableViewDataSource {
         
         return cell
     }
+    
+
 }
 
 extension ProfileViewController: UITableViewDelegate {

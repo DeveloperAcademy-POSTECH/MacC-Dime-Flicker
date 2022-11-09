@@ -14,7 +14,6 @@ final class ProfileHeaderVIew: UIView {
     private lazy var headerCard = UIView().then {
         $0.layer.cornerRadius = 20
         $0.backgroundColor = .white
-        
     }
     
     private let profileImage = UIImageView().then {
@@ -49,8 +48,9 @@ final class ProfileHeaderVIew: UIView {
         addSubviews(headerCard, profileImage, idLabel, emailLabel)
         headerCard.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
+            //$0.top.equalToSuperview().
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
         }
         profileImage.snp.makeConstraints {
             $0.height.width.equalTo(80)
