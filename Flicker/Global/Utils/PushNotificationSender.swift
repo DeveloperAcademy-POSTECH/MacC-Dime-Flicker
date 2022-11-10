@@ -9,7 +9,7 @@ import Foundation
 
 class PushNotificationSender {
     func sendPushNotification(to token: String, title: String, body: String) {
-        let server_key = "AAAAvWyUGFU:APA91bHKwd0IyOHA4v86X-NuBKcOTmpt-N1nOppmN94jMbj_Rcl9UrpwGgjlnZAL4gAI-cI2sQI2CtRyX_Qo5zxgZPdueJlM7KQc5ExshtOOtqKrDHaJOVZjL5u2jfSnOk4Aazna1_n3"
+        let server_key = "AAAAwzTRRww:APA91bHXs4kYIIxk3rM7X_7rq4S_d-ZT54PSiyqfDh7LG2T0Dkau3Q8cW3mRvpWCApJJ0C1G74Tm09zBMaQJ7oiqW71SW6szeekE_YO4rWkgtIowIPjrJ-CCfcES4950FCXUYr8HNcbj"
         let urlString = "https://fcm.googleapis.com/fcm/send"
         let url = NSURL(string: urlString)!
         let paramString: [String : Any] = ["to" : token,
