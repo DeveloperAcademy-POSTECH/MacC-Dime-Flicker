@@ -123,10 +123,15 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
         for photoItem in photoItems {
             dispatchGroup.enter()
 
-            photoItem.loadObject(ofClass: UIImage.self) { photos, _ in
+            photoItem.loadObject(ofClass: UIImage.self) { photos, error in
                 if let image = photos as? UIImage {
                     temporaryImages.append(image)
                 }
+                
+                if let error = error {
+                    print(error)
+                }
+                
                 dispatchGroup.leave()
             }
         }
