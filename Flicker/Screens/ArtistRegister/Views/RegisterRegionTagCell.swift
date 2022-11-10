@@ -12,6 +12,7 @@ import Then
     // MARK: - RegisterRegionView 에 들어가는 지역들의 UI 컴포넌트
 class RegisterRegionTagCell: UICollectionViewCell {
     
+    // MARK: - view UI components
     let tagLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .semibold)
         $0.textColor = .white
@@ -45,7 +46,7 @@ class RegisterRegionTagCell: UICollectionViewCell {
     // MARK: - check selected components
     func toggleSelected() {
         if isSelected {
-            self.backgroundColor = .systemPink
+            self.backgroundColor = .mainPink.withAlphaComponent(0.8)
         } else {
             self.backgroundColor = .regionBlue
         }
