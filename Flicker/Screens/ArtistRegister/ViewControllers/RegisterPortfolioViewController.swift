@@ -10,7 +10,7 @@ import PhotosUI
 import SnapKit
 import Then
 
-    // TODO: (다음 버전에..) 1.PHPickerView 에서 취소 버튼을 누르면 없어지는 거 -> 어떻게든 로직짜서 만들어봐
+    // TODO: (다음 버전에..)
 final class RegisterPortfolioViewController: UIViewController {
     
     // MARK: - custom delegate to send Datas
