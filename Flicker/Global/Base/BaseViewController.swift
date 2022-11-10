@@ -16,7 +16,6 @@ class BaseViewController: UIViewController {
     private lazy var backButton = BackButton().then {
         $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
-    
     private var activeTextField : UITextField? = nil
     
     // MARK: - life cycle
@@ -127,6 +126,9 @@ class BaseViewController: UIViewController {
         // go through all of the textfield inside the view, and end editing thus resigning first responder
         // ie. it will trigger a keyboardWillHide notification
         self.view.endEditing(true)
+    }
+    deinit {
+        print("뷰컨 하나 소멸")
     }
 }
 
