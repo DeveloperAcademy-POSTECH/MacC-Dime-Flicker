@@ -7,7 +7,7 @@ body:
   - type: textarea
     id: refactor-contents
     attributes:
-      label: Feature 설명
+      label: 💡 Feature 설명
       description: 작업할 refactoring에 대한 설명을 적어주세요.
       placeholder: ex. 함수 래핑하기
     validations:
@@ -16,7 +16,7 @@ body:
   - type: input
     id: prepare-issue
     attributes:
-      label: Prepare Issue(Optional)
+      label: 🙏 Prepare Issue(Optional)
       description: 관련된 Prepare가 있다면 적어주세요.
       placeholder: "ex. #14"
     validations:
@@ -25,7 +25,7 @@ body:
   - type: textarea
     id: related-view
     attributes:
-      label: Related View(Optional)
+      label: 🤝 Related View(Optional)
       description: 작업하는 사항에 영향을 받는 View(화면)
       placeholder: ex. HomeView
     validations:
@@ -34,7 +34,7 @@ body:
   - type: dropdown
     id: priority
     attributes:
-      label: 우선순위
+      label: ⭐️ 우선순위
       description: Backlog에서의 중요도
       options:
         - ★★★★★
@@ -48,14 +48,14 @@ body:
   - type: input
     id: expected-period
     attributes:
-      label: 예상 작업 기간
+      label: 💁 예상 작업 기간
       placeholder: ~ MM/DD(E) ex. ~ 07/12(화)
     validations:
       required: true
   - type: input
     id: real-period
     attributes:
-      label: 실제 작업 기간(PR 작성 직전에 수정
+      label: 🙋 실제 작업 기간(PR 작성 직전에 수정
       placeholder: ~ MM/DD(E) ex. ~ 07/12(화)
     validations:
       required: false

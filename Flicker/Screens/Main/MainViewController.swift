@@ -48,8 +48,7 @@ final class MainViewController: BaseViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
-        $0.register(ArtistThumnailCollectionViewCell.self,
-                                forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+        $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
     }
     
     override func viewDidLoad() {

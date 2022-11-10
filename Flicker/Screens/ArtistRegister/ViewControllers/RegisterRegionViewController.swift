@@ -9,8 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) 1.하나도 고르지 않았다면 다음 view 로 넘어가지 못하거나, 마지막 view 에서 다시 여기로 돌아오게 만들어야 함
 final class RegisterRegionViewController: UIViewController {
 
+    // MARK: - custom delegate to send Datas
+    weak var delegate: RegisterRegionDelegate?
+    
     // MARK: - data sets to post to the server
     // TODO: - deleate 만들어서 ArtistRegisterViewController 에 연결해야한다.
     private var selectedRegion: [String] = []
@@ -32,12 +36,13 @@ final class RegisterRegionViewController: UIViewController {
     }
     
     private let subTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .headline, weight: .semibold)
+        $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.text = "주로 활동하는 지역을 알려주세요!"
     }
     
     private let bodyTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .medium)
+        $0.textColor = .systemGray
+        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
         $0.text = "지역은 최대 3개까지 설정할 수 있어요."
     }
     
@@ -110,6 +115,7 @@ final class RegisterRegionViewController: UIViewController {
     // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .systemBackground
+        
         tagFirstCollectionView.delegate = self
         tagFirstCollectionView.dataSource = self
         tagFirstCollectionView.allowsMultipleSelection = true
@@ -162,13 +168,13 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion, selectedRegion.count)
+                self.delegate?.regionSelected(regions: selectedRegion)
             case 2:
                 guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion, selectedRegion.count)
+                self.delegate?.regionSelected(regions: selectedRegion)
             default:
                 return
             }
@@ -183,14 +189,14 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion, selectedRegion.count)
+            self.delegate?.regionSelected(regions: selectedRegion)
         case 2:
             guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
             guard let cellText = cell.tagLabel.text else { return }
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion, selectedRegion.count)
+            self.delegate?.regionSelected(regions: selectedRegion)
         default:
             return
         }
@@ -219,4 +225,9 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
             return CGSize()
         }
     }
+}
+
+    // MARK: - RegisterRegion custom delegate protocol
+protocol RegisterRegionDelegate: AnyObject {
+    func regionSelected(regions regionDatas: [String])
 }
