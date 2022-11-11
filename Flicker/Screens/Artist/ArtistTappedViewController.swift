@@ -7,7 +7,7 @@
 import UIKit
 import SnapKit
 
-class ArtistTappedViewController: UIViewController {
+class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
@@ -34,19 +34,69 @@ class ArtistTappedViewController: UIViewController {
         $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 15
     }
+
+    private let statusBarBackGroundView = UIView().then {
+        $0.backgroundColor = .white
+    }
+
+    private let navigationBarseperator = UIView().then {
+        $0.backgroundColor = .systemGray5
+    }
     
     override func viewDidLoad() {
-        super.viewDidLoad ()
-        print("ViewControlelr header \(HeaderCollectionReusableView().frame.height)")
+//        super.viewDidLoad()
         collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
 
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
 
         setDelegateAndDataSource()
-        view.addSubviews(collectionView, bottomBackgroundView, counselingButton)
+        
+        view.addSubviews(collectionView, statusBarBackGroundView, navigationBarseperator, bottomBackgroundView, counselingButton)
 
         queryImageDataSet()
+        configUI()
+        setupBackButton()
+        setupNavigationBar()
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        statusBarBackGroundView.isHidden = true
+        navigationBarseperator.isHidden = true
+    }
+
+    override func configUI() {
+        tabBarController?.tabBar.isHidden = true
+        statusBarBackGroundView.isHidden = true
+        navigationBarseperator.isHidden = true
+    }
+
+    override func setupNavigationBar() {
+        guard let navigationBar = navigationController?.navigationBar else { return }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        navigationBar.standardAppearance = appearance
+        navigationBar.compactAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+
+//        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
+//        let shareImageView = UIImageView().then {
+//            $0.image = UIImage(systemName: "square.and.arrow.up")
+//            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))
+//            $0.tintColor = .black
+//            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapShare(_:))))
+//        }
+//        navigationItem.rightBarButtonItem = makeBarButtonItem(with: shareImageView)
+    }
+
+    //TODO: 출시 후, 앱스토어 링크 넣을 예정
+//    @objc private func didTapShare(_ sender: Any) {
+//        guard let image = UIImage(named: "AppIcon") else { return }
+//        let descriptionText = "나에게 맞는 작가님을 찾아 인생샷을 건져보세요"
+//        let activityViewController = UIActivityViewController(activityItems: [image, descriptionText], applicationActivities: nil)
+//        activityViewController.popoverPresentationController?.sourceView = self.view
+//        self.present(activityViewController, animated: true, completion: nil)
+//    }
 
     private func setDelegateAndDataSource() {
         collectionView.delegate = self
@@ -62,6 +112,24 @@ class ArtistTappedViewController: UIViewController {
             $0.center.equalToSuperview()
             $0.width.equalToSuperview()
         }
+
+        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+
+        statusBarBackGroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
+        statusBarBackGroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+
+        statusBarBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+
+        statusBarBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        navigationBarseperator.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+
+        navigationBarseperator.topAnchor.constraint(equalTo: navigationController?.navigationBar.bottomAnchor ?? NSLayoutYAxisAnchor()).isActive = true
+
 
         bottomBackgroundView.addSubview(counselingButton)
 
@@ -153,5 +221,18 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if collectionView.contentOffset.y > 280 {
+            navigationController?.navigationBar.backgroundColor = .white
+            statusBarBackGroundView.isHidden = false
+            navigationBarseperator.isHidden = false
+
+        } else {
+            navigationController?.navigationBar.backgroundColor = .clear
+            statusBarBackGroundView.isHidden = true
+            navigationBarseperator.isHidden = true
+        }
     }
 }

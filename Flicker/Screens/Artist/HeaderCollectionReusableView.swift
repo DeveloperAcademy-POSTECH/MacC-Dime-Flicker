@@ -14,7 +14,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     private var imageScrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
-        $0.isScrollEnabled = true
     }
 
     private let imageHeight: Int = 380
@@ -47,7 +46,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private lazy var artistProfileImage = UIImageView().then {
-        $0.image = UIImage(named: "장루키")
+        $0.image = UIImage(systemName: "person.fill")
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
@@ -119,12 +118,13 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         super.init(frame: frame)
         // subview
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
+
         self.addSubviews(regionInfo, scheduleInfo, hourInfo, photoshopInfo, deviceInfo, portfolioInfo)
 
         configureImageScrollView()
         setFunctionAndDelegate()
 
-        print("this is headerView frame size \(self.frame.height)")
+        
     }
 
     required init?(coder: NSCoder) {
@@ -226,6 +226,12 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             $0.top.equalTo(photoshopInfo.snp.bottom).offset(5)
         }
     }
+
+//    @objc func makeShareButton(_ sender: Any) {
+//        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+//            activityVC.popoverPresentationController?.sourceView = self.view
+//
+//    }
 
     private func setFunctionAndDelegate() {
         imageScrollView.delegate = self

@@ -666,8 +666,6 @@
 				58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */,
 				7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */,
 				7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */,
-				58A452AF2912A27700C9707D /* RegisterEndViewController.swift in Sources */,
-				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
 				58A452A52912A22500C9707D /* RegisterRegionViewController.swift in Sources */,
 				58A452A72912A23000C9707D /* RegisterGearsViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
