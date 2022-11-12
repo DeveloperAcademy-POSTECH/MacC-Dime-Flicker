@@ -63,6 +63,7 @@ class ArtistTappedViewController: BaseViewController {
         super.viewWillDisappear(animated)
         statusBarBackGroundView.isHidden = true
         navigationBarseperator.isHidden = true
+        navigationController?.navigationBar.backgroundColor = .clear
     }
 
     override func configUI() {
