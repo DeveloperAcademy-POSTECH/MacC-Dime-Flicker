@@ -59,8 +59,8 @@ class ArtistTappedViewController: BaseViewController {
         setupNavigationBar()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         statusBarBackGroundView.isHidden = true
         navigationBarseperator.isHidden = true
     }
@@ -123,12 +123,16 @@ class ArtistTappedViewController: BaseViewController {
 
         statusBarBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
+        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+
         navigationBarseperator.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(1)
         }
 
-        navigationBarseperator.topAnchor.constraint(equalTo: navigationController?.navigationBar.bottomAnchor ?? NSLayoutYAxisAnchor()).isActive = true
+        guard let navigationBar = navigationController?.navigationBar else { return }
+
+        navigationBarseperator.topAnchor.constraint(equalTo: navigationBar.bottomAnchor).isActive = true
 
 
         bottomBackgroundView.addSubview(counselingButton)
@@ -223,6 +227,20 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
         UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        let cell = collectionView.cellForItem(at: indexPath) as! ArtistPortfolioCell
+//        let cellImage = cell.image ?? UIImage(named: "port1")
+
+        let viewController = ImageViewController()
+        viewController.image = cell.imageView.image 
+        viewController.modalPresentationStyle = .fullScreen
+
+        present(viewController, animated: true)
+
+    }
+
+    // 스크롤시 네비게이션바 커스텀화
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if collectionView.contentOffset.y > 280 {
             navigationController?.navigationBar.backgroundColor = .white
