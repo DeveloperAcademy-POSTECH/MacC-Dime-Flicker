@@ -37,15 +37,21 @@ class ArtistTappedViewController: BaseViewController {
         $0.setTitle("문의하기", for: .normal)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .systemBlue
+        $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
     }
+        
+    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .black, fontStyle: .callout, fontWeight: .bold)
 
     private let statusBarBackGroundView = UIView().then {
         $0.backgroundColor = .white
     }
 
-    private let navigationBarseperator = UIView().then {
+    private let navigationBarSeperator = UIView().then {
+        $0.backgroundColor = .systemGray5
+    }
+    
+    private let bottomBarSeperator = UIView().then {
         $0.backgroundColor = .systemGray5
     }
     
@@ -57,7 +63,7 @@ class ArtistTappedViewController: BaseViewController {
 
         setDelegateAndDataSource()
         
-        view.addSubviews(collectionView, statusBarBackGroundView, navigationBarseperator, bottomBackgroundView, counselingButton)
+        view.addSubviews(collectionView, statusBarBackGroundView, navigationBarSeperator, bottomBackgroundView, counselingButton, bottomBarSeperator)
 
         queryImageDataSet()
         configUI()
@@ -68,7 +74,7 @@ class ArtistTappedViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         statusBarBackGroundView.isHidden = true
-        navigationBarseperator.isHidden = true
+        navigationBarSeperator.isHidden = true
         navigationController?.navigationBar.backgroundColor = .clear
     }
 
@@ -85,7 +91,7 @@ class ArtistTappedViewController: BaseViewController {
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
         statusBarBackGroundView.isHidden = true
-        navigationBarseperator.isHidden = true
+        navigationBarSeperator.isHidden = true
     }
 
     override func setupNavigationBar() {
@@ -135,7 +141,8 @@ class ArtistTappedViewController: BaseViewController {
             $0.center.equalToSuperview()
             $0.width.equalToSuperview()
         }
-
+        
+        // navigationBar 상단의 statusBar 자리를 UIView로 대체하여 조정
         statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
 
         statusBarBackGroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -148,29 +155,41 @@ class ArtistTappedViewController: BaseViewController {
 
         statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
 
-        navigationBarseperator.snp.makeConstraints {
+        navigationBarSeperator.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(1)
         }
 
         guard let navigationBar = navigationController?.navigationBar else { return }
 
-        navigationBarseperator.topAnchor.constraint(equalTo: navigationBar.bottomAnchor).isActive = true
+        navigationBarSeperator.topAnchor.constraint(equalTo: navigationBar.bottomAnchor).isActive = true
 
-
-        bottomBackgroundView.addSubview(counselingButton)
+        // 하단의 문의하기 버튼이 있는 UIView
+        bottomBackgroundView.addSubviews(counselingButton, mutualPayLabel)
 
         bottomBackgroundView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(view.frame.height / 9)
+            $0.height.equalTo(view.frame.height / 10)
             $0.width.equalToSuperview()
         }
 
         counselingButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.height.equalTo(50)
-            $0.width.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(10)
+            $0.height.equalTo(view.frame.height / 18)
+            $0.width.equalTo(view.frame.width / 2.2)
+        }
+        
+        mutualPayLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(30)
+            $0.top.equalTo(counselingButton.snp.top).inset(5)
+        }
+        
+        bottomBarSeperator.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
     }
 
@@ -241,7 +260,7 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         viewController.modalPresentationStyle = .fullScreen
         viewController.completion = {
             self.statusBarBackGroundView.isHidden = false
-            self.navigationBarseperator.isHidden = false
+            self.navigationBarSeperator.isHidden = false
         }
         present(viewController, animated: false)
     }
@@ -251,12 +270,12 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         if collectionView.contentOffset.y > 280 {
             navigationController?.navigationBar.backgroundColor = .white
             statusBarBackGroundView.isHidden = false
-            navigationBarseperator.isHidden = false
+            navigationBarSeperator.isHidden = false
 
         } else {
             navigationController?.navigationBar.backgroundColor = .clear
             statusBarBackGroundView.isHidden = true
-            navigationBarseperator.isHidden = true
+            navigationBarSeperator.isHidden = true
         }
     }
 }
