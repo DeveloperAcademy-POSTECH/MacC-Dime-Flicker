@@ -44,7 +44,7 @@ class ArtistTappedViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-//        super.viewDidLoad()
+        //        super.viewDidLoad()
         collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
 
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
@@ -59,10 +59,15 @@ class ArtistTappedViewController: BaseViewController {
         setupNavigationBar()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         statusBarBackGroundView.isHidden = true
         navigationBarseperator.isHidden = true
+        navigationController?.navigationBar.backgroundColor = .clear
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
     }
 
@@ -80,24 +85,24 @@ class ArtistTappedViewController: BaseViewController {
         navigationBar.compactAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance
 
-//        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
-//        let shareImageView = UIImageView().then {
-//            $0.image = UIImage(systemName: "square.and.arrow.up")
-//            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))
-//            $0.tintColor = .black
-//            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapShare(_:))))
-//        }
-//        navigationItem.rightBarButtonItem = makeBarButtonItem(with: shareImageView)
+        //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
+        //        let shareImageView = UIImageView().then {
+        //            $0.image = UIImage(systemName: "square.and.arrow.up")
+        //            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))
+        //            $0.tintColor = .black
+        //            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapShare(_:))))
+        //        }
+        //        navigationItem.rightBarButtonItem = makeBarButtonItem(with: shareImageView)
     }
 
     //TODO: 출시 후, 앱스토어 링크 넣을 예정
-//    @objc private func didTapShare(_ sender: Any) {
-//        guard let image = UIImage(named: "AppIcon") else { return }
-//        let descriptionText = "나에게 맞는 작가님을 찾아 인생샷을 건져보세요"
-//        let activityViewController = UIActivityViewController(activityItems: [image, descriptionText], applicationActivities: nil)
-//        activityViewController.popoverPresentationController?.sourceView = self.view
-//        self.present(activityViewController, animated: true, completion: nil)
-//    }
+    //    @objc private func didTapShare(_ sender: Any) {
+    //        guard let image = UIImage(named: "AppIcon") else { return }
+    //        let descriptionText = "나에게 맞는 작가님을 찾아 인생샷을 건져보세요"
+    //        let activityViewController = UIActivityViewController(activityItems: [image, descriptionText], applicationActivities: nil)
+    //        activityViewController.popoverPresentationController?.sourceView = self.view
+    //        self.present(activityViewController, animated: true, completion: nil)
+    //    }
 
     private func setDelegateAndDataSource() {
         collectionView.delegate = self
@@ -205,7 +210,7 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath)
     }
 
-   //  header size
+    //  header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 720)
     }
@@ -231,14 +236,15 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let cell = collectionView.cellForItem(at: indexPath) as! ArtistPortfolioCell
-//        let cellImage = cell.image ?? UIImage(named: "port1")
 
         let viewController = ImageViewController()
-        viewController.image = cell.imageView.image 
+        viewController.image = cell.imageView.image
         viewController.modalPresentationStyle = .fullScreen
-
-        present(viewController, animated: true)
-
+        viewController.completion = {
+            self.statusBarBackGroundView.isHidden = false
+            self.navigationBarseperator.isHidden = false
+        }
+        present(viewController, animated: false)
     }
 
     // 스크롤시 네비게이션바 커스텀화

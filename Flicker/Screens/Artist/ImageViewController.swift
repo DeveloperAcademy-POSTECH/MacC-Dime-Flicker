@@ -15,13 +15,14 @@ class ImageViewController: UIViewController {
 
     var image: UIImage? = UIImage(named: "port1")
 
-
     private let cancelImageView = UIImageView().then {
         $0.isUserInteractionEnabled = true
         $0.tintColor = .white
         $0.contentMode = .scaleAspectFill
         $0.image = UIImage(systemName: "x.circle.fill")
     }
+
+    var completion: ()->Void = {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,6 @@ class ImageViewController: UIViewController {
     }
 
     @objc private func didTapCancelButton(_ sender: Any) {
-            dismiss(animated: true)
-        }
+        dismiss(animated: false) { self.completion() }
+    }
 }
