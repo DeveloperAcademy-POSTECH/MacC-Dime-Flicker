@@ -64,34 +64,22 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.backgroundColor = .systemGray5
     }
 
-    private let introductionLabel = UILabel().then {
-        $0.text = "자기소개"
-        $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
-        $0.textColor = .systemGray
-    }
+    private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .regular)
 
     private let introductionTextView = UITextView().then {
-        $0.text = "저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!"
+        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
         $0.isScrollEnabled = false
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
         $0.isUserInteractionEnabled = false
     }
 
     //TODO: 추후에 horizontal stackView로 바꾸기
+    
+    private let regionImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "map.fill")
+    }
     private let regionInfo = UILabel().then {
         $0.text = "서초구, 서대문구, 은평구"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
-    }
-
-    private let scheduleInfo = UILabel().then {
-        $0.text = "주중/주말 무관"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
-    }
-
-    private let hourInfo = UILabel().then {
-        $0.text = "오후 6시 이후 (협의 가능)"
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
         $0.textColor = .black
     }
@@ -119,7 +107,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         // subview
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
 
-        self.addSubviews(regionInfo, scheduleInfo, hourInfo, photoshopInfo, deviceInfo, portfolioInfo)
+        self.addSubviews(regionInfo, photoshopInfo, deviceInfo, portfolioInfo)
 
         configureImageScrollView()
         setFunctionAndDelegate()
@@ -205,20 +193,10 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
         }
-
-        scheduleInfo.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
-        }
-
-        hourInfo.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(scheduleInfo.snp.bottom).offset(5)
-        }
-
+        
         photoshopInfo.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(hourInfo.snp.bottom).offset(5)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
         }
 
         deviceInfo.snp.makeConstraints {
@@ -226,12 +204,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             $0.top.equalTo(photoshopInfo.snp.bottom).offset(5)
         }
     }
-
-//    @objc func makeShareButton(_ sender: Any) {
-//        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-//            activityVC.popoverPresentationController?.sourceView = self.view
-//
-//    }
 
     private func setFunctionAndDelegate() {
         imageScrollView.delegate = self
