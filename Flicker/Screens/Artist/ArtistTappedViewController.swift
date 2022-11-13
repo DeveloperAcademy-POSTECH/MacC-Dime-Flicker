@@ -71,7 +71,7 @@ class ArtistTappedViewController: BaseViewController {
         navigationBarseperator.isHidden = true
         navigationController?.navigationBar.backgroundColor = .clear
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         resetHeaderViewSize()

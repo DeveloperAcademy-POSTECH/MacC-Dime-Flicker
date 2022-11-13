@@ -33,17 +33,9 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isUserInteractionEnabled = true
     }
 
-    private let artistNickname = UILabel().then {
-        $0.text = "장루키 작가님"
-        $0.font = .preferredFont(forTextStyle: .title3, weight: .bold)
-    }
+    private let artistNickname = UILabel().makeBasicLabel(labelText: "장루키 작가님", textColor: .black, fontStyle: .title3, fontWeight: .bold)
 
-    //TODO: 추후에 horizontal stackView로 바꾸기
-    private let artistInformation = UILabel().then {
-        $0.text = "#우정사진 #필름사진 #웨딩촬영"
-        $0.font = .preferredFont(forTextStyle: .footnote, weight: .light)
-        $0.textColor = .systemGray
-    }
+    private let artistInformation = UILabel().makeBasicLabel(labelText: "#우정사진 #필름사진 #웨딩촬영", textColor: .systemGray, fontStyle: .footnote, fontWeight: .light)
 
     private lazy var artistProfileImage = UIImageView().then {
         $0.image = UIImage(named: "port3")
@@ -77,42 +69,36 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     
     private let regionImageView = UIImageView().then {
         $0.image = UIImage(systemName: "map.fill")
-    }
-    private let regionInfo = UILabel().then {
-        $0.text = "서초구, 서대문구, 은평구"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
+        $0.tintColor = .mainPink
     }
 
-    private let photoshopInfo = UILabel().then {
-        $0.text = "주변 풍경 및 개인별 얼굴"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .light)
-        $0.textColor = .black
+    private let lensInfoImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "camera.metering.center.weighted")
+        $0.tintColor = .mainPink
     }
 
-    private let deviceInfo = UILabel().then {
-        $0.text = "Sony a7m3 / Sony 50mm f1.8 GM"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
+    private let bodyInfoImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "circle.rectangle.filled.pattern.diagonalline")
+        $0.tintColor = .mainPink
     }
 
-    private let portfolioInfo = UILabel().then {
-        $0.text = "포트폴리오 사용 가능"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
-    }
+    private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black, fontStyle: .callout, fontWeight: .light)
+
+    private let lensInfo = UILabel().makeBasicLabel(labelText: "Sony 50mm f1.8 GM", textColor: .black, fontStyle: .callout, fontWeight: .light)
+
+    private let bodyInfo = UILabel().makeBasicLabel(labelText: "Sony a7m3", textColor: .black, fontStyle: .callout, fontWeight: .light)
 
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
 
-        self.addSubviews(regionInfo, photoshopInfo, deviceInfo, portfolioInfo)
+        self.addSubviews(regionInfo, lensInfo, bodyInfo)
+
+        self.addSubviews(regionImageView, lensInfoImageView, bodyInfoImageView)
 
         configureImageScrollView()
         setFunctionAndDelegate()
-
-        
     }
 
     required init?(coder: NSCoder) {
@@ -160,7 +146,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
 
         artistInformation.snp.makeConstraints {
             $0.leading.equalTo(artistNickname)
-            $0.top.equalTo(artistNickname.snp.bottom).offset(3)
+            $0.top.equalTo(artistNickname.snp.bottom).offset(5)
         }
 
         firstSeperator.snp.makeConstraints {
@@ -189,19 +175,37 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         }
 
         // Photographer Information
-        regionInfo.snp.makeConstraints {
+        regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.width.height.equalTo(18)
+        }
+
+        regionInfo.snp.makeConstraints {
+            $0.leading.equalTo(regionImageView.snp.trailing).offset(8)
+            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+        }
+
+        lensInfoImageView.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.width.height.equalTo(18)
         }
         
-        photoshopInfo.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
+        lensInfo.snp.makeConstraints {
+            $0.leading.equalTo(lensInfoImageView.snp.trailing).offset(8)
             $0.top.equalTo(regionInfo.snp.bottom).offset(5)
         }
 
-        deviceInfo.snp.makeConstraints {
+        bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(photoshopInfo.snp.bottom).offset(5)
+            $0.top.equalTo(lensInfoImageView.snp.bottom).offset(5)
+            $0.width.height.equalTo(18)
+        }
+
+        bodyInfo.snp.makeConstraints {
+            $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
+            $0.top.equalTo(lensInfo.snp.bottom).offset(5)
         }
     }
 
@@ -249,6 +253,6 @@ extension HeaderCollectionReusableView {
         for view in subviews {
             totalViewHeight += view.frame.size.height
         }
-        return totalViewHeight + 15
+        return totalViewHeight - 39
     }
 }
