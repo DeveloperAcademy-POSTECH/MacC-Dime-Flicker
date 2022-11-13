@@ -5,6 +5,7 @@
 //  Created by Jisu Jang on 2022/10/29.
 //
 import UIKit
+import Then
 import SnapKit
 
 class ArtistTappedViewController: BaseViewController {
@@ -13,13 +14,18 @@ class ArtistTappedViewController: BaseViewController {
 
     private var posts: [Post] = []
 
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView( frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        let layout = UICollectionViewFlowLayout()
-        collectionView.collectionViewLayout = layout
-        collectionView.contentInsetAdjustmentBehavior = .never
-        return collectionView
-    }()
+    private var headerHeight: Int = 700
+
+    private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
+        let imageWidth = (UIScreen.main.bounds.width - 50)/3
+        $0.itemSize = CGSize(width: imageWidth , height: imageWidth)
+        $0.minimumLineSpacing = 5
+        $0.minimumInteritemSpacing = 5
+        $0.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 700)
+    }
+
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then { $0.contentInsetAdjustmentBehavior = .never
+    }
 
     private let bottomBackgroundView = {
         let UIView = UIView()
@@ -65,6 +71,11 @@ class ArtistTappedViewController: BaseViewController {
         navigationBarseperator.isHidden = true
         navigationController?.navigationBar.backgroundColor = .clear
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        resetHeaderViewSize()
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -108,6 +119,12 @@ class ArtistTappedViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
+    }
+
+    private func resetHeaderViewSize() {
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(headerHeight))
+        collectionView.collectionViewLayout = layout
     }
     
     override func viewDidLayoutSubviews () {
@@ -172,7 +189,7 @@ class ArtistTappedViewController: BaseViewController {
     }
 }
 
-extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ArtistTappedViewController: UICollectionViewDataSource {
 
     // numberOfCell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -205,33 +222,15 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
         return cell
     }
 
-    // headerView
+    // dequeheaderView, set headerHeight
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath)
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+        headerHeight = Int(headerView.getTotalViewHeight())
+        return headerView
     }
+}
 
-    //  header size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 720)
-    }
-
-    // cell size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3) - 3 , height: (collectionView.frame.width/3) - 3 )
-    }
-
-    // Spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 3
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
-    }
+extension ArtistTappedViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
@@ -259,5 +258,12 @@ extension ArtistTappedViewController: UICollectionViewDelegate, UICollectionView
             statusBarBackGroundView.isHidden = true
             navigationBarseperator.isHidden = true
         }
+    }
+}
+
+extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
 }

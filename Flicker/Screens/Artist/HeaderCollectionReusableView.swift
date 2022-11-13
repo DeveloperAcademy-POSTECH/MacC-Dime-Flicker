@@ -46,7 +46,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private lazy var artistProfileImage = UIImageView().then {
-        $0.image = UIImage(systemName: "person.fill")
+        $0.image = UIImage(named: "port3")
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
@@ -67,7 +67,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .regular)
 
     private let introductionTextView = UITextView().then {
-        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
+        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
         $0.isScrollEnabled = false
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
         $0.isUserInteractionEnabled = false
@@ -240,5 +240,15 @@ extension HeaderCollectionReusableView {
     @objc func pageControlDidChange(_ sender: UIPageControl) {
         let current = sender.currentPage
         imageScrollView.setContentOffset(CGPoint(x: CGFloat(current) * self.frame.size.width, y: 0), animated: true)
+    }
+}
+
+extension HeaderCollectionReusableView {
+    func getTotalViewHeight() -> CGFloat {
+        var totalViewHeight: CGFloat = 0
+        for view in subviews {
+            totalViewHeight += view.frame.size.height
+        }
+        return totalViewHeight + 15
     }
 }
