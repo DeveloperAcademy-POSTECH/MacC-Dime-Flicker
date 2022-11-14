@@ -27,7 +27,6 @@ final class ProfileHeaderVIew: UIView {
         } else {
             $0.image = UIImage(named: "DefaultProfile")
         }
-//        $0.image = UIImage(named: userImage ?? "DefaultProfile")
         $0.contentMode = .scaleToFill
         $0.layer.cornerRadius = 40
         $0.clipsToBounds = true
@@ -53,7 +52,7 @@ final class ProfileHeaderVIew: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // MARK: - Render
     func configureUI() {
         addSubviews(headerCard)
         headerCard.addSubviews(profileImage, idLabel, emailLabel)
