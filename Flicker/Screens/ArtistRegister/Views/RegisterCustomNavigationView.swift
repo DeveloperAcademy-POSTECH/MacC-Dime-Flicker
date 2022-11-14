@@ -21,10 +21,16 @@ class RegisterCustomNavigationView: UIView {
         $0.sizeToFit()
     }
     
+    let popImage = UIImageView().then {
+        $0.image = UIImage(named: "gliderWithoutBG")
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
+    
     // MARK: - life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .white
     }
     
     // MARK: - layout constraints
@@ -34,12 +40,18 @@ class RegisterCustomNavigationView: UIView {
     }
 
     private func render() {
-        self.addSubview(customBackButton)
+        self.addSubviews(customBackButton, popImage)
         
         customBackButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(10)
             $0.size.equalTo(30)
+        }
+        
+        popImage.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(30)
+            $0.size.equalTo(40)
         }
     }
     

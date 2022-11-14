@@ -68,8 +68,8 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
-        view.addSubview(customNavigationBarView)
         view.addSubview(pageViewController.view)
+        view.addSubview(customNavigationBarView)
         view.addSubview(dynamicNextButton)
         
         customNavigationBarView.snp.makeConstraints {
@@ -121,8 +121,10 @@ final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - notification setups
     private func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction), name: UIResponder.keyboardWillHideNotification, object: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            NotificationCenter.default.addObserver(self, selector: #selector(self.moveUpAction), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.moveDownAction), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
     }
     
     deinit {
@@ -157,10 +159,7 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
     // MARK: - action functions
 extension ArtistRegisterViewController {
     @objc func moveUpAction() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            RegisterGearsViewController.mainTitleLabel.isHidden = true
-            RegisterTextDescriptionViewController.mainTitleLabel.isHidden = true
-            
+        UIView.animate(withDuration: 2.0, delay: 1.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: .curveEaseIn) {
             self.pageViewController.view.snp.remakeConstraints {
                 $0.leading.trailing.equalToSuperview()
                 $0.top.equalTo(self.customNavigationBarView.snp.top)

@@ -108,7 +108,7 @@ final class RegisterRegionViewController: UIViewController {
         tagSecondCollectionView.snp.makeConstraints {
             $0.top.equalTo(tagFirstCollectionView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(160)
+            $0.height.equalTo(180)
         }
     }
     
@@ -203,7 +203,7 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sizeMultiplied = UIScreen.main.bounds.width/12
+        let sizeMultiplied = UIScreen.main.bounds.width/12 - 3
         switch collectionView.tag {
         case 1:
             let label = UILabel().then {
