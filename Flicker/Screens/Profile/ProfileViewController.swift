@@ -9,7 +9,10 @@ import UIKit
 
 final class ProfileViewController: BaseViewController {
     // MARK: - Properties
+    private var isArtist: Bool = false
     private let sectionHeaderTitle = ["설정"]
+    private let NotArtistCells = ["알림", "작가등록", "문의하기"]
+    private let ArtistCells = ["알림", "작가설정", "문의하기"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
     private let tableView = UITableView(frame: CGRectZero, style: .insetGrouped).then {
@@ -24,7 +27,10 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         customSetUI()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+//        tabBarController?.tabBar.isHidden = true
+    }
     private func customSetUI() {
         view.addSubviews(tableView, profileHeader)
         tableView.tableHeaderView = profileHeader
@@ -74,32 +80,27 @@ final class ProfileViewController: BaseViewController {
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
-        cell.accessoryType = .disclosureIndicator
-        switch ProfileSection(rawValue: indexPath.section) {
-        case .myActivity:
-            cell.setupCellData(ProfileSection.myActivity.sectionOption[indexPath.row], spacing: 5)
-            if indexPath.row != 0 {
-                cell.accessoryType = .disclosureIndicator
-            } else {
-                let switchView = UISwitch(frame: .zero)
-                switchView.setOn(true, animated: true)
-                switchView.addTarget(self, action: #selector(changedSwitch), for: .valueChanged)
-                cell.accessoryView = switchView
-                cell.selectionStyle = .none
-            }
-//        case .service:
-//            cell.setupCellData(ProfileSection.service.sectionOption[indexPath.row], spacing: 5)
-        case .none:
-            print("default")
+        //cell.accessoryType = .disclosureIndicator
+        if isArtist {
+            cell.cellTextLabel.text = ArtistCells[indexPath.row]
+        } else {
+            cell.cellTextLabel.text = NotArtistCells[indexPath.row]
+        }
+        switch indexPath.row {
+        case 0:
+            let switchView = UISwitch(frame: .zero)
+            switchView.setOn(true, animated: true)
+            switchView.addTarget(self, action: #selector(changedSwitch), for: .valueChanged)
+            cell.accessoryView = switchView
+            cell.selectionStyle = .none
+        default:
+            cell.accessoryType = .disclosureIndicator
         }
         return cell
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch ProfileSection(rawValue: section) {
-        case .myActivity: return MyActivities.allCases.count
-        case .none:
-            return 0
-        }
+        return ArtistCells.count
     }
     
 }
@@ -119,8 +120,7 @@ extension ProfileViewController: UITableViewDelegate {
         switch indexPath.row {
         case 1:
             print("작가등록")
-//            goToArtistRegistration()
-            self.navigationController?.pushViewController(AccountDeleteViewController(), animated: true)
+            goToArtistRegistration()
         case 2:
             print("문의하기")
         default:

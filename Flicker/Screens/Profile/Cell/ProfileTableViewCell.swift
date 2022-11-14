@@ -10,7 +10,7 @@ import UIKit
 final class ProfileTableViewCell: UITableViewCell {
     // private let symbolConfiguration = UIImage.SymbolConfiguration(textStyle: .title1)
     // let imageView = UIImageView()
-    private var cellTextLabel = UILabel().then {
+    var cellTextLabel = UILabel().then {
         $0.text = ""
         $0.font = .preferredFont(forTextStyle: .body, weight: .regular)
         $0.textColor = .textMainBlack

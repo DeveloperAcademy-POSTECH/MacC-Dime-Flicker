@@ -11,6 +11,18 @@ enum MyActivities: String, CaseIterable {
     case enrollItem = "작가등록"
     case consultItem = "문의하기"
 }
+//
+//struct SettingCell {
+//    let name: String
+//    let handler: () -> ()
+//}
+//
+//let cell = SettingCell(name: "알람") {
+//    print("안녕")
+//}
+//
+//let cells = [cell, cell, cell, cell, cell, cell, cell]
+
 
 enum ServiceOption: String, CaseIterable {
     case agreementItem = "이용약관"

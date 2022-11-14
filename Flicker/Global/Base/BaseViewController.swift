@@ -10,9 +10,7 @@ import UIKit
 import Then
 
 class BaseViewController: UIViewController {
-    
     // MARK: - property
-//
     private lazy var backButton = BackButton().then {
         $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
