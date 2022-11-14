@@ -171,7 +171,7 @@ extension ArtistRegisterViewController {
             }
             
             self.dynamicNextButton.snp.remakeConstraints {
-                $0.bottom.equalToSuperview().inset(keyboardHeight)
+                $0.bottom.equalToSuperview().inset(keyboardHeight + 10)
                 $0.leading.trailing.equalToSuperview().inset(20)
                 $0.height.equalTo(self.view.bounds.height/12)
             }
@@ -192,7 +192,6 @@ extension ArtistRegisterViewController {
                 $0.height.equalTo(self.view.bounds.height/12)
             }
         }
-    
     }
     
     private func nextButtonTap() {

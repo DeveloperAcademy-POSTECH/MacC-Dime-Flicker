@@ -46,14 +46,14 @@ class RegisterCustomNavigationView: UIView {
         
         customBackButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(10)
+            $0.leading.equalToSuperview().inset(15)
             $0.width.equalTo(100)
-//            $0.size.equalTo(30)
+            $0.height.equalToSuperview()
         }
         
         popImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(30)
+            $0.trailing.equalToSuperview().inset(15)
             $0.size.equalTo(40)
         }
     }
@@ -70,7 +70,6 @@ extension RegisterCustomNavigationView {
     }
     
     @objc func imageAnimate() {
-        print(#function)
         let newImageSize: CGFloat = 30
         UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.4, options: .curveEaseInOut, animations: ({
             self.popImage.frame = CGRect(x: 0, y: 0, width: newImageSize, height: newImageSize)}), completion: nil)
