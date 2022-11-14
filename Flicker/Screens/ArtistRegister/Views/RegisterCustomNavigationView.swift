@@ -30,8 +30,8 @@ class RegisterCustomNavigationView: UIView {
     // MARK: - life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
         imageTapped()
+        self.backgroundColor = .white
     }
     
     // MARK: - layout constraints
