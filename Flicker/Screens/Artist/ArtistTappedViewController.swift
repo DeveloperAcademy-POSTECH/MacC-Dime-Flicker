@@ -14,14 +14,14 @@ class ArtistTappedViewController: BaseViewController {
 
     private var posts: [Post] = []
 
-    private var headerHeight: Int = 700
+    private lazy var headerHeight: Int = 700
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
         $0.itemSize = CGSize(width: imageWidth , height: imageWidth)
         $0.minimumLineSpacing = 5
         $0.minimumInteritemSpacing = 5
-        $0.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 700)
+        $0.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(headerHeight))
     }
 
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then { $0.contentInsetAdjustmentBehavior = .never
@@ -41,7 +41,7 @@ class ArtistTappedViewController: BaseViewController {
         $0.layer.cornerRadius = 15
     }
         
-    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .black, fontStyle: .callout, fontWeight: .bold)
+    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold)
 
     private let statusBarBackGroundView = UIView().then {
         $0.backgroundColor = .white
@@ -69,6 +69,7 @@ class ArtistTappedViewController: BaseViewController {
         configUI()
         setupBackButton()
         setupNavigationBar()
+        resetHeaderViewSize()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -130,7 +131,7 @@ class ArtistTappedViewController: BaseViewController {
     private func resetHeaderViewSize() {
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(headerHeight))
-        collectionView.collectionViewLayout = layout
+        self.collectionView.collectionViewLayout = layout
     }
     
     override func viewDidLayoutSubviews () {
@@ -182,8 +183,8 @@ class ArtistTappedViewController: BaseViewController {
         }
         
         mutualPayLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(30)
-            $0.top.equalTo(counselingButton.snp.top).inset(5)
+            $0.leading.equalToSuperview().inset(40)
+            $0.centerY.equalTo(counselingButton)
         }
         
         bottomBarSeperator.snp.makeConstraints {
@@ -284,5 +285,9 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 700)
     }
 }

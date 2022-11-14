@@ -253,6 +253,6 @@ extension HeaderCollectionReusableView {
         for view in subviews {
             totalViewHeight += view.frame.size.height
         }
-        return totalViewHeight - 39
+        return totalViewHeight - 30
     }
 }
