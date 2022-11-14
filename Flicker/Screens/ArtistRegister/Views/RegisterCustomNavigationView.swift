@@ -31,6 +31,7 @@ class RegisterCustomNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
+        imageTapped()
     }
     
     // MARK: - layout constraints
@@ -57,5 +58,18 @@ class RegisterCustomNavigationView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension RegisterCustomNavigationView {
+    private func imageTapped() {
+        let imageTapped = UITapGestureRecognizer(target: self, action: #selector(imageAnimate))
+        self.addGestureRecognizer(imageTapped)
+    }
+    
+    @objc func imageAnimate() {
+        let newImageSize: CGFloat = 30
+        UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.4, options: .curveEaseInOut, animations: ({
+            self.popImage.frame = CGRect(x: 0, y: 0, width: newImageSize, height: newImageSize)}), completion: nil)
     }
 }
