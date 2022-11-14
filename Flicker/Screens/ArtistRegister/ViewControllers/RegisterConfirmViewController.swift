@@ -103,6 +103,6 @@ extension RegisterConfirmViewController {
     }
     
     @objc func moveNextTapped() {
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.pushViewController(ArtistTappedViewController(), animated: true)
     }
 }

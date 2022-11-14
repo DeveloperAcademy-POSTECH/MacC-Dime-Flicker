@@ -63,6 +63,7 @@ class RegisterCustomNavigationView: UIView {
     }
 }
 
+    // MARK: - easterEgg action functions
 extension RegisterCustomNavigationView {
     private func imageTapped() {
         let imageTapped = UITapGestureRecognizer(target: self, action: #selector(imageAnimate))

@@ -158,6 +158,7 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
 
     // MARK: - action functions
 extension ArtistRegisterViewController {
+    // MARK: button layout changes as keyboard goes up and down
     @objc func moveUpAction(_ notification: Notification) {
         let userInfos = notification.userInfo
         guard let keyboardSize = userInfos?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
