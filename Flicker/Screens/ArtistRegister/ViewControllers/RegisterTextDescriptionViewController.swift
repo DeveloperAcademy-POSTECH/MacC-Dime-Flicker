@@ -75,7 +75,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(UIScreen.main.bounds.height/3)
+            $0.height.equalTo(UIScreen.main.bounds.height/3.3)
         }
     }
     
@@ -103,9 +103,14 @@ final class RegisterTextDescriptionViewController: UIViewController {
 
     // MARK: - textView delegate
 extension RegisterTextDescriptionViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         self.delegate?.textViewDescribed(textView: textView.text)
+
     }
+    
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        self.delegate?.textViewDescribed(textView: textView.text)
+//    }
 }
 
 // MARK: - RegisterTextDescription custom delegate protocol
