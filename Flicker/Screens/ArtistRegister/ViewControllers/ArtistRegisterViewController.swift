@@ -157,6 +157,7 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
     // MARK: - action functions
 extension ArtistRegisterViewController {
     @objc func moveUpAction() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             RegisterGearsViewController.mainTitleLabel.isHidden = true
             RegisterTextDescriptionViewController.mainTitleLabel.isHidden = true
             
@@ -165,6 +166,7 @@ extension ArtistRegisterViewController {
                 $0.top.equalTo(self.customNavigationBarView.snp.top)
                 $0.bottom.equalToSuperview()
             }
+        }
     }
 
     @objc func moveDownAction() {
@@ -203,22 +205,43 @@ extension ArtistRegisterViewController {
     }
     
     @objc func moveNextTapped() {
-        if currentPage == pages[3] {
-            let regionEmpty = regionData.isEmpty
-            let bodyEmpty = cameraBodyData.isEmpty
-            let lensEmpty = cameraLensData.isEmpty
-            let textInfoEmpty = textInfoDatas.isEmpty
-            let photoEmpty = portfolioImageData.isEmpty
-            
-            if (regionEmpty || bodyEmpty || lensEmpty || textInfoEmpty || photoEmpty) == true {
-                makeAlert(title: "정보 부족", message: "전달될 정보 중 비어있는 곳이 있어요!")
+        let regionEmpty = regionData.isEmpty
+        let bodyEmpty = cameraBodyData.isEmpty
+        let lensEmpty = cameraLensData.isEmpty
+        let textInfoEmpty = textInfoDatas.isEmpty
+        let photoEmpty = portfolioImageData.isEmpty
+        guard let page = pages.firstIndex(of: currentPage) else { return }
+
+        switch currentPage {
+        case pages[0]:
+            if regionEmpty {
+                makeAlert(title: "지역을 선택해주세요!", message: "최소 하나의 지역을 선택하셔야 해요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[1]:
+            if (bodyEmpty && lensEmpty) == true {
+                makeAlert(title: "바디와 렌즈를 입력해주세요!", message: "주로 사용하시는 카메라 바디와 렌즈에 대해 적어주세요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[2]:
+            if textInfoEmpty {
+                makeAlert(title: "어필할 내용을 입력해주세요!", message: "미래의 클라이언트들에게 어필할 내용이에요! 간단하게라도 적어주세요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[3]:
+            if photoEmpty {
+                makeAlert(title: "사진을 올려주세요!", message: "포트폴리오에 올라갈 사진을 선택해주세요!")
             } else {
                 recheckAlert()
             }
-        } else {
-            guard let page = pages.firstIndex(of: currentPage) else { return }
-            pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
-            currentPage = pages[page + 1]
+        default:
+            return
         }
     }
     

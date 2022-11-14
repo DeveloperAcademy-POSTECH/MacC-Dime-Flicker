@@ -38,7 +38,7 @@ final class RegisterConfirmViewController: UIViewController {
         $0.setTitle("완료", for: .normal)
         $0.tintColor = .textSubBlack
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .heavy)
-        $0.backgroundColor = .blue.withAlphaComponent(0.7)
+        $0.backgroundColor = .blue.withAlphaComponent(0.5)
     }
     
     // MARK: - life cycle

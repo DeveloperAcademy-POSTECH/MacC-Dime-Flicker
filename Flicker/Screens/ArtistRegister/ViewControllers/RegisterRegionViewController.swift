@@ -220,7 +220,7 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + sizeMultiplied, height: size.height + 12)
+            return CGSize(width: size.width + sizeMultiplied, height: size.height + 14)
         default:
             return CGSize()
         }
