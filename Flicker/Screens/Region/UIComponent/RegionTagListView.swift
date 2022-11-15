@@ -18,7 +18,7 @@ final class RegionTagListView: UIView {
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
-        static let collectionVerticalSpacing: CGFloat = 20.0
+        static let collectionVerticalSpacing: CGFloat = 10.0
         static let cellWidth: CGFloat = (UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2 - 24) / 4
         static let cellHeight: CGFloat = 40
         static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,

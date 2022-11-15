@@ -55,7 +55,7 @@ final class RegionViewController: BaseViewController {
         regionTagListView.snp.makeConstraints {
             $0.top.equalTo(stateTagListView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(completeButton.snp.top)
+            $0.bottom.equalTo(completeButton.snp.top).offset(-20)
         }
         
         completeButton.snp.makeConstraints {
