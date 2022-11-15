@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class RegionTagView: UIView {
+final class RegionTagView: UIButton {
     
     // MARK: - property
     

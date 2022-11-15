@@ -30,9 +30,7 @@ final class MainViewController: BaseViewController {
     private let appTitleView = AppTitleView()
     
     private lazy var regionTagView = RegionTagView().then {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapRegionTag(sender:)))
-        $0.addGestureRecognizer(tapGesture)
-        
+        $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
         $0.regionTagLabel.text = region
     }
     
@@ -80,8 +78,11 @@ final class MainViewController: BaseViewController {
     
     // MARK: - selector
     
-    @objc private func didTapRegionTag(sender: UIGestureRecognizer) {
+    @objc private func didTapRegionTag() {
         let vc = RegionViewController()
+        vc.modalPresentationStyle = .pageSheet
+        vc.sheetPresentationController?.detents = [.medium()]
+        
         present(vc, animated: true, completion: nil)
     }
 }
@@ -110,10 +111,5 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
-        let vc = RegionViewController()
-        vc.modalPresentationStyle = .pageSheet
-        vc.sheetPresentationController?.detents = [.medium()]
-        
-        present(vc, animated: true, completion: nil)
     }
 }
