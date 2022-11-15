@@ -68,9 +68,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
-        view.addSubview(customNavigationBarView)
-        view.addSubview(pageViewController.view)
-        view.addSubview(dynamicNextButton)
+        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -121,8 +119,10 @@ final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - notification setups
     private func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction), name: UIResponder.keyboardWillHideNotification, object: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            NotificationCenter.default.addObserver(self, selector: #selector(self.moveUpAction(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.moveDownAction(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
     }
     
     deinit {
@@ -156,25 +156,40 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
 
     // MARK: - action functions
 extension ArtistRegisterViewController {
-    @objc func moveUpAction() {
-            RegisterGearsViewController.mainTitleLabel.isHidden = true
-            RegisterTextDescriptionViewController.mainTitleLabel.isHidden = true
-            
+    // MARK: button layout changes as keyboard goes up and down
+    @objc func moveUpAction(_ notification: Notification) {
+        let userInfos = notification.userInfo
+        guard let keyboardSize = userInfos?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardSize.cgRectValue.height
+                
+        UIView.animate(withDuration: 2.0, delay: 1.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: .curveEaseIn) {
             self.pageViewController.view.snp.remakeConstraints {
                 $0.leading.trailing.equalToSuperview()
                 $0.top.equalTo(self.customNavigationBarView.snp.top)
                 $0.bottom.equalToSuperview()
             }
+            
+            self.dynamicNextButton.snp.remakeConstraints {
+                $0.bottom.equalToSuperview().inset(keyboardHeight + 10)
+                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.height.equalTo(self.view.bounds.height/12)
+            }
+        }
     }
 
-    @objc func moveDownAction() {
-        RegisterGearsViewController.mainTitleLabel.isHidden = false
-        RegisterTextDescriptionViewController.mainTitleLabel.isHidden = false
-        
-        self.pageViewController.view.snp.remakeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
+    @objc func moveDownAction(_ notification: Notification) {
+        UIView.animate(withDuration: 0.5) {
+            self.pageViewController.view.snp.remakeConstraints {
+                $0.top.equalTo(self.customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+                $0.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
+            }
+            
+            self.dynamicNextButton.snp.remakeConstraints {
+                $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
+                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.height.equalTo(self.view.bounds.height/12)
+            }
         }
     }
     
@@ -203,22 +218,43 @@ extension ArtistRegisterViewController {
     }
     
     @objc func moveNextTapped() {
-        if currentPage == pages[3] {
-            let regionEmpty = regionData.isEmpty
-            let bodyEmpty = cameraBodyData.isEmpty
-            let lensEmpty = cameraLensData.isEmpty
-            let textInfoEmpty = textInfoDatas.isEmpty
-            let photoEmpty = portfolioImageData.isEmpty
-            
-            if (regionEmpty || bodyEmpty || lensEmpty || textInfoEmpty || photoEmpty) == true {
-                makeAlert(title: "정보 부족", message: "전달될 정보 중 비어있는 곳이 있어요!")
+        let regionEmpty = regionData.isEmpty
+        let bodyEmpty = cameraBodyData.isEmpty
+        let lensEmpty = cameraLensData.isEmpty
+        let textInfoEmpty = textInfoDatas.isEmpty
+        let photoEmpty = portfolioImageData.isEmpty
+        guard let page = pages.firstIndex(of: currentPage) else { return }
+
+        switch currentPage {
+        case pages[0]:
+            if regionEmpty {
+                makeAlert(title: "지역을 선택해주세요!", message: "최소 하나의 지역을 선택하셔야 해요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[1]:
+            if (bodyEmpty && lensEmpty) == true {
+                makeAlert(title: "바디와 렌즈를 입력해주세요!", message: "주로 사용하시는 카메라 바디와 렌즈에 대해 적어주세요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[2]:
+            if textInfoEmpty {
+                makeAlert(title: "어필할 내용을 입력해주세요!", message: "미래의 클라이언트들에게 어필할 내용이에요! 간단하게라도 적어주세요!")
+            } else {
+                pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+                currentPage = pages[page + 1]
+            }
+        case pages[3]:
+            if photoEmpty {
+                makeAlert(title: "사진을 올려주세요!", message: "포트폴리오에 올라갈 사진을 선택해주세요!")
             } else {
                 recheckAlert()
             }
-        } else {
-            guard let page = pages.firstIndex(of: currentPage) else { return }
-            pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
-            currentPage = pages[page + 1]
+        default:
+            return
         }
     }
     
