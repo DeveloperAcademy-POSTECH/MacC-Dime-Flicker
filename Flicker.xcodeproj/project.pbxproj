@@ -19,6 +19,7 @@
 		58118D39291132FB00F08D35 /* ArtistRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */; };
 		58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */; };
 		58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		5819EE5029236EEE000077D7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE4F29236EEE000077D7 /* Artist.swift */; };
 		5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */; };
 		5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */; };
 		58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */; };
@@ -92,6 +93,7 @@
 		58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRegisterViewController.swift; sourceTree = "<group>"; };
 		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
 		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		5819EE4F29236EEE000077D7 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioImageCell.swift; sourceTree = "<group>"; };
 		5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAddPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWelcomeViewController.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				CB5BF47B2919E15300A3E112 /* ChatMessage.swift */,
 				CB5BF47C2919E15300A3E112 /* RecentMessage.swift */,
 				CB5BF47D2919E15400A3E112 /* User.swift */,
+				5819EE4F29236EEE000077D7 /* Artist.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -664,10 +667,9 @@
 				CB5BF4762919E10700A3E112 /* MyChatTableViewCell.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
 				58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */,
+				5819EE5029236EEE000077D7 /* Artist.swift in Sources */,
 				7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */,
 				7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */,
-				58A452AF2912A27700C9707D /* RegisterEndViewController.swift in Sources */,
-				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
 				58A452A52912A22500C9707D /* RegisterRegionViewController.swift in Sources */,
 				58A452A72912A23000C9707D /* RegisterGearsViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,

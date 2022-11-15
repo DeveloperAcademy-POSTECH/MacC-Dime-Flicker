@@ -13,11 +13,7 @@ import Then
 final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
-    private var regionData: [String] = []
-    private var cameraBodyData: String = ""
-    private var cameraLensData: String = ""
-    private var textInfoDatas: String = ""
-    private var portfolioImageData: [UIImage] = []
+    private var dataSourceToServer = Artist(city: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
@@ -134,23 +130,23 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - data transfer delegates
 extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
     func cameraBodySelected(cameraBody bodyName: String) {
-        self.cameraBodyData = bodyName
+        self.dataSourceToServer.camera = bodyName
     }
     
     func cameraLensSelected(cameraLens lensName: String) {
-        self.cameraLensData = lensName
+        self.dataSourceToServer.lens = lensName
     }
     
     func regionSelected(regions regionDatas: [String]) {
-        self.regionData = regionDatas
+        self.dataSourceToServer.city = regionDatas
     }
     
     func textViewDescribed(textView textDescribed: String) {
-        self.textInfoDatas = textDescribed
+        self.dataSourceToServer.detailDescription = textDescribed
     }
     
     func photoSelected(photos imagesPicked: [UIImage]) {
-        self.portfolioImageData = imagesPicked
+        self.dataSourceToServer.portfolioImageUrls = imagesPicked
     }
 }
 
@@ -209,6 +205,7 @@ extension ArtistRegisterViewController {
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
+            print(self.dataSourceToServer)
         }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         
@@ -218,11 +215,11 @@ extension ArtistRegisterViewController {
     }
     
     @objc func moveNextTapped() {
-        let regionEmpty = regionData.isEmpty
-        let bodyEmpty = cameraBodyData.isEmpty
-        let lensEmpty = cameraLensData.isEmpty
-        let textInfoEmpty = textInfoDatas.isEmpty
-        let photoEmpty = portfolioImageData.isEmpty
+        let regionEmpty = dataSourceToServer.city.isEmpty
+        let bodyEmpty = dataSourceToServer.camera.isEmpty
+        let lensEmpty = dataSourceToServer.lens.isEmpty
+        let textInfoEmpty = dataSourceToServer.detailDescription.isEmpty
+        let photoEmpty = dataSourceToServer.portfolioImageUrls.isEmpty
         guard let page = pages.firstIndex(of: currentPage) else { return }
 
         switch currentPage {
