@@ -9,7 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) 1.전 view에서넘어올때, dissolve 같은 간단한 애니메이션 추가 2.버튼 잠깐이라도 튀어오르는 애니메이션 추가
 final class ArtistRegisterViewController: UIViewController {
+    
+    // MARK: - datas collected to post to the server
+    private var regionData: [String] = []
+    private var cameraBodyData: String = ""
+    private var cameraLensData: String = ""
+    private var textInfoDatas: String = ""
+    private var portfolioImageData: [UIImage] = []
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
@@ -23,15 +31,15 @@ final class ArtistRegisterViewController: UIViewController {
     private let pageThreeGears = RegisterGearsViewController()
     private let pageFourTextDescription = RegisterTextDescriptionViewController()
     private let pageFivePortpolio = RegisterPortfolioViewController()
-    private let pageSixConfirm = RegisterConfirmViewController()
-    private let pageSevenEnd = RegisterEndViewController()
+    private let pageSixEnd = RegisterConfirmViewController()
     
     // MARK: - action button UI components
-    private let dynamicNextButton = UIButton().then {
+    // TODO: 앞의 버튼과 차별점을 두기 위해 약간 튀어오르는 느낌 하나 있으면 좋을 것 같다.
+    private let dynamicNextButton = UIButton(type: .system).then {
         $0.setTitle("다음", for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemPink
+        $0.backgroundColor = .mainPink
     }
 
     // MARK: - life cycle
@@ -42,6 +50,7 @@ final class ArtistRegisterViewController: UIViewController {
         configUI()
         nextButtonTap()
         customBackButtom()
+        setupNotification()
     }
     
     // MARK: - navigation bar hide configurations with life cycle
@@ -77,7 +86,7 @@ final class ArtistRegisterViewController: UIViewController {
         dynamicNextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(view.bounds.height/14)
+            $0.height.equalTo(view.bounds.height/12)
         }
     }
     
@@ -85,6 +94,11 @@ final class ArtistRegisterViewController: UIViewController {
     private func configUI() {
         view.backgroundColor = .systemBackground
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
+        
+        pageTwoRegion.delegate = self
+        pageThreeGears.delegate = self
+        pageFourTextDescription.delegate = self
+        pageFivePortpolio.delegate = self
     }
     
     // MARK: - pageViewControl setups
@@ -94,7 +108,6 @@ final class ArtistRegisterViewController: UIViewController {
         pages.append(pageThreeGears)
         pages.append(pageFourTextDescription)
         pages.append(pageFivePortpolio)
-        pages.append(pageSixConfirm)
         
         guard let firstPage = pages.first else { return }
         currentPage = firstPage
@@ -105,10 +118,66 @@ final class ArtistRegisterViewController: UIViewController {
         guard let firstPage = pages.first else { return }
         currentPage = firstPage
     }
+    
+    // MARK: - notification setups
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}
+
+    // MARK: - data transfer delegates
+extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
+    func cameraBodySelected(cameraBody bodyName: String) {
+        self.cameraBodyData = bodyName
+    }
+    
+    func cameraLensSelected(cameraLens lensName: String) {
+        self.cameraLensData = lensName
+    }
+    
+    func regionSelected(regions regionDatas: [String]) {
+        self.regionData = regionDatas
+    }
+    
+    func textViewDescribed(textView textDescribed: String) {
+        self.textInfoDatas = textDescribed
+    }
+    
+    func photoSelected(photos imagesPicked: [UIImage]) {
+        self.portfolioImageData = imagesPicked
+    }
 }
 
     // MARK: - action functions
 extension ArtistRegisterViewController {
+    @objc func moveUpAction() {
+            RegisterGearsViewController.mainTitleLabel.isHidden = true
+            RegisterTextDescriptionViewController.mainTitleLabel.isHidden = true
+            
+            self.pageViewController.view.snp.remakeConstraints {
+                $0.leading.trailing.equalToSuperview()
+                $0.top.equalTo(self.customNavigationBarView.snp.top)
+                $0.bottom.equalToSuperview()
+            }
+    }
+
+    @objc func moveDownAction() {
+        RegisterGearsViewController.mainTitleLabel.isHidden = false
+        RegisterTextDescriptionViewController.mainTitleLabel.isHidden = false
+        
+        self.pageViewController.view.snp.remakeConstraints {
+            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
+        }
+    }
+    
     private func nextButtonTap() {
         let buttonTapped = UITapGestureRecognizer(target: self, action: #selector(moveNextTapped))
         dynamicNextButton.addGestureRecognizer(buttonTapped)
@@ -119,9 +188,33 @@ extension ArtistRegisterViewController {
         customNavigationBarView.customBackButton.addGestureRecognizer(backButtonTapped)
     }
     
+    // MARK: Alert (+ Networking)
+    private func recheckAlert() {
+        let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
+        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
+            self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+            // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
+        }
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        recheckAlert.addAction(confirm)
+        recheckAlert.addAction(cancel)
+        present(recheckAlert, animated: true, completion: nil)
+    }
+    
     @objc func moveNextTapped() {
-        if currentPage == pages[4] {
-            navigationController?.pushViewController(pageSevenEnd, animated: true)
+        if currentPage == pages[3] {
+            let regionEmpty = regionData.isEmpty
+            let bodyEmpty = cameraBodyData.isEmpty
+            let lensEmpty = cameraLensData.isEmpty
+            let textInfoEmpty = textInfoDatas.isEmpty
+            let photoEmpty = portfolioImageData.isEmpty
+            
+            if (regionEmpty || bodyEmpty || lensEmpty || textInfoEmpty || photoEmpty) == true {
+                makeAlert(title: "정보 부족", message: "전달될 정보 중 비어있는 곳이 있어요!")
+            } else {
+                recheckAlert()
+            }
         } else {
             guard let page = pages.firstIndex(of: currentPage) else { return }
             pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)

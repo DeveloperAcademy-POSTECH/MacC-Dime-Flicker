@@ -11,12 +11,9 @@ import SnapKit
 import Then
 
 final class SignUpViewController: BaseViewController {
-    
-    private let signUpTitleLabel = UILabel().then {
-        $0.tintColor = .black
-        $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
-        $0.text = "반가워요!"
-    }
+
+    private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .black, fontStyle: .largeTitle, fontWeight: .bold)
+
     
     private let signUpLabel = UILabel().then {
         $0.tintColor = .black
@@ -59,7 +56,7 @@ final class SignUpViewController: BaseViewController {
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
     }
     
-    private let signUpButton = UIButton().then {
+    private lazy var signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("완료", for: .normal)

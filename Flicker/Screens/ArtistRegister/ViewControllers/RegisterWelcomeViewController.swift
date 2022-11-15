@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+    // TODO: (다음 버전에..) - 1.메인사진바꾸기 2."작가님"만 강조 색깔 넣기
 final class RegisterWelcomeViewController: UIViewController {
     
     // MARK: - custom navigation bar
@@ -16,37 +17,40 @@ final class RegisterWelcomeViewController: UIViewController {
 
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .title1, weight: .bold)
+        $0.textColor = .black
+        $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "작가님 어서오세요!"
     }
     
     private let subTitleLabel = UILabel().then {
+        $0.textColor = .systemGray
         $0.numberOfLines = 0
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+        $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.text = "슈글을 통해 사람들의 모습을 담고,\n훌륭한 작가로 성장하세요!"
         $0.setLineSpacing(spacing: 3.0)
     }
     
     private lazy var mainImage = UIImageView().then {
-        $0.contentMode = .scaleToFill
+        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
         $0.image = UIImage(named: "artistReg1.png")
     }
     
     // MARK: - action button UI components
     private let dynamicNextButton = UIButton().then {
         $0.setTitle("등록 시작", for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .white.withAlphaComponent(0.8)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemPink
+        $0.backgroundColor = .mainPink.withAlphaComponent(0.7)
     }
     
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
-        configureUI()
+        configUI()
         nextButtonTap()
-        customBackButtom()
+        customBackButton()
     }
     
     // MARK: - navigation bar hide configurations with life cycle
@@ -62,11 +66,7 @@ final class RegisterWelcomeViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubview(customNavigationBarView)
-        view.addSubview(mainTitleLabel)
-        view.addSubview(subTitleLabel)
-        view.addSubview(mainImage)
-        view.addSubview(dynamicNextButton)
+        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, mainImage, dynamicNextButton)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -85,19 +85,21 @@ final class RegisterWelcomeViewController: UIViewController {
         
         mainImage.snp.makeConstraints {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.leading.trailing.equalToSuperview().inset(32)
+            $0.height.equalTo(UIScreen.main.bounds.height/2.5)
         }
         
         dynamicNextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(view.bounds.height/14)
+            $0.height.equalTo(view.bounds.height/12)
         }
     }
     
     // MARK: - view configurations
-    private func configureUI() {
+    private func configUI() {
         view.backgroundColor = .systemBackground
+        mainImage.layer.cornerRadius = view.bounds.width/20
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
     }
 }
@@ -109,7 +111,7 @@ extension RegisterWelcomeViewController {
         dynamicNextButton.addGestureRecognizer(buttonTapped)
     }
     
-    private func customBackButtom() {
+    private func customBackButton() {
         let backButtonTapped = UITapGestureRecognizer(target: self, action: #selector(moveBackTapped))
         customNavigationBarView.customBackButton.addGestureRecognizer(backButtonTapped)
     }

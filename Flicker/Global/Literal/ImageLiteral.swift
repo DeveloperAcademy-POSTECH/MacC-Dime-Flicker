@@ -20,6 +20,9 @@ enum ImageLiteral {
     static var btnFoward: UIImage { .load(systemName: "chevron.forward") }
     static var btnCamera: UIImage { .load(systemName: "camera") }
     static var btnSend: UIImage { .load(systemName: "paperplane") }
+    
+    // MARK: - icon
+    static var appLogo: UIImage { .load(name: "logo") }
 }
 
 extension UIImage {

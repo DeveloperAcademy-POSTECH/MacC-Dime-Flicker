@@ -47,6 +47,13 @@ extension UILabel {
         let queue: DispatchQueue = .init(label: "typespeed", qos: .userInteractive)
         queue.asyncAfter(deadline: .now() + 0.7, execute: writingTask)
     }
-    
-    
+
+    func makeBasicLabel(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
+            let label = UILabel().then {
+                $0.text = labelText
+                $0.textColor = textColor
+                $0.font = .preferredFont(forTextStyle: fontStyle, weight: fontWeight)
+            }
+            return label
+        }
 }

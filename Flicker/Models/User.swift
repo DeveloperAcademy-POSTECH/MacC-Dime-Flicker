@@ -1,13 +1,13 @@
 //
 //  User.swift
-//  Flicker
+//  CobyTalk
 //
-//  Created by COBY_PRO on 2022/10/24.
+//  Created by Coby Kim on 2022/10/30.
 //
 
 import FirebaseFirestoreSwift
 
 struct User: Codable, Identifiable {
     @DocumentID var id: String?
-    let uid, email, name, token: String
+    let uid, email, name, profileImageUrl, token: String
 }
