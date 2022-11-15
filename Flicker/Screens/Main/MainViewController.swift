@@ -29,7 +29,10 @@ final class MainViewController: BaseViewController {
     
     private let appTitleView = AppTitleView()
     
-    private let regionTagView = RegionTagView()
+    private lazy var regionTagView = RegionTagView().then {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapRegionTag(sender:)))
+        $0.addGestureRecognizer(tapGesture)
+    }
     
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -44,12 +47,6 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-//        regionListHorizontalView.setParentViewController(viewController: self)
     }
     
     override func setupNavigationBar() {
@@ -81,8 +78,9 @@ final class MainViewController: BaseViewController {
     
     // MARK: - selector
     
-    @objc private func didTapRegionTag() {
+    @objc private func didTapRegionTag(sender: UIGestureRecognizer) {
         let vc = RegionViewController()
+        present(vc, animated: true, completion: nil)
     }
 }
 
@@ -110,5 +108,10 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
+        let vc = RegionViewController()
+        vc.modalPresentationStyle = .pageSheet
+        vc.sheetPresentationController?.detents = [.medium()]
+        
+        present(vc, animated: true, completion: nil)
     }
 }

@@ -12,94 +12,53 @@ import Then
 
 final class RegionViewController: BaseViewController {
     
-    private enum Size {
-        static let collectionHorizontalSpacing: CGFloat = 20.0
-        static let collectionVerticalSpacing: CGFloat = 20.0
-        static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
-        static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
-                                                  left: collectionHorizontalSpacing,
-                                                  bottom: collectionVerticalSpacing,
-                                                  right: collectionHorizontalSpacing)
-    }
+    private let regionList = [
+        "전체": ["전체"],
+        "서울강북": ["도봉구", "노원구", "강북구", "성북구", "은평구", "중랑구", "종로구", "동대문구", "서대문구", "중구", "성동구", "광진구", "마포구", "용산구"],
+        "서울강남": ["강서구", "양천구", "영등포구", "구로구", "동작구", "금천구", "관악구", "서초구", "강남구", "송파구", "강동구"]
+    ]
     
-    private var region: String = "전체"
+    var selectedState: String = "전체"
+    var selectedRegion: String = "전체"
+
 
     // MARK: - property
     
-    private let appTitleView = AppTitleView()
+    private let stateTagListView = StateTagListView()
     
-    private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.sectionInset = Size.collectionInset
-        $0.itemSize = CGSize(width: Size.cellWidth, height: Size.cellHeight)
-        $0.minimumLineSpacing = 24
+    private let regionTagListView = RegionTagListView()
+    
+    private let completeButton = UIButton().then {
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .mainPink
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle("완료", for: .normal)
     }
     
-    private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
-        $0.backgroundColor = .clear
-        $0.dataSource = self
-        $0.delegate = self
-        $0.showsVerticalScrollIndicator = false
-        $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
-    }
-    
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-
-        let appTitleView = makeBarButtonItem(with: appTitleView)
-        let filter = UIBarButtonItem(title: region, style: .plain, target: self, action: #selector(didTapFilterButton))
-
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.largeTitleDisplayMode = .automatic
-        navigationItem.leftBarButtonItem = appTitleView
-        navigationItem.rightBarButtonItem = filter
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        regionTagListView.regionList = regionList[selectedState] ?? ["전체"]
     }
     
     override func render() {
-        view.addSubviews(listCollectionView)
+        view.addSubviews(stateTagListView, regionTagListView, completeButton)
         
-        listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-    
-    // MARK: - func
-    
-    func setRegion(region: String) {
-        self.region = region
-    }
-    
-    // MARK: - selector
-    
-    @objc private func didTapFilterButton() {
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-extension RegionViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistThumnailCollectionViewCell.className, for: indexPath) as? ArtistThumnailCollectionViewCell else {
-            assert(false, "Wrong Cell")
+        stateTagListView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(40)
         }
         
-        cell.artistNameLabel.text = "킹도영"
-        cell.artistInfoLabel.text = "울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨"
-        cell.artistThumnailImageView.image = UIImage(named: "port1")
-        cell.artistProfileImageView.image = UIImage(named: "port2")
+        regionTagListView.snp.makeConstraints {
+            $0.top.equalTo(stateTagListView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(completeButton.snp.top)
+        }
         
-        return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension RegionViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 터치시 넘어가는 화면 코드 구현 예정
+        completeButton.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.height.equalTo(60)
+        }
     }
 }

@@ -15,32 +15,32 @@ final class RegionCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     let regionLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
+        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .semibold)
         $0.textAlignment = .center
     }
     
     override func render() {
-        contentView.addSubview(regionLabel)
+        self.addSubview(regionLabel)
         
         regionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(10)
+            $0.center.equalToSuperview()
         }
     }
     
     override func configUI() {
-        clipsToBounds = true
-        contentView.layer.cornerRadius = 15
-        contentView.backgroundColor = .black.withAlphaComponent(0.15)
+        self.backgroundColor = .regionBlue.withAlphaComponent(0.15)
+        self.regionLabel.textColor = .black
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 8
     }
     
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                contentView.backgroundColor = .black
+                self.backgroundColor = .regionBlue
                 self.regionLabel.textColor = .white
             } else {
-                contentView.backgroundColor = .black.withAlphaComponent(0.15)
+                self.backgroundColor = .regionBlue.withAlphaComponent(0.15)
                 self.regionLabel.textColor = .black
             }
         }
