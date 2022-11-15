@@ -36,8 +36,8 @@ final class MainViewController: BaseViewController {
     
     private let appLogo = UIImageView(image: ImageLiteral.appLogo)
     
-    private let filterButton = UIImageView(image: ImageLiteral.btnFilter).then {
-        $0.tintColor = .mainBlack
+    private lazy var filterButton = FilterButton().then {
+        $0.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
     }
     
     private let regionListHorizontalView = RegionListHorizontalView()
@@ -99,8 +99,15 @@ final class MainViewController: BaseViewController {
         }
     }
     
+    // MARK: - func
+    
     func setRegion(region: String) {
         self.region = region
+    }
+    
+    // MARK: - selector
+    
+    @objc private func didTapFilterButton() {
     }
 }
 

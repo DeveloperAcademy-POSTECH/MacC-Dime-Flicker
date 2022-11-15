@@ -40,6 +40,7 @@
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
+		CB3314E529232BC400E11D70 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314E429232BC400E11D70 /* FilterButton.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
 		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
@@ -113,6 +114,7 @@
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		CB3314E429232BC400E11D70 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */,
 				CB5BF4822919E1A800A3E112 /* SendButton.swift */,
 				CBDC04152906116E00C6CF30 /* BackButton.swift */,
+				CB3314E429232BC400E11D70 /* FilterButton.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
+				CB3314E529232BC400E11D70 /* FilterButton.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */,
@@ -666,8 +670,6 @@
 				58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */,
 				7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */,
 				7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */,
-				58A452AF2912A27700C9707D /* RegisterEndViewController.swift in Sources */,
-				CBDC04242906121400C6CF30 /* Sender.swift in Sources */,
 				58A452A52912A22500C9707D /* RegisterRegionViewController.swift in Sources */,
 				58A452A72912A23000C9707D /* RegisterGearsViewController.swift in Sources */,
 				CBDC03F529060F3400C6CF30 /* BaseCollectionViewCell.swift in Sources */,
