@@ -11,7 +11,10 @@ import Then
 
 class ImageViewController: UIViewController {
 
-    private let imageView = UIImageView()
+    private let imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
 
     var image: UIImage? = UIImage(named: "port1")
 
