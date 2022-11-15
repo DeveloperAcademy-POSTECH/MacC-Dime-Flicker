@@ -38,6 +38,9 @@ final class RegionViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         regionTagListView.regionList = regionList[selectedState] ?? ["전체"]
+        
+        stateTagListView.setParentViewController(viewController: self)
+        regionTagListView.setParentViewController(viewController: self)
     }
     
     override func render() {
@@ -60,5 +63,22 @@ final class RegionViewController: BaseViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.height.equalTo(60)
         }
+    }
+    
+    // MARK: - func
+    
+    func setState(state: String) {
+        self.selectedState = state
+        print(state)
+        
+        DispatchQueue.main.async {
+            self.regionTagListView.regionList = self.regionList[self.selectedState] ?? ["전체"]
+            self.regionTagListView.listCollectionView.reloadData()
+        }
+    }
+    
+    func setRegion(region: String) {
+        self.selectedRegion = region
+        print(region)
     }
 }

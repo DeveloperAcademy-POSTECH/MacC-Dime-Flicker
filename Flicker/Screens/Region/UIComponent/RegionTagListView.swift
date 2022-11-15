@@ -12,6 +12,8 @@ import Then
 
 final class RegionTagListView: UIView {
     
+    private var parent: RegionViewController?
+    
     var regionList = [String]()
     
     private enum Size {
@@ -35,7 +37,7 @@ final class RegionTagListView: UIView {
         $0.minimumInteritemSpacing = 8
     }
     
-    private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
+    lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
         $0.backgroundColor = .clear
         $0.dataSource = self
         $0.delegate = self
@@ -62,6 +64,10 @@ final class RegionTagListView: UIView {
             $0.edges.equalToSuperview()
         }
     }
+    
+    func setParentViewController(viewController: RegionViewController) {
+        self.parent = viewController
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -84,5 +90,6 @@ extension RegionTagListView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension RegionTagListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        parent?.setRegion(region: regionList[indexPath.item])
     }
 }
