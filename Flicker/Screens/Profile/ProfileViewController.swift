@@ -4,11 +4,12 @@
 //
 //  Created by Taehwan Kim on 2022/11/02.
 //
-
+import MessageUI
 import UIKit
 
 final class ProfileViewController: BaseViewController {
     // MARK: - Properties
+    private let userName: String? = nil
     private var isArtist: Bool = false
     private let sectionHeaderTitle = ["설정"]
     private let NotArtistCells = ["알림", "작가등록", "문의하기"]
@@ -27,10 +28,12 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         customSetUI()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
 //        tabBarController?.tabBar.isHidden = true
     }
+    
     private func customSetUI() {
         view.addSubviews(tableView, profileHeader)
         tableView.tableHeaderView = profileHeader
@@ -55,6 +58,7 @@ final class ProfileViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
     // MARK: - Setting Functions
     @objc func changedSwitch(_ sender: UISwitch) {
         print(sender.isOn)
@@ -72,9 +76,9 @@ final class ProfileViewController: BaseViewController {
         navigationController?
             .pushViewController(RegisterWelcomeViewController(), animated: true)
     }
-//    private func goToCustomerInquiry() {
-//
-//    }
+    private func goToCustomerInquiry() {
+        self.sendReportMail()
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource {
@@ -119,59 +123,54 @@ extension ProfileViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 1:
-            print("작가등록")
             goToArtistRegistration()
         case 2:
-            print("문의하기")
+            goToCustomerInquiry()
         default:
-            print("의도하지 않은 호출")
+            print("")
         }
     }
 }
  
-//// MARK: - MFMailComposeViewControllerDelegate
-//extension ProfileViewController: MFMailComposeViewControllerDelegate {
-//    func sendReportMail() {
-//        if MFMailComposeViewController.canSendMail() {
-//            let composeVC = MFMailComposeViewController()
-//            let aenittoEmail = "aenitto@gmail.com"
-//            let messageBody = """
-//
-//                              -----------------------------
-//
-//                              - 문의하는 닉네임: \(String(describing: UserDefaultStorage.nickname ?? ""))
-//                              - 문의 메시지 제목 한줄 요약:
-//                              - 문의 날짜: \(Date())
-//
-//                              ------------------------------
-//
-//                              문의 내용을 작성해주세요.
-//
-//                              """
-//
-//            composeVC.mailComposeDelegate = self
-//            composeVC.setToRecipients([aenittoEmail])
-//            composeVC.setSubject("[문의 사항]")
-//            composeVC.setMessageBody(messageBody, isHTML: false)
-//
-//            self.present(composeVC, animated: true, completion: nil)
-//        }
-//        else {
-//            self.showSendMailErrorAlert()
-//        }
-//    }
-//
-//    private func showSendMailErrorAlert() {
-//        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-//        let confirmAction = UIAlertAction(title: "확인", style: .default) {
-//            (action) in
-//            print("확인")
-//        }
-//        sendMailErrorAlert.addAction(confirmAction)
-//        self.present(sendMailErrorAlert, animated: true, completion: nil)
-//    }
-//
-//    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-//        controller.dismiss(animated: true, completion: nil)
-//    }
-//}
+// MARK: - MFMailComposeViewControllerDelegate
+extension ProfileViewController: MFMailComposeViewControllerDelegate {
+    func sendReportMail() {
+        if MFMailComposeViewController.canSendMail() {
+            let composeViewController = MFMailComposeViewController()
+            let dimeEmail = "haptic_04_minis@icloud.com"
+            let messageBody = """
+                              -----------------------------
+                              - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
+                              - 문의 날짜: \(Date())
+                              ------------------------------
+                              내용:
+
+                              
+                              """
+
+            composeViewController.mailComposeDelegate = self
+            composeViewController.setToRecipients([dimeEmail])
+            composeViewController.setSubject("[문의 사항]")
+            composeViewController.setMessageBody(messageBody, isHTML: false)
+
+            self.present(composeViewController, animated: true, completion: nil)
+        }
+        else {
+            self.showSendMailErrorAlert()
+        }
+    }
+
+    private func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) {
+            (action) in
+            print("확인")
+        }
+        sendMailErrorAlert.addAction(confirmAction)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
