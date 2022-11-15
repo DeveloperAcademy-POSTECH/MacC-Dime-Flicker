@@ -125,9 +125,6 @@ class BaseViewController: UIViewController {
         // ie. it will trigger a keyboardWillHide notification
         self.view.endEditing(true)
     }
-    deinit {
-        print("뷰컨 하나 소멸")
-    }
 }
 
 extension BaseViewController : UITextFieldDelegate {

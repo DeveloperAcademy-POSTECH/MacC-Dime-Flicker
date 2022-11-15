@@ -28,10 +28,9 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         customSetUI()
     }
-    
+    // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
-//        tabBarController?.tabBar.isHidden = true
     }
     
     private func customSetUI() {
@@ -60,16 +59,12 @@ final class ProfileViewController: BaseViewController {
     }
     
     // MARK: - Setting Functions
-    @objc func changedSwitch(_ sender: UISwitch) {
+    @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
         if !sender.isOn {
-            // 알림을 중지한다는 팝업. 필요한지 의문
-            let notificationAlert = UIAlertController(title: "알림 비활성화", message: "", preferredStyle: .alert)
-            notificationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-            }))
-            self.present(notificationAlert, animated: true)
+            makeAlert(title: "알림 비활성화", message: "")
         } else {
-            //let notificationCenter = UNUserNotificationCenter.current()
+            
         }
     }
     private func goToArtistRegistration() {
@@ -81,10 +76,10 @@ final class ProfileViewController: BaseViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
-        //cell.accessoryType = .disclosureIndicator
         if isArtist {
             cell.cellTextLabel.text = ArtistCells[indexPath.row]
         } else {
@@ -94,7 +89,7 @@ extension ProfileViewController: UITableViewDataSource {
         case 0:
             let switchView = UISwitch(frame: .zero)
             switchView.setOn(true, animated: true)
-            switchView.addTarget(self, action: #selector(changedSwitch), for: .valueChanged)
+            switchView.addTarget(self, action: #selector(didToggleSwitch), for: .valueChanged)
             cell.accessoryView = switchView
             cell.selectionStyle = .none
         default:
@@ -109,6 +104,7 @@ extension ProfileViewController: UITableViewDataSource {
     
 }
 
+// MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -132,13 +128,13 @@ extension ProfileViewController: UITableViewDelegate {
     }
 }
  
-// MARK: - MFMailComposeViewControllerDelegate
+// MARK: - MFMailComposeViewControllerDelegate. 해당 델리게이트를 이용하여 email 송신 기능 가능
 extension ProfileViewController: MFMailComposeViewControllerDelegate {
     func sendReportMail() {
         if MFMailComposeViewController.canSendMail() {
-            var formatter = DateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            var currentDateString = formatter.string(from: Date())
+            let currentDateString = formatter.string(from: Date())
             let composeViewController = MFMailComposeViewController()
             let dimeEmail = "haptic_04_minis@icloud.com"
             let messageBody = """

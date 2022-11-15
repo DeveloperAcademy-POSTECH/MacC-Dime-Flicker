@@ -33,13 +33,13 @@ final class ProfileHeaderVIew: UIView {
     }
     
     private lazy var idLabel = UILabel().then {
-        $0.text = userName ?? "슈걸슈갈"
+        $0.text = userName ?? "Unknown"
         $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.textColor = .textMainBlack
     }
     
     private lazy var emailLabel = UILabel().then {
-        $0.text = userEmail ?? "jisjang22@pos.idserve.net"
+        $0.text = userEmail ?? "User Email Error. please report this issue to us"
         $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
         $0.textColor = .textSubBlack
     }
