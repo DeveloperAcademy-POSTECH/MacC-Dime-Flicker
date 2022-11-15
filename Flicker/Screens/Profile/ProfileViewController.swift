@@ -136,21 +136,26 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController: MFMailComposeViewControllerDelegate {
     func sendReportMail() {
         if MFMailComposeViewController.canSendMail() {
+            var formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            var currentDateString = formatter.string(from: Date())
             let composeViewController = MFMailComposeViewController()
             let dimeEmail = "haptic_04_minis@icloud.com"
             let messageBody = """
                               -----------------------------
                               - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                              - 문의 날짜: \(Date())
+                              - 문의 날짜: \(currentDateString)
                               ------------------------------
-                              내용:
+                              - 내용
 
+                              
+                              
                               
                               """
 
             composeViewController.mailComposeDelegate = self
             composeViewController.setToRecipients([dimeEmail])
-            composeViewController.setSubject("[문의 사항]")
+            composeViewController.setSubject("")
             composeViewController.setMessageBody(messageBody, isHTML: false)
 
             self.present(composeViewController, animated: true, completion: nil)
