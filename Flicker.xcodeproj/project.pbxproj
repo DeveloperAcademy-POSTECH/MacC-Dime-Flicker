@@ -249,6 +249,13 @@
 			path = Artist;
 			sourceTree = "<group>";
 		};
+		CB3314E82923311400E11D70 /* Region */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Region;
+			sourceTree = "<group>";
+		};
 		CB5B1C2E29134F75001E1EBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +447,7 @@
 				CBDC04282906123700C6CF30 /* Login */,
 				CBDC04272906123100C6CF30 /* SignUp */,
 				CBDC042D2906126B00C6CF30 /* Main */,
+				CB3314E82923311400E11D70 /* Region */,
 				CBDC043B2906149000C6CF30 /* Search */,
 				CBDC043E290614FD00C6CF30 /* Profile */,
 			);

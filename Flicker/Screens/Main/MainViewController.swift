@@ -29,8 +29,6 @@ final class MainViewController: BaseViewController {
     
     private let appTitleView = AppTitleView()
     
-    private let regionListHorizontalView = RegionListHorizontalView()
-    
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.sectionInset = Size.collectionInset
@@ -49,7 +47,7 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        regionListHorizontalView.setParentViewController(viewController: self)
+//        regionListHorizontalView.setParentViewController(viewController: self)
     }
     
     override func setupNavigationBar() {
@@ -65,16 +63,10 @@ final class MainViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(regionListHorizontalView, listCollectionView)
-        
-        regionListHorizontalView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(80)
-        }
+        view.addSubviews(listCollectionView)
         
         listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(regionListHorizontalView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
