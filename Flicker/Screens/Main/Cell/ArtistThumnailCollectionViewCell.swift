@@ -72,5 +72,15 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     
     override func configUI() {
         backgroundView = artistThumnailImageView
+        
+        let width = artistThumnailImageView.bounds.width
+        let height = artistThumnailImageView.bounds.height
+        let sHeight: CGFloat = 100.0
+        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
+
+        let bottomImageGradient = CAGradientLayer()
+        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
     }
 }

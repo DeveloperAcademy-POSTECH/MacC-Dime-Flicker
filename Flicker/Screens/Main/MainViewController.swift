@@ -28,10 +28,14 @@ final class MainViewController: BaseViewController {
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 20)
         $0.textColor = .mainPink
         $0.textAlignment = .center
-        $0.text = "SHUGGLE"
+        $0.text = "SHUGGLE!"
+    }
+    
+    private let appLogo = UIImageView().then {
+        $0.image = ImageLiteral.appLogo
     }
     
     private let regionListHorizontalView = RegionListHorizontalView()
@@ -57,12 +61,22 @@ final class MainViewController: BaseViewController {
         regionListHorizontalView.setParentViewController(viewController: self)
     }
     
+    override func setupNavigationBar() {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func render() {
-        view.addSubviews(appTitleLabel, regionListHorizontalView, listCollectionView)
+        view.addSubviews(appTitleLabel, appLogo, regionListHorizontalView, listCollectionView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().inset(20)
+        }
+        
+        appLogo.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalTo(appTitleLabel.snp.trailing).offset(10)
+            $0.width.height.equalTo(30)
         }
         
         regionListHorizontalView.snp.makeConstraints {
