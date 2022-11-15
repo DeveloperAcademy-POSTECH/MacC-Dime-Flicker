@@ -35,14 +35,18 @@ final class RegionCollectionViewCell: BaseCollectionViewCell {
     }
     
     override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                self.backgroundColor = .regionBlue
-                self.regionLabel.textColor = .white
-            } else {
-                self.backgroundColor = .regionBlue.withAlphaComponent(0.15)
-                self.regionLabel.textColor = .black
-            }
+        willSet {
+            self.setSelected(newValue)
+        }
+    }
+    
+    private func setSelected(_ selected: Bool) {
+        if selected {
+            self.backgroundColor = .regionBlue
+            self.regionLabel.textColor = .white
+        } else {
+            self.backgroundColor = .regionBlue.withAlphaComponent(0.15)
+            self.regionLabel.textColor = .black
         }
     }
 }

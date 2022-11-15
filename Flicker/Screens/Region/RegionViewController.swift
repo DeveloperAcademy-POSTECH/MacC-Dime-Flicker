@@ -21,18 +21,18 @@ final class RegionViewController: BaseViewController {
     var selectedState: String = "전체"
     var selectedRegion: String = "전체"
 
-
     // MARK: - property
     
     private let stateTagListView = StateTagListView()
     
     private let regionTagListView = RegionTagListView()
     
-    private let completeButton = UIButton().then {
+    private lazy var completeButton = UIButton().then {
         $0.layer.cornerRadius = 15
         $0.backgroundColor = .mainPink
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("완료", for: .normal)
+        $0.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
     }
     
     override func viewDidLoad() {
@@ -80,5 +80,11 @@ final class RegionViewController: BaseViewController {
     func setRegion(region: String) {
         self.selectedRegion = region
         print(region)
+    }
+    
+    // MARK: - selector
+    
+    @objc private func didTapCompleteButton() {
+        dismiss(animated: true, completion: nil)
     }
 }

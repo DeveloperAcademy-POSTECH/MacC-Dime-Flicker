@@ -32,6 +32,8 @@ final class MainViewController: BaseViewController {
     private lazy var regionTagView = RegionTagView().then {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapRegionTag(sender:)))
         $0.addGestureRecognizer(tapGesture)
+        
+        $0.regionTagLabel.text = region
     }
     
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {

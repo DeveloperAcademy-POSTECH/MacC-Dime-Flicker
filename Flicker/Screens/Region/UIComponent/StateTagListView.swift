@@ -81,7 +81,13 @@ extension StateTagListView: UICollectionViewDataSource {
         }
         
         cell.stateLabel.text = stateList[indexPath.item]
-    
+        
+        if let selectedState = parent?.selectedState {
+            if stateList[indexPath.item] == selectedState {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            }
+        }
+        
         return cell
     }
 }

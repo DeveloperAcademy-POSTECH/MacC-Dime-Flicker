@@ -14,7 +14,7 @@ final class RegionTagView: UIView {
     
     // MARK: - property
     
-    private let regionTagLabel = UILabel().then {
+    let regionTagLabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .title3, weight: .regular)
         $0.textColor = .mainBlack
         $0.textAlignment = .center

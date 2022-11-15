@@ -82,6 +82,12 @@ extension RegionTagListView: UICollectionViewDataSource {
         }
         
         cell.regionLabel.text = regionList[indexPath.item]
+        
+        if let selectedRegion = parent?.selectedRegion {
+            if regionList[indexPath.item] == selectedRegion {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            }
+        }
     
         return cell
     }

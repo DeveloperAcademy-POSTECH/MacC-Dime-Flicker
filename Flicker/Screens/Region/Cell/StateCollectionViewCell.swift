@@ -35,14 +35,18 @@ final class StateCollectionViewCell: BaseCollectionViewCell {
     }
     
     override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                self.backgroundColor = .mainBlack
-                self.stateLabel.textColor = .white
-            } else {
-                self.backgroundColor = .mainBlack.withAlphaComponent(0.15)
-                self.stateLabel.textColor = .black
-            }
+        willSet {
+            self.setSelected(newValue)
+        }
+    }
+    
+    private func setSelected(_ selected: Bool) {
+        if selected {
+            self.backgroundColor = .mainBlack
+            self.stateLabel.textColor = .white
+        } else {
+            self.backgroundColor = .mainBlack.withAlphaComponent(0.15)
+            self.stateLabel.textColor = .black
         }
     }
 }
