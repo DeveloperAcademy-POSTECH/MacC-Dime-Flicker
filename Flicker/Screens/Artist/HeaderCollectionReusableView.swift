@@ -178,34 +178,34 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
-            $0.width.height.equalTo(18)
+            $0.width.height.equalTo(20)
         }
 
         regionInfo.snp.makeConstraints {
             $0.leading.equalTo(regionImageView.snp.trailing).offset(8)
-            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.centerY.equalTo(regionImageView)
         }
 
         lensInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(regionInfo.snp.bottom).offset(5)
-            $0.width.height.equalTo(18)
+            $0.width.height.equalTo(20)
         }
         
         lensInfo.snp.makeConstraints {
             $0.leading.equalTo(lensInfoImageView.snp.trailing).offset(8)
-            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.centerY.equalTo(lensInfoImageView)
         }
 
         bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(lensInfoImageView.snp.bottom).offset(5)
-            $0.width.height.equalTo(18)
+            $0.width.height.equalTo(20)
         }
 
         bodyInfo.snp.makeConstraints {
             $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
-            $0.top.equalTo(lensInfo.snp.bottom).offset(5)
+            $0.centerY.equalTo(bodyInfoImageView)
         }
     }
 

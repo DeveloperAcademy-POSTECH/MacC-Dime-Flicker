@@ -14,7 +14,7 @@ class ArtistTappedViewController: BaseViewController {
 
     private var posts: [Post] = []
 
-    private lazy var headerHeight: Int = 700
+    private var headerHeight: Int = 700
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
@@ -56,7 +56,6 @@ class ArtistTappedViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        //        super.viewDidLoad()
         collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
 
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
@@ -69,7 +68,6 @@ class ArtistTappedViewController: BaseViewController {
         configUI()
         setupBackButton()
         setupNavigationBar()
-        resetHeaderViewSize()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -246,6 +244,8 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
+        headerView.sizeToFit()
+//        resetHeaderViewSize()
         return headerView
     }
 }
@@ -285,9 +285,5 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 700)
     }
 }
