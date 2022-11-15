@@ -11,6 +11,20 @@ class NetworkManager {
 
     static let shared = NetworkManager()
 
+    let portFolioImageList: [String] = [
+        "https://i.esdrop.com/d/f/25f7aVvy7C/nqLOXfHcFt.jpg",
+
+        "https://i.esdrop.com/d/f/25f7aVvy7C/rHhfj2C0Cd.jpg",
+
+        "https://i.esdrop.com/d/f/25f7aVvy7C/2L4g9tQR4B.jpg",
+
+        "https://i.esdrop.com/d/f/25f7aVvy7C/Z9VJvGVAMk.jpg",
+
+        "https://i.esdrop.com/d/f/25f7aVvy7C/dnI6zMf2UU.jpg",
+
+        "https://i.esdrop.com/d/f/25f7aVvy7C/LOo2PelZh0.jpg"
+    ]
+
     private var cachedImages = NSCache<NSString, NSData>()
 
     let session: URLSession

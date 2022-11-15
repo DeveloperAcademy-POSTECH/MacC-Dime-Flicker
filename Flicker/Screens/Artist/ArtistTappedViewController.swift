@@ -192,6 +192,11 @@ class ArtistTappedViewController: BaseViewController {
         }
     }
 
+    private func getImageData() async throws {
+        // ULR 사용해서 request
+//        URLSession.shared.dataTask(with: <#T##URLRequest#>)
+    }
+
     private func queryImageDataSet() {
         networkManager.queryDB(query: "cat") { [weak self] posts, error in
             if let error = error {
