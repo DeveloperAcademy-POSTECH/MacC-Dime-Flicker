@@ -21,6 +21,8 @@ enum ImageLiteral {
     static var btnCamera: UIImage { .load(systemName: "camera") }
     static var btnSend: UIImage { .load(systemName: "paperplane") }
     
+    static var btnFilter: UIImage { .load(systemName: "line.3.horizontal.decrease.circle") }
+    
     // MARK: - icon
     static var appLogo: UIImage { .load(name: "logo") }
 }

@@ -34,8 +34,10 @@ final class MainViewController: BaseViewController {
         $0.text = "SHUGGLE!"
     }
     
-    private let appLogo = UIImageView().then {
-        $0.image = ImageLiteral.appLogo
+    private let appLogo = UIImageView(image: ImageLiteral.appLogo)
+    
+    private let filterButton = UIImageView(image: ImageLiteral.btnFilter).then {
+        $0.tintColor = .mainBlack
     }
     
     private let regionListHorizontalView = RegionListHorizontalView()
@@ -66,7 +68,7 @@ final class MainViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, appLogo, regionListHorizontalView, listCollectionView)
+        view.addSubviews(appTitleLabel, appLogo, filterButton, regionListHorizontalView, listCollectionView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -76,6 +78,12 @@ final class MainViewController: BaseViewController {
         appLogo.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalTo(appTitleLabel.snp.trailing).offset(10)
+            $0.width.height.equalTo(30)
+        }
+        
+        filterButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.trailing.equalToSuperview().inset(20)
             $0.width.height.equalTo(30)
         }
         
