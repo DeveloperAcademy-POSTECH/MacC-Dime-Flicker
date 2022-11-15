@@ -68,9 +68,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
-        view.addSubview(pageViewController.view)
-        view.addSubview(customNavigationBarView)
-        view.addSubview(dynamicNextButton)
+        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
