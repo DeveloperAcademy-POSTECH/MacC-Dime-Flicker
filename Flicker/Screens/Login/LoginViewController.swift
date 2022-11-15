@@ -201,7 +201,6 @@ final class LogInViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        emailField.becomeFirstResponder()
     }
     
     private func goHome() {
@@ -254,6 +253,7 @@ final class LogInViewController: BaseViewController {
     @objc private func didTapLogInbutton() {
         guard let email = emailField.text, !email.isEmpty,
               let password = passwordField.text, !password.isEmpty else {
+            makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
             print("Missing field data")
             return
         }
@@ -265,6 +265,7 @@ final class LogInViewController: BaseViewController {
             await FirebaseManager.shared.updateUserToken(uid: userId)
             self?.goHome()
         }
+        makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
     }
 
     @objc private func didTapSignUpButton() {
