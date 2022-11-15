@@ -15,7 +15,7 @@ final class AppTitleView: UIView {
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 20)
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 24)
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE!"

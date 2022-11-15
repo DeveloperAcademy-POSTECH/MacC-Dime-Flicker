@@ -1,8 +1,8 @@
 //
-//  MainViewController.swift
+//  RegionViewController.swift
 //  Flicker
 //
-//  Created by COBY_PRO on 2022/10/24.
+//  Created by COBY_PRO on 2022/11/15.
 //
 
 import UIKit
@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-final class MainViewController: BaseViewController {
+final class RegionViewController: BaseViewController {
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
         static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
         static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: 0,
+        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
@@ -29,13 +29,11 @@ final class MainViewController: BaseViewController {
     
     private let appTitleView = AppTitleView()
     
-    private let regionTagView = RegionTagView()
-    
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.sectionInset = Size.collectionInset
         $0.itemSize = CGSize(width: Size.cellWidth, height: Size.cellHeight)
-        $0.minimumLineSpacing = 20
+        $0.minimumLineSpacing = 24
     }
     
     private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
@@ -46,29 +44,23 @@ final class MainViewController: BaseViewController {
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-//        regionListHorizontalView.setParentViewController(viewController: self)
-    }
-    
     override func setupNavigationBar() {
         super.setupNavigationBar()
 
         let appTitleView = makeBarButtonItem(with: appTitleView)
-        let regionTagView = makeBarButtonItem(with: regionTagView)
+        let filter = UIBarButtonItem(title: region, style: .plain, target: self, action: #selector(didTapFilterButton))
 
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .automatic
         navigationItem.leftBarButtonItem = appTitleView
-        navigationItem.rightBarButtonItem = regionTagView
+        navigationItem.rightBarButtonItem = filter
     }
     
     override func render() {
         view.addSubviews(listCollectionView)
         
         listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -81,13 +73,12 @@ final class MainViewController: BaseViewController {
     
     // MARK: - selector
     
-    @objc private func didTapRegionTag() {
-        let vc = RegionViewController()
+    @objc private func didTapFilterButton() {
     }
 }
 
 // MARK: - UICollectionViewDataSource
-extension MainViewController: UICollectionViewDataSource {
+extension RegionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -107,7 +98,7 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-extension MainViewController: UICollectionViewDelegate {
+extension RegionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
     }

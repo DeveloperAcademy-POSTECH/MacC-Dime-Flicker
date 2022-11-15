@@ -93,6 +93,5 @@ extension RegionListHorizontalView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension RegionListHorizontalView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        parent?.setRegion(region: reigionList[indexPath.item])
     }
 }
