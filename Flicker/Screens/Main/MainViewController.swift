@@ -27,18 +27,7 @@ final class MainViewController: BaseViewController {
 
     // MARK: - property
     
-    private let appTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 20)
-        $0.textColor = .mainPink
-        $0.textAlignment = .center
-        $0.text = "SHUGGLE!"
-    }
-    
-    private let appLogo = UIImageView(image: ImageLiteral.appLogo)
-    
-    private lazy var filterButton = FilterButton().then {
-        $0.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
-    }
+    private let appTitleView = AppTitleView()
     
     private let regionListHorizontalView = RegionListHorizontalView()
     
@@ -64,31 +53,22 @@ final class MainViewController: BaseViewController {
     }
     
     override func setupNavigationBar() {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        super.setupNavigationBar()
+
+        let appTitleView = makeBarButtonItem(with: appTitleView)
+        let filter = UIBarButtonItem(title: region, style: .plain, target: self, action: #selector(didTapFilterButton))
+
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationItem.leftBarButtonItem = appTitleView
+        navigationItem.rightBarButtonItem = filter
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, appLogo, filterButton, regionListHorizontalView, listCollectionView)
-        
-        appTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().inset(20)
-        }
-        
-        appLogo.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalTo(appTitleLabel.snp.trailing).offset(10)
-            $0.width.height.equalTo(30)
-        }
-        
-        filterButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.width.height.equalTo(30)
-        }
+        view.addSubviews(regionListHorizontalView, listCollectionView)
         
         regionListHorizontalView.snp.makeConstraints {
-            $0.top.equalTo(appTitleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(80)
         }
