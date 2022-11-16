@@ -39,7 +39,7 @@ final class ProfileHeaderVIew: UIView {
     }
     
     private lazy var emailLabel = UILabel().then {
-        $0.text = userEmail ?? "User Email Error. please report this issue to us"
+        $0.text = userEmail ?? "User Email Error"
         $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
         $0.textColor = .textSubBlack
     }

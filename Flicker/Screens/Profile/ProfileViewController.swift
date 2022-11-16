@@ -24,18 +24,13 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        render()
         setFunctionsAndDelegate()
-        customSetUI()
+        render()
+        setTabGesture()
     }
     // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    private func customSetUI() {
-        view.addSubviews(tableView, profileHeader)
-        tableView.tableHeaderView = profileHeader
     }
 
     override func render() {
@@ -57,14 +52,20 @@ final class ProfileViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
+    private func setTabGesture() {
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        self.profileHeader.addGestureRecognizer(tabGesture)
+    }
     // MARK: - Setting Functions
+    @objc func didTapGesture() {
+        print("asdf")
+        navigationController?
+            .pushViewController(LoginProfileViewController(), animated: true)
+    }
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
         if !sender.isOn {
             makeAlert(title: "알림 비활성화", message: "")
-        } else {
-            
         }
     }
     private func goToArtistRegistration() {
