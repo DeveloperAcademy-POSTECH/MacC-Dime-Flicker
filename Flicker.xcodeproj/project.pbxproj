@@ -223,6 +223,14 @@
 			path = InputPassword;
 			sourceTree = "<group>";
 		};
+		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
+			isa = PBXGroup;
+			children = (
+				108561102923EAB00083E156 /* ProfileSettingViewController.swift */,
+			);
+			path = ProfileSetting;
+			sourceTree = "<group>";
+		};
 		58118D372911328A00F08D35 /* ArtistRegister */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +518,7 @@
 				CB3314E82923311400E11D70 /* Region */,
 				CBDC043B2906149000C6CF30 /* Search */,
 				CBDC043E290614FD00C6CF30 /* Profile */,
+				1085610F2923EA6D0083E156 /* ProfileSetting */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -685,6 +694,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
+				108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */,
 				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
 				1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
