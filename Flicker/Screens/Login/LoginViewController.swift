@@ -49,7 +49,7 @@ final class LogInViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        $0.autocorrectionType = .no
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
@@ -66,7 +66,7 @@ final class LogInViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        $0.autocorrectionType = .no
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
         $0.layer.cornerRadius = 12

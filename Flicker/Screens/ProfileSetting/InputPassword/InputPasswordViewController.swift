@@ -24,19 +24,68 @@ final class InputPasswordViewController: BaseViewController {
 
     private let secondSubLabel = UILabel().makeBasicLabel(labelText: "SUGGLE 아이디 비밀번호를 한번 더 입력해주세요.", textColor: .textSubBlack, fontStyle: .callout, fontWeight: .bold)
 
+    private let passwordField = UITextField().then {
+        let attributes = [
+            NSAttributedString.Key.foregroundColor : UIColor.white,
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
+        ]
+        $0.autocorrectionType = .no
+        $0.backgroundColor = .loginGray
+        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 입력", attributes: attributes)
+        $0.layer.cornerRadius = 10
+        $0.layer.masksToBounds = true
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        $0.leftViewMode = .always
+        $0.clipsToBounds = false
+        $0.isSecureTextEntry = true
+        $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+    }
+
     private let certifiedButton = UIButton().then {
         $0.backgroundColor = .mainPink
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("확인", for: .normal)
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = 10
     }
 
     override func render() {
 
-        view.addSubviews(navigationDivider, mainLabel, firstSubLabel, secondSubLabel, certifiedButton)
+        view.addSubviews(navigationDivider, mainLabel, firstSubLabel, secondSubLabel, passwordField,certifiedButton)
 
         certifiedButton.addTarget(self, action: #selector(didTapSignInbutton), for: .touchUpInside)
 
+        navigationDivider.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(2)
+        }
+
+        mainLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.leading.equalToSuperview().inset(20)
+        }
+
+        firstSubLabel.snp.makeConstraints {
+            $0.top.equalTo(mainLabel.snp.bottom).offset(20)
+            $0.centerX.equalTo(view.snp.centerX)
+        }
+
+        secondSubLabel.snp.makeConstraints {
+            $0.top.equalTo(firstSubLabel.snp.bottom).offset(5)
+            $0.centerX.equalTo(view.snp.centerX)
+        }
+
+        passwordField.snp.makeConstraints {
+            $0.top.equalTo(secondSubLabel.snp.bottom).offset(15)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(60)
+        }
+
+        certifiedButton.snp.makeConstraints {
+            $0.top.equalTo(passwordField.snp.bottom).offset(15)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(60)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -59,6 +108,23 @@ final class InputPasswordViewController: BaseViewController {
     }
 
     @objc private func didTapSignInbutton() {
+        reAuthUser()
     }
+    //사용자 재인증 함수, 이메일은 파베에서 가져오고 비밀번호는 사용자가 입력 한 후, 비밀번호가 틀릴 시 재입력요구, 성공하면 ProfileSettingView로 넘어감
+    private func reAuthUser() {
+        let user = Auth.auth().currentUser
+        let userEmail = user?.email
+        let userPw = passwordField.text
+        let credential = EmailAuthProvider.credential(withEmail: userEmail!, password: userPw!)
 
+        user?.reauthenticate(with: credential) { _,error  in
+          if let error = error {
+              print(error)
+              self.makeAlert(title: "비밀번호를 확인해주세요", message: "")
+          } else {
+            let viewController = ProfileSettingViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+          }
+        }
+    }
 }
