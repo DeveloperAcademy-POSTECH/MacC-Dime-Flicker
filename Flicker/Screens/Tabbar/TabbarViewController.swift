@@ -12,7 +12,8 @@ final class TabbarViewController: UITabBarController {
     private let mainViewController = UINavigationController(rootViewController: MainViewController())
     private let searchViewController = UINavigationController(rootViewController: SearchViewController())
     private let messageViewController = UINavigationController(rootViewController: ChannelsViewController())
-    private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
+    private let profileViewController = UINavigationController(rootViewController: ProfileSettingViewController())
+//    private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
     
     override func viewDidLoad() {
 
