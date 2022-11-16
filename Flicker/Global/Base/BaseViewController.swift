@@ -146,21 +146,6 @@ extension BaseViewController: UIGestureRecognizerDelegate {
 
 extension BaseViewController {
 
-    func reAuthUser() {
-        let user = Auth.auth().currentUser
-        var credential: AuthCredential
-
-        // Prompt the user to re-provide their sign-in credentials
-//
-//        user?.reauthenticate(with: credential) { error in
-//          if let error = error {
-//            // An error happened.
-//          } else {
-//            // User re-authenticated.
-//          }
-//        }
-    }
-
     func fireBasewithDraw() {
         let user = Auth.auth().currentUser
 

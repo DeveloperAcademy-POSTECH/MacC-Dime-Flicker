@@ -78,7 +78,6 @@ final class WithDrawViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.reAuthUser()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
