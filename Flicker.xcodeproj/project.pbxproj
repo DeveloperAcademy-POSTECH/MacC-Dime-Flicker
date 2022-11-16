@@ -226,9 +226,18 @@
 		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
 			isa = PBXGroup;
 			children = (
+				108561142924FBD10083E156 /* InputPassword */,
 				108561102923EAB00083E156 /* ProfileSettingViewController.swift */,
 			);
 			path = ProfileSetting;
+			sourceTree = "<group>";
+		};
+		108561142924FBD10083E156 /* InputPassword */ = {
+			isa = PBXGroup;
+			children = (
+				108561152924FBFD0083E156 /* InputPasswordViewController.swift */,
+			);
+			path = InputPassword;
 			sourceTree = "<group>";
 		};
 		58118D372911328A00F08D35 /* ArtistRegister */ = {
