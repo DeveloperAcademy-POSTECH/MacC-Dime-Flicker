@@ -143,3 +143,58 @@ extension BaseViewController: UIGestureRecognizerDelegate {
         return count > 1
     }
 }
+
+extension BaseViewController {
+
+    func reAuthUser() {
+        let user = Auth.auth().currentUser
+        var credential: AuthCredential
+
+        // Prompt the user to re-provide their sign-in credentials
+//
+//        user?.reauthenticate(with: credential) { error in
+//          if let error = error {
+//            // An error happened.
+//          } else {
+//            // User re-authenticated.
+//          }
+//        }
+    }
+
+    func fireBasewithDraw() {
+        let user = Auth.auth().currentUser
+
+        user?.delete { error in
+          if let error = error {
+              //회원탈퇴 실패
+              print(error)
+              print("123123")
+          } else {
+              DispatchQueue.main.async {
+                  self.goLogin()
+              }
+          }
+        }
+    }
+    
+    func fireBaseSignOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+        DispatchQueue.main.async {
+            self.goLogin()
+        }
+    }
+
+    func goLogin() {
+        let viewController = LogInViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
+    }
+
+}

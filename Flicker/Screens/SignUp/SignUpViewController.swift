@@ -12,6 +12,8 @@ import Then
 
 final class SignUpViewController: BaseViewController {
 
+    private let didTapSignUpEmail = true
+
     private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .black, fontStyle: .largeTitle, fontWeight: .bold)
 
     
@@ -131,21 +133,48 @@ final class SignUpViewController: BaseViewController {
             print("Missing field data")
             return
         }
-        //TODO: email값을 다음 뷰에 넘겨줘 다음 뷰에서 email값과 name값을 파베로 넘겨줘야 함
-        Task { [weak self] in
-            await FirebaseManager.shared.createNewAccount(email: email, password: password)
-            //            await FirebaseManager.shared.storeUserInformation(email: email, name: name)
-            self?.navigationController?.pushViewController(viewController, animated: true)
-        }
+
+        viewController.authEmail = email
+        viewController.authPassword = passwordCheck
+        viewController.isSignUpEmail = self.didTapSignUpEmail
+
+        self.navigationController?.pushViewController(viewController, animated: true)
+        
     }
     
 }
-    extension SignUpViewController {
-        override func textFieldDidEndEditing(_ textField: UITextField) {
-            if !(emailField.text!.isEmpty || passwordField.text!.isEmpty) {
-                signUpButton.backgroundColor = .mainPink
+
+extension SignUpViewController {
+    override func textFieldDidEndEditing(_ textField: UITextField) {
+        //이메일 유효성 검사 후 검사에 통과하면 아무 표시도 하지않고 검사에 통과하지 못한다면 라벨을 통해 이메일을 확인하라는 표시를 해줌
+
+        switch textField.tag {
+        case 0:
+            if !emailValidCheck(emailField) {
+                emailValidCheckLabel.isHidden = false
+
             } else {
-                signUpButton.backgroundColor = .loginGray
+                emailValidCheckLabel.isHidden = true
             }
+        case 1:
+            if !passwordValidCheck(passwordField) {
+                passwordValidCheckLabel.isHidden = false
+
+            } else {
+                passwordValidCheckLabel.isHidden = true
+            }
+        case 2:
+            if !passwordSameCheck(passwordField, passwordSameCheckField) {
+                passwordSameCheckLabel.isHidden = false
+            } else {
+                passwordSameCheckLabel.isHidden = true
+            }
+        default: return
+        }
+
+        if ( emailValidCheck(emailField) && passwordValidCheck(passwordField) && passwordSameCheck(passwordField, passwordSameCheckField)) {
+            signUpButton.backgroundColor = .mainPink
+        } else {
+            signUpButton.backgroundColor = .loginGray
         }
     }

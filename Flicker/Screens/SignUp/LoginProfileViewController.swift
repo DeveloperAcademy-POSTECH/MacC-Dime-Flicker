@@ -12,6 +12,11 @@ import Then
 
 final class LoginProfileViewController: BaseViewController {
 
+    //이전 뷰에서 데이터를 전달받는 변수들
+    var isSignUpEmail: Bool = false
+    var authEmail: String = ""
+    var authPassword: String = ""
+
     private var isNickNameWrite = false
 
     private lazy var imagePicker = UIImagePickerController().then {
@@ -62,6 +67,7 @@ final class LoginProfileViewController: BaseViewController {
         $0.leftViewMode = .always
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+        $0.autocorrectionType = .no
     }
 
     private let nickNameTextFieldClearButton = UIButton().then {
@@ -227,10 +233,31 @@ final class LoginProfileViewController: BaseViewController {
             signUpButton.backgroundColor = .mainPink
         }
     }
-
+    //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
         let viewController = TabbarViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
+        //애플 로그인을 통해 로그인을 할 경우 LoginProfileVC에 들어왔을 때 이미 로그인이 되어있어 creatNewAccount를 할 필요가 없으며,
+        //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
+        if isSignUpEmail {
+            Task { [weak self] in
+                await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
+                await FirebaseManager.shared.storeUserInformation(email: authEmail,
+                                                                  name: nickNameField.text ?? "",
+                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
+        } else {
+            let fireBaseUser = Auth.auth().currentUser
+            Task { [weak self] in
+                if let fireBaseUser = fireBaseUser {
+                    let email = fireBaseUser.email
+                }
+                await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
+                                                                  name: nickNameField.text ?? "",
+                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
 
     @objc private func didTapClearButton() {
