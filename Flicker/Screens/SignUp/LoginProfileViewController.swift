@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import FirebaseAuth
 
 final class LoginProfileViewController: BaseViewController {
 
@@ -52,7 +53,7 @@ final class LoginProfileViewController: BaseViewController {
     private let nickNameLabel = UILabel().makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
-    
+
     private let nickNameField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.textSubBlack,
@@ -60,7 +61,7 @@ final class LoginProfileViewController: BaseViewController {
         ]
 
         $0.backgroundColor = .clear
-        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력 해 주세요!", attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해 주세요!", attributes: attributes)
         $0.autocapitalizationType = .none
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -104,12 +105,23 @@ final class LoginProfileViewController: BaseViewController {
         $0.backgroundColor = .loginGray
     }
 
+    private let logOutButton = UIButton().then {
+        $0.setTitle("로그아웃", for: .normal)
+        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.backgroundColor = .clear
+    }
+
+    private let signOutButton = UIButton().then {
+        $0.setTitle("회원탈퇴", for: .normal)
+        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.backgroundColor = .clear
+    }
+
     override func render() {
         nickNameField.delegate = self
-
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
-        
+
         view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
 
 
@@ -182,13 +194,13 @@ final class LoginProfileViewController: BaseViewController {
         artistTrueButton.snp.makeConstraints {
             $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
-            $0.width.equalTo(170)
+            $0.trailing.equalTo(view.snp.centerX).inset(25 )
         }
 
         artistFalseButton.snp.makeConstraints {
             $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().inset(20)
-            $0.width.equalTo(170)
+            $0.leading.equalTo(view.snp.centerX).offset(10)
         }
 
         signUpButton.snp.makeConstraints {
@@ -197,12 +209,10 @@ final class LoginProfileViewController: BaseViewController {
             $0.height.equalTo(50)
         }
     }
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-        }
 
-        override func setupNavigationBar() {
-            super.setupNavigationBar()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -278,17 +288,16 @@ final class LoginProfileViewController: BaseViewController {
     }
 }
 
-extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
     override func textFieldDidEndEditing(_ textField: UITextField) {
         isNickNameWrite = true
         nickNameTextFieldClearButton.isHidden = false
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         var newImage : UIImage? = nil // update 할 이미지
-
         if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             newImage = possibleImage    // 수정된 이미지가 있을 경우
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -299,4 +308,3 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
         dismiss(animated: true, completion: nil)
     }
 }
-

@@ -118,13 +118,13 @@ final class InputPasswordViewController: BaseViewController {
         let credential = EmailAuthProvider.credential(withEmail: userEmail!, password: userPw!)
 
         user?.reauthenticate(with: credential) { _,error  in
-          if let error = error {
-              print(error)
-              self.makeAlert(title: "비밀번호를 확인해주세요", message: "")
-          } else {
-            let viewController = ProfileSettingViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
-          }
+            if let error = error {
+                print(error)
+                self.makeAlert(title: "비밀번호를 확인해주세요", message: "")
+            } else {
+                let viewController = ProfileSettingViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
         }
     }
 }

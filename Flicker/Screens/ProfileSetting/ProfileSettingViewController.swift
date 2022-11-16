@@ -253,7 +253,7 @@ final class ProfileSettingViewController: BaseViewController {
             signUpButton.backgroundColor = .mainPink
         }
     }
-//TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
+    //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
         self.dismiss(animated: true, completion: nil)
     }
