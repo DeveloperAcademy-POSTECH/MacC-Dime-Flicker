@@ -206,7 +206,7 @@
 			path = WithDraw;
 				103EB1FB29224F2600E11A2A /* SignOutViewController.swift */,
 			);
-			path = SignOut;
+			path = WithDraw;
 			sourceTree = "<group>";
 		};
 		103EB1FA29224EDE00E11A2A /* LogOut */ = {

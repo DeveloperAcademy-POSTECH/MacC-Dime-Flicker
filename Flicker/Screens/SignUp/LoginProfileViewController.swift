@@ -189,16 +189,6 @@ final class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
-
-//        logOutButton.snp.makeConstraints {
-//            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
-//            $0.trailing.equalTo(view.snp.centerX).inset(20)
-//        }
-//
-//        signOutButton.snp.makeConstraints {
-//            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
-//            $0.leading.equalTo(view.snp.centerX).offset(20)
-//        }
     }
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
@@ -246,11 +236,6 @@ final class LoginProfileViewController: BaseViewController {
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
     }
-
-//    @objc private func didTapLogOutButton() {
-//        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
-//        })
-//    }
 }
 
 extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
