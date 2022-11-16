@@ -12,7 +12,7 @@ class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
-    private var posts: [Post] = []
+    private var imageList: [UIImage] = []
 
     private var headerHeight: Int = 700
 
@@ -40,7 +40,7 @@ class ArtistTappedViewController: BaseViewController {
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
     }
-        
+
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold)
 
     private let statusBarBackGroundView = UIView().then {
@@ -64,10 +64,14 @@ class ArtistTappedViewController: BaseViewController {
         
         view.addSubviews(collectionView, statusBarBackGroundView, navigationBarSeperator, bottomBackgroundView, counselingButton, bottomBarSeperator)
 
-        queryImageDataSet()
+        Task {
+            await fetchPortfolioImages()
+        }
+
         configUI()
         setupBackButton()
         setupNavigationBar()
+
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -124,6 +128,17 @@ class ArtistTappedViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
+    }
+
+    private func fetchPortfolioImages() async {
+        do {
+            self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        } catch {
+            print(error)
+        }
     }
 
     private func resetHeaderViewSize() {
@@ -191,32 +206,13 @@ class ArtistTappedViewController: BaseViewController {
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
     }
-
-    private func getImageData() async throws {
-        // ULR 사용해서 request
-//        URLSession.shared.dataTask(with: <#T##URLRequest#>)
-    }
-
-    private func queryImageDataSet() {
-        networkManager.queryDB(query: "cat") { [weak self] posts, error in
-            if let error = error {
-                print("error occured \(error.localizedDescription)")
-                return
-            }
-
-            self?.posts = posts!
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
-        }
-    }
 }
 
 extension ArtistTappedViewController: UICollectionViewDataSource {
 
     // numberOfCell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return imageList.count
     }
 
     // ReusableCell setting + image loading
@@ -225,23 +221,8 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.identifier, for: indexPath) as! ArtistPortfolioCell
 
         // 이미지 URL을 가진 response 배열
-        let post = posts[indexPath.item]
-
-        cell.image = nil
-
-        func imageOptionalBind(data: Data?) -> UIImage? {
-            if let data = data {
-                return UIImage(data: data)
-            }
-            return UIImage(systemName: "picture")
-        }
-
-        networkManager.loadImageCheckingCached(post: post) { data, error  in
-            let img = imageOptionalBind(data: data)
-            DispatchQueue.main.async {
-                cell.image = img
-            }
-        }
+        let image = imageList[indexPath.item]
+        cell.image = image
         return cell
     }
 
@@ -249,8 +230,8 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
-        headerView.sizeToFit()
-//        resetHeaderViewSize()
+
+        headerView.resetPortfolioImage(with: imageList)
         return headerView
     }
 }
@@ -285,6 +266,7 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         }
     }
 }
+
 
 extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
 

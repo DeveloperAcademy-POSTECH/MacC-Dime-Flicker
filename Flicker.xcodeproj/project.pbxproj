@@ -241,8 +241,8 @@
 			isa = PBXGroup;
 			children = (
 				A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */,
-				A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */,
 				A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */,
+				A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */,
 				A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */,
 			);
 			path = Artist;

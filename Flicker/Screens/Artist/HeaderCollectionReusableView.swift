@@ -11,6 +11,8 @@ import Then
 class HeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "HeaderCollectionReusableView"
 
+    private let networkManager = NetworkManager.shared
+
     private var imageScrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
@@ -19,7 +21,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     private let imageHeight: Int = 380
     private let profileImageSize: Int = 45
 
-    private let images: [UIImage?] = [UIImage(named: "port2"), UIImage(named: "port1"), UIImage(named: "port3"), UIImage(named: "port4")]
+    var images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
         $0.numberOfPages = images.count
@@ -223,12 +225,19 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.frame = CGRect(x: xPositionOrigin, y: 0, width: self.bounds.width, height: CGFloat(imageHeight))
             imageView.backgroundColor = .orange
             imageView.image = images[pageIndex]
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
             imageScrollView.addSubview(imageView)
         }
     }
 
     private func selectedPage(_ currentPage: Int) {
         pageControl.currentPage = currentPage
+    }
+
+    func resetPortfolioImage(with images: [UIImage]) {
+        self.images = images
+        configureImageScrollView()
     }
 }
 
