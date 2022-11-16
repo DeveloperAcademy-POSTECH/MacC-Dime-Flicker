@@ -17,7 +17,7 @@ final class MainViewController: BaseViewController {
         static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
         static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
+        static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
@@ -27,20 +27,18 @@ final class MainViewController: BaseViewController {
 
     // MARK: - property
     
-    private let appTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
-        $0.textColor = .mainPink
-        $0.textAlignment = .center
-        $0.text = "SHUGGLE"
-    }
+    private let appTitleView = AppTitleView()
     
-    private let regionListHorizontalView = RegionListHorizontalView()
+    private lazy var regionTagView = RegionTagView().then {
+        $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
+        $0.regionTagLabel.text = region
+    }
     
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.sectionInset = Size.collectionInset
         $0.itemSize = CGSize(width: Size.cellWidth, height: Size.cellHeight)
-        $0.minimumLineSpacing = 24
+        $0.minimumLineSpacing = 20
     }
     
     private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
@@ -51,34 +49,41 @@ final class MainViewController: BaseViewController {
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        regionListHorizontalView.setParentViewController(viewController: self)
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+
+        let appTitleView = makeBarButtonItem(with: appTitleView)
+        let regionTagView = makeBarButtonItem(with: regionTagView)
+
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationItem.leftBarButtonItem = appTitleView
+        navigationItem.rightBarButtonItem = regionTagView
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, regionListHorizontalView, listCollectionView)
-        
-        appTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().inset(20)
-        }
-        
-        regionListHorizontalView.snp.makeConstraints {
-            $0.top.equalTo(appTitleLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(80)
-        }
+        view.addSubviews(listCollectionView)
         
         listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(regionListHorizontalView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
+    // MARK: - func
+    
     func setRegion(region: String) {
         self.region = region
+    }
+    
+    // MARK: - selector
+    
+    @objc private func didTapRegionTag() {
+        let vc = RegionViewController()
+        vc.modalPresentationStyle = .pageSheet
+        vc.sheetPresentationController?.detents = [.medium()]
+        
+        present(vc, animated: true, completion: nil)
     }
 }
 

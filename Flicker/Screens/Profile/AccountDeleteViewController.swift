@@ -15,9 +15,6 @@ class AccountDeleteViewController: BaseViewController {
         $0.text = "회원탈퇴"
         $0.font = .preferredFont(forTextStyle: .headline, weight: .regular)
     }
-//    private let navBar = UINavigationBar(x:0, y:0, width: view.frame.size.width, height: 44).then {
-//        $0.frame(x: 0, y: 0, width: view.frame.size.width)
-//    }
     private let topBar = UIView().then {
         $0.backgroundColor = .systemGray
     }
@@ -49,8 +46,7 @@ class AccountDeleteViewController: BaseViewController {
     @objc func btnPressed(_ sender: Any) {
         let alert = UIAlertController(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보가 삭제되며 \n 복구가 불가능합니다.", preferredStyle: .alert)
         // TODO: yes에는 파이어베이스에서 사용자의 id를 조회하고 해당하는 데이터를 모두 삭제해야한다.
-        // MARK: 법에 의해 몇몇 데이터는 최소 3개월에서 최대 5년간 우리가 데이터를 지우면 안 된다.
-        // MARK: 우리가 현재 상당한 수준의 익명화로 서비스를 진행할거라 고려가 필요
+        // MARK: 법에 의해 몇몇 데이터는 최소 3개월에서 최대 5년간 우리가 데이터를 지우면 안 된다. 우리가 현재 상당한 수준의 익명화로 서비스를 진행할거라 고려가 필요
         let yes = UIAlertAction(title: "확정", style: .default, handler: nil)
         // TODO: NO를 누르면 해당 뷰를 탈출하여 ProfileSettingView로 돌아갈듯?
         let no = UIAlertAction(title: "No", style: .destructive, handler: nil)
