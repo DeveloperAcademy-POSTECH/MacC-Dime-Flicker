@@ -128,42 +128,12 @@ class BaseViewController: UIViewController {
 }
 
 extension BaseViewController : UITextFieldDelegate {
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.activeTextField = textField
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activeTextField = nil
-    }
-    //이메일 유효성 검사
-    func emailValidCheck(_ textField: UITextField) -> Bool {
-          //맨 처음은 영어, 대문자, 소문자, 툭수문자 모두 가능하다는 뜻이며, +@는 사이에 @가 무조건 있어야 하며
-          //@ 뒤에는 대문자,소문자,숫자,.,-만 되고 . 이 온 이후는 영어대문자,소문자만 가능하며
-          //마지막은 2~64글자까지만 허용한다는 emailValid입니다.
-          let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-          let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-          //bool값임
-          return  emailTest.evaluate(with: textField.text)
-      }
-    //비밀번호의 길이가 6자리 이상일 경우에만 true값 전달
-    func passwordValidCheck(_ textField: UITextField) -> Bool {
-        guard let passwordCount = textField.text?.count else { return false }
-
-        if passwordCount >= 6 {
-            return true
-        } else { return false }
-    }
-
-    func passwordSameCheck(_ textField: UITextField, _ checkTextField: UITextField) -> Bool {
-        if textField.text == checkTextField.text {
-            return true
-        } else { return false }
     }
 }
 

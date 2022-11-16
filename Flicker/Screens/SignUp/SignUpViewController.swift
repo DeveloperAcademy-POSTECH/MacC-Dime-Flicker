@@ -19,7 +19,7 @@ final class SignUpViewController: BaseViewController {
     
     private let signUpLabel = UILabel().then {
         $0.tintColor = .black
-        $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.font = .preferredFont(forTextStyle: .body, weight: .semibold)
         $0.numberOfLines = 2
         $0.text = "로그인에 사용될 이메일과 비밀번호를 설정해주세요"
     }
@@ -29,8 +29,7 @@ final class SignUpViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
-        $0.tag = 0
+        
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
@@ -40,20 +39,16 @@ final class SignUpViewController: BaseViewController {
         $0.leftViewMode = .always
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
-        $0.autocorrectionType = .no
-
     }
-
-    private let emailValidCheckLabel = UILabel().makeBasicLabel(labelText: "이메일 주소를 확인해 주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
     
     private let passwordField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-        $0.tag = 1
+        
         $0.backgroundColor = .loginGray
-        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 (최소 6자 이상)", attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
@@ -61,35 +56,12 @@ final class SignUpViewController: BaseViewController {
         $0.clipsToBounds = false
         $0.isSecureTextEntry = true
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
-        $0.autocorrectionType = .no
     }
-
-    private let passwordValidCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호는 6자리 이상으로 작성해주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
-
-    private let passwordSameCheckField = UITextField().then {
-        let attributes = [
-            NSAttributedString.Key.foregroundColor : UIColor.white,
-            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
-        ]
-        $0.tag = 2
-        $0.backgroundColor = .loginGray
-        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 확인", attributes: attributes)
-        $0.layer.cornerRadius = 12
-        $0.layer.masksToBounds = true
-        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
-        $0.leftViewMode = .always
-        $0.clipsToBounds = false
-        $0.isSecureTextEntry = true
-        $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
-        $0.autocorrectionType = .no
-    }
-
-    private let passwordSameCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호가 일치하지 않습니다.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
     
     private lazy var signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitle("다음", for: .normal)
+        $0.setTitle("완료", for: .normal)
         $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
     }
@@ -101,18 +73,10 @@ final class SignUpViewController: BaseViewController {
     override func render() {
         emailField.delegate = self
         passwordField.delegate = self
-        passwordSameCheckField.delegate = self
-
-        emailField.returnKeyType = .done
-        passwordField.returnKeyType = .done
-        passwordSameCheckField.returnKeyType = .done
-
-        emailValidCheckLabel.isHidden = true
-        passwordValidCheckLabel.isHidden = true
-        passwordSameCheckLabel.isHidden = true
         
-        view.addSubviews(emailValidCheckLabel ,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
-
+        view.addSubviews(signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider)
+        
+        
         signUpTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             $0.leading.equalToSuperview().inset(30)
@@ -129,38 +93,18 @@ final class SignUpViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
-
-        emailValidCheckLabel.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(40)
-        }
-
+        
         passwordField.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(45)
+            $0.top.equalTo(emailField.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
-
-        passwordValidCheckLabel.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(40)
-        }
-
-        passwordSameCheckField.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(45)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
-        }
-
-        passwordSameCheckLabel.snp.makeConstraints {
-            $0.top.equalTo(passwordSameCheckField.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(40)
-        }
+        
         
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
         
         navigationDivider.snp.makeConstraints {
@@ -181,12 +125,11 @@ final class SignUpViewController: BaseViewController {
         title = "프로필 입력"
         
     }
-    //
+    
     @objc private func didTapSignUpButton() {
         let viewController = LoginProfileViewController()
-        guard let email = emailField.text, emailValidCheck(emailField),
-              let password = passwordField.text, passwordValidCheck(passwordField),
-              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
+        guard let email = emailField.text, !email.isEmpty,
+              let password = passwordField.text, !password.isEmpty else {
             print("Missing field data")
             return
         }
@@ -198,6 +141,7 @@ final class SignUpViewController: BaseViewController {
         self.navigationController?.pushViewController(viewController, animated: true)
         
     }
+    
 }
 
 extension SignUpViewController {
