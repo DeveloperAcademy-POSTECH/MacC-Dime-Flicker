@@ -251,6 +251,7 @@ final class FirebaseManager: NSObject {
                 let imageUrl = try await imageRef.downloadURL().absoluteString
                 urlArray.append(imageUrl)
             }
+            print("Success uploading Images")
             return urlArray
         } catch {
             print("uploading Images error")

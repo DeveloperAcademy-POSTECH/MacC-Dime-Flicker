@@ -19,5 +19,5 @@ struct Artist {
 //    let simpleDescription: String // 한 줄 소개
     var detailDescription: String // 작가 설명
     
-    var portfolioImageUrls: [UIImage] // 포폴 사진들
+    var portfolioImageUrls: [String] // 포폴 사진들
 }

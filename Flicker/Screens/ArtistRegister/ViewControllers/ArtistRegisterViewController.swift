@@ -213,14 +213,13 @@ extension ArtistRegisterViewController {
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
-            print(self.temporaryImages)
             Task {
                 let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
-                print("%%%%%\(self.temporaryImages)")
-                print(urlsString)
+                self.dataSourceToServer.portfolioImageUrls = urlsString
+                print("urlString is \(urlsString)")
+                print("Artist is \(self.dataSourceToServer)")
+                print("Uploading Process is Done.")
             }
-            
-            print(self.dataSourceToServer)
         }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         

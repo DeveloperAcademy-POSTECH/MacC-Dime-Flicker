@@ -232,6 +232,7 @@
 		58118D372911328A00F08D35 /* ArtistRegister */ = {
 			isa = PBXGroup;
 			children = (
+				589A1B6429268D7C00A39E3F /* Cell */,
 				5824E4A029155DB000916E0B /* Views */,
 				58A452A32912A21000C9707D /* ViewControllers */,
 				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
@@ -242,12 +243,19 @@
 		5824E4A029155DB000916E0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */,
 				58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		589A1B6429268D7C00A39E3F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */,
 				5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */,
 				5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */,
 			);
-			path = Views;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		58A452A32912A21000C9707D /* ViewControllers */ = {
