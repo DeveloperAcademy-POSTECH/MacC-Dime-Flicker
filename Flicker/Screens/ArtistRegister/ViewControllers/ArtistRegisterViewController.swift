@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 import SnapKit
 import Then
 
@@ -13,7 +16,11 @@ import Then
 final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
+    let dataFirebase = FirebaseManager()
+    
     private var dataSourceToServer = Artist(city: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    
+    private var temporaryImages: [UIImage] = []
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
@@ -146,7 +153,8 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
     }
     
     func photoSelected(photos imagesPicked: [UIImage]) {
-        self.dataSourceToServer.portfolioImageUrls = imagesPicked
+        self.temporaryImages = imagesPicked
+//        self.dataSourceToServer.portfolioImageUrls = imagesPicked
     }
 }
 
@@ -205,6 +213,13 @@ extension ArtistRegisterViewController {
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
+            print(self.temporaryImages)
+            Task {
+                let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
+                print("%%%%%\(self.temporaryImages)")
+                print(urlsString)
+            }
+            
             print(self.dataSourceToServer)
         }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
@@ -219,7 +234,7 @@ extension ArtistRegisterViewController {
         let bodyEmpty = dataSourceToServer.camera.isEmpty
         let lensEmpty = dataSourceToServer.lens.isEmpty
         let textInfoEmpty = dataSourceToServer.detailDescription.isEmpty
-        let photoEmpty = dataSourceToServer.portfolioImageUrls.isEmpty
+        let photoEmpty = temporaryImages.isEmpty
         guard let page = pages.firstIndex(of: currentPage) else { return }
 
         switch currentPage {
