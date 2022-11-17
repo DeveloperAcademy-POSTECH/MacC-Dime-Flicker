@@ -17,7 +17,10 @@ import FirebaseFirestore
 
 final class LogInViewController: BaseViewController {
 
-    fileprivate var currentNonce: String?
+    static let shared = LogInViewController()
+
+    var currentNonce: String?
+    var currentAppleIdToken: String?
 
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
         $0.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
@@ -49,7 +52,7 @@ final class LogInViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        $0.autocorrectionType = .no
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
@@ -66,7 +69,7 @@ final class LogInViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-
+        $0.autocorrectionType = .no
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
         $0.layer.cornerRadius = 12
@@ -289,7 +292,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
     }
 
 
-// 사용자 인증 후 처리
+    // 사용자 인증 후 처리
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             // 현재 nonce가 설정되어 있는지 확인
@@ -303,7 +306,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             }
             //문자열로 변환
             guard let idTokenString = String(data: appleIDtoken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDtoken.debugDescription)")
+                print("Unable to serialize token string from data: \(currentAppleIdToken.debugDescription)")
                 return
             }
 
@@ -315,6 +318,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 if let user = authDataResult?.user {
                     //로그인 성공 시
                     self.goProfile()
+                    self.currentAppleIdToken = idTokenString
                 }
 
                 if error != nil {
@@ -329,33 +333,33 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 //임의로 생성되는 암호화 토큰이다.
 
 private func randomNonceString(length: Int = 32) -> String {
-  precondition(length > 0)
-  let charset: Array<Character> =
-      Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-  var result = ""
-  var remainingLength = length
+    precondition(length > 0)
+    let charset: Array<Character> =
+    Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+    var result = ""
+    var remainingLength = length
 
-  while remainingLength > 0 {
-    let randoms: [UInt8] = (0 ..< 16).map { _ in
-      var random: UInt8 = 0
-      let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-      if errorCode != errSecSuccess {
-        fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-      }
-      return random
+    while remainingLength > 0 {
+        let randoms: [UInt8] = (0 ..< 16).map { _ in
+            var random: UInt8 = 0
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+            if errorCode != errSecSuccess {
+                fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+            }
+            return random
+        }
+
+        randoms.forEach { random in
+            if remainingLength == 0 {
+                return
+            }
+
+            if random < charset.count {
+                result.append(charset[Int(random)])
+                remainingLength -= 1
+            }
+        }
     }
 
-    randoms.forEach { random in
-      if remainingLength == 0 {
-        return
-      }
-
-      if random < charset.count {
-        result.append(charset[Int(random)])
-        remainingLength -= 1
-      }
-    }
-  }
-
-  return result
+    return result
 }
