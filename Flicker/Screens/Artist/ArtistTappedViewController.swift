@@ -226,8 +226,13 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.className, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
-        headerView.resetPortfolioImage(with: imageList)
+
+        let thumnailImages = Array(imageList.prefix(4))
+        headerView.resetPortfolioImage(with: thumnailImages)
         return headerView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
     }
 }
 
