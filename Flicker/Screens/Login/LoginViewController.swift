@@ -94,12 +94,6 @@ final class LogInViewController: BaseViewController {
         $0.backgroundColor = .clear
     }
 
-    private let lookAroundButton = UIButton().then {
-        $0.setTitle("둘러보기", for: .normal)
-        $0.setTitleColor(.textSubBlack, for: .normal)
-        $0.backgroundColor = .clear
-    }
-
     private let loginDividerFirst = UIView().then {
         $0.backgroundColor = .loginGray
     }
@@ -116,12 +110,11 @@ final class LogInViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, lookAroundButton, loginDividerFirst, loginDividerSecond, loginDividerText)
+        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
-        lookAroundButton.addTarget(self, action: #selector(didTapLookAroundButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(60)
@@ -159,13 +152,6 @@ final class LogInViewController: BaseViewController {
         signUpButton.snp.makeConstraints {
             $0.top.equalTo(logInbutton.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(90)
-            $0.width.equalTo(100)
-            $0.height.equalTo(30)
-        }
-
-        lookAroundButton.snp.makeConstraints {
-            $0.top.equalTo(logInbutton.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview().inset(90)
             $0.width.equalTo(100)
             $0.height.equalTo(30)
         }
@@ -275,14 +261,6 @@ final class LogInViewController: BaseViewController {
         let viewController = SignUpViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
-    //TODO: 둘러보기 클릭하면 일단 메인 화면으로 가도록 설정은 해놨는데, 어떤 값을 줘서 입력을 하려할때, 혹은 기능을 쓰려할때 로그인이 필요하다고 뜨도록 해야 할 것 같습니다.
-    @objc private func didTapLookAroundButton() {
-        let viewController = TabbarViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-
-
 }
 
 extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -314,7 +292,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
 
-            FirebaseAuth.Auth.auth().signIn(with: credential) { (authDataResult, error) in
+            Auth.auth().signIn(with: credential) { (authDataResult, error) in
                 if let user = authDataResult?.user {
                     //로그인 성공 시
                     self.goProfile()
