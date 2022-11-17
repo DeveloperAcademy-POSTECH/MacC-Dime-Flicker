@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum NetworkManagerError: Error {
+enum NetworkError: Error {
     case badResponse(URLResponse?)
     case badData
     case badLocalUrl
+    case responseError
 }

@@ -8,19 +8,19 @@ import UIKit
 import SnapKit
 import Then
 
-class HeaderCollectionReusableView: UICollectionReusableView {
-    static let identifier = "HeaderCollectionReusableView"
+final class HeaderCollectionReusableView: UICollectionReusableView {
+
+    private let networkManager = NetworkManager.shared
 
     private var imageScrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
-        $0.isScrollEnabled = true
     }
 
     private let imageHeight: Int = 380
     private let profileImageSize: Int = 45
 
-    private let images: [UIImage?] = [UIImage(named: "port2"), UIImage(named: "port1"), UIImage(named: "port3"), UIImage(named: "port4")]
+    var images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
         $0.numberOfPages = images.count
@@ -34,20 +34,12 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isUserInteractionEnabled = true
     }
 
-    private let artistNickname = UILabel().then {
-        $0.text = "장루키 작가님"
-        $0.font = .preferredFont(forTextStyle: .title3, weight: .bold)
-    }
+    private let artistNickname = UILabel().makeBasicLabel(labelText: "장루키 작가님", textColor: .black, fontStyle: .title3, fontWeight: .bold)
 
-    //TODO: 추후에 horizontal stackView로 바꾸기
-    private let artistInformation = UILabel().then {
-        $0.text = "#우정사진 #필름사진 #웨딩촬영"
-        $0.font = .preferredFont(forTextStyle: .footnote, weight: .light)
-        $0.textColor = .systemGray
-    }
+    private let artistInformation = UILabel().makeBasicLabel(labelText: "#우정사진 #필름사진 #웨딩촬영", textColor: .systemGray, fontStyle: .footnote, fontWeight: .light)
 
     private lazy var artistProfileImage = UIImageView().then {
-        $0.image = UIImage(named: "장루키")
+        $0.image = UIImage(named: "port3")
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
@@ -65,66 +57,49 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.backgroundColor = .systemGray5
     }
 
-    private let introductionLabel = UILabel().then {
-        $0.text = "자기소개"
-        $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
-        $0.textColor = .systemGray
-    }
+    private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .medium)
 
     private let introductionTextView = UITextView().then {
-        $0.text = "저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!"
+        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
         $0.isScrollEnabled = false
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
         $0.isUserInteractionEnabled = false
     }
 
     //TODO: 추후에 horizontal stackView로 바꾸기
-    private let regionInfo = UILabel().then {
-        $0.text = "서초구, 서대문구, 은평구"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
+    
+    private let regionImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "map.fill")
+        $0.tintColor = .mainPink
     }
 
-    private let scheduleInfo = UILabel().then {
-        $0.text = "주중/주말 무관"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
+    private let bodyInfoImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "circle.rectangle.filled.pattern.diagonalline")
+        $0.tintColor = .mainPink
     }
 
-    private let hourInfo = UILabel().then {
-        $0.text = "오후 6시 이후 (협의 가능)"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
+    private let lensInfoImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "camera.metering.center.weighted")
+        $0.tintColor = .mainPink
     }
 
-    private let photoshopInfo = UILabel().then {
-        $0.text = "주변 풍경 및 개인별 얼굴"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .light)
-        $0.textColor = .black
-    }
+    private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
 
-    private let deviceInfo = UILabel().then {
-        $0.text = "Sony a7m3 / Sony 50mm f1.8 GM"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
-    }
+    private let bodyInfo = UILabel().makeBasicLabel(labelText: "Sony a32", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
 
-    private let portfolioInfo = UILabel().then {
-        $0.text = "포트폴리오 사용 가능"
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
-        $0.textColor = .black
-    }
+    private let lensInfo = UILabel().makeBasicLabel(labelText: "Sony 50mm f1.8 GM", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
 
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
-        self.addSubviews(regionInfo, scheduleInfo, hourInfo, photoshopInfo, deviceInfo, portfolioInfo)
+
+        self.addSubviews(regionInfo, bodyInfo, lensInfo)
+
+        self.addSubviews(regionImageView, bodyInfoImageView, lensInfoImageView)
 
         configureImageScrollView()
         setFunctionAndDelegate()
-
-        print("this is headerView frame size \(self.frame.height)")
     }
 
     required init?(coder: NSCoder) {
@@ -172,7 +147,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
 
         artistInformation.snp.makeConstraints {
             $0.leading.equalTo(artistNickname)
-            $0.top.equalTo(artistNickname.snp.bottom).offset(3)
+            $0.top.equalTo(artistNickname.snp.bottom).offset(5)
         }
 
         firstSeperator.snp.makeConstraints {
@@ -201,29 +176,37 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         }
 
         // Photographer Information
-        regionInfo.snp.makeConstraints {
+        regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.width.height.equalTo(20)
         }
 
-        scheduleInfo.snp.makeConstraints {
+        regionInfo.snp.makeConstraints {
+            $0.leading.equalTo(regionImageView.snp.trailing).offset(8)
+            $0.centerY.equalTo(regionImageView)
+        }
+
+        bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.width.height.equalTo(20)
+        }
+        
+        bodyInfo.snp.makeConstraints {
+            $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
+            $0.centerY.equalTo(bodyInfoImageView)
         }
 
-        hourInfo.snp.makeConstraints {
+        lensInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(scheduleInfo.snp.bottom).offset(5)
+            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(5)
+            $0.width.height.equalTo(20)
         }
 
-        photoshopInfo.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(hourInfo.snp.bottom).offset(5)
-        }
-
-        deviceInfo.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(photoshopInfo.snp.bottom).offset(5)
+        lensInfo.snp.makeConstraints {
+            $0.leading.equalTo(lensInfoImageView.snp.trailing).offset(8)
+            $0.centerY.equalTo(lensInfoImageView)
         }
     }
 
@@ -241,12 +224,19 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.frame = CGRect(x: xPositionOrigin, y: 0, width: self.bounds.width, height: CGFloat(imageHeight))
             imageView.backgroundColor = .orange
             imageView.image = images[pageIndex]
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
             imageScrollView.addSubview(imageView)
         }
     }
 
     private func selectedPage(_ currentPage: Int) {
         pageControl.currentPage = currentPage
+    }
+
+    func resetPortfolioImage(with images: [UIImage]) {
+        self.images = images
+        configureImageScrollView()
     }
 }
 
@@ -262,5 +252,15 @@ extension HeaderCollectionReusableView {
     @objc func pageControlDidChange(_ sender: UIPageControl) {
         let current = sender.currentPage
         imageScrollView.setContentOffset(CGPoint(x: CGFloat(current) * self.frame.size.width, y: 0), animated: true)
+    }
+}
+
+extension HeaderCollectionReusableView {
+    func getTotalViewHeight() -> CGFloat {
+        var totalViewHeight: CGFloat = 0
+        for view in subviews {
+            totalViewHeight += view.frame.size.height
+        }
+        return totalViewHeight - 30
     }
 }

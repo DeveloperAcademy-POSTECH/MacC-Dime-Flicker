@@ -5,12 +5,15 @@
 //  Created by Jisu Jang on 2022/10/29.
 //
 import UIKit
+import Then
 
-class ArtistPortfolioCell: UICollectionViewCell {
-    static let identifier =
-    "ArtistPortfolioCell"
+final class ArtistPortfolioCell: UICollectionViewCell {
 
-    let imageView: UIImageView = UIImageView(frame: .zero)
+    let imageView: UIImageView = UIImageView(frame: .zero).then {
+        $0.contentMode = .scaleToFill
+        $0.clipsToBounds = true
+    }
+    
     var image: UIImage? {
         didSet {
             imageView.image = image
@@ -21,13 +24,10 @@ class ArtistPortfolioCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        // configuration
+        // 플레이스 홀더 역할을 하는 색상
         contentView.backgroundColor = .systemGray5
-
-        // addsubview
+        
         self.addSubview(imageView)
-
-        // layout
         imageView.frame = contentView.bounds
     }
 
