@@ -44,6 +44,23 @@ final class ArtistRegisterViewController: UIViewController {
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.backgroundColor = .mainPink
     }
+    
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .systemGray.withAlphaComponent(0.6)
+    }
+    
+    private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.color = .mainPink
+    }
+    
+//    private let loadingLabel = UILabel().makeBasicLabel(labelText: "사진이 올라가는 중이에요!", textColor: .mainPink, fontStyle: .subheadline, fontWeight: .bold).then {
+//        $0.layer.shadowOffset = CGSize(width: 0, height: -3.0)
+//        $0.layer.shadowRadius = 5
+//        $0.shadowColor = .black.withAlphaComponent(0.7)
+//        $0.isHidden = true
+//    }
 
     // MARK: - life cycle
     override func viewDidLoad() {
@@ -71,7 +88,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
-        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton)
+        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton, loadingView, spinnerView)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -89,6 +106,19 @@ final class ArtistRegisterViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(view.bounds.height/12)
         }
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+        }
+        
+        spinnerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+//        loadingLabel.snp.makeConstraints {
+//            $0.centerX.equalToSuperview()
+//            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(50)
+//        }
     }
     
     // MARK: - view configurations
@@ -211,14 +241,18 @@ extension ArtistRegisterViewController {
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-            self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
-            // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
+            // spinnerView hidden false
+            self.openLoadingView()
             Task {
                 let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
                 self.dataSourceToServer.portfolioImageUrls = urlsString
                 print("urlString is \(urlsString)")
                 print("Artist is \(self.dataSourceToServer)")
                 print("Uploading Process is Done.")
+                // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
+                // Artist() 모델이 모두 완성이 되는 시점이라 여기서 업데이트를 해줘야 합니다.
+                self.hideLoadingView()
+                self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
             }
         }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
@@ -226,6 +260,18 @@ extension ArtistRegisterViewController {
         recheckAlert.addAction(confirm)
         recheckAlert.addAction(cancel)
         present(recheckAlert, animated: true, completion: nil)
+    }
+    
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+        self.spinnerView.startAnimating()
+//        self.loadingLabel.isHidden = false
+    }
+    
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+        self.spinnerView.stopAnimating()
+//        self.loadingLabel.isHidden = true
     }
     
     @objc func moveNextTapped() {
