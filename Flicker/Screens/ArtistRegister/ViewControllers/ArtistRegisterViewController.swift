@@ -55,12 +55,12 @@ final class ArtistRegisterViewController: UIViewController {
         $0.color = .mainPink
     }
     
-//    private let loadingLabel = UILabel().makeBasicLabel(labelText: "사진이 올라가는 중이에요!", textColor: .mainPink, fontStyle: .subheadline, fontWeight: .bold).then {
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "사진이 올라가는 중이에요!", textColor: .mainPink, fontStyle: .subheadline, fontWeight: .bold).then {
 //        $0.layer.shadowOffset = CGSize(width: 0, height: -3.0)
 //        $0.layer.shadowRadius = 5
 //        $0.shadowColor = .black.withAlphaComponent(0.7)
-//        $0.isHidden = true
-//    }
+        $0.isHidden = true
+    }
 
     // MARK: - life cycle
     override func viewDidLoad() {
@@ -88,7 +88,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - layout constraints
     private func render() {
         addChild(pageViewController)
-        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton, loadingView, spinnerView)
+        view.addSubviews(pageViewController.view, customNavigationBarView, dynamicNextButton, loadingView, spinnerView, loadingLabel)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -115,10 +115,10 @@ final class ArtistRegisterViewController: UIViewController {
             $0.center.equalToSuperview()
         }
         
-//        loadingLabel.snp.makeConstraints {
-//            $0.centerX.equalToSuperview()
-//            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(50)
-//        }
+        loadingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(50)
+        }
     }
     
     // MARK: - view configurations
@@ -265,13 +265,13 @@ extension ArtistRegisterViewController {
     private func openLoadingView() {
         self.loadingView.isHidden = false
         self.spinnerView.startAnimating()
-//        self.loadingLabel.isHidden = false
+        self.loadingLabel.isHidden = false
     }
     
     private func hideLoadingView() {
         self.loadingView.isHidden = true
         self.spinnerView.stopAnimating()
-//        self.loadingLabel.isHidden = true
+        self.loadingLabel.isHidden = true
     }
     
     @objc func moveNextTapped() {
