@@ -235,20 +235,13 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    
-    /// TODO: 노션에 정리할 것!!
-    /// 1. firebase 에서의 셋팅 문제
-    /// 2. asyncForEach 코드 뜯어볼 것
-    /// 3. 파일을 올릴 때, 주의해야 할 것 -> fileName 에 대해서!
-    /// 4. async await 가 이 func 에서 어떻게 작동하는지 볼 것
-    
     func uploadImage(images: [UIImage]) async -> [String] {
         var urlArray: [String] = []
         do {
             let ref = storage.reference()
-
             try await images.asyncForEach { photo in
                 guard let photoData = photo.jpegData(compressionQuality: 0.5) else { return }
+                // fileName 을 데이터의 .hashValue 로 해도 되나? -> 중복된 사진을 걸러내는 데에 어려움이 있을 것 같다. 해결책은?
                 let fileName = photoData.hashValue
                 let imageRef = ref.child("testImageUrl/\(fileName).jpg")
                 
