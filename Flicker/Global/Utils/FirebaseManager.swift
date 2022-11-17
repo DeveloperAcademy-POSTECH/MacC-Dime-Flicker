@@ -243,9 +243,7 @@ final class FirebaseManager: NSObject {
     /// 4. async await 가 이 func 에서 어떻게 작동하는지 볼 것
     
     func uploadImage(images: [UIImage]) async -> [String] {
-//        guard let uid = auth.currentUser?.uid else { return [] }
         var urlArray: [String] = []
-        
         do {
             let ref = storage.reference()
 
@@ -253,19 +251,17 @@ final class FirebaseManager: NSObject {
                 guard let photoData = photo.jpegData(compressionQuality: 0.5) else { return }
                 let fileName = photoData.hashValue
                 let imageRef = ref.child("testImageUrl/\(fileName).jpg")
-                try await imageRef
+                
+                let uploadResult = try await imageRef
                     .putDataAsync(photoData)
-//                print("#1#1#1####\(result)")
+                dump(uploadResult)
                 let imageUrl = try await imageRef.downloadURL().absoluteString
                 urlArray.append(imageUrl)
-                print("#2#2#2#2#2##\(urlArray)")
             }
-            
             return urlArray
-            
         } catch {
             print("uploading Images error")
-            return ["uploading Images error occured"]
+            return []
         }
     }
 }
