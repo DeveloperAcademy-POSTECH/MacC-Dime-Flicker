@@ -1,8 +1,8 @@
 //
-//  RegionListHorizontalView.swift
+//  StateTagListView.swift
 //  Flicker
 //
-//  Created by COBY_PRO on 2022/11/03.
+//  Created by COBY_PRO on 2022/11/15.
 //
 
 import UIKit
@@ -10,17 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
-final class RegionListHorizontalView: UIView {
-
-    private let reigionList = ["전체", "서울", "부산", "포항", "동해", "삼척", "강릉", "춘천", "속초"]
+final class StateTagListView: UIView {
     
-    private var parent: MainViewController?
+    private var parent: RegionViewController?
+    
+    private let stateList: [String] = ["전체", "서울강북", "서울강남"]
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
         static let collectionVerticalSpacing: CGFloat = 0.0
-        static let cellWidth: CGFloat = 60
-        static let cellHeight: CGFloat = 60
+        static let cellWidth: CGFloat = (UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2 - 24) / 4
+        static let cellHeight: CGFloat = 40
         static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
@@ -33,7 +33,7 @@ final class RegionListHorizontalView: UIView {
         $0.scrollDirection = .horizontal
         $0.sectionInset = Size.collectionInset
         $0.itemSize = CGSize(width: Size.cellWidth, height: Size.cellHeight)
-        $0.minimumLineSpacing = 6
+        $0.minimumLineSpacing = 8
     }
     
     private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
@@ -41,8 +41,8 @@ final class RegionListHorizontalView: UIView {
         $0.dataSource = self
         $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
-        $0.register(RegionCollectionViewCell.self,
-                                forCellWithReuseIdentifier: RegionCollectionViewCell.className)
+        $0.register(StateCollectionViewCell.self,
+                                forCellWithReuseIdentifier: StateCollectionViewCell.className)
     }
     
     // MARK: - init
@@ -64,34 +64,37 @@ final class RegionListHorizontalView: UIView {
         }
     }
     
-    func setParentViewController(viewController: MainViewController) {
+    func setParentViewController(viewController: RegionViewController) {
         self.parent = viewController
     }
 }
 
 // MARK: - UICollectionViewDataSource
-extension RegionListHorizontalView: UICollectionViewDataSource {
+extension StateTagListView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reigionList.count
+        return stateList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegionCollectionViewCell.className, for: indexPath) as? RegionCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StateCollectionViewCell.className, for: indexPath) as? StateCollectionViewCell else {
             assert(false, "Wrong Cell")
         }
         
-        if indexPath.item == 0 {
-            cell.isSelected = true
+        cell.stateLabel.text = stateList[indexPath.item]
+        
+        if let selectedState = parent?.selectedState {
+            if stateList[indexPath.item] == selectedState {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            }
         }
         
-        cell.regionLabel.text = reigionList[indexPath.item]
-    
         return cell
     }
 }
 
 // MARK: - UICollectionViewDelegate
-extension RegionListHorizontalView: UICollectionViewDelegateFlowLayout {
+extension StateTagListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        parent?.setState(state: stateList[indexPath.item])
     }
 }

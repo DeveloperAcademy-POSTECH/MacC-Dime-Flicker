@@ -41,6 +41,10 @@
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
+		CB26EFD3292385F100B9B137 /* RegionTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD2292385F100B9B137 /* RegionTagView.swift */; };
+		CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD5292396F000B9B137 /* RegionTagListView.swift */; };
+		CB3314E729232C7B00E11D70 /* AppTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314E629232C7B00E11D70 /* AppTitleView.swift */; };
+		CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314EA292339AC00E11D70 /* RegionViewController.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
 		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
@@ -56,6 +60,8 @@
 		CB5BF4802919E15400A3E112 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF47D2919E15400A3E112 /* User.swift */; };
 		CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */; };
 		CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4822919E1A800A3E112 /* SendButton.swift */; };
+		CBB0ACF42923A1FA00B3381F /* StateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF32923A1FA00B3381F /* StateCollectionViewCell.swift */; };
+		CBB0ACF62923A21C00B3381F /* StateTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF52923A21C00B3381F /* StateTagListView.swift */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
 		CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */; };
 		CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D729060E6600C6CF30 /* MainViewController.swift */; };
@@ -115,6 +121,10 @@
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		CB26EFD2292385F100B9B137 /* RegionTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTagView.swift; sourceTree = "<group>"; };
+		CB26EFD5292396F000B9B137 /* RegionTagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTagListView.swift; sourceTree = "<group>"; };
+		CB3314E629232C7B00E11D70 /* AppTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTitleView.swift; sourceTree = "<group>"; };
+		CB3314EA292339AC00E11D70 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
@@ -130,6 +140,8 @@
 		CB5BF47D2919E15400A3E112 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		CB5BF4822919E1A800A3E112 /* SendButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendButton.swift; sourceTree = "<group>"; };
+		CBB0ACF32923A1FA00B3381F /* StateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCollectionViewCell.swift; sourceTree = "<group>"; };
+		CBB0ACF52923A21C00B3381F /* StateTagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTagListView.swift; sourceTree = "<group>"; };
 		CBDC03D029060E6600C6CF30 /* Flicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDC03D329060E6600C6CF30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDC03D529060E6600C6CF30 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -246,6 +258,34 @@
 				A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */,
 			);
 			path = Artist;
+			sourceTree = "<group>";
+		};
+		CB26EFD4292396E000B9B137 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				CBB0ACF52923A21C00B3381F /* StateTagListView.swift */,
+				CB26EFD5292396F000B9B137 /* RegionTagListView.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		CB3314E82923311400E11D70 /* Region */ = {
+			isa = PBXGroup;
+			children = (
+				CB26EFD4292396E000B9B137 /* UIComponent */,
+				CB3314E92923399E00E11D70 /* Cell */,
+				CB3314EA292339AC00E11D70 /* RegionViewController.swift */,
+			);
+			path = Region;
+			sourceTree = "<group>";
+		};
+		CB3314E92923399E00E11D70 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CBB0ACF32923A1FA00B3381F /* StateCollectionViewCell.swift */,
+				CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		CB5B1C2E29134F75001E1EBD /* Frameworks */ = {
@@ -438,6 +478,7 @@
 				CBDC04282906123700C6CF30 /* Login */,
 				CBDC04272906123100C6CF30 /* SignUp */,
 				CBDC042D2906126B00C6CF30 /* Main */,
+				CB3314E82923311400E11D70 /* Region */,
 				CBDC043B2906149000C6CF30 /* Search */,
 				CBDC043E290614FD00C6CF30 /* Profile */,
 			);
@@ -512,6 +553,8 @@
 			isa = PBXGroup;
 			children = (
 				CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */,
+				CB3314E629232C7B00E11D70 /* AppTitleView.swift */,
+				CB26EFD2292385F100B9B137 /* RegionTagView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -519,7 +562,6 @@
 		CBFBC05D2913432100FBBD17 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */,
 				CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */,
 			);
 			path = Cell;
@@ -622,9 +664,11 @@
 				58118D39291132FB00F08D35 /* ArtistRegisterViewController.swift in Sources */,
 				A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */,
 				CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */,
+				CB3314E729232C7B00E11D70 /* AppTitleView.swift in Sources */,
 				CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */,
 				CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */,
 				CBDC03F329060F2500C6CF30 /* BaseViewController.swift in Sources */,
+				CBB0ACF62923A21C00B3381F /* StateTagListView.swift in Sources */,
 				58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */,
 				CB5BF47A2919E10700A3E112 /* ChannelTableViewCell.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
@@ -632,9 +676,11 @@
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
+				CB26EFD3292385F100B9B137 /* RegionTagView.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */,
+				CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
@@ -648,6 +694,7 @@
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
 				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CB5BF4792919E10700A3E112 /* ChannelsViewController.swift in Sources */,
+				CBB0ACF42923A1FA00B3381F /* StateCollectionViewCell.swift in Sources */,
 				58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */,
 				CB5BF47E2919E15400A3E112 /* ChatMessage.swift in Sources */,
 				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
@@ -679,6 +726,7 @@
 				A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */,
 				A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */,
 				5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */,
+				CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,7 +876,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -865,7 +913,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

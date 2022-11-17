@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let AuthController = UINavigationController(rootViewController: LogInViewController())
-        window?.rootViewController = Auth.auth().currentUser != nil ? TabbarViewController() : AuthController
-        
+        window?.rootViewController = TabbarViewController()
+
         window?.makeKeyAndVisible()
     }
     
