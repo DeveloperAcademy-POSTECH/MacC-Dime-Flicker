@@ -76,14 +76,15 @@ class BaseViewController: UIViewController {
         offsetView.addSubview(button)
         return offsetView
     }
-    
-    // MARK: - private func
-    private func setupBackButton() {
+
+    func setupBackButton() {
         let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 10)
         let backButton = makeBarButtonItem(with: leftOffsetBackButton)
         
         navigationItem.leftBarButtonItem = backButton
     }
+
+    // MARK: - private func
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
