@@ -216,6 +216,7 @@ final class FirebaseManager: NSObject {
         }
     }
     
+    // 이건 왜 콜백함수지요?
     func downloadImage(at imageUrl: String, completion: @escaping (UIImage?) -> Void) {
         let ref = storage.reference(forURL: imageUrl)
         let megaByte = Int64(1 * 1024 * 1024)
@@ -226,6 +227,32 @@ final class FirebaseManager: NSObject {
                 return
             }
             completion(UIImage(data: imageData))
+        }
+    }
+    
+    func uploadImage(images: [UIImage]) async -> [String] {
+//        guard let uid = auth.currentUser?.uid else { return }
+        var urlArray: [String] = []
+        
+        do {
+            let ref = storage.reference(withPath: "testImageUrl")
+            let imageRef = ref.child("testImageUrl")
+            print(ref.fullPath)
+            
+            try await images.asyncForEach { photo in
+                guard let photoData = photo.jpegData(compressionQuality: 0.5) else { return }
+                let result = try await imageRef.putDataAsync(photoData)
+                print(result)
+                let imageUrl = try await imageRef.downloadURL().absoluteString
+                urlArray.append(imageUrl)
+            }
+            
+            return urlArray
+            
+            
+        } catch {
+            print("uploading Images error")
+            return []
         }
     }
 }
