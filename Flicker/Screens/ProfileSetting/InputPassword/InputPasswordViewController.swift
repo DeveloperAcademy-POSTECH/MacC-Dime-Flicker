@@ -108,7 +108,11 @@ final class InputPasswordViewController: BaseViewController {
     }
 
     @objc private func didTapSignInbutton() {
-        reAuthUser()
+        //TODO: -
+        // 애플재인증과 이메일 재인증을 분기처리하기 위해 서버에 이메일,애플로그인 구별을 하던
+        // 코어데이터를 활용해서 하든 이메일로그인 인지 애플로그인 인지 식별을 해야함
+//        reAuthUser()
+        appleLoginReAuthUser()
     }
     //사용자 재인증 함수, 이메일은 파베에서 가져오고 비밀번호는 사용자가 입력 한 후, 비밀번호가 틀릴 시 재입력요구, 성공하면 ProfileSettingView로 넘어감
     private func reAuthUser() {
@@ -122,9 +126,27 @@ final class InputPasswordViewController: BaseViewController {
                 print(error)
                 self.makeAlert(title: "비밀번호를 확인해주세요", message: "")
             } else {
-                let viewController = ProfileSettingViewController()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                Task{ [weak self] in
+//                    self?.dismiss(animated:true, completion:nil )
+                    let viewController = ProfileSettingViewController()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                }
             }
+        }
+    }
+    //애플 재인증 함수
+    private func appleLoginReAuthUser() {
+        // Initialize a fresh Apple credential with Firebase.
+        let credential = OAuthProvider.credential(
+          withProviderID: "apple.com",
+          idToken: LogInViewController.shared.currentAppleIdToken ?? "",
+          rawNonce: LogInViewController.shared.currentNonce
+        )
+        // Reauthenticate current Apple user with fresh Apple credential.
+        Auth.auth().currentUser?.reauthenticate(with: credential) { (authResult, error) in
+            guard error != nil else { return }
+            let viewController = ProfileSettingViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
 }

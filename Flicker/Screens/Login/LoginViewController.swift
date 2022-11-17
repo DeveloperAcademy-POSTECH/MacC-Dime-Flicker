@@ -17,7 +17,10 @@ import FirebaseFirestore
 
 final class LogInViewController: BaseViewController {
 
-    fileprivate var currentNonce: String?
+    static let shared = LogInViewController()
+
+    var currentNonce: String?
+    var currentAppleIdToken: String?
 
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
         $0.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
@@ -303,7 +306,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             }
             //문자열로 변환
             guard let idTokenString = String(data: appleIDtoken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDtoken.debugDescription)")
+                print("Unable to serialize token string from data: \(currentAppleIdToken.debugDescription)")
                 return
             }
 
@@ -315,6 +318,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 if let user = authDataResult?.user {
                     //로그인 성공 시
                     self.goProfile()
+                    self.currentAppleIdToken = idTokenString
                 }
 
                 if error != nil {

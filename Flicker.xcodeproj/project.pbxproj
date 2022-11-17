@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		102A4BEB29253AB2005A8BE5 /* AppleLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */; };
 		1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */; };
 		1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */; };
 		103EB1FC29224F2600E11A2A /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginManager.swift; sourceTree = "<group>"; };
 		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
 		1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProfileViewController.swift; sourceTree = "<group>"; };
 		103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
@@ -204,23 +206,6 @@
 				103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */,
 			);
 			path = WithDraw;
-			sourceTree = "<group>";
-		};
-		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
-			isa = PBXGroup;
-			children = (
-				108561142924FBD10083E156 /* InputPassword */,
-				108561102923EAB00083E156 /* ProfileSettingViewController.swift */,
-			);
-			path = ProfileSetting;
-			sourceTree = "<group>";
-		};
-		108561142924FBD10083E156 /* InputPassword */ = {
-			isa = PBXGroup;
-			children = (
-				108561152924FBFD0083E156 /* InputPasswordViewController.swift */,
-			);
-			path = InputPassword;
 			sourceTree = "<group>";
 		};
 		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
@@ -459,6 +444,7 @@
 				CBDC03F829060F6400C6CF30 /* Logger.swift */,
 				CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */,
 				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
+				102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -728,6 +714,7 @@
 				CB26EFD3292385F100B9B137 /* RegionTagView.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
+				102A4BEB29253AB2005A8BE5 /* AppleLoginManager.swift in Sources */,
 				7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */,
 				CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */,
 				108561162924FBFD0083E156 /* InputPasswordViewController.swift in Sources */,
