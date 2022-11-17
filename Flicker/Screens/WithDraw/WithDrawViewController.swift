@@ -54,19 +54,19 @@ final class WithDrawViewController: BaseViewController {
         
         mainLabel.snp.makeConstraints {
             $0.top.equalTo(navigationDivider.snp.bottom).offset(170)
-            $0.leading.equalToSuperview().inset(30)
+            $0.leading.equalToSuperview().inset(45)
         }
         
         subLabel.snp.makeConstraints {
             $0.top.equalTo(mainLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(30)
+            $0.leading.equalToSuperview().inset(45)
             $0.width.equalTo(220)
             $0.height.equalTo(60)
         }
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(subLabel.snp.bottom).offset(40)
-            $0.trailing.equalToSuperview().inset(30)
+            $0.trailing.equalToSuperview().inset(45)
         }
         
         signOutButton.snp.makeConstraints {

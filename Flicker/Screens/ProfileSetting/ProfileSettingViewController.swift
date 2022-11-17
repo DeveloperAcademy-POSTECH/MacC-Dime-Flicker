@@ -102,13 +102,13 @@ final class ProfileSettingViewController: BaseViewController {
 
     private let logOutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.setTitleColor( .textMainBlack, for: .normal)
         $0.backgroundColor = .clear
     }
 
     private let withDrawButton = UIButton().then {
         $0.setTitle("회원탈퇴", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.setTitleColor( .red, for: .normal)
         $0.backgroundColor = .clear
     }
 
@@ -117,7 +117,7 @@ final class ProfileSettingViewController: BaseViewController {
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider, logOutButton, withDrawButton)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider, logOutButton, withDrawButton)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -127,14 +127,9 @@ final class ProfileSettingViewController: BaseViewController {
         logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
         withDrawButton.addTarget(self, action: #selector(didTapWithDrawButton), for: .touchUpInside)
 
-        navigationDivider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2)
-        }
 
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }

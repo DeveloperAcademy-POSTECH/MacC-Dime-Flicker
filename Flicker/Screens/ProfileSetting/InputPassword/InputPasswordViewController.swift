@@ -22,7 +22,7 @@ final class InputPasswordViewController: BaseViewController {
 
     private let firstSubLabel = UILabel().makeBasicLabel(labelText: "개인정보를 안전하게 보호하기 위하여", textColor: .textSubBlack, fontStyle: .callout, fontWeight: .bold)
 
-    private let secondSubLabel = UILabel().makeBasicLabel(labelText: "SUGGLE 아이디 비밀번호를 한번 더 입력해주세요.", textColor: .textSubBlack, fontStyle: .callout, fontWeight: .bold)
+    private let secondSubLabel = UILabel().makeBasicLabel(labelText: "SHUGGLE 아이디 비밀번호를 한번 더 입력해주세요.", textColor: .textSubBlack, fontStyle: .callout, fontWeight: .bold)
 
     private let passwordField = UITextField().then {
         let attributes = [
@@ -61,7 +61,7 @@ final class InputPasswordViewController: BaseViewController {
         }
 
         mainLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.top.equalTo(view.snp.centerY).offset(-250)
             $0.leading.equalToSuperview().inset(20)
         }
 
@@ -76,13 +76,13 @@ final class InputPasswordViewController: BaseViewController {
         }
 
         passwordField.snp.makeConstraints {
-            $0.top.equalTo(secondSubLabel.snp.bottom).offset(15)
+            $0.top.equalTo(secondSubLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
 
         certifiedButton.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(15)
+            $0.top.equalTo(passwordField.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
