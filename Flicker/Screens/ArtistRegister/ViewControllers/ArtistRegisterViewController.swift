@@ -48,17 +48,17 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - loading UI view
     private let loadingView = UIView().then {
         $0.isHidden = true
-        $0.backgroundColor = .systemGray.withAlphaComponent(0.6)
+        $0.backgroundColor = .black.withAlphaComponent(0.7)
     }
     
     private let spinnerView = UIActivityIndicatorView(style: .large).then {
         $0.color = .mainPink
     }
     
-    private let loadingLabel = UILabel().makeBasicLabel(labelText: "사진이 올라가는 중이에요!", textColor: .mainPink, fontStyle: .subheadline, fontWeight: .bold).then {
-//        $0.layer.shadowOffset = CGSize(width: 0, height: -3.0)
-//        $0.layer.shadowRadius = 5
-//        $0.shadowColor = .black.withAlphaComponent(0.7)
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "등록 중이에요!", textColor: .mainPink.withAlphaComponent(0.8), fontStyle: .headline, fontWeight: .bold).then {
+        $0.shadowOffset = CGSize(width: 0.7, height: 0.7)
+        $0.layer.shadowRadius = 20
+        $0.shadowColor = .black.withAlphaComponent(0.6)
         $0.isHidden = true
     }
 
@@ -108,7 +108,7 @@ final class ArtistRegisterViewController: UIViewController {
         }
         
         loadingView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+            $0.edges.equalToSuperview()
         }
         
         spinnerView.snp.makeConstraints {
@@ -117,7 +117,7 @@ final class ArtistRegisterViewController: UIViewController {
         
         loadingLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(50)
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
         }
     }
     
@@ -184,13 +184,12 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
     
     func photoSelected(photos imagesPicked: [UIImage]) {
         self.temporaryImages = imagesPicked
-//        self.dataSourceToServer.portfolioImageUrls = imagesPicked
     }
 }
 
     // MARK: - action functions
 extension ArtistRegisterViewController {
-    // MARK: button layout changes as keyboard goes up and down
+    // MARK: action with layout changes as keyboard goes up and down
     @objc func moveUpAction(_ notification: Notification) {
         let userInfos = notification.userInfo
         guard let keyboardSize = userInfos?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
@@ -232,17 +231,18 @@ extension ArtistRegisterViewController {
         dynamicNextButton.addGestureRecognizer(buttonTapped)
     }
     
+    // MARK: custom navigation bar back button action
     private func customBackButtom() {
         let backButtonTapped = UITapGestureRecognizer(target: self, action: #selector(moveBackTapped))
         customNavigationBarView.customBackButton.addGestureRecognizer(backButtonTapped)
     }
     
-    // MARK: Alert (+ Networking)
+    // MARK: alert action with networking *
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-            // spinnerView hidden false
             self.openLoadingView()
+            
             Task {
                 let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
                 self.dataSourceToServer.portfolioImageUrls = urlsString
@@ -250,7 +250,7 @@ extension ArtistRegisterViewController {
                 print("Artist is \(self.dataSourceToServer)")
                 print("Uploading Process is Done.")
                 // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
-                // Artist() 모델이 모두 완성이 되는 시점이라 여기서 업데이트를 해줘야 합니다.
+                // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
                 self.hideLoadingView()
                 self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
             }
@@ -262,6 +262,7 @@ extension ArtistRegisterViewController {
         present(recheckAlert, animated: true, completion: nil)
     }
     
+    // MARK: changing loading view status action
     private func openLoadingView() {
         self.loadingView.isHidden = false
         self.spinnerView.startAnimating()
@@ -274,6 +275,7 @@ extension ArtistRegisterViewController {
         self.loadingLabel.isHidden = true
     }
     
+    // MARK: moving foward and backward to next pages action
     @objc func moveNextTapped() {
         let regionEmpty = dataSourceToServer.city.isEmpty
         let bodyEmpty = dataSourceToServer.camera.isEmpty
