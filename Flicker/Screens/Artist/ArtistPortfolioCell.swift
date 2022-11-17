@@ -7,9 +7,7 @@
 import UIKit
 import Then
 
-class ArtistPortfolioCell: UICollectionViewCell {
-    static let identifier =
-    "ArtistPortfolioCell"
+final class ArtistPortfolioCell: UICollectionViewCell {
 
     let imageView: UIImageView = UIImageView(frame: .zero).then {
         $0.contentMode = .scaleToFill

@@ -8,8 +8,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HeaderCollectionReusableView: UICollectionReusableView {
-    static let identifier = "HeaderCollectionReusableView"
+final class HeaderCollectionReusableView: UICollectionReusableView {
 
     private let networkManager = NetworkManager.shared
 
@@ -74,30 +73,30 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         $0.tintColor = .mainPink
     }
 
-    private let lensInfoImageView = UIImageView().then {
-        $0.image = UIImage(systemName: "camera.metering.center.weighted")
-        $0.tintColor = .mainPink
-    }
-
     private let bodyInfoImageView = UIImageView().then {
         $0.image = UIImage(systemName: "circle.rectangle.filled.pattern.diagonalline")
         $0.tintColor = .mainPink
     }
 
-    private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black, fontStyle: .callout, fontWeight: .light)
+    private let lensInfoImageView = UIImageView().then {
+        $0.image = UIImage(systemName: "camera.metering.center.weighted")
+        $0.tintColor = .mainPink
+    }
 
-    private let lensInfo = UILabel().makeBasicLabel(labelText: "Sony 50mm f1.8 GM", textColor: .black, fontStyle: .callout, fontWeight: .light)
+    private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
 
-    private let bodyInfo = UILabel().makeBasicLabel(labelText: "Sony a7m3", textColor: .black, fontStyle: .callout, fontWeight: .light)
+    private let bodyInfo = UILabel().makeBasicLabel(labelText: "Sony a32", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
+
+    private let lensInfo = UILabel().makeBasicLabel(labelText: "Sony 50mm f1.8 GM", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
 
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
 
-        self.addSubviews(regionInfo, lensInfo, bodyInfo)
+        self.addSubviews(regionInfo, bodyInfo, lensInfo)
 
-        self.addSubviews(regionImageView, lensInfoImageView, bodyInfoImageView)
+        self.addSubviews(regionImageView, bodyInfoImageView, lensInfoImageView)
 
         configureImageScrollView()
         setFunctionAndDelegate()
@@ -188,26 +187,26 @@ class HeaderCollectionReusableView: UICollectionReusableView {
             $0.centerY.equalTo(regionImageView)
         }
 
-        lensInfoImageView.snp.makeConstraints {
+        bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
             $0.top.equalTo(regionInfo.snp.bottom).offset(5)
             $0.width.height.equalTo(20)
         }
         
-        lensInfo.snp.makeConstraints {
-            $0.leading.equalTo(lensInfoImageView.snp.trailing).offset(8)
-            $0.centerY.equalTo(lensInfoImageView)
-        }
-
-        bodyInfoImageView.snp.makeConstraints {
-            $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(lensInfoImageView.snp.bottom).offset(5)
-            $0.width.height.equalTo(20)
-        }
-
         bodyInfo.snp.makeConstraints {
             $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
             $0.centerY.equalTo(bodyInfoImageView)
+        }
+
+        lensInfoImageView.snp.makeConstraints {
+            $0.leading.equalTo(secondSeperator)
+            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(5)
+            $0.width.height.equalTo(20)
+        }
+
+        lensInfo.snp.makeConstraints {
+            $0.leading.equalTo(lensInfoImageView.snp.trailing).offset(8)
+            $0.centerY.equalTo(lensInfoImageView)
         }
     }
 

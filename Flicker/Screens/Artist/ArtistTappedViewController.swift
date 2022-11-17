@@ -8,7 +8,7 @@ import UIKit
 import Then
 import SnapKit
 
-class ArtistTappedViewController: BaseViewController {
+final class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
@@ -56,9 +56,9 @@ class ArtistTappedViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.identifier)
+        collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.className)
 
-        collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
+        collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
 
         setDelegateAndDataSource()
         
@@ -137,6 +137,7 @@ class ArtistTappedViewController: BaseViewController {
                 self.collectionView.reloadData()
             }
         } catch {
+            print("=====================")
             print(error)
         }
     }
@@ -218,7 +219,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     // ReusableCell setting + image loading
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.identifier, for: indexPath) as! ArtistPortfolioCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.className, for: indexPath) as! ArtistPortfolioCell
 
         // 이미지 URL을 가진 response 배열
         let image = imageList[indexPath.item]
@@ -228,7 +229,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
 
     // dequeheaderView, set headerHeight
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.className, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
 
         headerView.resetPortfolioImage(with: imageList)

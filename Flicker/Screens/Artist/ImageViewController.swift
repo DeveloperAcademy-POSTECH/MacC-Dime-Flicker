@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ImageViewController: UIViewController {
+final class ImageViewController: UIViewController {
 
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
