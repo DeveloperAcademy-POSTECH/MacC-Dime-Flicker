@@ -229,9 +229,6 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         headerView.resetPortfolioImage(with: imageList)
         return headerView
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-    }
 }
 
 extension ArtistTappedViewController: UICollectionViewDelegate {
