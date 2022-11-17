@@ -18,9 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         let AuthController = UINavigationController(rootViewController: LogInViewController())
+<<<<<<< refs/remotes/origin/Feat/38-SignOutView
         window?.rootViewController = Auth.auth().currentUser != nil ? TabbarViewController() : AuthController
-
-//        window?.rootViewController = WithDrawViewController()
+=======
+        // window?.rootViewController = Auth.auth().currentUser != nil ? TabbarViewController() : AuthController
+        window?.rootViewController = TabbarViewController()
+        // window?.rootViewController = RegisterWelcomeViewController()
+>>>>>>> :art: 유저의 상태에 따라 테이블 셀을 변화시킵니다.
         window?.makeKeyAndVisible()
     }
     

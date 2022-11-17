@@ -2,22 +2,18 @@
 //  ProfileSettingViewController.swift
 //  Flicker
 //
-//  Created by 김연호 on 2022/11/02.
+//  Created by 김연호 on 2022/11/16.
 //
-
 import UIKit
 
 import SnapKit
 import Then
 import FirebaseAuth
-
-final class LoginProfileViewController: BaseViewController {
-
-    //이전 뷰에서 데이터를 전달받는 변수들
-    var isSignUpEmail: Bool = false
-    var authEmail: String = ""
-    var authPassword: String = ""
-
+/*
+ LoginProfileViewController와 같은 뷰이지만 재사용성을 강조해 두 뷰를 종속시키는 것 보다
+ 그냥 같은 뷰를 새로 그려 따로 관리하는 것이 더 효율적이라고 생각이 되어 거의 같은 코드를 쓰는 뷰가 두 개가 있습니다.
+ */
+final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
 
     private lazy var imagePicker = UIImagePickerController().then {
@@ -68,7 +64,6 @@ final class LoginProfileViewController: BaseViewController {
         $0.leftViewMode = .always
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
-        $0.autocorrectionType = .no
     }
 
     private let nickNameTextFieldClearButton = UIButton().then {
@@ -93,7 +88,7 @@ final class LoginProfileViewController: BaseViewController {
     private let signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitle("완료", for: .normal)
+        $0.setTitle("수정 완료", for: .normal)
         $0.layer.cornerRadius = 15
     }
 
@@ -107,13 +102,13 @@ final class LoginProfileViewController: BaseViewController {
 
     private let logOutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.setTitleColor( .textMainBlack, for: .normal)
         $0.backgroundColor = .clear
     }
 
-    private let signOutButton = UIButton().then {
+    private let withDrawButton = UIButton().then {
         $0.setTitle("회원탈퇴", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.setTitleColor( .red, for: .normal)
         $0.backgroundColor = .clear
     }
 
@@ -122,22 +117,19 @@ final class LoginProfileViewController: BaseViewController {
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider, logOutButton, withDrawButton)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
+        logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
+        withDrawButton.addTarget(self, action: #selector(didTapWithDrawButton), for: .touchUpInside)
 
-        navigationDivider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2)
-        }
 
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }
@@ -208,25 +200,25 @@ final class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
+
+        logOutButton.snp.makeConstraints {
+            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
+            $0.trailing.equalTo(view.snp.centerX).offset(-25)
+        }
+
+        withDrawButton.snp.makeConstraints {
+            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
+            $0.leading.equalTo(view.snp.centerX).offset(25)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        title = "프로필 입력"
+        title = "프로필 수정"
     }
 
     @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {
@@ -258,37 +250,26 @@ final class LoginProfileViewController: BaseViewController {
     }
     //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
-        let viewController = TabbarViewController()
-        //애플 로그인을 통해 로그인을 할 경우 LoginProfileVC에 들어왔을 때 이미 로그인이 되어있어 creatNewAccount를 할 필요가 없으며,
-        //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
-        if isSignUpEmail {
-            Task { [weak self] in
-                await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
-                await FirebaseManager.shared.storeUserInformation(email: authEmail,
-                                                                  name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
-                self?.navigationController?.pushViewController(viewController, animated: true)
-            }
-        } else {
-            let fireBaseUser = Auth.auth().currentUser
-            Task { [weak self] in
-                if let fireBaseUser = fireBaseUser {
-                    let email = fireBaseUser.email
-                }
-                await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
-                                                                  name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
-                self?.navigationController?.pushViewController(viewController, animated: true)
-            }
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
     }
+
+    @objc private func didTapLogOutButton() {
+        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
+        })
+    }
+
+    @objc private func didTapWithDrawButton() {
+        let viewController = WithDrawViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
 }
 
-extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
     override func textFieldDidEndEditing(_ textField: UITextField) {
         isNickNameWrite = true
@@ -298,6 +279,7 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         var newImage : UIImage? = nil // update 할 이미지
+
         if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             newImage = possibleImage    // 수정된 이미지가 있을 경우
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {

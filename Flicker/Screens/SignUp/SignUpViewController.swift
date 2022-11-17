@@ -12,22 +12,25 @@ import Then
 
 final class SignUpViewController: BaseViewController {
 
+    private let didTapSignUpEmail = true
+
     private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .black, fontStyle: .largeTitle, fontWeight: .bold)
 
-    
+
     private let signUpLabel = UILabel().then {
         $0.tintColor = .black
-        $0.font = .preferredFont(forTextStyle: .body, weight: .semibold)
+        $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.numberOfLines = 2
         $0.text = "로그인에 사용될 이메일과 비밀번호를 설정해주세요"
     }
-    
+
     private let emailField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-        
+
+        $0.tag = 0
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
@@ -37,16 +40,20 @@ final class SignUpViewController: BaseViewController {
         $0.leftViewMode = .always
         $0.clipsToBounds = false
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+        $0.autocorrectionType = .no
+
     }
-    
+
+    private let emailValidCheckLabel = UILabel().makeBasicLabel(labelText: "이메일 주소를 확인해 주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+
     private let passwordField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
-        
+        $0.tag = 1
         $0.backgroundColor = .loginGray
-        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 (최소 6자 이상)", attributes: attributes)
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
@@ -54,98 +61,176 @@ final class SignUpViewController: BaseViewController {
         $0.clipsToBounds = false
         $0.isSecureTextEntry = true
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+        $0.autocorrectionType = .no
     }
-    
+
+    private let passwordValidCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호는 6자리 이상으로 작성해주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+
+    private let passwordSameCheckField = UITextField().then {
+        let attributes = [
+            NSAttributedString.Key.foregroundColor : UIColor.white,
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
+        ]
+        $0.tag = 2
+        $0.backgroundColor = .loginGray
+        $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 확인", attributes: attributes)
+        $0.layer.cornerRadius = 12
+        $0.layer.masksToBounds = true
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        $0.leftViewMode = .always
+        $0.clipsToBounds = false
+        $0.isSecureTextEntry = true
+        $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
+        $0.autocorrectionType = .no
+    }
+
+    private let passwordSameCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호가 일치하지 않습니다.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+
     private lazy var signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitle("완료", for: .normal)
+        $0.setTitle("다음", for: .normal)
         $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
     }
-    
+
     private let navigationDivider = UIView().then {
         $0.backgroundColor = .loginGray
     }
-    
+
     override func render() {
         emailField.delegate = self
         passwordField.delegate = self
-        
-        view.addSubviews(signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider)
-        
-        
+        passwordSameCheckField.delegate = self
+
+        emailField.returnKeyType = .done
+        passwordField.returnKeyType = .done
+        passwordSameCheckField.returnKeyType = .done
+
+        emailValidCheckLabel.isHidden = true
+        passwordValidCheckLabel.isHidden = true
+        passwordSameCheckLabel.isHidden = true
+
+        view.addSubviews(emailValidCheckLabel ,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
+
         signUpTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
-        
+
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(signUpTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(30)
             $0.width.equalTo(250)
         }
-        
+
         emailField.snp.makeConstraints {
             $0.top.equalTo(signUpLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
-        
+
+        emailValidCheckLabel.snp.makeConstraints {
+            $0.top.equalTo(emailField.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(40)
+        }
+
         passwordField.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(10)
+            $0.top.equalTo(emailField.snp.bottom).offset(45)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
-        
-        
+
+        passwordValidCheckLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordField.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(40)
+        }
+
+        passwordSameCheckField.snp.makeConstraints {
+            $0.top.equalTo(passwordField.snp.bottom).offset(45)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(60)
+        }
+
+        passwordSameCheckLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordSameCheckField.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(40)
+        }
+
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
+            $0.height.equalTo(55)
         }
-        
+
         navigationDivider.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(2)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailField.becomeFirstResponder()
     }
-    
+
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        
+
         title = "프로필 입력"
-        
     }
-    
+    //
     @objc private func didTapSignUpButton() {
+
         let viewController = LoginProfileViewController()
-        guard let email = emailField.text, !email.isEmpty,
-              let password = passwordField.text, !password.isEmpty else {
+        guard let email = emailField.text, emailValidCheck(emailField),
+              let password = passwordField.text, passwordValidCheck(passwordField),
+              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
             print("Missing field data")
             return
         }
-        //TODO: email값을 다음 뷰에 넘겨줘 다음 뷰에서 email값과 name값을 파베로 넘겨줘야 함
-        Task { [weak self] in
-            await FirebaseManager.shared.createNewAccount(email: email, password: password)
-            //            await FirebaseManager.shared.storeUserInformation(email: email, name: name)
-            self?.navigationController?.pushViewController(viewController, animated: true)
-        }
+
+        viewController.authEmail = email
+        viewController.authPassword = passwordCheck
+        viewController.isSignUpEmail = self.didTapSignUpEmail
+
+        self.navigationController?.pushViewController(viewController, animated: true)
+
     }
-    
 }
-    extension SignUpViewController {
-        override func textFieldDidEndEditing(_ textField: UITextField) {
-            if !(emailField.text!.isEmpty || passwordField.text!.isEmpty) {
-                signUpButton.backgroundColor = .mainPink
+
+extension SignUpViewController {
+    override func textFieldDidEndEditing(_ textField: UITextField) {
+        //이메일 유효성 검사 후 검사에 통과하면 아무 표시도 하지않고 검사에 통과하지 못한다면 라벨을 통해 이메일을 확인하라는 표시를 해줌
+        switch textField.tag {
+        case 0:
+            if !emailValidCheck(emailField) {
+                emailValidCheckLabel.isHidden = false
+
             } else {
-                signUpButton.backgroundColor = .loginGray
+                emailValidCheckLabel.isHidden = true
             }
+        case 1:
+            if !passwordValidCheck(passwordField) {
+                passwordValidCheckLabel.isHidden = false
+                
+            } else {
+                passwordValidCheckLabel.isHidden = true
+            }
+        case 2:
+            if !passwordSameCheck(passwordField, passwordSameCheckField) {
+                passwordSameCheckLabel.isHidden = false
+            } else {
+                passwordSameCheckLabel.isHidden = true
+            }
+        default: return
+        }
+
+        if ( emailValidCheck(emailField) && passwordValidCheck(passwordField) && passwordSameCheck(passwordField, passwordSameCheckField)) {
+            signUpButton.backgroundColor = .mainPink
+        } else {
+            signUpButton.backgroundColor = .loginGray
         }
     }
+}

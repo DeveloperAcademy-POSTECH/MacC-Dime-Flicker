@@ -58,9 +58,9 @@ final class ProfileViewController: BaseViewController {
     }
     // MARK: - Setting Functions
     @objc func didTapGesture() {
-        print("asdf")
-        navigationController?
-            .pushViewController(LoginProfileViewController(), animated: true)
+        let viewController = InputPasswordViewController()
+        let modalNavigationController = UINavigationController(rootViewController: viewController)
+        present(modalNavigationController, animated: true)
     }
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
