@@ -6,10 +6,44 @@
 //
 import Foundation
 
-enum MyActivities: String, CaseIterable {
-    case alertItem = "알람"
+enum SettingsNoArtists: String, CaseIterable {
+    case alertItem = "알림"
     case enrollItem = "작가등록"
     case consultItem = "문의하기"
+}
+
+enum SettingsArtists: String, CaseIterable {
+    case alertItem = "알림"
+    case portfolioItem = "작가설정"
+    case consultItem = "문의하기"
+}
+
+enum Logout: String, CaseIterable {
+    case logoutItem = "로그아웃"
+}
+
+enum SignOut: String, CaseIterable {
+    case signOutItem = "탈퇴하기"
+}
+
+enum ProfileSection: Int {
+    case SettingsNoArtists
+    case SettingArtists
+    case Logout
+    case SignOut
+    
+    var sectionOption: [String] {
+        switch self {
+        case .SettingsNoArtists:
+            return ["알람", "작가등록", "문의하기"]
+        case .SettingArtists:
+            return ["알람", "작가설정", "문의하기"]
+        case .Logout:
+            return ["로그아웃"]
+        case .SignOut:
+            return ["탈퇴하기"]
+        }
+    }
 }
 
 //struct SettingCell {
@@ -23,20 +57,9 @@ enum MyActivities: String, CaseIterable {
 //
 //let cells = [cell, cell, cell, cell, cell, cell, cell]
 
-
-enum ServiceOption: String, CaseIterable {
-    case agreementItem = "이용약관"
-    case companyInformationItem = "회사정보"
-    case consultItem = "문의하기"
-}
-
-enum ProfileSection: Int {
-    case myActivity
-
-    var sectionOption: [String] {
-        switch self {
-        case .myActivity:
-            return ["알람", "작가 등록", "문의하기"]
-        }
-    }
-}
+// MARK: - 현재 안 사용되고 있는 enum
+//enum ServiceOption: String, CaseIterable {
+//    case agreementItem = "이용약관"
+//    case companyInformationItem = "회사정보"
+//    case consultItem = "문의하기"
+//}
