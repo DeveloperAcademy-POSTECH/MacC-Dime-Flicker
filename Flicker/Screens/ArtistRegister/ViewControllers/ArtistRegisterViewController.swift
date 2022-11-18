@@ -244,7 +244,7 @@ extension ArtistRegisterViewController {
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             // MARK: Concurrent uploading photos
             self.openLoadingView()
-            
+            // TODO: 이렇게 동시성을 가지고 공유자원인 하나의 array(= self.temporaryStrings)에 접근하게 되면, scheduling problem 이 생길 수 있다. 단순 append 만 하는데에도 문제가 생길 수 있을까?
             for photo in self.temporaryImages {
                 Task {
                     async let urlString = self.dataFirebase.uploadImage(photo: photo)
