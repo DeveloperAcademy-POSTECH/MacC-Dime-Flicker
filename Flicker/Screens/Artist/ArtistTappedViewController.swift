@@ -133,8 +133,6 @@ final class ArtistTappedViewController: BaseViewController {
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
             }
-            
-            
         } catch {
             print(error)
         }
@@ -271,7 +269,6 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         resetNavigationBarBackground()
     }
 }
-
 
 extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
     
