@@ -21,6 +21,7 @@ final class ArtistRegisterViewController: UIViewController {
     private var dataSourceToServer = Artist(city: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
     
     private var temporaryImages: [UIImage] = []
+    private var temporaryStrings: [String] = []
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()

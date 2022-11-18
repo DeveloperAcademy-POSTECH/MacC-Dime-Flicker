@@ -240,14 +240,14 @@ final class FirebaseManager: NSObject {
         do {
             let ref = storage.reference()
             try await images.asyncForEach { photo in
-                guard let photoData = photo.jpegData(compressionQuality: 0.5) else { return }
+                guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return }
                 // fileName 을 데이터의 .hashValue 로 해도 되나? -> 중복된 사진을 걸러내는 데에 어려움이 있을 것 같다. 해결책은?
                 let fileName = photoData.hashValue
                 let imageRef = ref.child("testImageUrl/\(fileName).jpg")
                 
                 let uploadResult = try await imageRef
                     .putDataAsync(photoData)
-                dump(uploadResult)
+                print(uploadResult)
                 let imageUrl = try await imageRef.downloadURL().absoluteString
                 urlArray.append(imageUrl)
             }
