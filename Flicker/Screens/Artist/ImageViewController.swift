@@ -20,7 +20,7 @@ final class ImageViewController: UIViewController {
 
     private let cancelImageView = UIImageView().then {
         $0.isUserInteractionEnabled = true
-        $0.tintColor = .mainPink
+        $0.tintColor = .white
         $0.contentMode = .scaleAspectFill
         $0.image = UIImage(systemName: "x.circle.fill")
     }
@@ -30,7 +30,7 @@ final class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(imageView, cancelImageView)
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         imageView.image = image
         cancelImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCancelButton(_:))))
         render()

@@ -20,7 +20,7 @@ final class ArtistTappedViewController: BaseViewController {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
         $0.itemSize = CGSize(width: imageWidth , height: imageWidth)
         $0.minimumLineSpacing = 5
-        $0.minimumInteritemSpacing = 5
+        $0.minimumInteritemSpacing = 1
         $0.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(headerHeight))
     }
     
