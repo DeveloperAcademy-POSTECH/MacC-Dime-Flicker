@@ -34,7 +34,13 @@ final class MainViewController: BaseViewController {
         $0.text = "SHUGGLE!"
     }
     
-    private lazy var regionTagView = RegionTagView().then {
+    private lazy var regionTagButton = UIButton().then {
+        $0.tintColor = .mainBlack
+        $0.setTitle("전체 ", for: .normal)
+        $0.setTitleColor(.mainBlack, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .title3, weight: .regular)
+        $0.setImage(ImageLiteral.btnDown, for: .normal)
+        $0.semanticContentAttribute = .forceRightToLeft
         $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
     }
     
@@ -60,21 +66,21 @@ final class MainViewController: BaseViewController {
         
         if let region = UserDefaults.standard.string(forKey: "region") {
             self.region = region
-            regionTagView.regionTagLabel.text = region
+            regionTagButton.setTitle("\(region) ", for: .normal)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, regionTagView, listCollectionView)
+        view.addSubviews(appTitleLabel, regionTagButton, listCollectionView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.leading.equalToSuperview().inset(20)
         }
         
-        regionTagView.snp.makeConstraints {
+        regionTagButton.snp.makeConstraints {
             $0.centerY.equalTo(appTitleLabel)
             $0.trailing.equalToSuperview().inset(20)
         }
@@ -90,7 +96,7 @@ final class MainViewController: BaseViewController {
     @objc func realoadTable(_ noti: Notification) {
         if let region = UserDefaults.standard.string(forKey: "region") {
             self.region = region
-            regionTagView.regionTagLabel.text = region
+            regionTagButton.setTitle("\(region) ", for: .normal)
         }
         
         print("지역 \(region)으로 변경")

@@ -45,9 +45,7 @@
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
-		CB26EFD3292385F100B9B137 /* RegionTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD2292385F100B9B137 /* RegionTagView.swift */; };
 		CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD5292396F000B9B137 /* RegionTagListView.swift */; };
-		CB3314E729232C7B00E11D70 /* AppTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314E629232C7B00E11D70 /* AppTitleView.swift */; };
 		CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314EA292339AC00E11D70 /* RegionViewController.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
@@ -129,9 +127,7 @@
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
-		CB26EFD2292385F100B9B137 /* RegionTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTagView.swift; sourceTree = "<group>"; };
 		CB26EFD5292396F000B9B137 /* RegionTagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTagListView.swift; sourceTree = "<group>"; };
-		CB3314E629232C7B00E11D70 /* AppTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTitleView.swift; sourceTree = "<group>"; };
 		CB3314EA292339AC00E11D70 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -589,8 +585,6 @@
 			isa = PBXGroup;
 			children = (
 				CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */,
-				CB3314E629232C7B00E11D70 /* AppTitleView.swift */,
-				CB26EFD2292385F100B9B137 /* RegionTagView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -701,7 +695,6 @@
 				58118D39291132FB00F08D35 /* ArtistRegisterViewController.swift in Sources */,
 				A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */,
 				CBDC040129060FD600C6CF30 /* UIViewController+Extension.swift in Sources */,
-				CB3314E729232C7B00E11D70 /* AppTitleView.swift in Sources */,
 				CBDC0411290610A200C6CF30 /* UITextView+Extension.swift in Sources */,
 				103EB1FC29224F2600E11A2A /* WithDrawViewController.swift in Sources */,
 				CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */,
@@ -714,7 +707,6 @@
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
-				CB26EFD3292385F100B9B137 /* RegionTagView.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
 				102A4BEB29253AB2005A8BE5 /* AppleLoginManager.swift in Sources */,
