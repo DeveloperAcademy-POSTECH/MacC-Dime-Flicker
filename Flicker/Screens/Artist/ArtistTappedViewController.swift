@@ -72,7 +72,6 @@ final class ArtistTappedViewController: BaseViewController {
         configUI()
         setupBackButton()
         setupNavigationBar()
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -85,6 +84,7 @@ final class ArtistTappedViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func configUI() {
@@ -135,6 +135,19 @@ final class ArtistTappedViewController: BaseViewController {
             }
         } catch {
             print(error)
+        }
+    }
+
+    private func resetNavigationBarBackground() {
+        if collectionView.contentOffset.y > 280 {
+            navigationController?.navigationBar.backgroundColor = .white
+            statusBarBackGroundView.isHidden = false
+            navigationBarSeperator.isHidden = false
+
+        } else {
+            navigationController?.navigationBar.backgroundColor = .clear
+            statusBarBackGroundView.isHidden = true
+            navigationBarSeperator.isHidden = true
         }
     }
     
@@ -245,22 +258,15 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         viewController.completion = {
             self.statusBarBackGroundView.isHidden = false
             self.navigationBarSeperator.isHidden = false
+            self.tabBarController?.tabBar.isHidden = true
+            self.resetNavigationBarBackground()
         }
         present(viewController, animated: false)
     }
     
     // 스크롤시 네비게이션바 커스텀화
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if collectionView.contentOffset.y > 280 {
-            navigationController?.navigationBar.backgroundColor = .white
-            statusBarBackGroundView.isHidden = false
-            navigationBarSeperator.isHidden = false
-            
-        } else {
-            navigationController?.navigationBar.backgroundColor = .clear
-            statusBarBackGroundView.isHidden = true
-            navigationBarSeperator.isHidden = true
-        }
+        resetNavigationBarBackground()
     }
 }
 
