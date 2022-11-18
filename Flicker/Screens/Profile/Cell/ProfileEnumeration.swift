@@ -27,20 +27,20 @@ enum SignOut: String, CaseIterable {
 }
 
 enum ProfileSection: Int {
-    case SettingsNoArtists
-    case SettingArtists
-    case Logout
-    case SignOut
+    case settingsNoArtists
+    case settingsArtists
+    case logout
+    case signOut
     
     var sectionOption: [String] {
         switch self {
-        case .SettingsNoArtists:
+        case .settingsNoArtists:
             return ["알람", "작가등록", "문의하기"]
-        case .SettingArtists:
+        case .settingsArtists:
             return ["알람", "작가설정", "문의하기"]
-        case .Logout:
+        case .logout:
             return ["로그아웃"]
-        case .SignOut:
+        case .signOut:
             return ["탈퇴하기"]
         }
     }

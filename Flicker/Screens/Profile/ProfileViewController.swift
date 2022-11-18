@@ -12,8 +12,8 @@ final class ProfileViewController: BaseViewController {
     private let userName: String? = nil
     private var isArtist: Bool = false
     private let sectionHeaderTitle = ["설정"]
-    private let NotArtistCells = ["알림", "작가등록", "문의하기"]
-    private let ArtistCells = ["알림", "작가설정", "문의하기"]
+    private let notArtistCells = ["알림", "작가등록", "문의하기", "로그아웃", "탈퇴하기"]
+    private let artistCells = ["알림", "작가설정", "문의하기", "로그아웃", "탈퇴하기"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
     private let tableView = UITableView(frame: CGRectZero, style: .insetGrouped).then {
@@ -53,8 +53,8 @@ final class ProfileViewController: BaseViewController {
         tableView.dataSource = self
     }
     private func setTabGesture() {
-        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
-        self.profileHeader.addGestureRecognizer(tabGesture)
+        let tabHeaderGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        self.profileHeader.addGestureRecognizer(tabHeaderGesture)
     }
     // MARK: - Setting Functions
     @objc func didTapGesture() {
@@ -75,16 +75,40 @@ final class ProfileViewController: BaseViewController {
     private func goToCustomerInquiry() {
         self.sendReportMail()
     }
+    private func doLogout() {
+        let alert = UIAlertController(title: "로그아웃", message: "", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "예", style: .destructive, handler: nil)
+        let no = UIAlertAction(title: "아니요", style: .default, handler: nil)
+        alert.addAction(no)
+        alert.addAction(yes)
+        present(alert, animated: true, completion: nil)
+    }
+    private func doSignOut() {
+        navigationController?
+            .pushViewController(AccountDeleteViewController(), animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
+//
+//        switch ProfileSection(rawValue: indexPath.section) {
+//        case .settingsArtists:
+//            cell.setupCellData(ProfileSection.settingsArtists.sectionOption[indexPath.row], spacing: 5)
+//        case .logout:
+//            cell.setupCellData(ProfileSection.logout.sectionOption[indexPath.row], spacing: 5)
+//        case .signOut:
+//            cell.setupCellData(ProfileSection.signOut.sectionOption[indexPath.row], spacing: 5)
+//        case .none:
+//            print("none")
+//        }
+        
         if isArtist {
-            cell.cellTextLabel.text = ArtistCells[indexPath.row]
+            cell.cellTextLabel.text = artistCells[indexPath.row]
         } else {
-            cell.cellTextLabel.text = NotArtistCells[indexPath.row]
+            cell.cellTextLabel.text = notArtistCells[indexPath.row]
         }
         switch indexPath.row {
         case 0:
@@ -100,14 +124,23 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ArtistCells.count
+        return notArtistCells.count
+//        switch ProfileSection(rawValue: section) {
+//        case .settingsNoArtists: return SettingsNoArtists.allCases.count
+//        case .settingsArtists: return SettingsArtists.allCases.count
+//        case .logout: return Logout.allCases.count
+//        case .signOut: return SignOut.allCases.count
+//        case .none:
+//            print("numberOfRowsInSection Error")
+//            return 0
+//        }
     }
     
 }
 
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate {
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionHeaderTitle.count
     }
@@ -123,6 +156,10 @@ extension ProfileViewController: UITableViewDelegate {
             goToArtistRegistration()
         case 2:
             goToCustomerInquiry()
+        case 3:
+            doLogout()
+        case 4:
+            doSignOut()
         default:
             print("")
         }
