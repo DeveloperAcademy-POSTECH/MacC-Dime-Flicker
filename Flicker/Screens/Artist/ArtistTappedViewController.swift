@@ -130,9 +130,11 @@ final class ArtistTappedViewController: BaseViewController {
         do {
             self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
             self.collectionView.reloadData()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
             }
+            
+            
         } catch {
             print(error)
         }
