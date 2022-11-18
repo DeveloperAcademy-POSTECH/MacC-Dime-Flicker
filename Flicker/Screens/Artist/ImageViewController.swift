@@ -12,7 +12,7 @@ import Then
 final class ImageViewController: UIViewController {
 
     private let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
 
@@ -20,7 +20,7 @@ final class ImageViewController: UIViewController {
 
     private let cancelImageView = UIImageView().then {
         $0.isUserInteractionEnabled = true
-        $0.tintColor = .white
+        $0.tintColor = .mainPink
         $0.contentMode = .scaleAspectFill
         $0.image = UIImage(systemName: "x.circle.fill")
     }
