@@ -19,7 +19,6 @@ final class LogInViewController: BaseViewController {
 
     static let shared = LogInViewController()
     
-    var failSendEmail: Bool = false
     var currentNonce: String?
     var currentAppleIdToken: String?
 

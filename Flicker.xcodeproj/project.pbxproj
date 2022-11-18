@@ -212,12 +212,12 @@
 			path = WithDraw;
 			sourceTree = "<group>";
 		};
-		107841FD29267C1E004849FC /* New Group */ = {
+		107841FD29267C1E004849FC /* ResetPassword */ = {
 			isa = PBXGroup;
 			children = (
 				107841FE29267C34004849FC /* PopUpViewController.swift */,
 			);
-			path = "New Group";
+			path = ResetPassword;
 			sourceTree = "<group>";
 		};
 		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
@@ -553,7 +553,7 @@
 		CBDC04282906123700C6CF30 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				107841FD29267C1E004849FC /* New Group */,
+				107841FD29267C1E004849FC /* ResetPassword */,
 				CBDC042B2906125A00C6CF30 /* LoginViewController.swift */,
 			);
 			path = Login;

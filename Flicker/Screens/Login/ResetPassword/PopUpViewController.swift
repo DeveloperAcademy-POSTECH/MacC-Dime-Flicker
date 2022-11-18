@@ -9,14 +9,9 @@ import UIKit
 
 import SnapKit
 import Then
-import AuthenticationServices
-import Firebase
 import FirebaseAuth
-import FirebaseFirestore
 
 final class PopUpViewController: BaseViewController  {
-
-   private var isFailSendEmail = false
 
     private let popUpView = UIView().then {
         $0.clipsToBounds = true
