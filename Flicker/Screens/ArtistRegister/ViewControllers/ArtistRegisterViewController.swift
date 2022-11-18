@@ -245,9 +245,18 @@ extension ArtistRegisterViewController {
             self.openLoadingView()
             
             Task {
-                let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
-                self.dataSourceToServer.portfolioImageUrls = urlsString
-                print("urlString is \(urlsString)")
+                print("------\(self.temporaryImages)")
+                for photo in self.temporaryImages {
+                    async let urlString = self.dataFirebase.uploadImage(photo: photo, urls: self.temporaryStrings)
+                    self.temporaryStrings = await urlString
+                    print("------\(self.temporaryStrings)")
+                }
+                
+//                let result = await self.temporaryStrings
+                
+//                let urlsString = await self.dataFirebase.uploadImage(images: self.temporaryImages)
+//                self.dataSourceToServer.portfolioImageUrls = urlsString
+                print("urlString is \(self.temporaryStrings)")
                 print("Artist is \(self.dataSourceToServer)")
                 print("Uploading Process is Done.")
                 // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
