@@ -69,7 +69,6 @@ final class RegionViewController: BaseViewController {
     
     func setState(state: String) {
         self.selectedState = state
-        print(state)
         
         DispatchQueue.main.async {
             self.regionTagListView.regionList = self.regionList[self.selectedState] ?? ["전체"]
@@ -79,12 +78,16 @@ final class RegionViewController: BaseViewController {
     
     func setRegion(region: String) {
         self.selectedRegion = region
-        print(region)
     }
     
     // MARK: - selector
     
     @objc private func didTapCompleteButton() {
+        UserDefaults.standard.setValue(selectedState, forKey: "state")
+        UserDefaults.standard.setValue(selectedRegion, forKey: "region")
+        
+        NotificationCenter.default.post(name: Notification.Name("willDissmiss"), object: nil)
+        
         dismiss(animated: true, completion: nil)
     }
 }

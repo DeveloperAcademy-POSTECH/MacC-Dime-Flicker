@@ -31,7 +31,6 @@ final class MainViewController: BaseViewController {
     
     private lazy var regionTagView = RegionTagView().then {
         $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
-        $0.regionTagLabel.text = region
     }
     
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
@@ -47,6 +46,17 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let region = UserDefaults.standard.string(forKey: "region") {
+            self.region = region
+            regionTagView.regionTagLabel.text = region
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
     
     override func setupNavigationBar() {
@@ -72,11 +82,14 @@ final class MainViewController: BaseViewController {
     
     // MARK: - func
     
-    func setRegion(region: String) {
-        self.region = region
+    @objc func realoadTable(_ noti: Notification) {
+        if let region = UserDefaults.standard.string(forKey: "region") {
+            self.region = region
+            regionTagView.regionTagLabel.text = region
+        }
+        
+        print("지역 \(region)으로 변경")
     }
-    
-    // MARK: - selector
     
     @objc private func didTapRegionTag() {
         let vc = RegionViewController()
