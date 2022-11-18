@@ -18,7 +18,8 @@ import FirebaseFirestore
 final class LogInViewController: BaseViewController {
 
     static let shared = LogInViewController()
-
+    
+    var failSendEmail: Bool = false
     var currentNonce: String?
     var currentAppleIdToken: String?
 
@@ -94,6 +95,12 @@ final class LogInViewController: BaseViewController {
         $0.backgroundColor = .clear
     }
 
+    private let resetPasswordButton = UIButton().then {
+        $0.setTitle("비밀번호 재설정", for: .normal)
+        $0.setTitleColor( .textSubBlack, for: .normal)
+        $0.backgroundColor = .clear
+    }
+
     private let loginDividerFirst = UIView().then {
         $0.backgroundColor = .loginGray
     }
@@ -110,11 +117,12 @@ final class LogInViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, loginDividerFirst, loginDividerSecond, loginDividerText)
+        view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, resetPasswordButton ,loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
+        resetPasswordButton.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(60)
@@ -150,9 +158,14 @@ final class LogInViewController: BaseViewController {
         }
 
         signUpButton.snp.makeConstraints {
-            $0.top.equalTo(logInbutton.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(90)
-            $0.width.equalTo(100)
+            $0.top.equalTo(logInbutton.snp.bottom).offset(20)
+            $0.trailing.equalTo(view.snp.centerX).offset(-40)
+            $0.height.equalTo(30)
+        }
+
+        resetPasswordButton.snp.makeConstraints {
+            $0.top.equalTo(logInbutton.snp.bottom).offset(20)
+            $0.leading.equalTo(view.snp.centerX).offset(20)
             $0.height.equalTo(30)
         }
 
@@ -191,7 +204,7 @@ final class LogInViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
+
     private func goHome() {
         let viewController = TabbarViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -248,18 +261,24 @@ final class LogInViewController: BaseViewController {
         }
 
         Task { [weak self] in
-            guard let userId = await FirebaseManager.shared.signInUser(email: email, password: password) else {
-                return
+            if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
+                await FirebaseManager.shared.updateUserToken(uid: userId)
+                self?.goHome()
+            } else {
+                makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
             }
-            await FirebaseManager.shared.updateUserToken(uid: userId)
-            self?.goHome()
         }
-        makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
     }
 
     @objc private func didTapSignUpButton() {
         let viewController = SignUpViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc private func didTapResetPasswordButton() {
+        let popUpViewController = PopUpViewController()
+        popUpViewController.modalPresentationStyle = .overCurrentContext
+        present(popUpViewController, animated: true)
     }
 }
 

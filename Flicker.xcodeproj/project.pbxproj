@@ -11,6 +11,7 @@
 		1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */; };
 		1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */; };
 		103EB1FC29224F2600E11A2A /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */; };
+		107841FF29267C34004849FC /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107841FE29267C34004849FC /* PopUpViewController.swift */; };
 		108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108561102923EAB00083E156 /* ProfileSettingViewController.swift */; };
 		108561162924FBFD0083E156 /* InputPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108561152924FBFD0083E156 /* InputPasswordViewController.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
@@ -102,6 +103,7 @@
 		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
 		1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProfileViewController.swift; sourceTree = "<group>"; };
 		103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
+		107841FE29267C34004849FC /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		108561102923EAB00083E156 /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
 		108561152924FBFD0083E156 /* InputPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPasswordViewController.swift; sourceTree = "<group>"; };
 		58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRegisterViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,14 @@
 				103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */,
 			);
 			path = WithDraw;
+			sourceTree = "<group>";
+		};
+		107841FD29267C1E004849FC /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				107841FE29267C34004849FC /* PopUpViewController.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
@@ -543,6 +553,7 @@
 		CBDC04282906123700C6CF30 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				107841FD29267C1E004849FC /* New Group */,
 				CBDC042B2906125A00C6CF30 /* LoginViewController.swift */,
 			);
 			path = Login;
@@ -749,6 +760,7 @@
 				CB5BF4782919E10700A3E112 /* ChatSendView.swift in Sources */,
 				5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */,
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
+				107841FF29267C34004849FC /* PopUpViewController.swift in Sources */,
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
 				CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */,
 				CB5BF4762919E10700A3E112 /* MyChatTableViewCell.swift in Sources */,
