@@ -37,7 +37,17 @@ final class RegionViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        regionTagListView.regionList = regionList[selectedState] ?? ["전체"]
+        
+        regionTagListView.regionList = ["전체"]
+        
+        if let state = UserDefaults.standard.string(forKey: "state") {
+            self.selectedState = state
+            regionTagListView.regionList = regionList[state] ?? ["전체"]
+        }
+        
+        if let region = UserDefaults.standard.string(forKey: "region") {
+            self.selectedRegion = region
+        }
         
         stateTagListView.setParentViewController(viewController: self)
         regionTagListView.setParentViewController(viewController: self)
