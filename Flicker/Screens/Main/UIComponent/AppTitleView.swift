@@ -15,7 +15,7 @@ final class AppTitleView: UIView {
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 22)
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE!"
@@ -38,14 +38,13 @@ final class AppTitleView: UIView {
         self.addSubviews(appTitleLabel, appLogo)
         
         appTitleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.leading.centerY.equalToSuperview()
         }
         
         appLogo.snp.makeConstraints {
             $0.leading.equalTo(appTitleLabel.snp.trailing).offset(4)
             $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(30)
+            $0.width.height.equalTo(40)
         }
     }
 }

@@ -14,10 +14,10 @@ final class MainViewController: BaseViewController {
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
-        static let collectionVerticalSpacing: CGFloat = 20.0
+        static let collectionVerticalSpacing: CGFloat = 0.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
         static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: 0,
+        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
@@ -27,7 +27,12 @@ final class MainViewController: BaseViewController {
 
     // MARK: - property
     
-    private let appTitleView = AppTitleView()
+    private let appTitleLabel = UILabel().then {
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
+        $0.textColor = .mainPink
+        $0.textAlignment = .center
+        $0.text = "SHUGGLE!"
+    }
     
     private lazy var regionTagView = RegionTagView().then {
         $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
@@ -51,6 +56,8 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.isNavigationBarHidden = true
+        
         if let region = UserDefaults.standard.string(forKey: "region") {
             self.region = region
             regionTagView.regionTagLabel.text = region
@@ -59,23 +66,21 @@ final class MainViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
     
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-
-        let appTitleView = makeBarButtonItem(with: appTitleView)
-        let regionTagView = makeBarButtonItem(with: regionTagView)
-
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.largeTitleDisplayMode = .automatic
-        navigationItem.leftBarButtonItem = appTitleView
-        navigationItem.rightBarButtonItem = regionTagView
-    }
-    
     override func render() {
-        view.addSubviews(listCollectionView)
+        view.addSubviews(appTitleLabel, regionTagView, listCollectionView)
+        
+        appTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.leading.equalToSuperview().inset(20)
+        }
+        
+        regionTagView.snp.makeConstraints {
+            $0.centerY.equalTo(appTitleLabel)
+            $0.trailing.equalToSuperview().inset(20)
+        }
         
         listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(appTitleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -117,6 +122,20 @@ extension MainViewController: UICollectionViewDataSource {
         cell.artistProfileImageView.image = UIImage(named: "port2")
         
         return cell
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            guard velocity.y != 0 else { return }
+            if velocity.y < 0 {
+                let height = self?.tabBarController?.tabBar.frame.height ?? 0.0
+                self?.tabBarController?.tabBar.alpha = 1.0
+                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY - height)
+            } else {
+                self?.tabBarController?.tabBar.alpha = 0.0
+                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
+            }
+        }
     }
 }
 
