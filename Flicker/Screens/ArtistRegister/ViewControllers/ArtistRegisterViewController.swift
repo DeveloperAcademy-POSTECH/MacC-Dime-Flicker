@@ -242,20 +242,19 @@ extension ArtistRegisterViewController {
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
+            // MARK: Concurrent uploading photos
             self.openLoadingView()
             
             for photo in self.temporaryImages {
                 Task {
                     async let urlString = self.dataFirebase.uploadImage(photo: photo)
                     await self.temporaryStrings.append(urlString)
-                    print("------\(self.temporaryStrings)")
+                    print("Artist is \(self.dataSourceToServer)")
                 }
             }
-            print("urlString is \(self.temporaryStrings)")
-            print("Artist is \(self.dataSourceToServer)")
-            print("Uploading Process is Done.")
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
             // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
+            // 해당 func 필요
             self.hideLoadingView()
             self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
         }
