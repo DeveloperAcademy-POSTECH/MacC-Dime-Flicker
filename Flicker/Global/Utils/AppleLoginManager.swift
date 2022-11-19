@@ -76,5 +76,20 @@ final class AppleLoginManager: NSObject {
 
         return result
     }
-
+    //애플 재인증 함수
+    func appleLoginReAuthUser() -> UIViewController {
+        // Initialize a fresh Apple credential with Firebase.
+        let credential = OAuthProvider.credential(
+            withProviderID: "apple.com",
+            idToken: self.currentAppleIdToken ?? "",
+            rawNonce: self.currentNonce
+        )
+        // Reauthenticate current Apple user with fresh Apple credential.
+        Auth.auth().currentUser?.reauthenticate(with: credential) { (authResult, error) in
+            guard error != nil else { return }
+            let viewController = ProfileSettingViewController()
+            return viewController
+//            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 }
