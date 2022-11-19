@@ -255,6 +255,7 @@ extension ArtistRegisterViewController {
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
             // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
             // 해당 func 필요
+            // MARK: Intentional delay for uploading the photos
             self.openLoadingView()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 self.hideLoadingView()
