@@ -6,18 +6,19 @@
 //
 import Foundation
 
-enum Logout: String, CaseIterable {
-    case logoutItem = "로그아웃"
-}
-
-enum SignOut: String, CaseIterable {
-    case signOutItem = "탈퇴하기"
-}
-
-enum AppStrings {
+private enum AppStrings {
     static let regiseterArtist = "작가등록"
     static let settingArtist = "작가설정"
 }
+
+private enum Logout: String, CaseIterable {
+    case logoutItem = "로그아웃"
+}
+
+private enum SignOut: String, CaseIterable {
+    case signOutItem = "탈퇴하기"
+}
+
 
 enum ProfileSection: Int, CaseIterable {
     case settings
