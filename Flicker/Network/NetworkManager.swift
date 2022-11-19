@@ -48,15 +48,11 @@ class NetworkManager {
 
     func fetchImages(withURLs urls: [String]) async throws -> [UIImage] {
         var images: [UIImage] = []
-        try await withThrowingTaskGroup(of: (UIImage).self) { group in
-            for url in urls {
-                try Task.checkCancellation()
-                group.addTask {
-                    return try await self.fetchOneImage(withURL: url)
-                }
-            }
-            for try await imageDatum in group {
-                images.append(imageDatum)
+
+        for url in urls {
+            let image: UIImage = try await self.fetchOneImage(withURL: url)
+            if !images.contains(image) {
+                images.append(image)
             }
         }
         return images

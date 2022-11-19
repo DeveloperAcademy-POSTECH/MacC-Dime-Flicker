@@ -39,7 +39,6 @@ class RegisterRegionTagCell: UICollectionViewCell {
         super.layoutSubviews()
         self.backgroundColor = .regionBlue
         self.layer.masksToBounds = true
-        // 여기선 어떻게 동적으로 바꿔야할지 몰라서 일단 상수로 cornerRadiius 를 줬습니다.
         self.layer.cornerRadius = 8
     }
     

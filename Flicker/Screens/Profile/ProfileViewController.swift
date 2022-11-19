@@ -37,17 +37,17 @@ final class ProfileViewController: BaseViewController {
     override func render() {
         view.backgroundColor = .systemGray6
         view.addSubviews(tableView, profileHeader)
-        tableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
         profileHeader.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(tableView.snp.top)
             $0.height.equalTo(180)
         }
-        
+      
+        tableView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+
         tableView.tableHeaderView = profileHeader
     }
 
