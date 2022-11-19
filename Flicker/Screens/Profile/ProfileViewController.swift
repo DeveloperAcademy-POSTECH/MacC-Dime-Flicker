@@ -57,12 +57,12 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func setTabGesture() {
-        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
     // MARK: - Setting Functions
-    @objc func didTapGesture() {
+    @objc func didTapProfileHeader() {
         transition(InputPasswordViewController(), transitionStyle: .present)
     }
     
