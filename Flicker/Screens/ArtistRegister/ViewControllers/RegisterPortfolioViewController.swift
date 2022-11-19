@@ -176,14 +176,12 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
                 cell.mainPhotoMarkLabel.isHidden = false
                 cell.photoImage.layer.borderWidth = 4
                 self.delegate?.photoSelected(photos: portfolioPhotosFetched)
-//                print("넘어가기 전 ------------- \(self.portfolioPhotosFetched)")
                 return cell
             }
             cell.photoImage.image = self.portfolioPhotosFetched[indexPath.item]
             cell.mainPhotoMarkLabel.isHidden = true
             cell.photoImage.layer.borderWidth = 0
             self.delegate?.photoSelected(photos: portfolioPhotosFetched)
-//            print("넘어가기 전 ------------- \(self.portfolioPhotosFetched)")
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.addButton.rawValue, for: indexPath) as? RegisterAddPhotosCollectionViewCell else { return UICollectionViewCell()}
