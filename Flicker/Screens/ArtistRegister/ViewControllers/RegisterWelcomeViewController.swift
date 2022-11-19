@@ -119,7 +119,7 @@ extension RegisterWelcomeViewController {
     }
     
     @objc func moveNextTapped() {
-        navigationController?.pushViewController(ArtistRegisterViewController(), animated: false)
+        navigationController?.pushViewController(ArtistRegisterViewController(), animated: true)
     }
     
     @objc func moveBackTapped() {

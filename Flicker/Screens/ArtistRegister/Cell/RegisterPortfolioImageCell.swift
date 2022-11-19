@@ -13,18 +13,20 @@ class RegisterPortfolioImageCell: UICollectionViewCell {
     
     // MARK: - view UI components
     let photoImage = UIImageView().then {
+        $0.layer.borderColor = UIColor.systemPink.cgColor
+        $0.layer.borderWidth = 4
         $0.image = UIImage(systemName: "photo")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
     
-    let mainPhotoMarkLabel = UILabel().makeBasicLabel(labelText: "대표 사진", textColor: .white, fontStyle: .footnote, fontWeight: .bold).then {
+    lazy var mainPhotoMarkLabel = UILabel().makeBasicLabel(labelText: "대표 사진", textColor: .white, fontStyle: .footnote, fontWeight: .bold).then {
         $0.textAlignment = .center
         $0.clipsToBounds = true
-        $0.backgroundColor = .orange.withAlphaComponent(0.4)
+        $0.backgroundColor = .systemPink.withAlphaComponent(0.7)
         $0.isHidden = true
     }
-    
+
     // MARK: - life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,9 +55,9 @@ class RegisterPortfolioImageCell: UICollectionViewCell {
         }
         
         mainPhotoMarkLabel.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(5)
-            $0.height.equalToSuperview().dividedBy(5)
-            $0.width.equalToSuperview().dividedBy(1.8)
+            $0.top.trailing.equalToSuperview().inset(8)
+            $0.height.equalToSuperview().dividedBy(6)
+            $0.width.equalToSuperview().dividedBy(1.7)
         }
     }
     

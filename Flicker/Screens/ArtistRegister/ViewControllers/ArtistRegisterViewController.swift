@@ -53,6 +53,7 @@ final class ArtistRegisterViewController: UIViewController {
     }
     
     private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
         $0.color = .mainPink
     }
     
@@ -243,21 +244,24 @@ extension ArtistRegisterViewController {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             // MARK: Concurrent uploading photos
-            self.openLoadingView()
-            // TODO: 이렇게 동시성을 가지고 공유자원인 하나의 array(= self.temporaryStrings)에 접근하게 되면, scheduling problem 이 생길 수 있다. 단순 append 만 하는데에도 문제가 생길 수 있을까?
+            print("넘어 옴 ---------------------\(self.temporaryImages)")
             for photo in self.temporaryImages {
                 Task {
                     async let urlString = self.dataFirebase.uploadImage(photo: photo)
                     await self.temporaryStrings.append(urlString)
-                    print("Artist is \(self.dataSourceToServer)")
+                    print("Artist is \(self.temporaryStrings)")
                 }
             }
             // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
             // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
             // 해당 func 필요
-            self.hideLoadingView()
-            self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+            self.openLoadingView()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                self.hideLoadingView()
+                self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+            }
         }
+        
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         
         recheckAlert.addAction(confirm)
@@ -322,7 +326,7 @@ extension ArtistRegisterViewController {
     
     @objc func moveBackTapped() {
         if currentPage == pages[0] {
-            navigationController?.popViewController(animated: false)
+            navigationController?.popViewController(animated: true)
         } else {
             guard let page = pages.firstIndex(of: currentPage) else { return }
             pageViewController.setViewControllers([pages[page - 1]], direction: .reverse, animated: true)
