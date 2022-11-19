@@ -4,16 +4,16 @@
 //
 //  Created by Taehwan Kim on 2022/11/02.
 //
+
 import MessageUI
 import UIKit
 
 final class ProfileViewController: BaseViewController {
+    
     // MARK: - Properties
     private let userName: String? = nil
     private var isArtist: Bool = false
     private let sectionHeaderTitle = ["설정"]
-    private let notArtistCells = ["알림", "작가등록", "문의하기", "로그아웃", "탈퇴하기"]
-    private let artistCells = ["알림", "작가설정", "문의하기", "로그아웃", "탈퇴하기"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
     private let tableView = UITableView(frame: CGRectZero, style: .insetGrouped).then {
@@ -28,6 +28,7 @@ final class ProfileViewController: BaseViewController {
         render()
         setTabGesture()
     }
+    
     // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -40,11 +41,13 @@ final class ProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview()
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
         profileHeader.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(tableView.snp.top)
             $0.height.equalTo(180)
         }
+        
         tableView.tableHeaderView = profileHeader
     }
 
@@ -52,29 +55,35 @@ final class ProfileViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
     private func setTabGesture() {
-        let tabHeaderGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
-        self.profileHeader.addGestureRecognizer(tabHeaderGesture)
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        self.profileHeader.addGestureRecognizer(tabGesture)
     }
+    
     // MARK: - Setting Functions
     @objc func didTapGesture() {
         let viewController = InputPasswordViewController()
         let modalNavigationController = UINavigationController(rootViewController: viewController)
         present(modalNavigationController, animated: true)
     }
+    
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
         if !sender.isOn {
             makeAlert(title: "알림 비활성화", message: "")
         }
     }
+    
     private func goToArtistRegistration() {
         navigationController?
             .pushViewController(RegisterWelcomeViewController(), animated: true)
     }
+    
     private func goToCustomerInquiry() {
         self.sendReportMail()
     }
+    
     private func doLogout() {
         let alert = UIAlertController(title: "로그아웃", message: "", preferredStyle: .alert)
         let yes = UIAlertAction(title: "예", style: .destructive, handler: nil)
@@ -83,6 +92,7 @@ final class ProfileViewController: BaseViewController {
         alert.addAction(yes)
         present(alert, animated: true, completion: nil)
     }
+    
     private func doSignOut() {
         navigationController?
             .pushViewController(AccountDeleteViewController(), animated: true)
@@ -93,79 +103,67 @@ final class ProfileViewController: BaseViewController {
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
-//
-//        switch ProfileSection(rawValue: indexPath.section) {
-//        case .settingsArtists:
-//            cell.setupCellData(ProfileSection.settingsArtists.sectionOption[indexPath.row], spacing: 5)
-//        case .logout:
-//            cell.setupCellData(ProfileSection.logout.sectionOption[indexPath.row], spacing: 5)
-//        case .signOut:
-//            cell.setupCellData(ProfileSection.signOut.sectionOption[indexPath.row], spacing: 5)
-//        case .none:
-//            print("none")
-//        }
+        let section = ProfileSection(rawValue: indexPath.section)
         
-        if isArtist {
-            cell.cellTextLabel.text = artistCells[indexPath.row]
-        } else {
-            cell.cellTextLabel.text = notArtistCells[indexPath.row]
-        }
-        switch indexPath.row {
-        case 0:
-            let switchView = UISwitch(frame: .zero)
-            switchView.setOn(true, animated: true)
-            switchView.addTarget(self, action: #selector(didToggleSwitch), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.selectionStyle = .none
-        default:
-            cell.accessoryType = .disclosureIndicator
+        // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
+        cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
+        if section == .settings {
+            switch indexPath.row {
+            case 0:
+                let switchView = UISwitch(frame: .zero)
+                switchView.setOn(true, animated: true)
+                switchView.addTarget(self, action: #selector(didToggleSwitch), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+            default:
+                cell.accessoryType = .disclosureIndicator
+            }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notArtistCells.count
-//        switch ProfileSection(rawValue: section) {
-//        case .settingsNoArtists: return SettingsNoArtists.allCases.count
-//        case .settingsArtists: return SettingsArtists.allCases.count
-//        case .logout: return Logout.allCases.count
-//        case .signOut: return SignOut.allCases.count
-//        case .none:
-//            print("numberOfRowsInSection Error")
-//            return 0
-//        }
+        return ProfileSection(rawValue: section)!.sectionOptions(isArtist: self.isArtist).count
     }
-    
 }
 
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionHeaderTitle.count
+        return ProfileSection.allCases.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        sectionHeaderTitle[section]
+        return section == 0 ? sectionHeaderTitle.first : nil
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch indexPath.row {
-        case 1:
-            goToArtistRegistration()
-        case 2:
-            goToCustomerInquiry()
-        case 3:
-            doLogout()
-        case 4:
-            doSignOut()
-        default:
-            print("")
+        let section = ProfileSection(rawValue: indexPath.section)
+        
+        if section == .settings {
+            switch indexPath.row {
+            case 1:
+                isArtist ? print("이 영역에 작가 프로필을 수정 하는 뷰를 만들어 넣어야 합니다.") : goToArtistRegistration()
+            case 2:
+                goToCustomerInquiry()
+            default:
+                break
+            }
+        } else if indexPath.row == 0 {
+            switch section {
+            case .logout:
+                doLogout()
+            case .signOut:
+                doSignOut()
+            default:
+                break
+            }
         }
     }
 }
- 
+
 // MARK: - MFMailComposeViewControllerDelegate. 해당 델리게이트를 이용하여 email 송신 기능 가능
 extension ProfileViewController: MFMailComposeViewControllerDelegate {
     func sendReportMail() {
@@ -181,17 +179,15 @@ extension ProfileViewController: MFMailComposeViewControllerDelegate {
                               - 문의 날짜: \(currentDateString)
                               ------------------------------
                               - 내용
-
+                              
                               
                               
                               
                               """
-
             composeViewController.mailComposeDelegate = self
             composeViewController.setToRecipients([dimeEmail])
             composeViewController.setSubject("")
             composeViewController.setMessageBody(messageBody, isHTML: false)
-
             self.present(composeViewController, animated: true, completion: nil)
         }
         else {
