@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-    // TODO: (다음 버전에..)
+    // TODO: (다음 버전에..) 
 final class RegisterConfirmViewController: UIViewController {
 
     // MARK: - view UI components
