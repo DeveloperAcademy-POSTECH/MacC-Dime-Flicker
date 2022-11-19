@@ -201,6 +201,7 @@ extension RegisterPortfolioViewController: UICollectionViewDelegate {
         if indexPath.item == portfolioPhotosFetched.count {
             self.present(portfolioPicker, animated: true)
         } else {
+            // MARK: Selected Image moves to top of the array
             let selectedCellIndex = indexPath.item
             let selectedPhoto = self.portfolioPhotosFetched[selectedCellIndex]
             self.portfolioPhotosFetched.remove(at: selectedCellIndex)
