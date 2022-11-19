@@ -37,7 +37,17 @@ final class RegionViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        regionTagListView.regionList = regionList[selectedState] ?? ["전체"]
+        
+        regionTagListView.regionList = ["전체"]
+        
+        if let state = UserDefaults.standard.string(forKey: "state") {
+            self.selectedState = state
+            regionTagListView.regionList = regionList[state] ?? ["전체"]
+        }
+        
+        if let region = UserDefaults.standard.string(forKey: "region") {
+            self.selectedRegion = region
+        }
         
         stateTagListView.setParentViewController(viewController: self)
         regionTagListView.setParentViewController(viewController: self)
@@ -69,7 +79,6 @@ final class RegionViewController: BaseViewController {
     
     func setState(state: String) {
         self.selectedState = state
-        print(state)
         
         DispatchQueue.main.async {
             self.regionTagListView.regionList = self.regionList[self.selectedState] ?? ["전체"]
@@ -79,12 +88,16 @@ final class RegionViewController: BaseViewController {
     
     func setRegion(region: String) {
         self.selectedRegion = region
-        print(region)
     }
     
     // MARK: - selector
     
     @objc private func didTapCompleteButton() {
+        UserDefaults.standard.setValue(selectedState, forKey: "state")
+        UserDefaults.standard.setValue(selectedRegion, forKey: "region")
+        
+        NotificationCenter.default.post(name: Notification.Name("willDissmiss"), object: nil)
+        
         dismiss(animated: true, completion: nil)
     }
 }
