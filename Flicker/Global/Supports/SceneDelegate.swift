@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let AuthController = UINavigationController(rootViewController: LogInViewController())
         window?.rootViewController = Auth.auth().currentUser != nil ? TabbarViewController() : AuthController
 
-//        window?.rootViewController = WithDrawViewController()
+//        window?.rootViewController = ProfileViewController()
         window?.makeKeyAndVisible()
     }
     
