@@ -24,7 +24,6 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.isNavigationBarHidden = true
         setFunctionsAndDelegate()
         render()
         setTabGesture()
@@ -64,9 +63,7 @@ final class ProfileViewController: BaseViewController {
     
     // MARK: - Setting Functions
     @objc func didTapGesture() {
-        let viewController = InputPasswordViewController()
-        let modalNavigationController = UINavigationController(rootViewController: viewController)
-        present(modalNavigationController, animated: true)
+        transition(InputPasswordViewController(), transitionStyle: .present)
     }
     
     @objc func didToggleSwitch(_ sender: UISwitch) {
@@ -77,8 +74,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func goToArtistRegistration() {
-        navigationController?
-            .pushViewController(RegisterWelcomeViewController(), animated: true)
+        transition(RegisterWelcomeViewController(), transitionStyle: .push)
     }
     
     private func goToCustomerInquiry() {
@@ -95,8 +91,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func doSignOut() {
-        navigationController?
-            .pushViewController(AccountDeleteViewController(), animated: true)
+        transition(AccountDeleteViewController(), transitionStyle: .push)
     }
 }
 
