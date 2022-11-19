@@ -24,6 +24,7 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.navigationController?.isNavigationBarHidden = true
         setFunctionsAndDelegate()
         render()
         setTabGesture()
@@ -31,7 +32,7 @@ final class ProfileViewController: BaseViewController {
     
     // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func render() {
