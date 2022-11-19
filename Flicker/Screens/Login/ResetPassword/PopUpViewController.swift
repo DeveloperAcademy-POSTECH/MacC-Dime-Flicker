@@ -44,7 +44,7 @@ final class PopUpViewController: BaseViewController  {
 
     private let sendEmailButton = UIButton().then {
         $0.titleLabel?.font = .preferredFont(forTextStyle: .caption1)
-        $0.backgroundColor = .gray
+        $0.backgroundColor = .systemGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("보내기", for: .normal)
         $0.layer.cornerRadius = 12
@@ -52,7 +52,7 @@ final class PopUpViewController: BaseViewController  {
 
     private let cancleButton = UIButton().then {
         $0.titleLabel?.font = .preferredFont(forTextStyle: .caption1)
-        $0.backgroundColor = .gray
+        $0.backgroundColor = .systemGray2
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("나가기", for: .normal)
         $0.layer.cornerRadius = 12
@@ -73,11 +73,11 @@ final class PopUpViewController: BaseViewController  {
         popUpView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width * 0.75)
-            $0.height.equalTo(UIScreen.main.bounds.height * 0.45)
+            $0.height.equalTo(UIScreen.main.bounds.height * 0.35)
         }
 
         mainLabel.snp.makeConstraints {
-            $0.top.equalTo(popUpView.snp.top).offset(100)
+            $0.top.equalTo(popUpView.snp.top).offset(45)
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(40)
         }
