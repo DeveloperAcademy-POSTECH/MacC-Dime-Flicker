@@ -12,7 +12,7 @@ import Then
 final class ImageViewController: UIViewController {
 
     private let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
 
@@ -30,7 +30,7 @@ final class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(imageView, cancelImageView)
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         imageView.image = image
         cancelImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCancelButton(_:))))
         render()
