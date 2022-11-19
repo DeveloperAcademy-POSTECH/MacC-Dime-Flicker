@@ -56,7 +56,7 @@ final class RegisterWelcomeViewController: UIViewController {
     // MARK: - navigation bar hide configurations with life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // MARK: Tabbar Hides -> 마지막 작가 등록 View 에서 false 로 추가해야하는가? -> Merge 하고 체크해보자.
+        // MARK: Tabbar Hides -> 마지막 작가 등록 View 에서 false 로 추가해야하는가? -> Merge 하고 체크해보자. 
         self.tabBarController?.tabBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
