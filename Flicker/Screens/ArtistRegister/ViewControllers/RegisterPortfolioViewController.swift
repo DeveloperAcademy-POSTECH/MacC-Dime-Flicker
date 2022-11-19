@@ -119,10 +119,12 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
         
         let dispatchGroup = DispatchGroup()
         var temporaryImages = [UIImage]()
+        var indexNumber: Int = 0
         
         for photoItem in photoItems {
+            indexNumber += 1
             dispatchGroup.enter()
-
+            
             photoItem.loadObject(ofClass: UIImage.self) { photos, error in
                 if let image = photos as? UIImage {
                     guard let compressedImage = image.jpegData(compressionQuality: 0.0) else { return }
@@ -146,6 +148,7 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
             }
             
             self.delegate?.photoSelected(photos: temporaryImages)
+            print(temporaryImages)
         }
     }
 }
@@ -157,9 +160,15 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < portfolioPhotosFetched.count {
+        if indexPath.item < portfolioPhotosFetched.count {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.images.rawValue, for: indexPath) as? RegisterPortfolioImageCell else { return UICollectionViewCell()}
-            cell.photoImage.image = self.portfolioPhotosFetched[indexPath.row]
+            if indexPath.item == 0 {
+                cell.photoImage.image = self.portfolioPhotosFetched[indexPath.item]
+                cell.mainPhotoMarkLabel.isHidden = false
+                self.delegate?.photoSelected(photos: portfolioPhotosFetched)
+                return cell
+            }
+            cell.photoImage.image = self.portfolioPhotosFetched[indexPath.item]
             self.delegate?.photoSelected(photos: portfolioPhotosFetched)
             return cell
         } else {
@@ -175,8 +184,10 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     // MARK: - UICollectionView delegate
 extension RegisterPortfolioViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == portfolioPhotosFetched.count {
+        if indexPath.item == portfolioPhotosFetched.count {
             self.present(portfolioPicker, animated: true)
+        } else {
+            
         }
     }
 }
