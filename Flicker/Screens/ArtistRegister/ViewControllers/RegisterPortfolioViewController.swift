@@ -125,7 +125,10 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
 
             photoItem.loadObject(ofClass: UIImage.self) { photos, error in
                 if let image = photos as? UIImage {
-                    temporaryImages.append(image)
+                    guard let compressedImage = image.jpegData(compressionQuality: 0.0) else { return }
+                    if let jpegPhoto = UIImage(data: compressedImage) {
+                        temporaryImages.append(jpegPhoto)
+                    }
                 }
                 
                 if let error = error {

@@ -221,6 +221,7 @@ final class FirebaseManager: NSObject {
         }
     }
     
+    // 이건 왜 콜백함수지요?
     func downloadImage(at imageUrl: String, completion: @escaping (UIImage?) -> Void) {
         let ref = storage.reference(forURL: imageUrl)
         let megaByte = Int64(1 * 1024 * 1024)
@@ -231,6 +232,25 @@ final class FirebaseManager: NSObject {
                 return
             }
             completion(UIImage(data: imageData))
+        }
+    }
+    
+    func uploadImage(photo: UIImage) async -> String {
+        do {
+            let ref = storage.reference()
+            guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return "" }
+            // fileName 을 데이터의 .hashValue 로 해도 되나? -> 중복된 사진을 걸러내는 데에 어려움이 있을 것 같다. 해결책은?
+            let fileName = photoData.hashValue
+            let imageRef = ref.child("ArtistPortfolio/\(fileName).jpg")
+            
+            let _ = try await imageRef
+                .putDataAsync(photoData)
+            let imageUrl = try await imageRef.downloadURL().absoluteString
+            print("Success uploading Images")
+            return imageUrl
+        } catch {
+            print("uploading Images error")
+            return ""
         }
     }
 }
