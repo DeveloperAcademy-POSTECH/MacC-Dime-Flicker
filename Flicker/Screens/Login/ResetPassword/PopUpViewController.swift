@@ -52,7 +52,7 @@ final class PopUpViewController: BaseViewController  {
 
     private let cancleButton = UIButton().then {
         $0.titleLabel?.font = .preferredFont(forTextStyle: .caption1)
-        $0.backgroundColor = .mainPink
+        $0.backgroundColor = .gray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("나가기", for: .normal)
         $0.layer.cornerRadius = 12
@@ -73,13 +73,13 @@ final class PopUpViewController: BaseViewController  {
         popUpView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width * 0.75)
-            $0.height.equalTo(UIScreen.main.bounds.height * 0.3)
+            $0.height.equalTo(UIScreen.main.bounds.height * 0.45)
         }
 
         mainLabel.snp.makeConstraints {
-            $0.top.equalTo(popUpView.snp.top).offset(45)
+            $0.top.equalTo(popUpView.snp.top).offset(100)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.bottom.equalTo(popUpView.snp.top).offset(85)
+            $0.height.equalTo(40)
         }
 
         subLabel.snp.makeConstraints {
@@ -89,7 +89,7 @@ final class PopUpViewController: BaseViewController  {
         }
 
         emailField.snp.makeConstraints {
-            $0.top.equalTo(subLabel.snp.bottom).offset(10)
+            $0.top.equalTo(subLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(60)
         }
@@ -100,16 +100,16 @@ final class PopUpViewController: BaseViewController  {
         }
         
         sendEmailButton.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(25)
-            $0.bottom.equalTo(popUpView.snp.bottom).inset(30)
+            $0.top.equalTo(emailField.snp.bottom).offset(35)
+            $0.height.equalTo(50)
             $0.leading.equalToSuperview().inset(30)
-            $0.trailing.equalTo(emailField.snp.centerX).offset(-10)
+            $0.trailing.equalTo(emailField.snp.centerX).offset(-5)
         }
 
         cancleButton.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(25)
-            $0.bottom.equalTo(popUpView.snp.bottom).inset(30)
-            $0.leading.equalTo(emailField.snp.centerX).offset(10)
+            $0.top.equalTo(emailField.snp.bottom).offset(35)
+            $0.height.equalTo(50)
+            $0.leading.equalTo(emailField.snp.centerX).offset(5)
             $0.trailing.equalToSuperview().inset(30)
 
         }
@@ -129,7 +129,7 @@ final class PopUpViewController: BaseViewController  {
     @objc func didTapSendEmailButton() {
 
         if emailValidCheck(emailField) {
-            Auth.auth().sendPasswordReset(withEmail: emailField.text ?? "" ) {(error) in
+            Auth.auth().sendPasswordReset(withEmail: emailField.text ?? "" ) { error in
                 if error != nil {
                     self.makeAlert(title: "이메일보내기에 실패했습니다.", message: "이메일을 확인 해 주세요")
                     print("Fail to send")
