@@ -72,11 +72,11 @@ final class RegisterWelcomeViewController: UIViewController {
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.height.equalTo(view.bounds.height/16)
+            $0.height.equalTo(view.bounds.height/20)
         }
         
         mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/16)
+            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/18)
             $0.leading.equalToSuperview().inset(30)
         }
         

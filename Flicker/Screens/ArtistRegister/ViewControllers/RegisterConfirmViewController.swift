@@ -65,7 +65,7 @@ final class RegisterConfirmViewController: UIViewController {
         view.addSubviews(mainTitleLabel, subTitleLabel, mainImage, dynamicNextButton)
         
         mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(UIScreen.main.bounds.height/8)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(UIScreen.main.bounds.height/14)
             $0.leading.equalToSuperview().inset(30)
         }
         
@@ -75,7 +75,7 @@ final class RegisterConfirmViewController: UIViewController {
         }
         
         mainImage.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(30)
+            $0.top.equalTo(subTitleLabel.snp.bottom).offset(50)
             $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(UIScreen.main.bounds.height/2.5)
         }

@@ -98,7 +98,7 @@ final class ArtistRegisterViewController: UIViewController {
         }
         
         pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/24)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
         }
@@ -215,7 +215,7 @@ extension ArtistRegisterViewController {
     @objc func moveDownAction(_ notification: Notification) {
         UIView.animate(withDuration: 0.5) {
             self.pageViewController.view.snp.remakeConstraints {
-                $0.top.equalTo(self.customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+                $0.top.equalTo(self.customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/24)
                 $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
             }
@@ -264,7 +264,7 @@ extension ArtistRegisterViewController {
         }
         
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-        
+    
         recheckAlert.addAction(confirm)
         recheckAlert.addAction(cancel)
         present(recheckAlert, animated: true, completion: nil)
