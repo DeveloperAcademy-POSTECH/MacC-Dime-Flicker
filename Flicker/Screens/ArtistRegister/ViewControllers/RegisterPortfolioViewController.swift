@@ -27,7 +27,6 @@ final class RegisterPortfolioViewController: UIViewController {
         $0.text = "작가님의 포트폴리오를 제출해주세요!"
     }
     
-    // TODO: 검토하겠다는 말은 mvp 에서는 넣지 않고, 넣어도 맨 마지막에 "검토 후 알려드릴게요" 라고 하는게 어떨까요?
     private let bodyTitleLabel = UILabel().then {
         $0.numberOfLines = 3
         $0.textColor = .systemGray
@@ -73,6 +72,7 @@ final class RegisterPortfolioViewController: UIViewController {
         render()
     }
     
+    //MARK: Guide label for changing main photo by tapping images
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if self.portfolioPhotosFetched.count > 0 {
