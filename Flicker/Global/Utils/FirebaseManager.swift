@@ -236,6 +236,7 @@ final class FirebaseManager: NSObject {
     }
     
     func uploadImage(photo: UIImage) async -> String {
+        guard let uid = auth.currentUser?.uid else { return ""}
         do {
             let ref = storage.reference()
             guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return "" }

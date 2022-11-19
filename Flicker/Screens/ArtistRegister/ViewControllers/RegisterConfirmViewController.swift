@@ -16,21 +16,21 @@ final class RegisterConfirmViewController: UIViewController {
     private let mainTitleLabel = UILabel().then {
         $0.textColor = .black
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
-        $0.text = "축하드려요!"
+        $0.text = "등록 완료!"
     }
     
     private let subTitleLabel = UILabel().then {
         $0.textColor = .systemGray
         $0.numberOfLines = 0
         $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.text = "작가 등록 승인 받고 작가 활동을 시작해보세요. 승인 여부는 3~4일 정도 소요될 수 있습니다."
+        $0.text = "축하드립니다! 작가님의 공간이 등록 되었어요! 이제 작가 활동을 시작해보세요."
         $0.setLineSpacing(spacing: 3.0)
     }
     
     private lazy var mainImage = UIImageView().then {
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
-        $0.image = UIImage(named: "artistReg1.png")
+        $0.image = UIImage(named: "RegisterEnd.jpg")
     }
     
     // MARK: - action button UI components
@@ -57,7 +57,7 @@ final class RegisterConfirmViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     // MARK: - layout constraints
@@ -93,6 +93,10 @@ final class RegisterConfirmViewController: UIViewController {
         mainImage.layer.cornerRadius = view.bounds.width/20
         dynamicNextButton.layer.cornerRadius = view.bounds.width/18
     }
+    
+    deinit {
+        print("Register Done")
+    }
 }
 
 // MARK: - action functions
@@ -103,6 +107,6 @@ extension RegisterConfirmViewController {
     }
     
     @objc func moveNextTapped() {
-        navigationController?.pushViewController(ArtistTappedViewController(), animated: true)
+        navigationController?.pushViewController(TabbarViewController(), animated: true)
     }
 }
