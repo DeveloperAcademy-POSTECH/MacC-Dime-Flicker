@@ -10,9 +10,11 @@ import UIKit
 
 final class ProfileViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - Properties: User Data
     private let userName: String? = nil
     private var isArtist: Bool = false
+    
+    // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
@@ -21,7 +23,8 @@ final class ProfileViewController: BaseViewController {
         $0.showsVerticalScrollIndicator = false
         $0.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.className)
     }
-
+    
+    // MARK: - Funtions: UITable Rendering
     override func viewDidLoad() {
         super.viewDidLoad()
         setFunctionsAndDelegate()
@@ -29,7 +32,6 @@ final class ProfileViewController: BaseViewController {
         setTabGesture()
     }
     
-    // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -56,12 +58,12 @@ final class ProfileViewController: BaseViewController {
         tableView.dataSource = self
     }
     
+    // MARK: - Funtions: Table React
     private func setTabGesture() {
         let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
-    // MARK: - Setting Functions
     @objc func didTapProfileHeader() {
         transition(InputPasswordViewController(), transitionStyle: .present)
     }
@@ -95,7 +97,7 @@ final class ProfileViewController: BaseViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource: Table Cell Text && Indicator
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
@@ -123,7 +125,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate: Table Cell Funtions
 extension ProfileViewController: UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -160,7 +162,7 @@ extension ProfileViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - MFMailComposeViewControllerDelegate. 해당 델리게이트를 이용하여 email 송신 기능 가능
+// MARK: - MFMailComposeViewControllerDelegate: Email 송신 설정과 기능
 extension ProfileViewController: MFMailComposeViewControllerDelegate {
     func sendReportMail() {
         if MFMailComposeViewController.canSendMail() {
