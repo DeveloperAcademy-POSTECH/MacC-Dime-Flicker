@@ -29,7 +29,7 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         render()
         setTabGesture()
-
+        appleLoginReAuthUser()
     }
     
     // MARK: - rendering Functions
