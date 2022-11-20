@@ -68,7 +68,7 @@ final class ProfileHeaderVIew: UIView {
         }
         idLabel.snp.makeConstraints {
             $0.top.equalTo(profileImage.snp.top)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
         }
         emailLabel.snp.makeConstraints {
             $0.top.equalTo(idLabel.snp.bottom).offset(10)
