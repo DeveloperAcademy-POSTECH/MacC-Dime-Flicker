@@ -91,34 +91,27 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func doLogout() {
-        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
+        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in
+            Task {
+                [weak self] in
+                await LoginManager.shared.fireBaseSignOut()
+                DispatchQueue.main.async {
+                    self?.goLogin()
+                }
+            }
         })
     }
-
+    
     private func doSignOut() {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
-                await self?.appleLoginReAuthUser()
-                await self?.fireBasewithDraw()
+                await LoginManager.shared.appleLoginReAuthUser()
+                await LoginManager.shared.fireBasewithDraw()
                 self?.navigationController?
                     .pushViewController(WithDrawViewController(), animated: true)
             }
         })
     }
-    //애플 재인증 함수
-    private func appleLoginReAuthUser() async {
-        // Initialize a fresh Apple credential with Firebase.
-        let credential = OAuthProvider.credential(
-            withProviderID: "apple.com",
-            idToken: LogInViewController.shared.currentAppleIdToken ?? "",
-            rawNonce: LogInViewController.shared.currentNonce
-        )
-        // Reauthenticate current Apple user with fresh Apple credential.
-        Auth.auth().currentUser?.reauthenticate(with: credential) { (authResult, error) in
-            guard error != nil else { return }
-        }
-    }
-
 }
 
 // MARK: - UITableViewDataSource
