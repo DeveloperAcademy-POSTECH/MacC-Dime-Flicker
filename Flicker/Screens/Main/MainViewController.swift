@@ -23,7 +23,7 @@ final class MainViewController: BaseViewController {
                                                   right: collectionHorizontalSpacing)
     }
     
-    private var region: String = "전체"
+    private var regions: [String] = ["전체"]
 
     // MARK: - property
     
@@ -31,14 +31,14 @@ final class MainViewController: BaseViewController {
         $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
         $0.textColor = .mainPink
         $0.textAlignment = .center
-        $0.text = "SHUGGLE!"
+        $0.text = "SHUGGLE"
     }
     
     private lazy var regionTagButton = UIButton().then {
         $0.tintColor = .mainBlack
         $0.setTitle("전체 ", for: .normal)
         $0.setTitleColor(.mainBlack, for: .normal)
-        $0.titleLabel?.font = .preferredFont(forTextStyle: .title3, weight: .regular)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .body, weight: .regular)
         $0.setImage(ImageLiteral.btnDown, for: .normal)
         $0.semanticContentAttribute = .forceRightToLeft
         $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
@@ -64,9 +64,10 @@ final class MainViewController: BaseViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        if let region = UserDefaults.standard.string(forKey: "region") {
-            self.region = region
-            regionTagButton.setTitle("\(region) ", for: .normal)
+        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
+            self.regions = regions
+            let count = regions.count == 1 ? "" : "외 \(regions.count-1)곳"
+            regionTagButton.setTitle("\(regions[0]) \(count) ", for: .normal)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
@@ -81,7 +82,7 @@ final class MainViewController: BaseViewController {
         }
         
         regionTagButton.snp.makeConstraints {
-            $0.centerY.equalTo(appTitleLabel)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(26)
             $0.trailing.equalToSuperview().inset(20)
         }
         
@@ -94,12 +95,11 @@ final class MainViewController: BaseViewController {
     // MARK: - func
     
     @objc func realoadTable(_ noti: Notification) {
-        if let region = UserDefaults.standard.string(forKey: "region") {
-            self.region = region
-            regionTagButton.setTitle("\(region) ", for: .normal)
+        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
+            self.regions = regions
+            let count = regions.count == 1 ? "" : "외 \(regions.count-1)곳"
+            regionTagButton.setTitle("\(regions[0]) \(count) ", for: .normal)
         }
-        
-        print("지역 \(region)으로 변경")
     }
     
     @objc private func didTapRegionTag() {
