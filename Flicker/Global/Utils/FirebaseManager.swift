@@ -254,4 +254,14 @@ final class FirebaseManager: NSObject {
             return ""
         }
     }
+    
+    func storeArtistInformation(_ artist: Artist) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        do {
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "detailDescription": artist.detailDescription, "portfolioImageUrls": FieldValue.arrayUnion(artist.portfolioImageUrls)] as [String : Any]
+            try await firestore.collection("artists").document(uid).setData(artistData)
+        } catch {
+            print("error string Artist Model")
+        }
+    }
 }

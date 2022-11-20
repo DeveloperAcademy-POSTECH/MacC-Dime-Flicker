@@ -11,12 +11,11 @@ import UIKit
 
 struct Artist {
     var state: String = "전체"
-    var regions: [String] // 시,군,구 -> 여기선 구
+    var regions: [String]
     
     var camera: String
     var lens: String
     
-    var detailDescription: String // 작가 설명
-    
-    var portfolioImageUrls: [String] // 포폴 사진들
+    var detailDescription: String
+    var portfolioImageUrls: [String]
 }
