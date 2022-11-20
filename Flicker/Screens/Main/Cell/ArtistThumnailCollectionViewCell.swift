@@ -83,4 +83,14 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
         artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.isSkeletonable = true
+        self.artistThumnailImageView.isSkeletonable = true
+        self.artistNameLabel.isSkeletonable = true
+        self.artistLabel.isSkeletonable = true
+        self.artistInfoLabel.isSkeletonable = true
+        self.artistProfileImageView.isSkeletonable = true
+    }
 }

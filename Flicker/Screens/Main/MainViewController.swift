@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -74,6 +75,16 @@ final class MainViewController: BaseViewController {
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+        
+        self.listCollectionView.isSkeletonable = true
+        
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.listCollectionView.stopSkeletonAnimation()
+            self.listCollectionView.hideSkeleton(reloadDataAfter: true)
+        }
     }
     
     override func render() {
@@ -118,7 +129,15 @@ final class MainViewController: BaseViewController {
 }
 
 // MARK: - UICollectionViewDataSource
-extension MainViewController: UICollectionViewDataSource {
+extension MainViewController: SkeletonCollectionViewDataSource, UICollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return ArtistThumnailCollectionViewCell.className
+    }
+    
+    func collectionSkeletonView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }

@@ -64,6 +64,7 @@
 		CB5BF4802919E15400A3E112 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF47D2919E15400A3E112 /* User.swift */; };
 		CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */; };
 		CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4822919E1A800A3E112 /* SendButton.swift */; };
+		CB67FDBB2929F37300343471 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CB67FDBA2929F37300343471 /* SkeletonView */; };
 		CBB0ACF42923A1FA00B3381F /* StateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF32923A1FA00B3381F /* StateCollectionViewCell.swift */; };
 		CBB0ACF62923A21C00B3381F /* StateTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF52923A21C00B3381F /* StateTagListView.swift */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
@@ -195,6 +196,7 @@
 				10FE6B6E290651630064201F /* SnapKit in Frameworks */,
 				10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */,
 				10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */,
+				CB67FDBB2929F37300343471 /* SkeletonView in Frameworks */,
 				10FE6B6B290651150064201F /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,6 +646,7 @@
 				10FE6B6A290651150064201F /* Lottie */,
 				10FE6B6D290651630064201F /* SnapKit */,
 				CB5B1C2F29134F75001E1EBD /* Then */,
+				CB67FDBA2929F37300343471 /* SkeletonView */,
 			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
@@ -678,6 +681,7 @@
 				10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */,
+				CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = CBDC03D129060E6600C6CF30 /* Products */;
 			projectDirPath = "";
@@ -1044,6 +1048,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1086,6 +1098,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		CB67FDBA2929F37300343471 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
