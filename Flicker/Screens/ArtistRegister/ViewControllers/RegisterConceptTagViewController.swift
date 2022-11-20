@@ -57,7 +57,7 @@ final class RegisterConceptTagViewController: UIViewController {
         $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
-        $0.placeholder = "태그 사이를 띄어쓰기 없이 적어주세요! #친절한작가"
+        $0.placeholder = "태그 사이를 띄어쓰기 없이 적어주세요!#친절한작가"
     }
     
     // MARK: - life cycle
