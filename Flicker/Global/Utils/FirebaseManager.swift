@@ -262,7 +262,7 @@ final class FirebaseManager: NSObject {
         /// 로그인시 UserDefaults 에 user 인포를 다 저장시키는데 이 기능이 구현되고 나면 Artist 에 user 필드 추가, 아직은 기능 노놉
 //        guard let userInfo = UserDefaults.d
         do {
-            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted()] as [String : Any]
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "conceptTags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted()] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
