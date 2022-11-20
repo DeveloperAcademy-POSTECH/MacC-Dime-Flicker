@@ -213,7 +213,7 @@ final class LogInViewController: BaseViewController {
 
     //Apple ID 승인 요청
     @objc private func handleAuthorizationAppleIDButtonPress() {
-        let request = AppleLoginManager.shared.createAppleIDRequest()
+        let request = LoginManager.shared.createAppleIDRequest()
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
@@ -259,11 +259,10 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 
     // 사용자 인증 후 처리
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        AppleLoginManager.shared.randomNonceString()
         
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             // 현재 nonce가 설정되어 있는지 확인
-            guard let nonce = AppleLoginManager.shared.currentNonce else {
+            guard let nonce = LoginManager.shared.currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             // ID 토큰값을 검색
@@ -282,14 +281,9 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                                                       rawNonce: nonce)
 
             Auth.auth().signIn(with: credential) { (authDataResult, error) in
-                guard let user = authDataResult?.user else { return }
+                guard (authDataResult?.user) != nil else { return }
                 self.goProfile()
-                AppleLoginManager.shared.currentAppleIdToken = idTokenString
-//                if let user = authDataResult?.user {
-//                    //로그인 성공 시
-//                    self.goProfile()
-//                    self.currentAppleIdToken = idTokenString
-//                }
+                LoginManager.shared.currentAppleIdToken = idTokenString
 
                 if error != nil {
                     print(error?.localizedDescription ?? "error" as Any)

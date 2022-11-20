@@ -13,8 +13,8 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
-final class AppleLoginManager: NSObject {
-    static let shared = AppleLoginManager()
+final class LoginManager: NSObject {
+    static let shared = LoginManager()
 
     var currentNonce: String?
     var currentAppleIdToken: String?
@@ -77,19 +77,37 @@ final class AppleLoginManager: NSObject {
         return result
     }
     //애플 재인증 함수
-    func appleLoginReAuthUser() -> UIViewController {
+    func appleLoginReAuthUser() async {
         // Initialize a fresh Apple credential with Firebase.
         let credential = OAuthProvider.credential(
             withProviderID: "apple.com",
-            idToken: self.currentAppleIdToken ?? "",
+            idToken: self.currentAppleIdToken ?? "" ,
             rawNonce: self.currentNonce
         )
         // Reauthenticate current Apple user with fresh Apple credential.
         Auth.auth().currentUser?.reauthenticate(with: credential) { (authResult, error) in
             guard error != nil else { return }
-            let viewController = ProfileSettingViewController()
-            return viewController
-//            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    //회원탈퇴 함수
+    func fireBasewithDraw() async {
+        let user = Auth.auth().currentUser
+
+        user?.delete { error in
+            if let error = error {
+                //회원탈퇴 실패
+                print(error)
+            }
+        }
+    }
+    //로그아웃 함수
+    func fireBaseSignOut() async {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
         }
     }
 }
