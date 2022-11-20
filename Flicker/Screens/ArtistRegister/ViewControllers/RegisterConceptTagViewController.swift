@@ -16,7 +16,6 @@ final class RegisterConceptTagViewController: UIViewController {
     weak var delegate: RegisterConceptTagDelegate?
     
     // MARK: - view UI components
-    // MARK: mainVC 에서 UI layout 변경을 하고자 이렇게 static 으로 선언함
     private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "컨셉 태그"
