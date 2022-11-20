@@ -18,7 +18,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     
-    private var dataSourceToServer = Artist(region: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
     
     private var temporaryImages: [UIImage] = []
     private var temporaryStrings: [String] = []
@@ -222,14 +222,13 @@ extension ArtistRegisterViewController {
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             // MARK: Concurrent uploading photos
             print("넘어 옴 ---------------------\(self.temporaryImages)")
-            for photo in self.temporaryImages {
+            for (indexNum, photo) in self.temporaryImages.enumerated() {
                 Task {
-                    async let urlString = self.dataFirebase.uploadImage(photo: photo)
+                    async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
                     await self.temporaryStrings.append(urlString)
                     print("Artist is \(self.temporaryStrings)")
                 }
             }
-            // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
             // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
             // 해당 func 필요
             // MARK: Intentional delay for uploading the photos
@@ -262,7 +261,7 @@ extension ArtistRegisterViewController {
     
     // MARK: moving foward and backward to next pages action
     @objc func moveNextTapped() {
-        let regionEmpty = dataSourceToServer.region.isEmpty
+        let regionEmpty = dataSourceToServer.regions.isEmpty
         let bodyEmpty = dataSourceToServer.camera.isEmpty
         let lensEmpty = dataSourceToServer.lens.isEmpty
         let textInfoEmpty = dataSourceToServer.detailDescription.isEmpty
@@ -324,7 +323,7 @@ func cameraLensSelected(cameraLens lensName: String) {
 }
 
 func regionSelected(regions regionDatas: [String]) {
-    self.dataSourceToServer.region = regionDatas
+    self.dataSourceToServer.regions = regionDatas
 }
 
 func textViewDescribed(textView textDescribed: String) {

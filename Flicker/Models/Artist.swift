@@ -11,7 +11,7 @@ import UIKit
 
 struct Artist {
     var state: String = "전체"
-    var region: [String] // 시,군,구 -> 여기선 구
+    var regions: [String] // 시,군,구 -> 여기선 구
     
     var camera: String
     var lens: String

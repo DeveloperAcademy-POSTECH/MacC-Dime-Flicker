@@ -235,13 +235,14 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func uploadImage(photo: UIImage) async -> String {
+    func uploadImage(photo: UIImage, indexNum: Int) async -> String {
         guard let uid = auth.currentUser?.uid else { return ""}
+        let photoNumber = String(indexNum)
+        let fileName = uid + "_" + photoNumber
         do {
             let ref = storage.reference()
             guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return "" }
             // fileName 이거 바꿔야함
-            let fileName = photo.hashValue
             let imageRef = ref.child("ArtistPortfolio/\(fileName).jpg")
             
             let _ = try await imageRef
