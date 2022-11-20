@@ -31,7 +31,7 @@ final class ProfileViewController: BaseViewController {
     
     // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func render() {
@@ -57,15 +57,13 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func setTabGesture() {
-        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
     // MARK: - Setting Functions
-    @objc func didTapGesture() {
-        let viewController = InputPasswordViewController()
-        let modalNavigationController = UINavigationController(rootViewController: viewController)
-        present(modalNavigationController, animated: true)
+    @objc func didTapProfileHeader() {
+        transition(InputPasswordViewController(), transitionStyle: .present)
     }
     
     @objc func didToggleSwitch(_ sender: UISwitch) {
@@ -76,8 +74,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func goToArtistRegistration() {
-        navigationController?
-            .pushViewController(RegisterWelcomeViewController(), animated: true)
+        transition(RegisterWelcomeViewController(), transitionStyle: .push)
     }
     
     private func goToCustomerInquiry() {
@@ -94,8 +91,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func doSignOut() {
-        navigationController?
-            .pushViewController(AccountDeleteViewController(), animated: true)
+        transition(AccountDeleteViewController(), transitionStyle: .push)
     }
 }
 
