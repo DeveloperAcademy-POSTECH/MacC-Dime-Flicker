@@ -6,37 +6,35 @@
 //
 import Foundation
 
-enum MyActivities: String, CaseIterable {
-    case alertItem = "알람"
-    case enrollItem = "작가등록"
-    case consultItem = "문의하기"
+private enum AppStrings {
+    static let regiseterArtist = "작가등록"
+    static let settingArtist = "작가설정"
 }
 
-//struct SettingCell {
-//    let name: String
-//    let handler: () -> ()
-//}
-//
-//let cell = SettingCell(name: "알람") {
-//    print("안녕")
-//}
-//
-//let cells = [cell, cell, cell, cell, cell, cell, cell]
-
-
-enum ServiceOption: String, CaseIterable {
-    case agreementItem = "이용약관"
-    case companyInformationItem = "회사정보"
-    case consultItem = "문의하기"
+private enum Logout: String, CaseIterable {
+    case logoutItem = "로그아웃"
 }
 
-enum ProfileSection: Int {
-    case myActivity
+private enum SignOut: String, CaseIterable {
+    case signOutItem = "탈퇴하기"
+}
 
-    var sectionOption: [String] {
+
+enum ProfileSection: Int, CaseIterable {
+    case settings
+    case logout
+    case signOut
+    
+    func sectionOptions(isArtist: Bool) -> [String] {
+        let category = isArtist ? "작가설정" : "작가등록"
+        
         switch self {
-        case .myActivity:
-            return ["알람", "작가 등록", "문의하기"]
+        case .settings:
+            return ["알람", category, "문의하기"]
+        case .logout:
+            return ["로그아웃"]
+        case .signOut:
+            return ["탈퇴하기"]
         }
     }
 }

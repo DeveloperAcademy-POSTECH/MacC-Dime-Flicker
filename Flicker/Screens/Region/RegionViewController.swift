@@ -19,7 +19,7 @@ final class RegionViewController: BaseViewController {
     ]
     
     var selectedState: String = "전체"
-    var selectedRegion: String = "전체"
+    var selectedRegions: [String] = ["전체"]
 
     // MARK: - property
     
@@ -37,7 +37,17 @@ final class RegionViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        regionTagListView.regionList = regionList[selectedState] ?? ["전체"]
+        
+        regionTagListView.regionList = ["전체"]
+        
+        if let state = UserDefaults.standard.string(forKey: "state") {
+            self.selectedState = state
+            regionTagListView.regionList = regionList[state] ?? ["전체"]
+        }
+        
+        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
+            self.selectedRegions = regions
+        }
         
         stateTagListView.setParentViewController(viewController: self)
         regionTagListView.setParentViewController(viewController: self)
@@ -69,7 +79,6 @@ final class RegionViewController: BaseViewController {
     
     func setState(state: String) {
         self.selectedState = state
-        print(state)
         
         DispatchQueue.main.async {
             self.regionTagListView.regionList = self.regionList[self.selectedState] ?? ["전체"]
@@ -77,14 +86,33 @@ final class RegionViewController: BaseViewController {
         }
     }
     
-    func setRegion(region: String) {
-        self.selectedRegion = region
-        print(region)
+    func addRegion(region: String) {
+        if region == "전체" {
+            selectedRegions = ["전체"]
+        } else {
+            selectedRegions = selectedRegions.filter {$0 != "전체"}
+            selectedRegions.append(region)
+        }
+    }
+    
+    func removeRegion(region: String) {
+        if selectedRegions.contains(region) {
+            selectedRegions = selectedRegions.filter {$0 != region}
+        }
+        
+        if selectedRegions.count == 0 {
+            selectedRegions = ["전체"]
+        }
     }
     
     // MARK: - selector
     
     @objc private func didTapCompleteButton() {
+        UserDefaults.standard.setValue(selectedState, forKey: "state")
+        UserDefaults.standard.set(selectedRegions, forKey: "regions")
+        
+        NotificationCenter.default.post(name: Notification.Name("willDissmiss"), object: nil)
+        
         dismiss(animated: true, completion: nil)
     }
 }
