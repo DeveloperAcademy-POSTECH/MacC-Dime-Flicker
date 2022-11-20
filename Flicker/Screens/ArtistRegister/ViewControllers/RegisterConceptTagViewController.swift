@@ -17,7 +17,7 @@ final class RegisterConceptTagViewController: UIViewController {
     
     // MARK: - view UI components
     // MARK: mainVC 에서 UI layout 변경을 하고자 이렇게 static 으로 선언함
-    static let mainTitleLabel = UILabel().then {
+    private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "컨셉 태그"
     }
@@ -31,7 +31,7 @@ final class RegisterConceptTagViewController: UIViewController {
         $0.numberOfLines = 3
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
-        $0.text = "태그를 최대 4개까지 남길 수 있습니다. 검색에 쓰이거나 대표 사진과 함께 쓰입니다. 띄어쓰기 없이 #을 사용하여 적어주세요!"
+        $0.text = "태그를 최대 4개까지 남길 수 있습니다.\n검색에 쓰이거나 대표 사진과 함께 쓰입니다. 띄어쓰기 없이 #을 사용하여 적어주세요!"
     }
     
     private let conceptTagSectionLabel = UILabel().then {
@@ -41,9 +41,15 @@ final class RegisterConceptTagViewController: UIViewController {
     }
     
     private let conceptTagExampleSectionLabel = UILabel().then {
+        $0.numberOfLines = 2
         $0.textColor = .systemGray
-        $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
-        $0.text = "예) #인물사진#영화사진#가족사진#후지필름, #필름사진#우정사진..."
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+        $0.text = "예) #인물사진#영화사진#가족사진#후지필름"
+    }
+    
+    private let conceptTagWarningLabel = UILabel().makeBasicLabel(labelText: "#로 시작하지 않으면 제대로 태그가 생성되지 않을 수 있어요!", textColor: .red.withAlphaComponent(0.5), fontStyle: .subheadline, fontWeight: .medium).then {
+        $0.numberOfLines = 2
+        $0.isHidden = true
     }
     
     // MARK: - textField UI components
@@ -57,7 +63,7 @@ final class RegisterConceptTagViewController: UIViewController {
         $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
-        $0.placeholder = "태그 사이를 띄어쓰기 없이 적어주세요! #친절한작가"
+        $0.placeholder = "태그 사이를 띄어쓰기 없이 적어주세요!"
     }
     
     // MARK: - life cycle
@@ -84,16 +90,16 @@ final class RegisterConceptTagViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(RegisterGearsViewController.mainTitleLabel, subTitleLabel, bodyTitleLabel, conceptTagSectionLabel, conceptTagExampleSectionLabel, conceptTagTextField)
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, conceptTagSectionLabel, conceptTagExampleSectionLabel, conceptTagTextField, conceptTagWarningLabel)
         
-        RegisterGearsViewController.mainTitleLabel.snp.makeConstraints {
+        mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(RegisterGearsViewController.mainTitleLabel.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(30)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
         bodyTitleLabel.snp.makeConstraints {
@@ -112,9 +118,15 @@ final class RegisterConceptTagViewController: UIViewController {
         }
         
         conceptTagTextField.snp.makeConstraints {
-            $0.top.equalTo(conceptTagExampleSectionLabel.snp.bottom).offset(5)
+            $0.top.equalTo(conceptTagExampleSectionLabel.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(self.view.bounds.height/13)
+        }
+        
+        conceptTagWarningLabel.snp.makeConstraints {
+            $0.top.equalTo(conceptTagTextField.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().inset(33)
+            $0.trailing.equalToSuperview().inset(33)
         }
     }
     
@@ -127,8 +139,40 @@ final class RegisterConceptTagViewController: UIViewController {
 
     // MARK: - textField delegate
 extension RegisterConceptTagViewController: UITextFieldDelegate {
+    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        guard let textInput = textField.text else { return true }
+//        if textInput.count > 0 {
+//            let firstChar: Character = textInput[textInput.startIndex]
+//            if firstChar == "#" {
+//                self.conceptTagWarningLabel.isHidden = true
+//                print(textInput)
+//                self.delegate?.conceptTagDescribed(tagLabel: textInput + "")
+//            } else {
+//                self.conceptTagWarningLabel.isHidden = false
+//                self.delegate?.conceptTagDescribed(tagLabel: "#친절한작가")
+//            }
+//        } else {
+//            self.delegate?.conceptTagDescribed(tagLabel: "#친절한작가")
+//        }
+//        return true
+//    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.delegate?.conceptTagDescribed(tagLabel: textField.text ?? "#친절한작가")
+        guard let textInput = textField.text else { return }
+        if textInput.count > 1 {
+            let firstChar: Character = textInput[textInput.startIndex]
+            if firstChar == "#" {
+                self.conceptTagWarningLabel.isHidden = true
+                print(textInput)
+                self.delegate?.conceptTagDescribed(tagLabel: textInput)
+            } else {
+                self.conceptTagWarningLabel.isHidden = false
+                self.delegate?.conceptTagDescribed(tagLabel: "#친절한작가")
+            }
+        } else {
+            self.delegate?.conceptTagDescribed(tagLabel: "#친절한작가")
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
