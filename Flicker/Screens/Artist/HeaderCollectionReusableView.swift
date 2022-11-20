@@ -57,12 +57,12 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.backgroundColor = .systemGray5
     }
 
-    private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .medium)
+    private let introductionLabel = UILabel().makeBasicLabel(labelText: "작가님은 이렇습니다!", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .bold)
 
     private let introductionTextView = UITextView().then {
-        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
+        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와", color: .black.withAlphaComponent(0.7))
         $0.isScrollEnabled = false
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.font = .preferredFont(forTextStyle: .headline, weight: .medium)
         $0.isUserInteractionEnabled = false
     }
 
@@ -152,18 +152,18 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         firstSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(artistUIView.snp.bottom).offset(3)
+            $0.top.equalTo(artistInformation.snp.bottom).offset(15)
             $0.width.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
 
         introductionLabel.snp.makeConstraints {
             $0.leading.equalTo(artistProfileImage)
-            $0.top.equalTo(firstSeperator.snp.bottom).offset(9)
+            $0.top.equalTo(firstSeperator.snp.bottom).offset(15)
         }
 
         introductionTextView.snp.makeConstraints {
-            $0.leading.equalTo(introductionLabel)
+            $0.leading.equalTo(artistProfileImage).offset(-5)
             $0.width.equalToSuperview().inset(20)
             $0.top.equalTo(introductionLabel.snp.bottom).offset(5)
         }
@@ -178,7 +178,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         // Photographer Information
         regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.top.equalTo(secondSeperator.snp.bottom).offset(15)
             $0.width.height.equalTo(20)
         }
 
@@ -189,7 +189,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
         
@@ -200,7 +200,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         lensInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(5)
+            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
 

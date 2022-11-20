@@ -70,6 +70,7 @@ final class ArtistTappedViewController: BaseViewController {
         }
         
         configUI()
+        statusBarBackGroundView.isHidden = true
         setupBackButton()
         setupNavigationBar()
     }
@@ -273,6 +274,6 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
 extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 5, left: 20, bottom: 0, right: 20)
     }
 }
