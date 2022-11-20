@@ -176,7 +176,7 @@ final class ArtistTappedViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
+            $0.bottom.equalTo(view.snp.bottom).inset(view.frame.height / 10)
             $0.center.equalToSuperview()
             $0.width.equalToSuperview()
         }
@@ -274,6 +274,7 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
             self.statusBarBackGroundView.isHidden = false
             self.navigationBarSeperator.isHidden = false
             self.resetNavigationBarBackground()
+            self.tabBarController?.tabBar.isHidden = true
         }
         present(viewController, animated: false)
     }

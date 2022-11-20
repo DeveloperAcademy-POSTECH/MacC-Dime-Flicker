@@ -148,6 +148,8 @@ extension MainViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(ArtistTappedViewController(), animated: true)
         // 터치시 넘어가는 화면 코드 구현 예정
     }
 }
