@@ -251,6 +251,7 @@ extension ArtistRegisterViewController {
         present(recheckAlert, animated: true, completion: nil)
     }
     
+    // MARK: uploading Data func (Not UIImages)
     private func sequenceUploadingDatas() async {
         await self.dataFirebase.storeArtistInformation(self.dataSourceToServer)
     }
