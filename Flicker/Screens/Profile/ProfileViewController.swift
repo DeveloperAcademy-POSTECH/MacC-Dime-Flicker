@@ -72,35 +72,30 @@ final class ProfileViewController: BaseViewController {
     
     // MARK: - Setting Functions
     @objc func didTapProfileHeader() {
-        transition(InputPasswordViewController(), transitionStyle: .present)
-    @objc func didTapGesture() {
-        let viewController = ProfileSettingViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
-//        let viewController = InputPasswordViewController()
-//        let modalNavigationController = UINavigationController(rootViewController: viewController)
-//        present(modalNavigationController, animated: true)
+        transition(ProfileSettingViewController(), transitionStyle: .push)
     }
-    
+
+
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
         if !sender.isOn {
             makeAlert(title: "알림 비활성화", message: "")
         }
     }
-    
+
     private func goToArtistRegistration() {
         transition(RegisterWelcomeViewController(), transitionStyle: .push)
     }
-    
+
     private func goToCustomerInquiry() {
         self.sendReportMail()
     }
-    
+
     private func doLogout() {
         makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
         })
     }
-    
+
     private func doSignOut() {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
@@ -131,7 +126,7 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
         let section = ProfileSection(rawValue: indexPath.section)
-        
+
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
         cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
         if section == .settings {
@@ -148,7 +143,7 @@ extension ProfileViewController: UITableViewDataSource {
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ProfileSection(rawValue: section)!.sectionOptions(isArtist: self.isArtist).count
     }
@@ -156,19 +151,19 @@ extension ProfileViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return ProfileSection.allCases.count
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? sectionHeaderTitle.first : nil
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = ProfileSection(rawValue: indexPath.section)
-        
+
         if section == .settings {
             switch indexPath.row {
             case 1:
