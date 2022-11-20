@@ -36,7 +36,7 @@ final class WithDrawViewController: BaseViewController {
     private let signOutButton = UIButton().then {
         $0.backgroundColor = .mainPink
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitle("탈퇴하기", for: .normal)
+        $0.setTitle("로그인화면으로 돌아가기", for: .normal)
         $0.layer.cornerRadius = 15
     }
     
@@ -88,6 +88,7 @@ final class WithDrawViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func setupNavigationBar() {
@@ -96,7 +97,8 @@ final class WithDrawViewController: BaseViewController {
     }
     
     @objc private func didTapSignInbutton() {
-        makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in self.fireBasewithDraw()
-        })
+        DispatchQueue.main.async {
+            self.goLogin()
+        }
     }
 }
