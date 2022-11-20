@@ -208,7 +208,6 @@ final class LogInViewController: BaseViewController {
 
     private func goProfile() {
         let viewController = LoginProfileViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
