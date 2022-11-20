@@ -70,11 +70,11 @@ final class FirebaseManager: NSObject {
             
             try await firestore.collection("users").document(uid).setData(userData)
         } catch {
-            //            print(email)
-            //            print(name)
-            //            print(uid)
-            //            print(profileImage)
-            //            print(error)
+//            print(email)
+//            print(name)
+//            print(uid)
+//            print(profileImage)
+//            print(error)
             print("Store User error")
         }
     }
@@ -253,21 +253,4 @@ final class FirebaseManager: NSObject {
             return ""
         }
     }
-
-    func fetchArtistInformation() async -> TestUser {
-        var artistData = TestUser(camera: "", detailDescription: "", lens: "", portfolioImageUrls: [], regions: [], state: "")
-
-        do {
-            let userId = "1BnNEnXtBiR5TdSNlAD5TCbQ50f2"
-
-            let artistInfoSnapshot = try await firestore.collection("users").document(userId).getDocument(as: TestUser.self)
-
-                artistData = artistInfoSnapshot
-                print("Success get friendIds")
-
-            } catch {
-                print(error)
-            }
-            return artistData
-        }
 }
