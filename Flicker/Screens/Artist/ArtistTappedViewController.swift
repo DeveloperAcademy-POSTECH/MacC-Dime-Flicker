@@ -54,6 +54,14 @@ final class ArtistTappedViewController: BaseViewController {
     private let bottomBarSeperator = UIView().then {
         $0.backgroundColor = .systemGray5
     }
+
+    private lazy var backButton = BackButton().then {
+        $0.frame.size.width = 30
+        $0.frame.size.height = 30
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .white.withAlphaComponent(0.7)
+        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    }
     
     override func viewDidLoad() {
         
@@ -73,6 +81,13 @@ final class ArtistTappedViewController: BaseViewController {
         statusBarBackGroundView.isHidden = true
         setupBackButton()
         setupNavigationBar()
+    }
+
+    override func setupBackButton() {
+        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
+        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
+
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,7 +159,6 @@ final class ArtistTappedViewController: BaseViewController {
             navigationController?.navigationBar.backgroundColor = .white
             statusBarBackGroundView.isHidden = false
             navigationBarSeperator.isHidden = false
-
         } else {
             navigationController?.navigationBar.backgroundColor = .clear
             statusBarBackGroundView.isHidden = true
@@ -259,7 +273,6 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         viewController.completion = {
             self.statusBarBackGroundView.isHidden = false
             self.navigationBarSeperator.isHidden = false
-            self.tabBarController?.tabBar.isHidden = true
             self.resetNavigationBarBackground()
         }
         present(viewController, animated: false)

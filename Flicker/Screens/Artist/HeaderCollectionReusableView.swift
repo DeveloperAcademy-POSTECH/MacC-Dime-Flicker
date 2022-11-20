@@ -106,6 +106,20 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         fatalError ()
     }
 
+    private func configUI() {
+//        backgroundView = artistThumnailImageView
+//
+//        let width = artistThumnailImageView.bounds.width
+//        let height = artistThumnailImageView.bounds.height
+//        let sHeight: CGFloat = 100.0
+//        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
+//
+//        let bottomImageGradient = CAGradientLayer()
+//        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+//        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+//        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
+    }
+
     override func layoutSubviews () {
         super.layoutSubviews ()
 
@@ -226,6 +240,14 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.image = images[pageIndex]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
+
+            // Gradient 효과
+//            let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+//            let topImageGradient = CAGradientLayer()
+//            topImageGradient.frame = CGRect(x: 0, y: 0, width: Int(self.bounds.width), height: 80)
+//            topImageGradient.colors = [shadow, UIColor.clear.cgColor]
+//            imageView.layer.insertSublayer(topImageGradient, at: 0)
+
             imageScrollView.addSubview(imageView)
         }
     }

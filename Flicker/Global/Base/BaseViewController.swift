@@ -86,7 +86,7 @@ class BaseViewController: UIViewController {
 
     // MARK: - private func
     
-    @objc private func didTapBackButton() {
+    @objc func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
     
