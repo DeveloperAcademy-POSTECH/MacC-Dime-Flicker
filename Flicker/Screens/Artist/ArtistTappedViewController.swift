@@ -11,6 +11,8 @@ import SnapKit
 final class ArtistTappedViewController: BaseViewController {
     
     private let networkManager = NetworkManager.shared
+
+    private var artistInformation = TestUser(camera: "", detailDescription: "", lens: "", portfolioImageUrls: [], regions: [], state: "")
     
     private var imageList: [UIImage] = []
     
@@ -74,7 +76,7 @@ final class ArtistTappedViewController: BaseViewController {
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
         
         Task {
-            await fetchPortfolioImages()
+            self.artistInformation = await FirebaseManager.shared.fetchArtistInformation()
         }
         
         configUI()
@@ -95,6 +97,13 @@ final class ArtistTappedViewController: BaseViewController {
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
         navigationController?.navigationBar.backgroundColor = .clear
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Task {
+            await setArtistInformation()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -142,9 +151,9 @@ final class ArtistTappedViewController: BaseViewController {
         collectionView.showsVerticalScrollIndicator = false
     }
     
-    private func fetchPortfolioImages() async {
+    private func setArtistInformation() async {
         do {
-            self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
+            self.imageList = try await networkManager.fetchImages(withURLs: self.artistInformation.portfolioImageUrls ?? [])
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
@@ -255,8 +264,13 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.className, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
 
-        let thumnailImages = Array(imageList.prefix(4))
-        headerView.resetPortfolioImage(with: thumnailImages)
+        let exampleImages = Array(imageList.prefix(4))
+
+        if artistInformation.regions != nil {
+            headerView.resetCellData(with: artistInformation, images: exampleImages)
+        } else {
+            print("No data")
+        }
         return headerView
     }
 }

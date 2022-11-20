@@ -241,13 +241,6 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
 
-            // Gradient 효과
-//            let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
-//            let topImageGradient = CAGradientLayer()
-//            topImageGradient.frame = CGRect(x: 0, y: 0, width: Int(self.bounds.width), height: 80)
-//            topImageGradient.colors = [shadow, UIColor.clear.cgColor]
-//            imageView.layer.insertSublayer(topImageGradient, at: 0)
-
             imageScrollView.addSubview(imageView)
         }
     }
@@ -256,8 +249,19 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         pageControl.currentPage = currentPage
     }
 
-    func resetPortfolioImage(with images: [UIImage]) {
+    func resetCellData(with data: TestUser, images: [UIImage]) {
         self.images = images
+        self.introductionTextView.text = data.detailDescription
+        self.bodyInfo.text = data.camera
+        self.lensInfo.text = data.lens
+        guard let regions = data.regions else { return }
+
+        var regionText = ""
+        for region in regions {
+            regionText += "\(region), "
+        }
+        regionText = String(regionText.dropLast(2))
+        self.regionInfo.text = regionText
         configureImageScrollView()
     }
 }
