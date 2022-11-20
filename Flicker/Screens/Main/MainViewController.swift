@@ -67,7 +67,11 @@ final class MainViewController: BaseViewController {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
+<<<<<<< HEAD
+        if selectedRegions.isEmpty {
+=======
         if selectedRegions.count == 0 {
+>>>>>>> 79-MainTagMultiSelect
             selectedRegions = ["전체"]
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
@@ -101,7 +105,11 @@ final class MainViewController: BaseViewController {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
+<<<<<<< HEAD
+        if selectedRegions.isEmpty {
+=======
         if selectedRegions.count == 0 {
+>>>>>>> 79-MainTagMultiSelect
             selectedRegions = ["전체"]
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
