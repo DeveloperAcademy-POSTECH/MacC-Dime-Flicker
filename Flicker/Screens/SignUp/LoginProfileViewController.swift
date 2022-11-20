@@ -17,6 +17,7 @@ final class LoginProfileViewController: BaseViewController {
     var isSignUpEmail: Bool = false
     var authEmail: String = ""
     var authPassword: String = ""
+    let defaults = UserDefaults.standard
 
     private var isNickNameWrite = false
 

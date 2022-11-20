@@ -264,15 +264,9 @@ final class LogInViewController: BaseViewController {
             if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
                 await FirebaseManager.shared.updateUserToken(uid: userId)
                 if let userData = await FirebaseManager.shared.getUser() {
-                    if defaults.string(forKey: "currentUserEmail") == nil {
-                        defaults.set(userData.email, forKey: "currentUserEmail")
-                    }
-                    if defaults.string(forKey: "currentUserName") == nil {
-                        defaults.set(userData.name, forKey: "currentUserName")
-                    }
-                    if defaults.string(forKey: "currentUserProfileImageUrl") == nil {
-                        defaults.set(userData.profileImageUrl, forKey: "currentUserProfileImageUrl")
-                    }
+                    defaults.set(userData.email, forKey: "currentUserEmail")
+                    defaults.set(userData.name, forKey: "currentUserName")
+                    defaults.set(userData.profileImageUrl, forKey: "currentUserProfileImageUrl")
                 }
                 self?.goHome()
             } else {
