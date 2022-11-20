@@ -181,7 +181,7 @@ extension BaseViewController: UIGestureRecognizerDelegate {
 
 extension BaseViewController {
     
-    func fireBasewithDraw() {
+    func fireBasewithDraw() async {
         let user = Auth.auth().currentUser
         
         user?.delete { error in

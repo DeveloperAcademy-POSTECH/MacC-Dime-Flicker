@@ -100,7 +100,7 @@ final class ProfileViewController: BaseViewController {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
                 await self?.fireBasewithDraw()
-                await self?.navigationController?
+                self?.navigationController?
                     .pushViewController(WithDrawViewController(), animated: true)
             }
         })
