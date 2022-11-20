@@ -33,7 +33,6 @@
 		58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */; };
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
-		7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
@@ -116,7 +115,6 @@
 		58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioViewController.swift; sourceTree = "<group>"; };
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
-		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -585,7 +583,6 @@
 			isa = PBXGroup;
 			children = (
 				7B3DC4392914DA0F00646909 /* Cell */,
-				7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */,
 				7B3DC4332912ACA000646909 /* ProfileViewController.swift */,
 				7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */,
 			);
@@ -747,7 +744,6 @@
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
 				58A452A92912A24600C9707D /* RegisterTextDescriptionViewController.swift in Sources */,
-				7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */,
 				CB5BF4782919E10700A3E112 /* ChatSendView.swift in Sources */,
 				5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */,
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
