@@ -20,7 +20,7 @@ final class ArtistRegisterViewController: UIViewController {
     
     private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
     
-    private var temporaryImages: [UIImage] = []
+    // MARK: observer to check whether the async tasks are done
     private var temporaryStrings: [String] = [] {
         didSet {
             if self.temporaryStrings.count == self.temporaryImages.count {
@@ -34,6 +34,9 @@ final class ArtistRegisterViewController: UIViewController {
             }
         }
     }
+    
+    private var temporaryImages: [UIImage] = []
+
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
