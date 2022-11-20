@@ -86,14 +86,22 @@ final class RegionViewController: BaseViewController {
         }
     }
     
-    func setRegion(region: String) {
+    func addRegion(region: String) {
         if region == "전체" {
             selectedRegions = ["전체"]
-        } else if selectedRegions.contains(region) {
-            selectedRegions = selectedRegions.filter {$0 != region}
         } else {
             selectedRegions = selectedRegions.filter {$0 != "전체"}
             selectedRegions.append(region)
+        }
+    }
+    
+    func removeRegion(region: String) {
+        if selectedRegions.contains(region) {
+            selectedRegions = selectedRegions.filter {$0 != region}
+        }
+        
+        if selectedRegions.count == 0 {
+            selectedRegions = ["전체"]
         }
     }
     

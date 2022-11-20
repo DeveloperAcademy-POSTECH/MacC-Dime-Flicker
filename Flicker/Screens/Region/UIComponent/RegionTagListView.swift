@@ -97,7 +97,10 @@ extension RegionTagListView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension RegionTagListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(regionList[indexPath.item])
-        parent?.setRegion(region: regionList[indexPath.item])
+        parent?.addRegion(region: regionList[indexPath.item])
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        parent?.removeRegion(region: regionList[indexPath.item])
     }
 }

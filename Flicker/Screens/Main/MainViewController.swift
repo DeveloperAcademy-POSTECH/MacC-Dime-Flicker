@@ -23,7 +23,7 @@ final class MainViewController: BaseViewController {
                                                   right: collectionHorizontalSpacing)
     }
     
-    private var regions: [String] = ["전체"]
+    private var selectedRegions: [String] = ["전체"]
 
     // MARK: - property
     
@@ -64,11 +64,14 @@ final class MainViewController: BaseViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
-            self.regions = regions
-            let count = regions.count == 1 ? "" : "외 \(regions.count-1)곳"
-            regionTagButton.setTitle("\(regions[0]) \(count) ", for: .normal)
+        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
+        selectedRegions = regions
+        
+        if selectedRegions.count == 0 {
+            selectedRegions = ["전체"]
         }
+        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
+        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
@@ -95,11 +98,14 @@ final class MainViewController: BaseViewController {
     // MARK: - func
     
     @objc func realoadTable(_ noti: Notification) {
-        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
-            self.regions = regions
-            let count = regions.count == 1 ? "" : "외 \(regions.count-1)곳"
-            regionTagButton.setTitle("\(regions[0]) \(count) ", for: .normal)
+        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
+        selectedRegions = regions
+        
+        if selectedRegions.count == 0 {
+            selectedRegions = ["전체"]
         }
+        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
+        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
     }
     
     @objc private func didTapRegionTag() {
