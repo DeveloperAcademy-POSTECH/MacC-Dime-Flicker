@@ -25,8 +25,8 @@ final class RegisterRegionViewController: UIViewController {
     private let seoulSouthDistricts: [String] = ["강서구", "양천구", "영등포구", "구로구", "동작구", "금천구", "관악구", "서초구", "강남구", "송파구", "강동구"]
     
     private enum districtIdentifier: String {
-        case north = "seoulNorth"
-        case south = "seoulSouth"
+        case north = "서울강북"
+        case south = "서울강남"
     }
     
     // MARK: - view UI components

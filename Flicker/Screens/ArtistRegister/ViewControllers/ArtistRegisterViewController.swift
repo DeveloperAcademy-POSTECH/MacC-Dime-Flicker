@@ -18,7 +18,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     
-    private var dataSourceToServer = Artist(city: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    private var dataSourceToServer = Artist(region: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
     
     private var temporaryImages: [UIImage] = []
     private var temporaryStrings: [String] = []
@@ -166,29 +166,6 @@ final class ArtistRegisterViewController: UIViewController {
     }
 }
 
-    // MARK: - data transfer delegates
-extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
-    func cameraBodySelected(cameraBody bodyName: String) {
-        self.dataSourceToServer.camera = bodyName
-    }
-    
-    func cameraLensSelected(cameraLens lensName: String) {
-        self.dataSourceToServer.lens = lensName
-    }
-    
-    func regionSelected(regions regionDatas: [String]) {
-        self.dataSourceToServer.city = regionDatas
-    }
-    
-    func textViewDescribed(textView textDescribed: String) {
-        self.dataSourceToServer.detailDescription = textDescribed
-    }
-    
-    func photoSelected(photos imagesPicked: [UIImage]) {
-        self.temporaryImages = imagesPicked
-    }
-}
-
     // MARK: - action functions
 extension ArtistRegisterViewController {
     // MARK: action with layout changes as keyboard goes up and down
@@ -285,7 +262,7 @@ extension ArtistRegisterViewController {
     
     // MARK: moving foward and backward to next pages action
     @objc func moveNextTapped() {
-        let regionEmpty = dataSourceToServer.city.isEmpty
+        let regionEmpty = dataSourceToServer.region.isEmpty
         let bodyEmpty = dataSourceToServer.camera.isEmpty
         let lensEmpty = dataSourceToServer.lens.isEmpty
         let textInfoEmpty = dataSourceToServer.detailDescription.isEmpty
@@ -334,4 +311,27 @@ extension ArtistRegisterViewController {
             currentPage = pages[page - 1]
         }
     }
+}
+
+// MARK: - data transfer delegates
+extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
+func cameraBodySelected(cameraBody bodyName: String) {
+    self.dataSourceToServer.camera = bodyName
+}
+
+func cameraLensSelected(cameraLens lensName: String) {
+    self.dataSourceToServer.lens = lensName
+}
+
+func regionSelected(regions regionDatas: [String]) {
+    self.dataSourceToServer.region = regionDatas
+}
+
+func textViewDescribed(textView textDescribed: String) {
+    self.dataSourceToServer.detailDescription = textDescribed
+}
+
+func photoSelected(photos imagesPicked: [UIImage]) {
+    self.temporaryImages = imagesPicked
+}
 }
