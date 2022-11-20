@@ -25,8 +25,8 @@ final class RegisterRegionViewController: UIViewController {
     private let seoulSouthDistricts: [String] = ["강서구", "양천구", "영등포구", "구로구", "동작구", "금천구", "관악구", "서초구", "강남구", "송파구", "강동구"]
     
     private enum districtIdentifier: String {
-        case north = "seoulNorth"
-        case south = "seoulSouth"
+        case north = "서울강북"
+        case south = "서울강남"
     }
     
     // MARK: - view UI components
@@ -102,7 +102,7 @@ final class RegisterRegionViewController: UIViewController {
         tagFirstCollectionView.snp.makeConstraints {
             $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(165)
+            $0.height.equalTo(180)
         }
 
         tagSecondCollectionView.snp.makeConstraints {
@@ -212,7 +212,7 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + sizeMultiplied, height: size.height + 12)
+            return CGSize(width: size.width + sizeMultiplied, height: size.height + 16)
         case 2:
             let label = UILabel().then {
                 $0.text = seoulSouthDistricts.sorted()[indexPath.row]
@@ -220,7 +220,7 @@ extension RegisterRegionViewController: UICollectionViewDelegate, UICollectionVi
                 $0.sizeToFit()
             }
             let size = label.frame.size
-            return CGSize(width: size.width + sizeMultiplied, height: size.height + 14)
+            return CGSize(width: size.width + sizeMultiplied, height: size.height + 16)
         default:
             return CGSize()
         }

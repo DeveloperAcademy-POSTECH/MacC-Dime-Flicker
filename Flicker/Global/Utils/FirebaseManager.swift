@@ -235,12 +235,14 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func uploadImage(photo: UIImage) async -> String {
+    // MARK: - uploading single image and getting the image's download Url String
+    func uploadImage(photo: UIImage, indexNum: Int) async -> String {
+        guard let uid = auth.currentUser?.uid else { return ""}
+        let photoNumber = String(indexNum)
+        let fileName = uid + "_" + photoNumber
         do {
             let ref = storage.reference()
             guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return "" }
-            // fileName 을 데이터의 .hashValue 로 해도 되나? -> 중복된 사진을 걸러내는 데에 어려움이 있을 것 같다. 해결책은?
-            let fileName = photoData.hashValue
             let imageRef = ref.child("ArtistPortfolio/\(fileName).jpg")
             
             let _ = try await imageRef
@@ -251,6 +253,20 @@ final class FirebaseManager: NSObject {
         } catch {
             print("uploading Images error")
             return ""
+        }
+    }
+    
+    // MARK: - storing Artist Data to the Database
+    func storeArtistInformation(_ artist: Artist) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        /// 로그인시 UserDefaults 에 user 인포를 다 저장시키는데 이 기능이 구현되고 나면 Artist 에 user 필드 추가, 아직은 기능 노놉
+//        guard let userInfo = UserDefaults.d
+        do {
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted()] as [String : Any]
+            try await firestore.collection("artists").document(uid).setData(artistData)
+            print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
+        } catch {
+            print("error string Artist Model")
         }
     }
 }

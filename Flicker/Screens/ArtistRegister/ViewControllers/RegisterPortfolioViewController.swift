@@ -27,12 +27,15 @@ final class RegisterPortfolioViewController: UIViewController {
         $0.text = "작가님의 포트폴리오를 제출해주세요!"
     }
     
-    // TODO: 검토하겠다는 말은 mvp 에서는 넣지 않고, 넣어도 맨 마지막에 "검토 후 알려드릴게요" 라고 하는게 어떨까요?
     private let bodyTitleLabel = UILabel().then {
-        $0.numberOfLines = 2
+        $0.numberOfLines = 3
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
-        $0.text = "포트폴리오가 따로 없어도 괜찮아요.\n자신있는 사진을 등록해주세요."
+        $0.text = "최대 12장까지 선택 가능하며, 등록된 사진들 중 사람들에게 가장 먼저 보여질 대표 사진을 눌러 정해보세요!"
+    }
+    
+    private let guideLabel = UILabel().makeBasicLabel(labelText: "사진을 탭해, 대표 사진을 바꿔보세요!", textColor: .red.withAlphaComponent(0.5), fontStyle: .subheadline, fontWeight: .medium).then {
+        $0.isHidden = true
     }
     
     // MARK: - portfolio image components
@@ -69,9 +72,17 @@ final class RegisterPortfolioViewController: UIViewController {
         render()
     }
     
+    //MARK: Guide label for changing main photo by tapping images
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if self.portfolioPhotosFetched.count > 0 {
+            self.guideLabel.isHidden = false
+        }
+    }
+    
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, portfolioCollectionView)
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, guideLabel, portfolioCollectionView)
         
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -88,8 +99,13 @@ final class RegisterPortfolioViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
+        guideLabel.snp.makeConstraints {
+            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(35)
+        }
+        
         portfolioCollectionView.snp.makeConstraints {
-            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.bottom.equalToSuperview()
         }
@@ -107,22 +123,20 @@ final class RegisterPortfolioViewController: UIViewController {
 }
 
     // MARK: - PHPickerView delegate
-    // TODO: 여기서 이제 가져온 image 를 바로 서버에 보낼 수 있는 그런 형태인지 확인도 해야함, image 를 줄이는 건 confirm VC 에서 하자.
 extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        
         picker.dismiss(animated: true)
         
         let photoItems = results
             .map { $0.itemProvider }
             .filter { $0.canLoadObject(ofClass: UIImage.self) }
-        
         let dispatchGroup = DispatchGroup()
         var temporaryImages = [UIImage]()
+        var indexNumber: Int = 0
         
         for photoItem in photoItems {
+            indexNumber += 1
             dispatchGroup.enter()
-
             photoItem.loadObject(ofClass: UIImage.self) { photos, error in
                 if let image = photos as? UIImage {
                     guard let compressedImage = image.jpegData(compressionQuality: 0.0) else { return }
@@ -130,22 +144,19 @@ extension RegisterPortfolioViewController: PHPickerViewControllerDelegate {
                         temporaryImages.append(jpegPhoto)
                     }
                 }
-                
                 if let error = error {
                     print(error)
                 }
-                
                 dispatchGroup.leave()
             }
         }
-
         dispatchGroup.notify(queue: .main) {
             if (!temporaryImages.isEmpty) {
                 self.portfolioPhotosFetched = temporaryImages
                 self.portfolioCollectionView.reloadData()
             }
-            
             self.delegate?.photoSelected(photos: temporaryImages)
+            print(temporaryImages)
         }
     }
 }
@@ -157,9 +168,19 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < portfolioPhotosFetched.count {
+        if indexPath.item < portfolioPhotosFetched.count {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: portfolioCellIdentifier.images.rawValue, for: indexPath) as? RegisterPortfolioImageCell else { return UICollectionViewCell()}
-            cell.photoImage.image = self.portfolioPhotosFetched[indexPath.row]
+            // MARK: First item of photos becomes the main Photo
+            if indexPath.item == 0 {
+                cell.photoImage.image = self.portfolioPhotosFetched[indexPath.item]
+                cell.mainPhotoMarkLabel.isHidden = false
+                cell.photoImage.layer.borderWidth = 4
+                self.delegate?.photoSelected(photos: portfolioPhotosFetched)
+                return cell
+            }
+            cell.photoImage.image = self.portfolioPhotosFetched[indexPath.item]
+            cell.mainPhotoMarkLabel.isHidden = true
+            cell.photoImage.layer.borderWidth = 0
             self.delegate?.photoSelected(photos: portfolioPhotosFetched)
             return cell
         } else {
@@ -175,8 +196,15 @@ extension RegisterPortfolioViewController: UICollectionViewDataSource {
     // MARK: - UICollectionView delegate
 extension RegisterPortfolioViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == portfolioPhotosFetched.count {
+        if indexPath.item == portfolioPhotosFetched.count {
             self.present(portfolioPicker, animated: true)
+        } else {
+            // MARK: Selected Image moves to top of the array
+            let selectedCellIndex = indexPath.item
+            let selectedPhoto = self.portfolioPhotosFetched[selectedCellIndex]
+            self.portfolioPhotosFetched.remove(at: selectedCellIndex)
+            self.portfolioPhotosFetched.insert(selectedPhoto, at: 0)
+            self.portfolioCollectionView.reloadData()
         }
     }
 }

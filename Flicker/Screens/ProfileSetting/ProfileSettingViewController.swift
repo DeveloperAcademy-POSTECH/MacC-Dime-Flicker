@@ -100,32 +100,18 @@ final class ProfileSettingViewController: BaseViewController {
         $0.backgroundColor = .loginGray
     }
 
-    private let logOutButton = UIButton().then {
-        $0.setTitle("로그아웃", for: .normal)
-        $0.setTitleColor( .textMainBlack, for: .normal)
-        $0.backgroundColor = .clear
-    }
-
-    private let withDrawButton = UIButton().then {
-        $0.setTitle("회원탈퇴", for: .normal)
-        $0.setTitleColor( .red, for: .normal)
-        $0.backgroundColor = .clear
-    }
-
     override func render() {
         nickNameField.delegate = self
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider, logOutButton, withDrawButton)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
-        logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
-        withDrawButton.addTarget(self, action: #selector(didTapWithDrawButton), for: .touchUpInside)
 
 
         profileImageView.snp.makeConstraints {
@@ -200,20 +186,21 @@ final class ProfileSettingViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
-
-        logOutButton.snp.makeConstraints {
-            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
-            $0.trailing.equalTo(view.snp.centerX).offset(-25)
-        }
-
-        withDrawButton.snp.makeConstraints {
-            $0.top.equalTo(signUpButton.snp.bottom).offset(10)
-            $0.leading.equalTo(view.snp.centerX).offset(25)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        self.tabBarController?.tabBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func setupNavigationBar() {
@@ -256,17 +243,6 @@ final class ProfileSettingViewController: BaseViewController {
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
     }
-
-    @objc private func didTapLogOutButton() {
-        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
-        })
-    }
-
-    @objc private func didTapWithDrawButton() {
-        let viewController = WithDrawViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-
 }
 
 extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate  {

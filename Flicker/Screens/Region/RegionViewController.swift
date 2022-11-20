@@ -19,7 +19,7 @@ final class RegionViewController: BaseViewController {
     ]
     
     var selectedState: String = "전체"
-    var selectedRegion: String = "전체"
+    var selectedRegions: [String] = ["전체"]
 
     // MARK: - property
     
@@ -45,8 +45,8 @@ final class RegionViewController: BaseViewController {
             regionTagListView.regionList = regionList[state] ?? ["전체"]
         }
         
-        if let region = UserDefaults.standard.string(forKey: "region") {
-            self.selectedRegion = region
+        if let regions = UserDefaults.standard.stringArray(forKey: "regions") {
+            self.selectedRegions = regions
         }
         
         stateTagListView.setParentViewController(viewController: self)
@@ -86,15 +86,30 @@ final class RegionViewController: BaseViewController {
         }
     }
     
-    func setRegion(region: String) {
-        self.selectedRegion = region
+    func addRegion(region: String) {
+        if region == "전체" {
+            selectedRegions = ["전체"]
+        } else {
+            selectedRegions = selectedRegions.filter {$0 != "전체"}
+            selectedRegions.append(region)
+        }
+    }
+    
+    func removeRegion(region: String) {
+        if selectedRegions.contains(region) {
+            selectedRegions = selectedRegions.filter {$0 != region}
+        }
+        
+        if selectedRegions.count == 0 {
+            selectedRegions = ["전체"]
+        }
     }
     
     // MARK: - selector
     
     @objc private func didTapCompleteButton() {
         UserDefaults.standard.setValue(selectedState, forKey: "state")
-        UserDefaults.standard.setValue(selectedRegion, forKey: "region")
+        UserDefaults.standard.set(selectedRegions, forKey: "regions")
         
         NotificationCenter.default.post(name: Notification.Name("willDissmiss"), object: nil)
         
