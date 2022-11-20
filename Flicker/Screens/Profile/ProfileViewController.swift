@@ -7,6 +7,8 @@
 
 import MessageUI
 import UIKit
+import AuthenticationServices
+import FirebaseAuth
 
 final class ProfileViewController: BaseViewController {
     
@@ -27,11 +29,18 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         render()
         setTabGesture()
+
     }
     
     // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
+        tabBarController?.tabBar.isHidden = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func render() {
@@ -42,7 +51,7 @@ final class ProfileViewController: BaseViewController {
             $0.top.equalTo(tableView.snp.top)
             $0.height.equalTo(180)
         }
-      
+
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -63,9 +72,11 @@ final class ProfileViewController: BaseViewController {
     
     // MARK: - Setting Functions
     @objc func didTapGesture() {
-        let viewController = InputPasswordViewController()
-        let modalNavigationController = UINavigationController(rootViewController: viewController)
-        present(modalNavigationController, animated: true)
+        let viewController = ProfileSettingViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+//        let viewController = InputPasswordViewController()
+//        let modalNavigationController = UINavigationController(rootViewController: viewController)
+//        present(modalNavigationController, animated: true)
     }
     
     @objc func didToggleSwitch(_ sender: UISwitch) {
@@ -85,18 +96,33 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func doLogout() {
-        let alert = UIAlertController(title: "로그아웃", message: "", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "예", style: .destructive, handler: nil)
-        let no = UIAlertAction(title: "아니요", style: .default, handler: nil)
-        alert.addAction(no)
-        alert.addAction(yes)
-        present(alert, animated: true, completion: nil)
+        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in self.fireBaseSignOut()
+        })
     }
     
     private func doSignOut() {
-        navigationController?
-            .pushViewController(AccountDeleteViewController(), animated: true)
+        makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
+            Task { [weak self] in
+                await self?.fireBasewithDraw()
+                await self?.navigationController?
+                    .pushViewController(WithDrawViewController(), animated: true)
+            }
+        })
     }
+    //애플 재인증 함수
+    private func appleLoginReAuthUser() {
+        // Initialize a fresh Apple credential with Firebase.
+        let credential = OAuthProvider.credential(
+            withProviderID: "apple.com",
+            idToken: LogInViewController.shared.currentAppleIdToken ?? "",
+            rawNonce: LogInViewController.shared.currentNonce
+        )
+        // Reauthenticate current Apple user with fresh Apple credential.
+        Auth.auth().currentUser?.reauthenticate(with: credential) { (authResult, error) in
+            guard error != nil else { return }
+        }
+    }
+
 }
 
 // MARK: - UITableViewDataSource

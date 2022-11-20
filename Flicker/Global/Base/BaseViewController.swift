@@ -188,11 +188,10 @@ extension BaseViewController {
             if let error = error {
                 //회원탈퇴 실패
                 print(error)
-                print("123123")
             } else {
-                DispatchQueue.main.async {
-                    self.goLogin()
-                }
+//                DispatchQueue.main.async {
+//                    self.goLogin()
+//                }
             }
         }
     }
