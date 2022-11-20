@@ -33,6 +33,7 @@ final class MainViewController: BaseViewController {
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE"
+        $0.isSkeletonable = true
     }
     
     private lazy var regionTagButton = UIButton().then {
@@ -63,6 +64,8 @@ final class MainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setRegion()
         fetchData()
         
         navigationController?.isNavigationBarHidden = true
@@ -89,12 +92,12 @@ final class MainViewController: BaseViewController {
         }
     }
     
-    override func configUI() {
-        super.configUI()
-        
+    // MARK: - func
+    
+    private func setRegion() {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
-
+        
         if selectedRegions.isEmpty {
             selectedRegions = ["전체"]
         }
@@ -102,27 +105,19 @@ final class MainViewController: BaseViewController {
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
     }
     
-    // MARK: - func
-    
     private func fetchData() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.listCollectionView.stopSkeletonAnimation()
-            self.listCollectionView.hideSkeleton(reloadDataAfter: true)
+            self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
         }
     }
     
     @objc func realoadTable(_ noti: Notification) {
-        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
-        selectedRegions = regions
-        
-        if selectedRegions.isEmpty {
-            selectedRegions = ["전체"]
-        }
-        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
-        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
+        setRegion()
+        fetchData()
     }
     
     @objc private func didTapRegionTag() {
@@ -134,16 +129,19 @@ final class MainViewController: BaseViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension MainViewController: SkeletonCollectionViewDataSource, UICollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return ArtistThumnailCollectionViewCell.className
+        ArtistThumnailCollectionViewCell.className
     }
     
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        UICollectionView.automaticNumberOfSkeletonItems
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -161,6 +159,10 @@ extension MainViewController: SkeletonCollectionViewDataSource, UICollectionView
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 터치시 넘어가는 화면 코드 구현 예정
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         UIView.animate(withDuration: 0.5) { [weak self] in
             guard velocity.y != 0 else { return }
@@ -173,12 +175,5 @@ extension MainViewController: SkeletonCollectionViewDataSource, UICollectionView
                 self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
             }
         }
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 터치시 넘어가는 화면 코드 구현 예정
     }
 }

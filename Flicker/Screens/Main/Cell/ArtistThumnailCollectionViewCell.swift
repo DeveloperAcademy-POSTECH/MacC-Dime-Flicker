@@ -22,12 +22,12 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     
     let artistNameLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .title2, weight: .bold)
-        
+        $0.text = "킹도영"
         $0.textColor = .white
         $0.textAlignment = .center
     }
     
-    private let artistLabel = UILabel().then {
+    let artistLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .bold)
         $0.textColor = .white
         $0.textAlignment = .center
@@ -46,7 +46,11 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func render() {
-        contentView.addSubviews(artistNameLabel, artistLabel, artistInfoLabel, artistProfileImageView)
+        contentView.addSubviews(artistThumnailImageView, artistNameLabel, artistLabel, artistInfoLabel, artistProfileImageView)
+ 
+        artistThumnailImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         artistNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(200)
@@ -71,8 +75,6 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configUI() {
-        backgroundView = artistThumnailImageView
-        
         let width = artistThumnailImageView.bounds.width
         let height = artistThumnailImageView.bounds.height
         let sHeight: CGFloat = 100.0
@@ -82,15 +84,12 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
         bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
         artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+        
         self.isSkeletonable = true
+        self.artistProfileImageView.isSkeletonable = true
         self.artistThumnailImageView.isSkeletonable = true
         self.artistNameLabel.isSkeletonable = true
         self.artistLabel.isSkeletonable = true
         self.artistInfoLabel.isSkeletonable = true
-        self.artistProfileImageView.isSkeletonable = true
     }
 }
