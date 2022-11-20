@@ -56,11 +56,14 @@ final class RegisterWelcomeViewController: UIViewController {
     // MARK: - navigation bar hide configurations with life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // MARK: Tabbar Hides -> 마지막 작가 등록 View 에서 false 로 추가해야하는가? -> Merge 하고 체크해보자. 
+        self.tabBarController?.tabBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
@@ -70,11 +73,11 @@ final class RegisterWelcomeViewController: UIViewController {
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.height.equalTo(view.bounds.height/16)
+            $0.height.equalTo(view.bounds.height/20)
         }
         
         mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/16)
+            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/18)
             $0.leading.equalToSuperview().inset(30)
         }
         
@@ -117,7 +120,7 @@ extension RegisterWelcomeViewController {
     }
     
     @objc func moveNextTapped() {
-        navigationController?.pushViewController(ArtistRegisterViewController(), animated: false)
+        navigationController?.pushViewController(ArtistRegisterViewController(), animated: true)
     }
     
     @objc func moveBackTapped() {

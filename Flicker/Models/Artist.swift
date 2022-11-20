@@ -10,14 +10,12 @@ import FirebaseFirestoreSwift
 import UIKit
 
 struct Artist {
-    var state: String = "서울시" // 서울로 고정
-    var city: [String] // 시,군,구 -> 여기선 구
+    var state: String = "전체"
+    var regions: [String]
     
     var camera: String
     var lens: String
     
-//    let simpleDescription: String // 한 줄 소개
-    var detailDescription: String // 작가 설명
-    
-    var portfolioImageUrls: [String] // 포폴 사진들
+    var detailDescription: String
+    var portfolioImageUrls: [String]
 }
