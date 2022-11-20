@@ -29,7 +29,6 @@ final class ProfileViewController: BaseViewController {
         setFunctionsAndDelegate()
         render()
         setTabGesture()
-        appleLoginReAuthUser()
     }
     
     // MARK: - rendering Functions
@@ -99,6 +98,7 @@ final class ProfileViewController: BaseViewController {
     private func doSignOut() {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
+                await self?.appleLoginReAuthUser()
                 await self?.fireBasewithDraw()
                 self?.navigationController?
                     .pushViewController(WithDrawViewController(), animated: true)
@@ -106,7 +106,7 @@ final class ProfileViewController: BaseViewController {
         })
     }
     //애플 재인증 함수
-    private func appleLoginReAuthUser() {
+    private func appleLoginReAuthUser() async {
         // Initialize a fresh Apple credential with Firebase.
         let credential = OAuthProvider.credential(
             withProviderID: "apple.com",
