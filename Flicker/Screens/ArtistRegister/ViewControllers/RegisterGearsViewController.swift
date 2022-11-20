@@ -47,7 +47,7 @@ final class RegisterGearsViewController: UIViewController {
     private let cameraBodyExampleSectionLabel = UILabel().then {
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
-        $0.text = "예) Sony a7m3, Canon Eos R..."
+        $0.text = "예)  Sony a7m3, Canon Eos R..."
     }
     
     private let cameraLensSectionLabel = UILabel().then {
@@ -59,7 +59,7 @@ final class RegisterGearsViewController: UIViewController {
     private let cameraLensExampleSectionLabel = UILabel().then {
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
-        $0.text = "예) Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
+        $0.text = "예)  Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
     }
     
     // MARK: - textField UI components
