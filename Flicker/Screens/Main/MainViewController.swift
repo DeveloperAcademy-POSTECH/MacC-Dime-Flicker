@@ -26,6 +26,7 @@ final class MainViewController: BaseViewController {
     }
     
     private var selectedRegions: [String] = ["전체"]
+    private var artists = [Artist]()
     
     private var cursor: DocumentSnapshot?
     private let pageSize = 5 // use this for the document-limit value in the query
@@ -72,6 +73,7 @@ final class MainViewController: BaseViewController {
         
         setRegion()
         fetchData()
+        loadData()
         
         navigationController?.isNavigationBarHidden = true
         
@@ -126,8 +128,8 @@ final class MainViewController: BaseViewController {
         FirebaseManager.shared.firestore.collection("artists").getDocuments(completion: { (querySnapshot, error) in
             /* At some point after you've unwrapped the snapshot,
                manage the cursor. */
-            guard let snapshot = querySnapshot else { return }
-            if snapshot.count < self.pageSize {
+            guard let querySnapshot = querySnapshot else { return }
+            if querySnapshot.count < self.pageSize {
                 /* This return had less than 10 documents, therefore
                    there are no more possible documents to fetch and
                    thus there is no cursor. */
@@ -136,8 +138,13 @@ final class MainViewController: BaseViewController {
                 /* This return had at least 10 documents, therefore
                    there may be more documents to fetch which makes
                    the last document in this snapshot the cursor. */
-                self.cursor = snapshot.documents.last
+                self.cursor = querySnapshot.documents.last
             }
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                self.artists.append(artist)
+            })
         })
     }
     
@@ -151,13 +158,17 @@ final class MainViewController: BaseViewController {
         FirebaseManager.shared.firestore.collection("artists").start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
             /* Always update the cursor whenever Firestore returns
              whether it's loading data or continuing data. */
-            guard let snapshot = querySnapshot else { return }
-            if snapshot.count < self.pageSize {
+            guard let querySnapshot = querySnapshot else { return }
+            if querySnapshot.count < self.pageSize {
                 self.cursor = nil
             } else {
-                self.cursor = snapshot.documents.last
+                self.cursor = querySnapshot.documents.last
             }
             /* Whenever we exit this method, reset dataMayContinue to true. */
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                self.artists.append(artist)
+            })
         })
     }
     
@@ -190,7 +201,7 @@ extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollection
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return artists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -198,7 +209,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             assert(false, "Wrong Cell")
         }
         
-        cell.artistNameLabel.text = "킹도영"
+        cell.artistNameLabel.text = artists[indexPath.item].lens
         cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
         cell.artistThumnailImageView.image = UIImage(named: "port1")
         cell.artistThumnailImageView.backgroundColor = .white
