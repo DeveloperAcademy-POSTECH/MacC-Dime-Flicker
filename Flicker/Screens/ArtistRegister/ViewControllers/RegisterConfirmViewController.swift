@@ -48,7 +48,7 @@ final class RegisterConfirmViewController: UIViewController {
         configUI()
         finishRegisterButtonTap()
     }
- 
+    
     // MARK: - navigation bar hide configurations with life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -58,6 +58,7 @@ final class RegisterConfirmViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     // MARK: - layout constraints

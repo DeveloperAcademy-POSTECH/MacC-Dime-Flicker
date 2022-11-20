@@ -94,6 +94,7 @@ final class ArtistRegisterViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     // TODO: ViewController들을 다 넣었다면 이 함수는 discard 해야함
