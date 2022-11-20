@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-    // TODO: (다음 버전에..)
+    // TODO: (다음 버전에..) 새로운 뷰...
 final class RegisterConceptTagViewController: UIViewController {
     
     // MARK: - custom delegate to send Datas
@@ -138,7 +138,7 @@ extension RegisterConceptTagViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - RegisterGears custom delegate protocol
+// MARK: - RegisterConceptTagDelegate custom delegate protocol
 protocol RegisterConceptTagDelegate: AnyObject {
     func conceptTagDescribed(tagLabel: String)
 }
