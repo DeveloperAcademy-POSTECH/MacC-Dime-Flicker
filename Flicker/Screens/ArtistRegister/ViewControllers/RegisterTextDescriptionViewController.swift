@@ -105,12 +105,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
 extension RegisterTextDescriptionViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         self.delegate?.textViewDescribed(textView: textView.text)
-
     }
-    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        self.delegate?.textViewDescribed(textView: textView.text)
-//    }
 }
 
 // MARK: - RegisterTextDescription custom delegate protocol
