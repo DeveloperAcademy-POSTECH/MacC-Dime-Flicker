@@ -107,7 +107,8 @@ final class MainViewController: BaseViewController {
     
     private func fetchData() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
+        
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.listCollectionView.stopSkeletonAnimation()
@@ -116,6 +117,7 @@ final class MainViewController: BaseViewController {
     }
     
     @objc func realoadTable(_ noti: Notification) {
+        listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         setRegion()
         fetchData()
     }
@@ -152,7 +154,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         cell.artistNameLabel.text = "킹도영"
-        cell.artistInfoLabel.text = "울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨"
+        cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
         cell.artistThumnailImageView.image = UIImage(named: "port1")
         cell.artistProfileImageView.image = UIImage(named: "port2")
         

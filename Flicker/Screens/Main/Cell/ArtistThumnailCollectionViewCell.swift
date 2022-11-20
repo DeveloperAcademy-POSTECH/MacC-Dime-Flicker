@@ -22,22 +22,14 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     
     let artistNameLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .title2, weight: .bold)
-        $0.text = "킹도영"
         $0.textColor = .white
-        $0.textAlignment = .center
+        $0.text = "홍길동"
     }
     
-    let artistLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .bold)
-        $0.textColor = .white
-        $0.textAlignment = .center
-        $0.text = "작가님"
-    }
-    
-    let artistInfoLabel = UILabel().then {
+    let artistTagLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
-        $0.textColor = .white
-        $0.numberOfLines = 2
+        $0.textColor = .white.withAlphaComponent(0.9)
+        $0.text = "작가에 대한 설명 태크"
     }
     
     lazy var artistProfileImageView = UIImageView().then {
@@ -46,31 +38,26 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func render() {
-        contentView.addSubviews(artistThumnailImageView, artistNameLabel, artistLabel, artistInfoLabel, artistProfileImageView)
+        contentView.addSubviews(artistThumnailImageView, artistProfileImageView, artistTagLabel, artistNameLabel)
  
         artistThumnailImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        artistNameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(200)
-            $0.leading.equalToSuperview().inset(30)
-        }
-        
-        artistLabel.snp.makeConstraints {
-            $0.bottom.equalTo(artistNameLabel.snp.bottom).offset(-2)
-            $0.leading.equalTo(artistNameLabel.snp.trailing).offset(8)
-        }
-        
-        artistInfoLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(30)
-            $0.top.equalTo(artistLabel.snp.bottom).offset(10)
-            $0.width.lessThanOrEqualTo(220)
-        }
-        
         artistProfileImageView.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(30)
+            $0.leading.bottom.equalToSuperview().inset(20)
             $0.width.height.equalTo(60)
+        }
+        
+        artistTagLabel.snp.makeConstraints {
+            $0.leading.equalTo(artistProfileImageView.snp.trailing).offset(15)
+            $0.bottom.equalToSuperview().inset(25)
+            $0.width.lessThanOrEqualTo(UIScreen.main.bounds.size.width - 180)
+        }
+        
+        artistNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(artistProfileImageView.snp.trailing).offset(15)
+            $0.bottom.equalTo(artistTagLabel.snp.top).offset(-4)
         }
     }
     
@@ -89,7 +76,9 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         self.artistProfileImageView.isSkeletonable = true
         self.artistThumnailImageView.isSkeletonable = true
         self.artistNameLabel.isSkeletonable = true
-        self.artistLabel.isSkeletonable = true
-        self.artistInfoLabel.isSkeletonable = true
+        self.artistTagLabel.isSkeletonable = true
+        
+        self.artistNameLabel.linesCornerRadius = 5
+        self.artistTagLabel.linesCornerRadius = 5
     }
 }
