@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -32,6 +33,7 @@ final class MainViewController: BaseViewController {
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE"
+        $0.isSkeletonable = true
     }
     
     private lazy var regionTagButton = UIButton().then {
@@ -57,21 +59,16 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+        $0.isSkeletonable = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.isNavigationBarHidden = true
+        setRegion()
+        fetchData()
         
-        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
-        selectedRegions = regions
-
-        if selectedRegions.isEmpty {
-            selectedRegions = ["전체"]
-        }
-        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
-        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
+        navigationController?.isNavigationBarHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
@@ -97,7 +94,7 @@ final class MainViewController: BaseViewController {
     
     // MARK: - func
     
-    @objc func realoadTable(_ noti: Notification) {
+    private func setRegion() {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
@@ -106,6 +103,23 @@ final class MainViewController: BaseViewController {
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
+    }
+    
+    private func fetchData() {
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.listCollectionView.stopSkeletonAnimation()
+            self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+        }
+    }
+    
+    @objc func realoadTable(_ noti: Notification) {
+        listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        setRegion()
+        fetchData()
     }
     
     @objc private func didTapRegionTag() {
@@ -117,8 +131,19 @@ final class MainViewController: BaseViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension MainViewController: UICollectionViewDataSource {
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        ArtistThumnailCollectionViewCell.className
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        UICollectionView.automaticNumberOfSkeletonItems
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -129,11 +154,16 @@ extension MainViewController: UICollectionViewDataSource {
         }
         
         cell.artistNameLabel.text = "킹도영"
-        cell.artistInfoLabel.text = "울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨울트라캡숑짱짱맨"
+        cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
         cell.artistThumnailImageView.image = UIImage(named: "port1")
+        cell.artistThumnailImageView.backgroundColor = .white
         cell.artistProfileImageView.image = UIImage(named: "port2")
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 터치시 넘어가는 화면 코드 구현 예정
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -148,12 +178,5 @@ extension MainViewController: UICollectionViewDataSource {
                 self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
             }
         }
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 터치시 넘어가는 화면 코드 구현 예정
     }
 }
