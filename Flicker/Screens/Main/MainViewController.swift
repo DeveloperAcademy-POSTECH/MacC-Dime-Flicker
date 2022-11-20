@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseFirestore
 import SkeletonView
 import SnapKit
 import Then
@@ -25,6 +26,10 @@ final class MainViewController: BaseViewController {
     }
     
     private var selectedRegions: [String] = ["전체"]
+    
+    private var cursor: DocumentSnapshot?
+    private let pageSize = 5 // use this for the document-limit value in the query
+    private var dataMayContinue = true
 
     // MARK: - property
     
@@ -116,6 +121,46 @@ final class MainViewController: BaseViewController {
         }
     }
     
+    /* This method grabs the first page of documents. */
+    private func loadData() {
+        FirebaseManager.shared.firestore.collection("artists").getDocuments(completion: { (querySnapshot, error) in
+            /* At some point after you've unwrapped the snapshot,
+               manage the cursor. */
+            guard let snapshot = querySnapshot else { return }
+            if snapshot.count < self.pageSize {
+                /* This return had less than 10 documents, therefore
+                   there are no more possible documents to fetch and
+                   thus there is no cursor. */
+                self.cursor = nil
+            } else {
+                /* This return had at least 10 documents, therefore
+                   there may be more documents to fetch which makes
+                   the last document in this snapshot the cursor. */
+                self.cursor = snapshot.documents.last
+            }
+        })
+    }
+    
+    /* This method continues to paginate documents. */
+    private func continueData() {
+        guard dataMayContinue, let cursor = cursor else { return }
+        dataMayContinue = false /* Because scrolling to bottom will cause this method to be called
+                                   in rapid succession, use a boolean flag to limit this method
+                                   to one call. */
+
+        FirebaseManager.shared.firestore.collection("artists").start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
+            /* Always update the cursor whenever Firestore returns
+             whether it's loading data or continuing data. */
+            guard let snapshot = querySnapshot else { return }
+            if snapshot.count < self.pageSize {
+                self.cursor = nil
+            } else {
+                self.cursor = snapshot.documents.last
+            }
+            /* Whenever we exit this method, reset dataMayContinue to true. */
+        })
+    }
+    
     @objc func realoadTable(_ noti: Notification) {
         listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         setRegion()
@@ -178,5 +223,20 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
             }
         }
+    }
+}
+
+extension MainViewController {
+    /* Standard scroll-view delegate */
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentSize = scrollView.contentSize.height
+        
+        if contentSize - scrollView.contentOffset.y <= scrollView.bounds.height {
+            didScrollToBottom()
+        }
+    }
+    
+    private func didScrollToBottom() {
+        continueData()
     }
 }
