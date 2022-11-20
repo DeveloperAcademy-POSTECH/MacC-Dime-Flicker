@@ -58,33 +58,16 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+        $0.isSkeletonable = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchData()
         
         navigationController?.isNavigationBarHidden = true
         
-        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
-        selectedRegions = regions
-
-        if selectedRegions.isEmpty {
-            selectedRegions = ["전체"]
-        }
-        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
-        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
-        
-        self.listCollectionView.isSkeletonable = true
-        
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.listCollectionView.stopSkeletonAnimation()
-            self.listCollectionView.hideSkeleton(reloadDataAfter: true)
-        }
     }
     
     override func render() {
@@ -106,7 +89,30 @@ final class MainViewController: BaseViewController {
         }
     }
     
+    override func configUI() {
+        super.configUI()
+        
+        guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
+        selectedRegions = regions
+
+        if selectedRegions.isEmpty {
+            selectedRegions = ["전체"]
+        }
+        let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
+        regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
+    }
+    
     // MARK: - func
+    
+    private func fetchData() {
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.lightGray, .gray]), animation: skeletonAnimation, transition: .none)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.listCollectionView.stopSkeletonAnimation()
+            self.listCollectionView.hideSkeleton(reloadDataAfter: true)
+        }
+    }
     
     @objc func realoadTable(_ noti: Notification) {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
@@ -130,12 +136,12 @@ final class MainViewController: BaseViewController {
 
 // MARK: - UICollectionViewDataSource
 extension MainViewController: SkeletonCollectionViewDataSource, UICollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return ArtistThumnailCollectionViewCell.className
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
     }
     
-    func collectionSkeletonView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return ArtistThumnailCollectionViewCell.className
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
