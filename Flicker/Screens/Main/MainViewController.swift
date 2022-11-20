@@ -156,6 +156,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.artistNameLabel.text = "킹도영"
         cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
         cell.artistThumnailImageView.image = UIImage(named: "port1")
+        cell.artistThumnailImageView.backgroundColor = .white
         cell.artistProfileImageView.image = UIImage(named: "port2")
         
         return cell

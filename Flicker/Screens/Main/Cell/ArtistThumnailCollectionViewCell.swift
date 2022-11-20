@@ -15,9 +15,21 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     lazy var artistThumnailImageView = UIImageView().then {
+        $0.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 20
+        
+        let width: CGFloat = UIScreen.main.bounds.size.width - 40
+        let height: CGFloat = 300.0
+        let sHeight: CGFloat = 150.0
+        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+
+        let bottomImageGradient = CAGradientLayer()
+        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+        $0.layer.insertSublayer(bottomImageGradient, at: 0)
     }
     
     let artistNameLabel = UILabel().then {
@@ -29,7 +41,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     let artistTagLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
         $0.textColor = .white.withAlphaComponent(0.9)
-        $0.text = "작가에 대한 설명 태크"
+        $0.text = "작가에 대한 설명 태그"
     }
     
     lazy var artistProfileImageView = UIImageView().then {
@@ -62,16 +74,6 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configUI() {
-        let width = artistThumnailImageView.bounds.width
-        let height = artistThumnailImageView.bounds.height
-        let sHeight: CGFloat = 100.0
-        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
-
-        let bottomImageGradient = CAGradientLayer()
-        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
-        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
-        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
-        
         self.isSkeletonable = true
         self.artistProfileImageView.isSkeletonable = true
         self.artistThumnailImageView.isSkeletonable = true
