@@ -35,10 +35,10 @@ final class MainViewController: BaseViewController {
     }
     
     private lazy var regionTagButton = UIButton().then {
-        $0.tintColor = .mainBlack
+        $0.tintColor = .mainPink
         $0.setTitle("전체 ", for: .normal)
-        $0.setTitleColor(.mainBlack, for: .normal)
-        $0.titleLabel?.font = .preferredFont(forTextStyle: .body, weight: .regular)
+        $0.setTitleColor(.mainBlack.withAlphaComponent(0.7), for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .body, weight: .semibold)
         $0.setImage(ImageLiteral.btnDown, for: .normal)
         $0.semanticContentAttribute = .forceRightToLeft
         $0.addTarget(self, action: #selector(didTapRegionTag), for: .touchUpInside)
@@ -66,12 +66,8 @@ final class MainViewController: BaseViewController {
         
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
-        
-<<<<<<< HEAD
+
         if selectedRegions.isEmpty {
-=======
-        if selectedRegions.count == 0 {
->>>>>>> 79-MainTagMultiSelect
             selectedRegions = ["전체"]
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
@@ -89,7 +85,7 @@ final class MainViewController: BaseViewController {
         }
         
         regionTagButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(26)
+            $0.bottom.equalTo(appTitleLabel.snp.bottom).offset(-6)
             $0.trailing.equalToSuperview().inset(20)
         }
         
@@ -105,11 +101,7 @@ final class MainViewController: BaseViewController {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
-<<<<<<< HEAD
         if selectedRegions.isEmpty {
-=======
-        if selectedRegions.count == 0 {
->>>>>>> 79-MainTagMultiSelect
             selectedRegions = ["전체"]
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
