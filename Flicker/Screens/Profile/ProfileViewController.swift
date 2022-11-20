@@ -7,12 +7,13 @@
 
 import MessageUI
 import UIKit
+import FirebaseAuth
 
 final class ProfileViewController: BaseViewController {
-    
     // MARK: - Properties: User Data
     private let userName: String? = nil
     private var isArtist: Bool = false
+    private let defaults = UserDefaults.standard
     
     // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
@@ -35,7 +36,7 @@ final class ProfileViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
-
+    
     override func render() {
         view.backgroundColor = .systemGray6
         view.addSubviews(tableView, profileHeader)
@@ -65,7 +66,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     @objc func didTapProfileHeader() {
-        transition(InputPasswordViewController(), transitionStyle: .present)
+        transition(ProfileSettingViewController(), transitionStyle: .present)
     }
     
     @objc func didToggleSwitch(_ sender: UISwitch) {
@@ -102,7 +103,11 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
         let section = ProfileSection(rawValue: indexPath.section)
-        
+        if indexPath.item == 0 {
+            Task {
+                await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName")!, email: defaults.string(forKey: "currentUserEmail")!, imageURL: defaults.string(forKey: "currentUserProfileImageUrl")!)
+            }
+        }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
         cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
         if section == .settings {

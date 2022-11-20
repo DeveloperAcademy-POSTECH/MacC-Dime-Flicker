@@ -18,6 +18,7 @@ import FirebaseFirestore
 final class LogInViewController: BaseViewController {
 
     static let shared = LogInViewController()
+    private let defaults = UserDefaults.standard
     
     var currentNonce: String?
     var currentAppleIdToken: String?
@@ -262,6 +263,17 @@ final class LogInViewController: BaseViewController {
         Task { [weak self] in
             if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
                 await FirebaseManager.shared.updateUserToken(uid: userId)
+                if let userData = await FirebaseManager.shared.getUser() {
+                    if defaults.string(forKey: "currentUserEmail") == nil {
+                        defaults.set(userData.email, forKey: "currentUserEmail")
+                    }
+                    if defaults.string(forKey: "currentUserName") == nil {
+                        defaults.set(userData.name, forKey: "currentUserName")
+                    }
+                    if defaults.string(forKey: "currentUserProfileImageUrl") == nil {
+                        defaults.set(userData.profileImageUrl, forKey: "currentUserProfileImageUrl")
+                    }
+                }
                 self?.goHome()
             } else {
                 makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
