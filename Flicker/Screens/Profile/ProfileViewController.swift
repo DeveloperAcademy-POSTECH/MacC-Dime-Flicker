@@ -7,6 +7,7 @@
 
 import MessageUI
 import UIKit
+import AuthenticationServices
 import FirebaseAuth
 
 final class ProfileViewController: BaseViewController {
@@ -34,7 +35,13 @@ final class ProfileViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        tabBarController?.tabBar.isHidden = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func render() {
@@ -45,7 +52,7 @@ final class ProfileViewController: BaseViewController {
             $0.top.equalTo(tableView.snp.top)
             $0.height.equalTo(180)
         }
-      
+
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -66,35 +73,46 @@ final class ProfileViewController: BaseViewController {
     }
     
     @objc func didTapProfileHeader() {
-        transition(ProfileSettingViewController(), transitionStyle: .present)
+        transition(ProfileSettingViewController(), transitionStyle: .push)
     }
-    
+
+
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
         if !sender.isOn {
             makeAlert(title: "알림 비활성화", message: "")
         }
     }
-    
+
     private func goToArtistRegistration() {
         transition(RegisterWelcomeViewController(), transitionStyle: .push)
     }
-    
+
     private func goToCustomerInquiry() {
         self.sendReportMail()
     }
-    
+
     private func doLogout() {
-        let alert = UIAlertController(title: "로그아웃", message: "", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "예", style: .destructive, handler: nil)
-        let no = UIAlertAction(title: "아니요", style: .default, handler: nil)
-        alert.addAction(no)
-        alert.addAction(yes)
-        present(alert, animated: true, completion: nil)
+        makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in
+            Task {
+                [weak self] in
+                await LoginManager.shared.fireBaseSignOut()
+                DispatchQueue.main.async {
+                    self?.goLogin()
+                }
+            }
+        })
     }
     
     private func doSignOut() {
-        transition(AccountDeleteViewController(), transitionStyle: .push)
+        makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
+            Task { [weak self] in
+                await LoginManager.shared.appleLoginReAuthUser()
+                await LoginManager.shared.fireBasewithDraw()
+                self?.navigationController?
+                    .pushViewController(WithDrawViewController(), animated: true)
+            }
+        })
     }
 }
 
@@ -124,7 +142,7 @@ extension ProfileViewController: UITableViewDataSource {
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ProfileSection(rawValue: section)!.sectionOptions(isArtist: self.isArtist).count
     }
@@ -132,19 +150,19 @@ extension ProfileViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate: Table Cell Funtions
 extension ProfileViewController: UITableViewDelegate {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return ProfileSection.allCases.count
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? sectionHeaderTitle.first : nil
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = ProfileSection(rawValue: indexPath.section)
-        
+
         if section == .settings {
             switch indexPath.row {
             case 1:

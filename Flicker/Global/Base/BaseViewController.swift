@@ -146,6 +146,24 @@ extension BaseViewController : UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activeTextField = nil
     }
+}
+
+extension BaseViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let count = self.navigationController?.viewControllers.count else { return false }
+        return count > 1
+    }
+}
+
+extension BaseViewController {
+    
+    func goLogin() {
+        let viewController = LogInViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
+    }
+
     //이메일 유효성 검사
     func emailValidCheck(_ textField: UITextField) -> Bool {
         //맨 처음은 영어, 대문자, 소문자, 툭수문자 모두 가능하다는 뜻이며, +@는 사이에 @가 무조건 있어야 하며
@@ -159,62 +177,15 @@ extension BaseViewController : UITextFieldDelegate {
     //비밀번호의 길이가 6자리 이상일 경우에만 true값 전달
     func passwordValidCheck(_ textField: UITextField) -> Bool {
         guard let passwordCount = textField.text?.count else { return false }
-        
+
         if passwordCount >= 6 {
             return true
         } else { return false }
     }
-    
+
     func passwordSameCheck(_ textField: UITextField, _ checkTextField: UITextField) -> Bool {
         if textField.text == checkTextField.text {
             return true
         } else { return false }
     }
-}
-
-extension BaseViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let count = self.navigationController?.viewControllers.count else { return false }
-        return count > 1
-    }
-}
-
-extension BaseViewController {
-    
-    func fireBasewithDraw() {
-        let user = Auth.auth().currentUser
-        
-        user?.delete { error in
-            if let error = error {
-                //회원탈퇴 실패
-                print(error)
-                print("123123")
-            } else {
-                DispatchQueue.main.async {
-                    self.goLogin()
-                }
-            }
-        }
-    }
-    
-    func fireBaseSignOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-        DispatchQueue.main.async {
-            self.goLogin()
-        }
-    }
-    
-    func goLogin() {
-        let viewController = LogInViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true, completion: nil)
-    }
-    
 }

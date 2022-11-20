@@ -58,6 +58,14 @@ extension UIColor {
     static var FreeDealBlue: UIColor {
         return UIColor(hex: "#B4CDDB")
     }
+    
+    static var gray001: UIColor {
+        return UIColor(hex: "D8D8D8")
+    }
+    
+    static var gray002: UIColor {
+        return UIColor(hex: "DDDDDD")
+    }
 }
 
 extension UIColor {

@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		102A4BEB29253AB2005A8BE5 /* AppleLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */; };
+		102A4BEB29253AB2005A8BE5 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A4BEA29253AB2005A8BE5 /* LoginManager.swift */; };
 		1032FFA52910C03D00AE3363 /* TsukimiRounded-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */; };
 		1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */; };
 		103EB1FC29224F2600E11A2A /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */; };
 		107841FF29267C34004849FC /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107841FE29267C34004849FC /* PopUpViewController.swift */; };
 		108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108561102923EAB00083E156 /* ProfileSettingViewController.swift */; };
-		108561162924FBFD0083E156 /* InputPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108561152924FBFD0083E156 /* InputPasswordViewController.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -34,7 +33,6 @@
 		58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */; };
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
-		7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
@@ -64,6 +62,7 @@
 		CB5BF4802919E15400A3E112 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF47D2919E15400A3E112 /* User.swift */; };
 		CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */; };
 		CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF4822919E1A800A3E112 /* SendButton.swift */; };
+		CB67FDBB2929F37300343471 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CB67FDBA2929F37300343471 /* SkeletonView */; };
 		CBB0ACF42923A1FA00B3381F /* StateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF32923A1FA00B3381F /* StateCollectionViewCell.swift */; };
 		CBB0ACF62923A21C00B3381F /* StateTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB0ACF52923A21C00B3381F /* StateTagListView.swift */; };
 		CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC03D329060E6600C6CF30 /* AppDelegate.swift */; };
@@ -98,13 +97,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginManager.swift; sourceTree = "<group>"; };
+		102A4BEA29253AB2005A8BE5 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		1032FFA42910C03D00AE3363 /* TsukimiRounded-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsukimiRounded-Bold.ttf"; sourceTree = "<group>"; };
 		1032FFA62911EE6400AE3363 /* LoginProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProfileViewController.swift; sourceTree = "<group>"; };
 		103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
 		107841FE29267C34004849FC /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		108561102923EAB00083E156 /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
-		108561152924FBFD0083E156 /* InputPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPasswordViewController.swift; sourceTree = "<group>"; };
 		58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRegisterViewController.swift; sourceTree = "<group>"; };
 		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
 		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 		58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioViewController.swift; sourceTree = "<group>"; };
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
-		7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -195,6 +192,7 @@
 				10FE6B6E290651630064201F /* SnapKit in Frameworks */,
 				10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */,
 				10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */,
+				CB67FDBB2929F37300343471 /* SkeletonView in Frameworks */,
 				10FE6B6B290651150064201F /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,18 +219,9 @@
 		1085610F2923EA6D0083E156 /* ProfileSetting */ = {
 			isa = PBXGroup;
 			children = (
-				108561142924FBD10083E156 /* InputPassword */,
 				108561102923EAB00083E156 /* ProfileSettingViewController.swift */,
 			);
 			path = ProfileSetting;
-			sourceTree = "<group>";
-		};
-		108561142924FBD10083E156 /* InputPassword */ = {
-			isa = PBXGroup;
-			children = (
-				108561152924FBFD0083E156 /* InputPasswordViewController.swift */,
-			);
-			path = InputPassword;
 			sourceTree = "<group>";
 		};
 		58118D372911328A00F08D35 /* ArtistRegister */ = {
@@ -463,7 +452,7 @@
 				CBDC03F829060F6400C6CF30 /* Logger.swift */,
 				CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */,
 				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
-				102A4BEA29253AB2005A8BE5 /* AppleLoginManager.swift */,
+				102A4BEA29253AB2005A8BE5 /* LoginManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -596,7 +585,6 @@
 			isa = PBXGroup;
 			children = (
 				7B3DC4392914DA0F00646909 /* Cell */,
-				7B3DC41729114B5900646909 /* AccountDeleteViewController.swift */,
 				7B3DC4332912ACA000646909 /* ProfileViewController.swift */,
 				7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */,
 			);
@@ -644,6 +632,7 @@
 				10FE6B6A290651150064201F /* Lottie */,
 				10FE6B6D290651630064201F /* SnapKit */,
 				CB5B1C2F29134F75001E1EBD /* Then */,
+				CB67FDBA2929F37300343471 /* SkeletonView */,
 			);
 			productName = Flicker;
 			productReference = CBDC03D029060E6600C6CF30 /* Flicker.app */;
@@ -678,6 +667,7 @@
 				10FE6B69290651150064201F /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				10FE6B6C290651620064201F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */,
+				CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = CBDC03D129060E6600C6CF30 /* Products */;
 			projectDirPath = "";
@@ -731,10 +721,9 @@
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
-				102A4BEB29253AB2005A8BE5 /* AppleLoginManager.swift in Sources */,
+				102A4BEB29253AB2005A8BE5 /* LoginManager.swift in Sources */,
 				7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */,
 				CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */,
-				108561162924FBFD0083E156 /* InputPasswordViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
@@ -759,7 +748,6 @@
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
 				58A452A92912A24600C9707D /* RegisterTextDescriptionViewController.swift in Sources */,
-				7B3DC41829114B5900646909 /* AccountDeleteViewController.swift in Sources */,
 				CB5BF4782919E10700A3E112 /* ChatSendView.swift in Sources */,
 				5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */,
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
@@ -1044,6 +1032,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1086,6 +1082,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 10FE6B6F2906519E0064201F /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		CB67FDBA2929F37300343471 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB67FDB92929F37300343471 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

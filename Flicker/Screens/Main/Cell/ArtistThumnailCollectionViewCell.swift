@@ -15,29 +15,33 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     lazy var artistThumnailImageView = UIImageView().then {
+        $0.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 20
+        
+        let width: CGFloat = UIScreen.main.bounds.size.width - 40
+        let height: CGFloat = 300.0
+        let sHeight: CGFloat = 150.0
+        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+
+        let bottomImageGradient = CAGradientLayer()
+        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+        $0.layer.insertSublayer(bottomImageGradient, at: 0)
     }
     
     let artistNameLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .title2, weight: .bold)
-        
         $0.textColor = .white
-        $0.textAlignment = .center
+        $0.text = "홍길동"
     }
     
-    private let artistLabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .bold)
-        $0.textColor = .white
-        $0.textAlignment = .center
-        $0.text = "작가님"
-    }
-    
-    let artistInfoLabel = UILabel().then {
+    let artistTagLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .bold)
-        $0.textColor = .white
-        $0.numberOfLines = 2
+        $0.textColor = .white.withAlphaComponent(0.9)
+        $0.text = "작가에 대한 설명 태그"
     }
     
     lazy var artistProfileImageView = UIImageView().then {
@@ -46,41 +50,37 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func render() {
-        contentView.addSubviews(artistNameLabel, artistLabel, artistInfoLabel, artistProfileImageView)
-        
-        artistNameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(200)
-            $0.leading.equalToSuperview().inset(30)
-        }
-        
-        artistLabel.snp.makeConstraints {
-            $0.bottom.equalTo(artistNameLabel.snp.bottom).offset(-2)
-            $0.leading.equalTo(artistNameLabel.snp.trailing).offset(8)
-        }
-        
-        artistInfoLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(30)
-            $0.top.equalTo(artistLabel.snp.bottom).offset(10)
-            $0.width.lessThanOrEqualTo(220)
+        contentView.addSubviews(artistThumnailImageView, artistProfileImageView, artistTagLabel, artistNameLabel)
+ 
+        artistThumnailImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         artistProfileImageView.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(30)
+            $0.leading.bottom.equalToSuperview().inset(20)
             $0.width.height.equalTo(60)
+        }
+        
+        artistTagLabel.snp.makeConstraints {
+            $0.leading.equalTo(artistProfileImageView.snp.trailing).offset(15)
+            $0.bottom.equalToSuperview().inset(25)
+            $0.width.lessThanOrEqualTo(UIScreen.main.bounds.size.width - 180)
+        }
+        
+        artistNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(artistProfileImageView.snp.trailing).offset(15)
+            $0.bottom.equalTo(artistTagLabel.snp.top).offset(-4)
         }
     }
     
     override func configUI() {
-        backgroundView = artistThumnailImageView
+        self.isSkeletonable = true
+        self.artistProfileImageView.isSkeletonable = true
+        self.artistThumnailImageView.isSkeletonable = true
+        self.artistNameLabel.isSkeletonable = true
+        self.artistTagLabel.isSkeletonable = true
         
-        let width = artistThumnailImageView.bounds.width
-        let height = artistThumnailImageView.bounds.height
-        let sHeight: CGFloat = 100.0
-        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
-
-        let bottomImageGradient = CAGradientLayer()
-        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
-        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
-        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
+        self.artistNameLabel.linesCornerRadius = 5
+        self.artistTagLabel.linesCornerRadius = 5
     }
 }

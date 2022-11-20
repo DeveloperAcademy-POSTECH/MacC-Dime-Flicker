@@ -12,20 +12,35 @@ import FirebaseStorage
 import SnapKit
 import Then
 
-    // TODO: (다음 버전에..) 1.전 view에서넘어올때, dissolve 같은 간단한 애니메이션 추가 2.버튼 잠깐이라도 튀어오르는 애니메이션 추가
+// TODO: (다음 버전에..) 1.전 view에서넘어올때, dissolve 같은 간단한 애니메이션 추가 2.버튼 잠깐이라도 튀어오르는 애니메이션 추가
 final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     
-    private var dataSourceToServer = Artist(city: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    
+    // MARK: observer to check whether the async tasks are done
+    private var temporaryStrings: [String] = [] {
+        didSet {
+            if self.temporaryStrings.count == self.temporaryImages.count {
+                Task {
+                    self.dataSourceToServer.portfolioImageUrls = self.temporaryStrings
+                    await self.dataFirebase.storeArtistInformation(self.dataSourceToServer)
+                    self.hideLoadingView()
+                    self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+                }
+                
+            }
+        }
+    }
     
     private var temporaryImages: [UIImage] = []
-    private var temporaryStrings: [String] = []
+
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
-
+    
     // MARK: - pageViewController UI components
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private var pages: [UIViewController] = []
@@ -53,6 +68,7 @@ final class ArtistRegisterViewController: UIViewController {
     }
     
     private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
         $0.color = .mainPink
     }
     
@@ -62,7 +78,7 @@ final class ArtistRegisterViewController: UIViewController {
         $0.shadowColor = .black.withAlphaComponent(0.6)
         $0.isHidden = true
     }
-
+    
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +94,7 @@ final class ArtistRegisterViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     // TODO: ViewController들을 다 넣었다면 이 함수는 discard 해야함
@@ -97,11 +114,11 @@ final class ArtistRegisterViewController: UIViewController {
         }
         
         pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/24)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
         }
-    
+        
         dynamicNextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -165,37 +182,14 @@ final class ArtistRegisterViewController: UIViewController {
     }
 }
 
-    // MARK: - data transfer delegates
-extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
-    func cameraBodySelected(cameraBody bodyName: String) {
-        self.dataSourceToServer.camera = bodyName
-    }
-    
-    func cameraLensSelected(cameraLens lensName: String) {
-        self.dataSourceToServer.lens = lensName
-    }
-    
-    func regionSelected(regions regionDatas: [String]) {
-        self.dataSourceToServer.city = regionDatas
-    }
-    
-    func textViewDescribed(textView textDescribed: String) {
-        self.dataSourceToServer.detailDescription = textDescribed
-    }
-    
-    func photoSelected(photos imagesPicked: [UIImage]) {
-        self.temporaryImages = imagesPicked
-    }
-}
-
-    // MARK: - action functions
+// MARK: - action functions
 extension ArtistRegisterViewController {
     // MARK: action with layout changes as keyboard goes up and down
     @objc func moveUpAction(_ notification: Notification) {
         let userInfos = notification.userInfo
         guard let keyboardSize = userInfos?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardSize.cgRectValue.height
-                
+        
         UIView.animate(withDuration: 2.0, delay: 1.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: .curveEaseIn) {
             self.pageViewController.view.snp.remakeConstraints {
                 $0.leading.trailing.equalToSuperview()
@@ -210,11 +204,11 @@ extension ArtistRegisterViewController {
             }
         }
     }
-
+    
     @objc func moveDownAction(_ notification: Notification) {
         UIView.animate(withDuration: 0.5) {
             self.pageViewController.view.snp.remakeConstraints {
-                $0.top.equalTo(self.customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/20)
+                $0.top.equalTo(self.customNavigationBarView.snp.bottom).offset(UIScreen.main.bounds.height/24)
                 $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(self.dynamicNextButton.snp.top).offset(-20)
             }
@@ -243,26 +237,27 @@ extension ArtistRegisterViewController {
         let recheckAlert = UIAlertController(title: "등록이 끝나셨나요?", message: "지역과 자기소개, 그리고 사진은 추후에 수정 가능해요!", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             // MARK: Concurrent uploading photos
-            self.openLoadingView()
-            // TODO: 이렇게 동시성을 가지고 공유자원인 하나의 array(= self.temporaryStrings)에 접근하게 되면, scheduling problem 이 생길 수 있다. 단순 append 만 하는데에도 문제가 생길 수 있을까?
-            for photo in self.temporaryImages {
+            for (indexNum, photo) in self.temporaryImages.enumerated() {
                 Task {
-                    async let urlString = self.dataFirebase.uploadImage(photo: photo)
+                    async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
                     await self.temporaryStrings.append(urlString)
-                    print("Artist is \(self.dataSourceToServer)")
+                    print("Artist is \(self.temporaryStrings)")
                 }
             }
-            // ⭐️ 여기에 데이터 통신 func 들어가야함 ⭐️
-            // Artist() 모델이 모두 완성이 되는 시점이라 여기서 user data 를 업데이트 해야함
-            // 해당 func 필요
-            self.hideLoadingView()
-            self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+            // MARK: Intentional delay for uploading the photos
+            self.openLoadingView()
         }
+        
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         
         recheckAlert.addAction(confirm)
         recheckAlert.addAction(cancel)
         present(recheckAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: uploading Data func (Not UIImages)
+    private func sequenceUploadingDatas() async {
+        await self.dataFirebase.storeArtistInformation(self.dataSourceToServer)
     }
     
     // MARK: changing loading view status action
@@ -276,17 +271,18 @@ extension ArtistRegisterViewController {
         self.loadingView.isHidden = true
         self.spinnerView.stopAnimating()
         self.loadingLabel.isHidden = true
+        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️HIDELOADINGVIEW")
     }
     
     // MARK: moving foward and backward to next pages action
     @objc func moveNextTapped() {
-        let regionEmpty = dataSourceToServer.city.isEmpty
+        let regionEmpty = dataSourceToServer.regions.isEmpty
         let bodyEmpty = dataSourceToServer.camera.isEmpty
         let lensEmpty = dataSourceToServer.lens.isEmpty
         let textInfoEmpty = dataSourceToServer.detailDescription.isEmpty
         let photoEmpty = temporaryImages.isEmpty
         guard let page = pages.firstIndex(of: currentPage) else { return }
-
+        
         switch currentPage {
         case pages[0]:
             if regionEmpty {
@@ -322,11 +318,34 @@ extension ArtistRegisterViewController {
     
     @objc func moveBackTapped() {
         if currentPage == pages[0] {
-            navigationController?.popViewController(animated: false)
+            navigationController?.popViewController(animated: true)
         } else {
             guard let page = pages.firstIndex(of: currentPage) else { return }
             pageViewController.setViewControllers([pages[page - 1]], direction: .reverse, animated: true)
             currentPage = pages[page - 1]
         }
+    }
+}
+
+// MARK: - data transfer delegates
+extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
+    func cameraBodySelected(cameraBody bodyName: String) {
+        self.dataSourceToServer.camera = bodyName
+    }
+    
+    func cameraLensSelected(cameraLens lensName: String) {
+        self.dataSourceToServer.lens = lensName
+    }
+    
+    func regionSelected(regions regionDatas: [String]) {
+        self.dataSourceToServer.regions = regionDatas
+    }
+    
+    func textViewDescribed(textView textDescribed: String) {
+        self.dataSourceToServer.detailDescription = textDescribed
+    }
+    
+    func photoSelected(photos imagesPicked: [UIImage]) {
+        self.temporaryImages = imagesPicked
     }
 }
