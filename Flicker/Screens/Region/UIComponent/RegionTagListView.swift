@@ -44,7 +44,6 @@ final class RegionTagListView: UIView {
         $0.showsHorizontalScrollIndicator = false
         $0.register(RegionCollectionViewCell.self,
                                 forCellWithReuseIdentifier: RegionCollectionViewCell.className)
-        $0.allowsMultipleSelection = true
     }
     
     // MARK: - init
@@ -84,8 +83,8 @@ extension RegionTagListView: UICollectionViewDataSource {
         
         cell.regionLabel.text = regionList[indexPath.item]
         
-        if let selectedRegions = parent?.selectedRegions {
-            if selectedRegions.contains(regionList[indexPath.item]) {
+        if let selectedRegion = parent?.selectedRegion {
+            if regionList[indexPath.item] == selectedRegion {
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
             }
         }
@@ -97,10 +96,6 @@ extension RegionTagListView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension RegionTagListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        parent?.addRegion(region: regionList[indexPath.item])
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        parent?.removeRegion(region: regionList[indexPath.item])
+        parent?.setRegion(region: regionList[indexPath.item])
     }
 }

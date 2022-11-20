@@ -66,7 +66,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func setTabGesture() {
-        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
@@ -87,7 +87,8 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func goToArtistRegistration() {
-        transition(RegisterWelcomeViewController(), transitionStyle: .push)
+        navigationController?
+            .pushViewController(RegisterWelcomeViewController(), animated: true)
     }
     
     private func goToCustomerInquiry() {
