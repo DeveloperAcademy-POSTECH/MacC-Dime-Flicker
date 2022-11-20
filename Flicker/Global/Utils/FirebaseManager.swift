@@ -242,7 +242,6 @@ final class FirebaseManager: NSObject {
         do {
             let ref = storage.reference()
             guard let photoData = photo.jpegData(compressionQuality: 0.0) else { return "" }
-            // fileName 이거 바꿔야함
             let imageRef = ref.child("ArtistPortfolio/\(fileName).jpg")
             
             let _ = try await imageRef
