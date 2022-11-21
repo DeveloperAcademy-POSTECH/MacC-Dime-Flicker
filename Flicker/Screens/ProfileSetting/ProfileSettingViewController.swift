@@ -15,7 +15,8 @@ import FirebaseAuth
  */
 final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
-
+    private let defaults = UserDefaults.standard
+    private var ExistingName: String = ""
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
@@ -50,14 +51,14 @@ final class ProfileSettingViewController: BaseViewController {
     private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private let nickNameField = UITextField().then {
+    private lazy var nickNameField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.textSubBlack,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .light)
         ]
 
         $0.backgroundColor = .clear
-        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해 주세요!", attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: ExistingName, attributes: attributes)
         $0.autocapitalizationType = .none
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -187,7 +188,11 @@ final class ProfileSettingViewController: BaseViewController {
             $0.height.equalTo(50)
         }
     }
-
+    override func loadView() {
+        super.loadView()
+        
+        ExistingName = defaults.string(forKey: "currentUserName") ?? "유저명"
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }

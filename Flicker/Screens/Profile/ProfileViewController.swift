@@ -31,6 +31,11 @@ final class ProfileViewController: EmailViewController {
         setFunctionsAndDelegate()
         render()
         setTabGesture()
+        print("================================")
+        print(defaults.string(forKey: "currentUserEmail"))
+        print(defaults.string(forKey: "currentUserName"))
+        print(defaults.string(forKey: "currentUserProfileImageUrl"))
+        print("================================")
     }
     
     override func viewWillAppear(_ animated: Bool) {
