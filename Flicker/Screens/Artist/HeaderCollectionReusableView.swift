@@ -20,11 +20,13 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private let imageHeight: Int = 380
+
     private let profileImageSize: Int = 45
 
     var images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
+        $0.skeletonCornerRadius = 5
         $0.numberOfPages = images.count
         $0.backgroundColor = .clear
         $0.pageIndicatorTintColor = .gray
@@ -45,6 +47,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
+        $0.skeletonCornerRadius = 5
     }
 
     private let firstSeperator = UIView().then {
@@ -66,6 +69,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.isScrollEnabled = false
         $0.font = .preferredFont(forTextStyle: .headline, weight: .medium)
         $0.isUserInteractionEnabled = false
+        $0.skeletonCornerRadius = 20
     }
 
     //TODO: 추후에 horizontal stackView로 바꾸기
@@ -73,16 +77,19 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     private let regionImageView = UIImageView().then {
         $0.image = UIImage(systemName: "map.fill")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let bodyInfoImageView = UIImageView().then {
         $0.image = UIImage(systemName: "circle.rectangle.filled.pattern.diagonalline")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let lensInfoImageView = UIImageView().then {
         $0.image = UIImage(systemName: "camera.metering.center.weighted")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
@@ -105,6 +112,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             view.isSkeletonable = true
         }
 
+        configUI()
         configureImageScrollView()
         setFunctionAndDelegate()
     }
@@ -114,17 +122,12 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private func configUI() {
-//        backgroundView = artistThumnailImageView
-//
-//        let width = artistThumnailImageView.bounds.width
-//        let height = artistThumnailImageView.bounds.height
-//        let sHeight: CGFloat = 100.0
-//        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
-//
-//        let bottomImageGradient = CAGradientLayer()
-//        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
-//        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
-//        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
+        artistNickname.linesCornerRadius = 5
+        regionInfo.linesCornerRadius = 5
+        bodyInfo.linesCornerRadius = 5
+        lensInfo.linesCornerRadius = 5
+        introductionLabel.linesCornerRadius = 5
+        artistInformation.linesCornerRadius = 5
     }
 
     override func layoutSubviews () {
@@ -247,13 +250,6 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.image = images[pageIndex]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
-
-            // Gradient 효과
-//            let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
-//            let topImageGradient = CAGradientLayer()
-//            topImageGradient.frame = CGRect(x: 0, y: 0, width: Int(self.bounds.width), height: 80)
-//            topImageGradient.colors = [shadow, UIColor.clear.cgColor]
-//            imageView.layer.insertSublayer(topImageGradient, at: 0)
             imageScrollView.addSubview(imageView)
         }
     }

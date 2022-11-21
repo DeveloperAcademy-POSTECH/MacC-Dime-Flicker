@@ -22,7 +22,6 @@ final class ArtistPortfolioCell: UICollectionViewCell {
         }
     }
 
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 

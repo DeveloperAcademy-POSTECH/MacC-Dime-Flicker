@@ -19,7 +19,9 @@ final class ArtistTappedViewController: BaseViewController {
 
     private var profileImage: UIImage = UIImage()
 
-    private var headerHeight: Int = 700
+    private var headerHeight: Int = 710
+
+    private var isDownloaded: Bool = false
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
@@ -29,8 +31,13 @@ final class ArtistTappedViewController: BaseViewController {
         $0.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(headerHeight))
     }
 
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then { $0.contentInsetAdjustmentBehavior = .never
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then {
+        $0.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.className)
+
+        $0.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
+        $0.contentInsetAdjustmentBehavior = .never
         $0.isSkeletonable = true
+        $0.skeletonCornerRadius = 5
     }
 
     private let bottomBackgroundView = {
@@ -41,6 +48,7 @@ final class ArtistTappedViewController: BaseViewController {
     }()
 
     private let counselingButton = UIButton().then {
+        $0.skeletonCornerRadius = 15
         $0.setTitle("문의하기", for: .normal)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
         $0.setTitleColor(.white, for: .normal)
@@ -49,7 +57,9 @@ final class ArtistTappedViewController: BaseViewController {
         $0.isSkeletonable = true
     }
 
-    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold)
+    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold).then {
+        $0.skeletonCornerRadius = 5
+    }
 
     private let statusBarBackGroundView = UIView().then {
         $0.backgroundColor = .white
@@ -72,12 +82,7 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
-
         setDelegateAndDataSource()
-
-        collectionView.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.className)
-
-        collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
 
         Task {
             await fetchImages()
@@ -91,12 +96,9 @@ final class ArtistTappedViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        showSkeletonView()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        showSkeletonView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+            self.showSkeletonView()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,7 +131,19 @@ final class ArtistTappedViewController: BaseViewController {
 
     private func showSkeletonView() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+
+        if !self.isDownloaded {
+            self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+
+            self.bottomBackgroundView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        }
+    }
+
+    private func stopSkeleton(with views: [UIView]) {
+        for view in views {
+            view.stopSkeletonAnimation()
+            view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+        }
     }
 
 
@@ -150,11 +164,11 @@ final class ArtistTappedViewController: BaseViewController {
             // TODO: 추후 ArtistUrls로 네트워크 매니저에 바꿔서 대입해야함, fetchOneImage에 artistProfile URL 들어가야함
             self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
             self.profileImage = try await networkManager.fetchOneImage(withURL: networkManager.portFolioImageList.first!)
+            isDownloaded.toggle()
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
-                self.collectionView.stopSkeletonAnimation()
-                self.collectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                self.stopSkeleton(with: [collectionView, bottomBackgroundView])
             }
         } catch {
             print(error)
@@ -182,6 +196,10 @@ final class ArtistTappedViewController: BaseViewController {
     override func render() {
 
         view.addSubviews(collectionView, statusBarBackGroundView, navigationBarSeperator, bottomBackgroundView, counselingButton, bottomBarSeperator)
+
+        for subview in view.subviews {
+            subview.isSkeletonable = true
+        }
 
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -212,6 +230,10 @@ final class ArtistTappedViewController: BaseViewController {
 
         // 하단의 문의하기 버튼이 있는 UIView
         bottomBackgroundView.addSubviews(counselingButton, mutualPayLabel)
+
+        for subview in bottomBackgroundView.subviews {
+            subview.isSkeletonable = true
+        }
 
         bottomBackgroundView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
@@ -266,7 +288,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         let thumnailImages = Array(imageList.prefix(4))
         headerView.isSkeletonable = true
         // TODO: 헤더뷰 데이터 업로드
-//        headerView.resetArtistInfo(with: artistInfo)
+        //        headerView.resetArtistInfo(with: artistInfo)
         headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
         return headerView
@@ -276,7 +298,6 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
 extension ArtistTappedViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         let cell = collectionView.cellForItem(at: indexPath) as! ArtistPortfolioCell
         let viewController = ImageViewController()
         viewController.image = cell.imageView.image
@@ -299,14 +320,6 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 5, left: 20, bottom: 0, right: 20)
     }
 }
-
-//extension ArtistTappedViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
-//
-//    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-//        ArtistPortfolioCell.className
-//    }
-//}
-
 
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
