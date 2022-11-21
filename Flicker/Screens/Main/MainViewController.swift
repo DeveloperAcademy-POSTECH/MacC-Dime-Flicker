@@ -25,6 +25,8 @@ final class MainViewController: BaseViewController {
                                                   right: collectionHorizontalSpacing)
     }
     
+    private var refreshControl = UIRefreshControl()
+    
     private var selectedRegions: [String] = ["전체"]
     private var artists = [Artist]()
     
@@ -102,7 +104,13 @@ final class MainViewController: BaseViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+        
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        refreshControl.tintColor = .mainPink
+        refreshControl.attributedTitle = NSAttributedString(string: "새로고침", attributes: [ NSAttributedString.Key.foregroundColor: UIColor.mainPink, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        
+        listCollectionView.refreshControl = refreshControl
     }
     
     // MARK: - func
@@ -122,9 +130,9 @@ final class MainViewController: BaseViewController {
     }
     
     private func loadData() {
-        setValues()
-        
         Task {
+            setValues()
+            
             emptyThumnailView.isHidden = true
             
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
@@ -160,6 +168,11 @@ final class MainViewController: BaseViewController {
     
     @objc func realoadTable(_ noti: Notification) {
         loadData()
+    }
+    
+    @objc func pullToRefresh() {
+        loadData()
+        refreshControl.endRefreshing()
     }
     
     @objc private func didTapRegionTag() {
