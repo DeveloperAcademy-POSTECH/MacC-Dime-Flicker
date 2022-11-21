@@ -4,6 +4,7 @@
 //
 //  Created by Jisu Jang on 2022/10/29.
 //
+import SkeletonView
 import UIKit
 import Then
 import SnapKit
@@ -12,7 +13,11 @@ final class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
+    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+
     private var imageList: [UIImage] = []
+
+    private var profileImage: UIImage = UIImage()
 
     private var headerHeight: Int = 700
 
@@ -25,6 +30,7 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then { $0.contentInsetAdjustmentBehavior = .never
+        $0.isSkeletonable = true
     }
 
     private let bottomBackgroundView = {
@@ -72,7 +78,7 @@ final class ArtistTappedViewController: BaseViewController {
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
 
         Task {
-            await fetchPortfolioImages()
+            await fetchImages()
         }
 
         setupBackButton()
@@ -121,9 +127,11 @@ final class ArtistTappedViewController: BaseViewController {
         collectionView.showsVerticalScrollIndicator = false
     }
 
-    private func fetchPortfolioImages() async {
+    private func fetchImages() async {
         do {
+            // TODO: 추후 ArtistUrls로 네트워크 매니저에 바꿔서 대입해야함, fetchOneImage에 artistProfile URL 들어가야함
             self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
+            self.profileImage = try await networkManager.fetchOneImage(withURL: networkManager.portFolioImageList.first!)
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
@@ -235,6 +243,9 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         headerHeight = Int(headerView.getTotalViewHeight())
         
         let thumnailImages = Array(imageList.prefix(4))
+        // TODO: 헤더뷰 데이터 업로드
+//        headerView.resetArtistInfo(with: artistInfo)
+        headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
         return headerView
     }
