@@ -27,4 +27,12 @@ final class CurrentUserDataManager {
             defaults.set(userData.token, forKey: "currentUserToken")
         }
     }
+
+    func deleteUserDefault() async {
+        defaults.removeObject(forKey: "currentUserEmail")
+        defaults.removeObject(forKey: "currentUserName")
+        defaults.removeObject(forKey: "currentUserProfileImageUrl")
+        defaults.removeObject(forKey: "currentUserToken")
+        defaults.removeObject(forKey: "regions")
+    }
 }
