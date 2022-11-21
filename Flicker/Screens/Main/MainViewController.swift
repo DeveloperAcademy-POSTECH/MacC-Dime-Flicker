@@ -70,7 +70,7 @@ final class MainViewController: BaseViewController {
         super.viewDidLoad()
         
         setRegion()
-        fetchData()
+        loadData()
         
         navigationController?.isNavigationBarHidden = true
         
@@ -109,15 +109,14 @@ final class MainViewController: BaseViewController {
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
     }
     
-    private func fetchData() {
+    private func loadData() {
         self.cursor = nil
         self.dataMayContinue = true
         self.artists = [Artist]()
         
-        loadData()
-    }
-    
-    private func loadData() {
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        
         Task {
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
                 self.artists = result.artists
@@ -125,7 +124,8 @@ final class MainViewController: BaseViewController {
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.reloadData()
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
             }
         }
     }
@@ -150,7 +150,7 @@ final class MainViewController: BaseViewController {
     @objc func realoadTable(_ noti: Notification) {
         listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         setRegion()
-        fetchData()
+        loadData()
     }
     
     @objc private func didTapRegionTag() {
