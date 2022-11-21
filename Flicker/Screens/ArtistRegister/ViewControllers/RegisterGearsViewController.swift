@@ -21,8 +21,7 @@ final class RegisterGearsViewController: UIViewController {
     weak var delegate: RegisterGearsDelegate?
     
     // MARK: - view UI components
-    // MARK: mainVC 에서 UI layout 변경을 하고자 이렇게 static 으로 선언함
-    static let mainTitleLabel = UILabel().then {
+    private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "장비 정보"
     }
@@ -48,7 +47,7 @@ final class RegisterGearsViewController: UIViewController {
     private let cameraBodyExampleSectionLabel = UILabel().then {
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
-        $0.text = "예) Sony a7m3, Canon Eos R..."
+        $0.text = "예)  Sony a7m3, Canon Eos R..."
     }
     
     private let cameraLensSectionLabel = UILabel().then {
@@ -60,7 +59,7 @@ final class RegisterGearsViewController: UIViewController {
     private let cameraLensExampleSectionLabel = UILabel().then {
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
-        $0.text = "예) Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
+        $0.text = "예)  Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
     }
     
     // MARK: - textField UI components
@@ -114,15 +113,15 @@ final class RegisterGearsViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(RegisterGearsViewController.mainTitleLabel, subTitleLabel, bodyTitleLabel, cameraBodySectionLabel, cameraBodyExampleSectionLabel, cameraBodyTextField, cameraLensSectionLabel, cameraLensExampleSectionLabel, cameraLensTextField)
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, cameraBodySectionLabel, cameraBodyExampleSectionLabel, cameraBodyTextField, cameraLensSectionLabel, cameraLensExampleSectionLabel, cameraLensTextField)
         
-        RegisterGearsViewController.mainTitleLabel.snp.makeConstraints {
+        mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(RegisterGearsViewController.mainTitleLabel.snp.bottom).offset(30)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
         

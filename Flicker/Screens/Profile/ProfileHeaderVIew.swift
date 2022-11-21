@@ -8,13 +8,9 @@
 import UIKit
 import SnapKit
 import Then
+import FirebaseAuth
 
 final class ProfileHeaderVIew: UIView {
-    // MARK: - Properties
-    private var userImage: Data? = nil
-    private var userName: String? = nil
-    private var userEmail: String? = nil
-    
     // MARK: 오토레이아웃 미적용
     private lazy var headerCard = UIView().then {
         $0.layer.cornerRadius = 20
@@ -22,24 +18,20 @@ final class ProfileHeaderVIew: UIView {
     }
     
     private lazy var profileImage = UIImageView().then {
-        if let userImage = userImage {
-            $0.image = UIImage(data: userImage)
-        } else {
-            $0.image = UIImage(named: "DefaultProfile")
-        }
+        $0.image = UIImage(named: "DefaultProfile")
         $0.contentMode = .scaleToFill
         $0.layer.cornerRadius = 40
         $0.clipsToBounds = true
     }
     
     private lazy var idLabel = UILabel().then {
-        $0.text = userName ?? "Unknown"
+        $0.text = "Unknown"
         $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.textColor = .textMainBlack
     }
     
     private lazy var emailLabel = UILabel().then {
-        $0.text = userEmail ?? "User Email Error"
+        $0.text = "User Email Error"
         $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
         $0.textColor = .textSubBlack
     }
@@ -68,11 +60,20 @@ final class ProfileHeaderVIew: UIView {
         }
         idLabel.snp.makeConstraints {
             $0.top.equalTo(profileImage.snp.top)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
         }
         emailLabel.snp.makeConstraints {
             $0.top.equalTo(idLabel.snp.bottom).offset(10)
             $0.leading.equalTo(idLabel)
+        }
+    }
+    func setupHeaderData( name: String, email: String, imageURL: String) async {
+        do {
+            self.idLabel.text = name
+            self.emailLabel.text = email
+            self.profileImage.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
+        } catch {
+            print(error)
         }
     }
 }

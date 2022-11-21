@@ -15,6 +15,8 @@ struct Artist: Codable, Identifiable {
     var camera: String
     var lens: String
     
+    var tags: [String]
+    
     var detailDescription: String
     var portfolioImageUrls: [String]
     
