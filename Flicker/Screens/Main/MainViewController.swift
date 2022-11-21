@@ -39,7 +39,6 @@ final class MainViewController: BaseViewController {
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE"
-        $0.isSkeletonable = true
     }
     
     private lazy var regionTagButton = UIButton().then {
@@ -73,7 +72,6 @@ final class MainViewController: BaseViewController {
         
         setRegion()
         fetchData()
-        loadData()
         
         navigationController?.isNavigationBarHidden = true
         
@@ -120,7 +118,6 @@ final class MainViewController: BaseViewController {
         loadData()
     }
     
-    /* This method grabs the first page of documents. */
     private func loadData() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
         self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
@@ -136,7 +133,6 @@ final class MainViewController: BaseViewController {
             querySnapshot.documents.forEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
                 self.artists.append(artist)
-                print(artist)
             })
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -146,16 +142,14 @@ final class MainViewController: BaseViewController {
         })
     }
     
-    /* This method continues to paginate documents. */
     private func continueData() {
         guard dataMayContinue, let cursor = cursor else { return }
         
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
         self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
         
-        dataMayContinue = false /* Because scrolling to bottom will cause this method to be called
-                                 in rapid succession, use a boolean flag to limit this method
-                                 to one call. */
+        dataMayContinue = false
+        
         FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
             /* Always update the cursor whenever Firestore returns
              whether it's loading data or continuing data. */
@@ -221,6 +215,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.artistTagLabel.text = artist.tags[0]
         cell.artistThumnailImageView.load(url: URL(string: artist.portfolioImageUrls[0])!)
         cell.artistProfileImageView.load(url: URL(string: artist.userInfo["userProfileImageUrl"]!)!)
+        cell.makeBackgroudShadow()
         
         return cell
     }

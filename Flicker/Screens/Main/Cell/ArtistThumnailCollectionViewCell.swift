@@ -15,21 +15,10 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     lazy var artistThumnailImageView = UIImageView().then {
-        $0.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        
+        $0.backgroundColor = .lightGray
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 20
-        
-        let width: CGFloat = UIScreen.main.bounds.size.width - 40
-        let height: CGFloat = 300.0
-        let sHeight: CGFloat = 150.0
-        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
-
-        let bottomImageGradient = CAGradientLayer()
-        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
-        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
-        $0.layer.insertSublayer(bottomImageGradient, at: 0)
     }
     
     let artistNameLabel = UILabel().then {
@@ -82,5 +71,19 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         
         self.artistNameLabel.linesCornerRadius = 5
         self.artistTagLabel.linesCornerRadius = 5
+        
+        self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+    }
+    
+    func makeBackgroudShadow() {
+        let width: CGFloat = UIScreen.main.bounds.size.width - 40
+        let height: CGFloat = 300.0
+        let sHeight: CGFloat = 150.0
+        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+
+        let bottomImageGradient = CAGradientLayer()
+        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+        self.artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
     }
 }
