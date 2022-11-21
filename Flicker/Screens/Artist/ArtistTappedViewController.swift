@@ -21,8 +21,6 @@ final class ArtistTappedViewController: BaseViewController {
 
     private var headerHeight: Int = 710
 
-    private var isDownloaded: Bool = false
-
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
         $0.itemSize = CGSize(width: imageWidth , height: imageWidth)
@@ -138,11 +136,9 @@ final class ArtistTappedViewController: BaseViewController {
     private func showSkeletonView() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
 
-        if !self.isDownloaded {
             self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
 
             self.bottomBackgroundView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        }
     }
 
     private func stopSkeleton(with views: [UIView]) {
@@ -163,7 +159,6 @@ final class ArtistTappedViewController: BaseViewController {
             // TODO: 추후 ArtistUrls로 네트워크 매니저에 바꿔서 대입해야함, fetchOneImage에 artistProfile URL 들어가야함
             self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
             self.profileImage = try await networkManager.fetchOneImage(withURL: networkManager.portFolioImageList.first!)
-            isDownloaded.toggle()
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
