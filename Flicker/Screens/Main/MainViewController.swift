@@ -125,7 +125,7 @@ final class MainViewController: BaseViewController {
     
     /* This method grabs the first page of documents. */
     private func loadData() {
-        FirebaseManager.shared.firestore.collection("artists").getDocuments(completion: { (querySnapshot, error) in
+        FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).getDocuments(completion: { (querySnapshot, error) in
             /* At some point after you've unwrapped the snapshot,
                manage the cursor. */
             guard let querySnapshot = querySnapshot else { return }
@@ -154,8 +154,7 @@ final class MainViewController: BaseViewController {
         dataMayContinue = false /* Because scrolling to bottom will cause this method to be called
                                    in rapid succession, use a boolean flag to limit this method
                                    to one call. */
-
-        FirebaseManager.shared.firestore.collection("artists").start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
+            FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
             /* Always update the cursor whenever Firestore returns
              whether it's loading data or continuing data. */
             guard let querySnapshot = querySnapshot else { return }
