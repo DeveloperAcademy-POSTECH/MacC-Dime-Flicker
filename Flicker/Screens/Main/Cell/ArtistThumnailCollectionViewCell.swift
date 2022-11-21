@@ -65,6 +65,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     
     override func configUI() {
         self.isSkeletonable = true
+        self.artistThumnailImageView.isSkeletonable = true
         self.artistProfileImageView.isSkeletonable = true
         self.artistNameLabel.isSkeletonable = true
         self.artistTagLabel.isSkeletonable = true
