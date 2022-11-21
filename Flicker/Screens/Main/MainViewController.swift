@@ -16,10 +16,10 @@ final class MainViewController: BaseViewController {
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
-        static let collectionVerticalSpacing: CGFloat = 0.0
+        static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
         static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
+        static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
