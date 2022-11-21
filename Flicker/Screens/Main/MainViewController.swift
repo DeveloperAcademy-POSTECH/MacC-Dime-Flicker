@@ -117,7 +117,6 @@ final class MainViewController: BaseViewController {
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
         
-        emptyThumnailView.isHidden = true
         cursor = nil
         dataMayContinue = true
     }
@@ -129,6 +128,8 @@ final class MainViewController: BaseViewController {
         listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
         
         Task {
+            emptyThumnailView.isHidden = true
+            
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
                 self.artists = result.artists
                 self.cursor = result.cursor
