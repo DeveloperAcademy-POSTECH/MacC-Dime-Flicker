@@ -72,11 +72,11 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         
         self.artistNameLabel.linesCornerRadius = 5
         self.artistTagLabel.linesCornerRadius = 5
-        
-        self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     
     func makeBackgroudShadow() {
+        self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
         let width: CGFloat = UIScreen.main.bounds.size.width - 40
         let height: CGFloat = 300.0
         let sHeight: CGFloat = 150.0
