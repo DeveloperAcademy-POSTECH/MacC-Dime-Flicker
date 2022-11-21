@@ -110,12 +110,13 @@ final class MainViewController: BaseViewController {
     }
     
     private func loadData() {
-        self.cursor = nil
-        self.dataMayContinue = true
-        self.artists = [Artist]()
+        cursor = nil
+        dataMayContinue = true
+        artists = [Artist]()
+        listCollectionView.reloadData()
         
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
+        listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
         
         Task {
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
