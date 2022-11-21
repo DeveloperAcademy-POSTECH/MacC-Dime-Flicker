@@ -15,7 +15,7 @@ final class ArtistTappedViewController: BaseViewController {
 
     var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
 
-    private var imageList: [UIImage] = []
+    private var imageList: [UIImage] = [UIImage(named: "port1")!, UIImage(named: "port1")!, UIImage(named: "port1")!]
 
     private var profileImage: UIImage = UIImage()
 
@@ -36,6 +36,7 @@ final class ArtistTappedViewController: BaseViewController {
     private let bottomBackgroundView = {
         let UIView = UIView()
         UIView.backgroundColor = .white
+        UIView.isSkeletonable = true
         return UIView
     }()
 
@@ -45,6 +46,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
+        $0.isSkeletonable = true
     }
 
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold)
@@ -87,10 +89,20 @@ final class ArtistTappedViewController: BaseViewController {
         configUI()
     }
 
-    override func setupBackButton() {
-        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
-        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
-        navigationItem.leftBarButtonItem = backButton
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        showSkeletonView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showSkeletonView()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.backgroundColor = .clear
+        tabBarController?.tabBar.isHidden = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -98,12 +110,6 @@ final class ArtistTappedViewController: BaseViewController {
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
         navigationController?.navigationBar.backgroundColor = .clear
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.backgroundColor = .clear
-        tabBarController?.tabBar.isHidden = false
     }
 
     override func configUI() {
@@ -121,6 +127,18 @@ final class ArtistTappedViewController: BaseViewController {
         navigationBar.scrollEdgeAppearance = appearance
     }
 
+    private func showSkeletonView() {
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+    }
+
+
+    override func setupBackButton() {
+        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
+        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
+        navigationItem.leftBarButtonItem = backButton
+    }
+
     private func setDelegateAndDataSource() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -135,6 +153,8 @@ final class ArtistTappedViewController: BaseViewController {
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
+                self.collectionView.stopSkeletonAnimation()
+                self.collectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
             }
         } catch {
             print(error)
@@ -232,6 +252,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.className, for: indexPath) as! ArtistPortfolioCell
         // 이미지 URL을 가진 response 배열
+        cell.isSkeletonable = true
         let image = imageList[indexPath.item]
         cell.image = image
         return cell
@@ -243,6 +264,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         headerHeight = Int(headerView.getTotalViewHeight())
         
         let thumnailImages = Array(imageList.prefix(4))
+        headerView.isSkeletonable = true
         // TODO: 헤더뷰 데이터 업로드
 //        headerView.resetArtistInfo(with: artistInfo)
         headerView.resetProfileImage(with: profileImage)
@@ -277,6 +299,14 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 5, left: 20, bottom: 0, right: 20)
     }
 }
+
+//extension ArtistTappedViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
+//
+//    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+//        ArtistPortfolioCell.className
+//    }
+//}
+
 
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {

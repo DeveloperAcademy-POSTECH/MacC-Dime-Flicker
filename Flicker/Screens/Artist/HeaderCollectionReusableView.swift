@@ -7,6 +7,7 @@
 import UIKit
 import SnapKit
 import Then
+import SkeletonView
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
@@ -15,6 +16,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     private var imageScrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
+        $0.isSkeletonable = true
     }
 
     private let imageHeight: Int = 380
@@ -92,11 +94,16 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
+        
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
 
         self.addSubviews(regionInfo, bodyInfo, lensInfo)
 
         self.addSubviews(regionImageView, bodyInfoImageView, lensInfoImageView)
+
+        for view in self.subviews {
+            view.isSkeletonable = true
+        }
 
         configureImageScrollView()
         setFunctionAndDelegate()
