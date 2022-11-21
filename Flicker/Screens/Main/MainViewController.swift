@@ -126,24 +126,17 @@ final class MainViewController: BaseViewController {
         self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
         
         FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).getDocuments(completion: { (querySnapshot, error) in
-            /* At some point after you've unwrapped the snapshot,
-             manage the cursor. */
             guard let querySnapshot = querySnapshot else { return }
             if querySnapshot.count < self.pageSize {
-                /* This return had less than 10 documents, therefore
-                 there are no more possible documents to fetch and
-                 thus there is no cursor. */
                 self.cursor = nil
             } else {
-                /* This return had at least 10 documents, therefore
-                 there may be more documents to fetch which makes
-                 the last document in this snapshot the cursor. */
                 self.cursor = querySnapshot.documents.last
             }
             
             querySnapshot.documents.forEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
                 self.artists.append(artist)
+                print(artist)
             })
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -223,11 +216,11 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             assert(false, "Wrong Cell")
         }
         
-        cell.artistNameLabel.text = artists[indexPath.item].lens
-        cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
-        cell.artistThumnailImageView.image = UIImage(named: "port1")
-        cell.artistThumnailImageView.backgroundColor = .white
-        cell.artistProfileImageView.image = UIImage(named: "port2")
+        let artist = artists[indexPath.item]
+        cell.artistNameLabel.text = artist.userInfo["userName"]
+        cell.artistTagLabel.text = artist.tags[0]
+        cell.artistThumnailImageView.load(url: URL(string: artist.portfolioImageUrls[0])!)
+        cell.artistProfileImageView.load(url: URL(string: artist.userInfo["userProfileImageUrl"]!)!)
         
         return cell
     }
