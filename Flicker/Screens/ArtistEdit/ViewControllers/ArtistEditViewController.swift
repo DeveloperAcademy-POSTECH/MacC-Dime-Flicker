@@ -11,15 +11,15 @@ import Then
 
 class ArtistEditViewController: UIViewController {
     
-    private let editItemsArray: [String] = ["지역 설정", "장비 정보", "컨셉 태그", "자기 소개", "포트폴리오 사진"]
+    // 받아온 나의 정보를 캐싱한 데이터
+    
+    private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
     private let editItemsImageArray: [String] = ["mappin.and.ellipse", "camera.shutter.button", "tag", "doc.plaintext", "photo.artframe"]
     
     private let editViews: [UIViewController] = []
     
-    private let mainTitleLabel = UILabel().makeBasicLabel(labelText: "작가 정보 수정하기", textColor: .textMainBlack, fontStyle: .largeTitle, fontWeight: .bold)
-    
-    private let customNavigationBarView = RegisterCustomNavigationView()
+    private let mainTitleLabel = UILabel().makeBasicLabel(labelText: "작가 정보 수정하기", textColor: .textMainBlack, fontStyle: .title1, fontWeight: .bold)
     
     private lazy var editItemsTableView = UITableView().then {
         $0.separatorStyle = .none
@@ -46,20 +46,15 @@ class ArtistEditViewController: UIViewController {
     }
     
     private func render() {
-        view.addSubviews(customNavigationBarView, mainTitleLabel, editItemsTableView)
-        
-        customNavigationBarView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.height.equalTo(view.bounds.height/16)
-        }
+        view.addSubviews(mainTitleLabel, editItemsTableView)
         
         mainTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBarView.snp.bottom).offset(40)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.leading.equalToSuperview().inset(30)
         }
         
         editItemsTableView.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(35)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview()
         }
@@ -67,13 +62,10 @@ class ArtistEditViewController: UIViewController {
     
     private func configUI() {
         view.backgroundColor = .white
-        customNavigationBarView.popImage.isHidden = true
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
         editItemsTableView.register(ArtistEditItemsTableViewCell.self, forCellReuseIdentifier: "editCell")
     }
-    
-    
 }
 
 extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
@@ -95,28 +87,28 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             let vc = RegisterRegionViewController()
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .coverVertical
+            vc.modalPresentationStyle = .popover
             navigationController?.present(vc, animated: true)
         case 1:
             let vc = RegisterGearsViewController()
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .popover
             navigationController?.present(vc, animated: true)
         case 2:
             let vc = RegisterConceptTagViewController()
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .popover
             navigationController?.present(vc, animated: true)
         case 3:
             let vc = RegisterTextDescriptionViewController()
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .popover
             navigationController?.present(vc, animated: true)
         case 4:
             let vc = RegisterPortfolioViewController()
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .popover
             navigationController?.present(vc, animated: true)
         default:
             print("not yet")
             return
         }
     }
-    
 }
