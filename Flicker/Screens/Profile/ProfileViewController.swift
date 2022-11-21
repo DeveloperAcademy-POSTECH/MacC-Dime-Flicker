@@ -5,16 +5,17 @@
 //  Created by Taehwan Kim on 2022/11/02.
 //
 
-import MessageUI
 import UIKit
 import AuthenticationServices
 import FirebaseAuth
 
-final class ProfileViewController: BaseViewController {
-    
-    // MARK: - Properties
+final class ProfileViewController: EmailViewController {
+    // MARK: - Properties: User Data
     private let userName: String? = nil
     private var isArtist: Bool = false
+    private let defaults = UserDefaults.standard
+    
+    // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
@@ -23,7 +24,8 @@ final class ProfileViewController: BaseViewController {
         $0.showsVerticalScrollIndicator = false
         $0.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.className)
     }
-
+    
+    // MARK: - Funtions: UITable Rendering
     override func viewDidLoad() {
         super.viewDidLoad()
         setFunctionsAndDelegate()
@@ -31,9 +33,8 @@ final class ProfileViewController: BaseViewController {
         setTabGesture()
     }
     
-    // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -41,7 +42,7 @@ final class ProfileViewController: BaseViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
+    
     override func render() {
         view.backgroundColor = .systemGray6
         view.addSubviews(tableView, profileHeader)
@@ -64,12 +65,12 @@ final class ProfileViewController: BaseViewController {
         tableView.dataSource = self
     }
     
+    // MARK: - Funtions: Table React
     private func setTabGesture() {
         let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
-    // MARK: - Setting Functions
     @objc func didTapProfileHeader() {
         transition(ProfileSettingViewController(), transitionStyle: .push)
     }
@@ -87,13 +88,14 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func goToCustomerInquiry() {
-        self.sendReportMail()
+        sendReportMail(userName: userName, reportType: .askSomething)
     }
 
     private func doLogout() {
         makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in
             Task {
                 [weak self] in
+                await CurrentUserDataManager.shared.deleteUserDefault()
                 await LoginManager.shared.fireBaseSignOut()
                 DispatchQueue.main.async {
                     self?.goLogin()
@@ -105,6 +107,7 @@ final class ProfileViewController: BaseViewController {
     private func doSignOut() {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
+                await CurrentUserDataManager.shared.deleteUserDefault()
                 await LoginManager.shared.appleLoginReAuthUser()
                 await LoginManager.shared.fireBasewithDraw()
                 self?.navigationController?
@@ -114,12 +117,16 @@ final class ProfileViewController: BaseViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource: Table Cell Text && Indicator
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
         let section = ProfileSection(rawValue: indexPath.section)
-
+        if indexPath.item == 0 {
+            Task {
+                await profileHeader.setupHeaderData(name: defaults.string(forKey: "userName") ?? "", email: defaults.string(forKey: "userEmail") ?? "", imageURL: defaults.string(forKey: "userProfileImageUrl") ?? "")
+            }
+        }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
         cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
         if section == .settings {
@@ -142,7 +149,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate: Table Cell Funtions
 extension ProfileViewController: UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -176,51 +183,5 @@ extension ProfileViewController: UITableViewDelegate {
                 break
             }
         }
-    }
-}
-
-// MARK: - MFMailComposeViewControllerDelegate. 해당 델리게이트를 이용하여 email 송신 기능 가능
-extension ProfileViewController: MFMailComposeViewControllerDelegate {
-    func sendReportMail() {
-        if MFMailComposeViewController.canSendMail() {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            let currentDateString = formatter.string(from: Date())
-            let composeViewController = MFMailComposeViewController()
-            let dimeEmail = "haptic_04_minis@icloud.com"
-            let messageBody = """
-                              -----------------------------
-                              - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                              - 문의 날짜: \(currentDateString)
-                              ------------------------------
-                              - 내용
-                              
-                              
-                              
-                              
-                              """
-            composeViewController.mailComposeDelegate = self
-            composeViewController.setToRecipients([dimeEmail])
-            composeViewController.setSubject("")
-            composeViewController.setMessageBody(messageBody, isHTML: false)
-            self.present(composeViewController, animated: true, completion: nil)
-        }
-        else {
-            self.showSendMailErrorAlert()
-        }
-    }
-
-    private func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) {
-            (action) in
-            print("확인")
-        }
-        sendMailErrorAlert.addAction(confirmAction)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
     }
 }

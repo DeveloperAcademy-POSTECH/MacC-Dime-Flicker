@@ -33,10 +33,13 @@
 		58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */; };
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
+		58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */; };
+		58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
 		7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */; };
+		7B589122292B6568008A950E /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B589121292B6568008A950E /* EmailViewController.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
 		A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */; };
@@ -114,10 +117,13 @@
 		58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioViewController.swift; sourceTree = "<group>"; };
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
+		58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConceptTagViewController.swift; sourceTree = "<group>"; };
+		58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEnumeration.swift; sourceTree = "<group>"; };
+		7B589121292B6568008A950E /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +262,7 @@
 				58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */,
 				58A452A42912A22500C9707D /* RegisterRegionViewController.swift */,
 				58A452A62912A23000C9707D /* RegisterGearsViewController.swift */,
+				58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */,
 				58A452A82912A24600C9707D /* RegisterTextDescriptionViewController.swift */,
 				58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */,
 				58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */,
@@ -447,6 +454,7 @@
 				CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */,
 				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
 				102A4BEA29253AB2005A8BE5 /* LoginManager.swift */,
+				7B589121292B6568008A950E /* EmailViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -465,6 +473,7 @@
 				CBDC040E2906107900C6CF30 /* UIFont+Extension.swift */,
 				CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */,
 				CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */,
+				58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -691,6 +700,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */,
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */,
 				1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */,
@@ -709,6 +719,7 @@
 				CB5BF47A2919E10700A3E112 /* ChannelTableViewCell.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */,
+				7B589122292B6568008A950E /* EmailViewController.swift in Sources */,
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
@@ -718,6 +729,7 @@
 				CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
+				58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,

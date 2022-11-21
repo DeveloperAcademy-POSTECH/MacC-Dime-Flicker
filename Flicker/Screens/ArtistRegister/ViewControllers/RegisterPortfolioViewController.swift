@@ -101,7 +101,7 @@ final class RegisterPortfolioViewController: UIViewController {
         
         guideLabel.snp.makeConstraints {
             $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(35)
+            $0.leading.equalToSuperview().inset(33)
         }
         
         portfolioCollectionView.snp.makeConstraints {
