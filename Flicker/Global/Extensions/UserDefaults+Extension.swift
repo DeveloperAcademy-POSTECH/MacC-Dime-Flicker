@@ -7,6 +7,7 @@
 
 import Foundation
 
+    //MARK: - extension that iterates the keys and returns results
 extension UserDefaults {
     func getObjects(forKeys keys: [String]) -> [String: String] {
         var results: [String: String] = [:]
