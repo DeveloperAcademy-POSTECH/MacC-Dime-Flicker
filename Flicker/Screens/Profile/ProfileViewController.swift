@@ -5,7 +5,6 @@
 //  Created by Taehwan Kim on 2022/11/02.
 //
 
-import MessageUI
 import UIKit
 import AuthenticationServices
 import FirebaseAuth
@@ -13,7 +12,7 @@ import FirebaseAuth
 final class ProfileViewController: BaseViewController {
     
     // MARK: - Properties
-    private let userName: String? = nil
+    private let userName: String? = "testString" ?? "Error"
     private var isArtist: Bool = false
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
@@ -87,7 +86,7 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func goToCustomerInquiry() {
-        self.sendReportMail()
+        sendReportMail(userName: userName, reportType: .askSomething)
     }
 
     private func doLogout() {
@@ -176,51 +175,5 @@ extension ProfileViewController: UITableViewDelegate {
                 break
             }
         }
-    }
-}
-
-// MARK: - MFMailComposeViewControllerDelegate. 해당 델리게이트를 이용하여 email 송신 기능 가능
-extension ProfileViewController: MFMailComposeViewControllerDelegate {
-    func sendReportMail() {
-        if MFMailComposeViewController.canSendMail() {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            let currentDateString = formatter.string(from: Date())
-            let composeViewController = MFMailComposeViewController()
-            let dimeEmail = "haptic_04_minis@icloud.com"
-            let messageBody = """
-                              -----------------------------
-                              - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                              - 문의 날짜: \(currentDateString)
-                              ------------------------------
-                              - 내용
-                              
-                              
-                              
-                              
-                              """
-            composeViewController.mailComposeDelegate = self
-            composeViewController.setToRecipients([dimeEmail])
-            composeViewController.setSubject("")
-            composeViewController.setMessageBody(messageBody, isHTML: false)
-            self.present(composeViewController, animated: true, completion: nil)
-        }
-        else {
-            self.showSendMailErrorAlert()
-        }
-    }
-
-    private func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) {
-            (action) in
-            print("확인")
-        }
-        sendMailErrorAlert.addAction(confirmAction)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
     }
 }
