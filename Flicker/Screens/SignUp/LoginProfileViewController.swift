@@ -17,7 +17,6 @@ final class LoginProfileViewController: BaseViewController {
     var isSignUpEmail: Bool = false
     var authEmail: String = ""
     var authPassword: String = ""
-    let defaults = UserDefaults.standard
 
     private var isNickNameWrite = false
 
@@ -268,6 +267,7 @@ final class LoginProfileViewController: BaseViewController {
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                await CurrentUserDataManager.shared.saveUserDefault()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
@@ -279,6 +279,7 @@ final class LoginProfileViewController: BaseViewController {
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                await CurrentUserDataManager.shared.saveUserDefault()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }

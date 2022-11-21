@@ -35,7 +35,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -123,7 +123,7 @@ extension ProfileViewController: UITableViewDataSource {
         let section = ProfileSection(rawValue: indexPath.section)
         if indexPath.item == 0 {
             Task {
-                await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName")!, email: defaults.string(forKey: "currentUserEmail")!, imageURL: defaults.string(forKey: "currentUserProfileImageUrl")!)
+                await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName") ?? "", email: defaults.string(forKey: "currentUserEmail") ?? "", imageURL: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
             }
         }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
