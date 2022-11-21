@@ -5,12 +5,11 @@
 //  Created by Taehwan Kim on 2022/11/02.
 //
 
-import MessageUI
 import UIKit
 import AuthenticationServices
 import FirebaseAuth
 
-final class ProfileViewController: BaseViewController {
+final class ProfileViewController: EmailViewController {
     // MARK: - Properties: User Data
     private let userName: String? = nil
     private var isArtist: Bool = false
@@ -89,13 +88,14 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func goToCustomerInquiry() {
-        self.sendReportMail()
+        sendReportMail(userName: userName, reportType: .askSomething)
     }
 
     private func doLogout() {
         makeRequestAlert(title: "로그아웃 하시겠어요?", message: "", okAction: { _ in
             Task {
                 [weak self] in
+                await CurrentUserDataManager.shared.deleteUserDefault()
                 await LoginManager.shared.fireBaseSignOut()
                 DispatchQueue.main.async {
                     self?.goLogin()
@@ -107,6 +107,7 @@ final class ProfileViewController: BaseViewController {
     private func doSignOut() {
         makeRequestAlert(title: "정말 탈퇴하시겠어요?", message: "회원님의 가입정보는 즉시 삭제되며, 복구가 불가능합니다.", okAction: { _ in
             Task { [weak self] in
+                await CurrentUserDataManager.shared.deleteUserDefault()
                 await LoginManager.shared.appleLoginReAuthUser()
                 await LoginManager.shared.fireBasewithDraw()
                 self?.navigationController?
@@ -182,51 +183,5 @@ extension ProfileViewController: UITableViewDelegate {
                 break
             }
         }
-    }
-}
-
-// MARK: - MFMailComposeViewControllerDelegate: Email 송신 설정과 기능
-extension ProfileViewController: MFMailComposeViewControllerDelegate {
-    func sendReportMail() {
-        if MFMailComposeViewController.canSendMail() {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            let currentDateString = formatter.string(from: Date())
-            let composeViewController = MFMailComposeViewController()
-            let dimeEmail = "haptic_04_minis@icloud.com"
-            let messageBody = """
-                              -----------------------------
-                              - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                              - 문의 날짜: \(currentDateString)
-                              ------------------------------
-                              - 내용
-                              
-                              
-                              
-                              
-                              """
-            composeViewController.mailComposeDelegate = self
-            composeViewController.setToRecipients([dimeEmail])
-            composeViewController.setSubject("")
-            composeViewController.setMessageBody(messageBody, isHTML: false)
-            self.present(composeViewController, animated: true, completion: nil)
-        }
-        else {
-            self.showSendMailErrorAlert()
-        }
-    }
-
-    private func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) {
-            (action) in
-            print("확인")
-        }
-        sendMailErrorAlert.addAction(confirmAction)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
     }
 }
