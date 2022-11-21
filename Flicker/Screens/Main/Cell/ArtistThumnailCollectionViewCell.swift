@@ -15,7 +15,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     lazy var artistThumnailImageView = UIImageView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .gray002.withAlphaComponent(0.5)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 20
@@ -34,7 +34,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     lazy var artistProfileImageView = UIImageView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .gray002
         $0.layer.cornerRadius = 30
         $0.layer.masksToBounds = true
     }
@@ -66,7 +66,6 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     override func configUI() {
         self.isSkeletonable = true
         self.artistProfileImageView.isSkeletonable = true
-        self.artistThumnailImageView.isSkeletonable = true
         self.artistNameLabel.isSkeletonable = true
         self.artistTagLabel.isSkeletonable = true
         

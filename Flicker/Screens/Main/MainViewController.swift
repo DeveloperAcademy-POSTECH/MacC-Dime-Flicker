@@ -115,7 +115,7 @@ final class MainViewController: BaseViewController {
         self.artists = [Artist]()
         
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
         
         Task {
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
