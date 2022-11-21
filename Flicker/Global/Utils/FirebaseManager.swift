@@ -272,7 +272,13 @@ final class FirebaseManager: NSObject {
         do {
             var artists = [Artist]()
             
-            let querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).getDocuments()
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).getDocuments()
+            }
             
             querySnapshot.documents.forEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
@@ -292,7 +298,13 @@ final class FirebaseManager: NSObject {
         do {
             var artists = [Artist]()
             
-            let querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).getDocuments()
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).getDocuments()
+            }
             
             querySnapshot.documents.forEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
