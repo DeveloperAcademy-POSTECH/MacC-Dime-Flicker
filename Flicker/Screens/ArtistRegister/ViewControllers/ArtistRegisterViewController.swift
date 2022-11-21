@@ -18,7 +18,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     
-    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [])
     
     // MARK: observer to check whether the async tasks are done
     private var temporaryStrings: [String] = [] {
@@ -28,15 +28,13 @@ final class ArtistRegisterViewController: UIViewController {
                     self.dataSourceToServer.portfolioImageUrls = self.temporaryStrings
                     await self.dataFirebase.storeArtistInformation(self.dataSourceToServer)
                     self.hideLoadingView()
-                    self.navigationController?.pushViewController(self.pageSixEnd, animated: true)
+                    self.navigationController?.pushViewController(self.pageSevenEnd, animated: true)
                 }
-                
             }
         }
     }
     
     private var temporaryImages: [UIImage] = []
-
     
     // MARK: - custom navigation bar
     private let customNavigationBarView = RegisterCustomNavigationView()
@@ -48,9 +46,10 @@ final class ArtistRegisterViewController: UIViewController {
     
     private let pageTwoRegion = RegisterRegionViewController()
     private let pageThreeGears = RegisterGearsViewController()
-    private let pageFourTextDescription = RegisterTextDescriptionViewController()
-    private let pageFivePortpolio = RegisterPortfolioViewController()
-    private let pageSixEnd = RegisterConfirmViewController()
+    private let pageFourConcepts = RegisterConceptTagViewController()
+    private let pageFiveTextDescription = RegisterTextDescriptionViewController()
+    private let pageSixPortpolio = RegisterPortfolioViewController()
+    private let pageSevenEnd = RegisterConfirmViewController()
     
     // MARK: - action button UI components
     // TODO: 앞의 버튼과 차별점을 두기 위해 약간 튀어오르는 느낌 하나 있으면 좋을 것 같다.
@@ -146,17 +145,18 @@ final class ArtistRegisterViewController: UIViewController {
         
         pageTwoRegion.delegate = self
         pageThreeGears.delegate = self
-        pageFourTextDescription.delegate = self
-        pageFivePortpolio.delegate = self
+        pageFourConcepts.delegate = self
+        pageFiveTextDescription.delegate = self
+        pageSixPortpolio.delegate = self
     }
     
     // MARK: - pageViewControl setups
     private func pageSetup() {
-        
         pages.append(pageTwoRegion)
         pages.append(pageThreeGears)
-        pages.append(pageFourTextDescription)
-        pages.append(pageFivePortpolio)
+        pages.append(pageFourConcepts)
+        pages.append(pageFiveTextDescription)
+        pages.append(pageSixPortpolio)
         
         guard let firstPage = pages.first else { return }
         currentPage = firstPage
@@ -299,13 +299,19 @@ extension ArtistRegisterViewController {
                 currentPage = pages[page + 1]
             }
         case pages[2]:
+            print(self.dataSourceToServer.tags)
+            pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
+            currentPage = pages[page + 1]
+            
+        case pages[3]:
+            print(self.dataSourceToServer.tags)
             if textInfoEmpty {
                 makeAlert(title: "어필할 내용을 입력해주세요!", message: "미래의 클라이언트들에게 어필할 내용이에요! 간단하게라도 적어주세요!")
             } else {
                 pageViewController.setViewControllers([pages[page + 1]], direction: .forward, animated: true)
                 currentPage = pages[page + 1]
             }
-        case pages[3]:
+        case pages[4]:
             if photoEmpty {
                 makeAlert(title: "사진을 올려주세요!", message: "포트폴리오에 올라갈 사진을 선택해주세요!")
             } else {
@@ -325,16 +331,37 @@ extension ArtistRegisterViewController {
             currentPage = pages[page - 1]
         }
     }
+    
+    private func tagStringConvert(label: String) -> [String] {
+        let array = label.components(separatedBy: "#").filter{ $0 != ""}
+        return array
+    }
 }
 
 // MARK: - data transfer delegates
-extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
+extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDelegate,  RegisterConceptTagDelegate, RegisterTextInfoDelegate, RegisterPortfolioDelegate {
     func cameraBodySelected(cameraBody bodyName: String) {
         self.dataSourceToServer.camera = bodyName
     }
     
     func cameraLensSelected(cameraLens lensName: String) {
         self.dataSourceToServer.lens = lensName
+    }
+    
+    func conceptTagDescribed(tagLabel: String) {
+        let editedStringArray = tagStringConvert(label: tagLabel)
+        print("---- editedStringArray == \(editedStringArray)")
+        if editedStringArray.count > 4 {
+            var temporaryArray: [String] = []
+            // TODO: for문 말고 다른걸로 콜렉션의 범위에 해당하는 원소 가져오는 방법?
+            // TODO: Array[0...3] 로 하면 Array<String>.SubSequence 타입 나옴
+            for i in 0...3 {
+                temporaryArray.append(editedStringArray[i])
+            }
+            self.dataSourceToServer.tags = temporaryArray
+        } else {
+            self.dataSourceToServer.tags = editedStringArray
+        }
     }
     
     func regionSelected(regions regionDatas: [String]) {
