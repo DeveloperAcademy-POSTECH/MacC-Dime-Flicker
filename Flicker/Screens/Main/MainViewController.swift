@@ -186,7 +186,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         let artist = artists[indexPath.item]
         cell.artistNameLabel.text = artist.userInfo["userName"]
-        cell.artistTagLabel.text = artist.tags[0]
+        cell.artistTagLabel.text = "#\(artist.tags.joined(separator: "#"))"
         
         Task {
             try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls[0])
