@@ -31,7 +31,7 @@ final class MainViewController: BaseViewController {
     private var cursor: DocumentSnapshot?
     private let pageSize = 5 // use this for the document-limit value in the query
     private var dataMayContinue = true
-
+    
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {
@@ -113,31 +113,31 @@ final class MainViewController: BaseViewController {
     }
     
     private func fetchData() {
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.cursor = nil
+        self.dataMayContinue = true
+        self.artists = [Artist]()
         
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.listCollectionView.stopSkeletonAnimation()
-            self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
-        }
+        loadData()
     }
     
     /* This method grabs the first page of documents. */
     private func loadData() {
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        
         FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).getDocuments(completion: { (querySnapshot, error) in
             /* At some point after you've unwrapped the snapshot,
-               manage the cursor. */
+             manage the cursor. */
             guard let querySnapshot = querySnapshot else { return }
             if querySnapshot.count < self.pageSize {
                 /* This return had less than 10 documents, therefore
-                   there are no more possible documents to fetch and
-                   thus there is no cursor. */
+                 there are no more possible documents to fetch and
+                 thus there is no cursor. */
                 self.cursor = nil
             } else {
                 /* This return had at least 10 documents, therefore
-                   there may be more documents to fetch which makes
-                   the last document in this snapshot the cursor. */
+                 there may be more documents to fetch which makes
+                 the last document in this snapshot the cursor. */
                 self.cursor = querySnapshot.documents.last
             }
             
@@ -145,16 +145,25 @@ final class MainViewController: BaseViewController {
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
                 self.artists.append(artist)
             })
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+            }
         })
     }
     
     /* This method continues to paginate documents. */
     private func continueData() {
         guard dataMayContinue, let cursor = cursor else { return }
+        
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        
         dataMayContinue = false /* Because scrolling to bottom will cause this method to be called
-                                   in rapid succession, use a boolean flag to limit this method
-                                   to one call. */
-            FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
+                                 in rapid succession, use a boolean flag to limit this method
+                                 to one call. */
+        FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
             /* Always update the cursor whenever Firestore returns
              whether it's loading data or continuing data. */
             guard let querySnapshot = querySnapshot else { return }
@@ -163,11 +172,17 @@ final class MainViewController: BaseViewController {
             } else {
                 self.cursor = querySnapshot.documents.last
             }
+            
             /* Whenever we exit this method, reset dataMayContinue to true. */
             querySnapshot.documents.forEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
                 self.artists.append(artist)
             })
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+            }
         })
     }
     
