@@ -45,9 +45,9 @@ class NetworkManager {
                 image = responseImage
             }
         } catch NetworkError.responseError {
-            print(NetworkError.responseError.localizedDescription)
+            print(NetworkError.responseError)
         } catch NetworkError.badLocalUrl {
-            print(NetworkError.badLocalUrl.localizedDescription)
+            print(NetworkError.badLocalUrl)
         }
         return image
     }
@@ -62,9 +62,9 @@ class NetworkManager {
                 }
             }
         } catch NetworkError.responseError {
-            print(NetworkError.responseError.localizedDescription)
+            print(NetworkError.responseError)
         } catch NetworkError.badLocalUrl {
-            print(NetworkError.badLocalUrl.localizedDescription)
+            print(NetworkError.badLocalUrl)
         }
         return images
     }

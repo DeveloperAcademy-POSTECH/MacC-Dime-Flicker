@@ -43,6 +43,7 @@
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
 		A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */; };
+		A98F9533292BD02100E92A77 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98F9532292BD02100E92A77 /* ArrayExtension.swift */; };
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
@@ -127,6 +128,7 @@
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		A98F9532292BD02100E92A77 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */,
 				CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */,
 				58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */,
+				A98F9532292BD02100E92A77 /* ArrayExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */,
 				5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */,
 				CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */,
+				A98F9533292BD02100E92A77 /* ArrayExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
