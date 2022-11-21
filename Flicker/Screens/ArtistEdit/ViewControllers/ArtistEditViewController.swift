@@ -22,10 +22,28 @@ class ArtistEditViewController: UIViewController {
     private let mainTitleLabel = UILabel().makeBasicLabel(labelText: "작가 정보 수정하기", textColor: .textMainBlack, fontStyle: .title1, fontWeight: .bold)
     
     private lazy var editItemsTableView = UITableView().then {
+        $0.clipsToBounds = true
         $0.separatorStyle = .none
-        $0.rowHeight = self.view.bounds.height/12
+        $0.rowHeight = self.view.bounds.height/11
         $0.showsVerticalScrollIndicator = false
         $0.isScrollEnabled = false
+    }
+    
+    private let resetEditButton = UIButton(type: .system).then {
+        $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        $0.tintColor = .black.withAlphaComponent(0.6)
+        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.backgroundColor = .systemGray3.withAlphaComponent(0.5)
+        $0.setTitleColor(.systemOrange.withAlphaComponent(0.2), for: .highlighted)
+        $0.clipsToBounds = true
+    }
+    
+    private let completeEditButton = UIButton(type: .system).then {
+        $0.tintColor = .white
+        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.backgroundColor = .mainPink
+        $0.setTitle("수정 완료", for: .normal)
+        $0.clipsToBounds = true
     }
     
     override func viewDidLoad() {
@@ -46,25 +64,60 @@ class ArtistEditViewController: UIViewController {
     }
     
     private func render() {
-        view.addSubviews(mainTitleLabel, editItemsTableView)
-        
+        view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton)
+
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.leading.equalToSuperview().inset(30)
         }
-        
+
         editItemsTableView.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(35)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(editItemsTableView.rowHeight*5)
+        }
+        
+        resetEditButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.width.equalTo(view.bounds.height/12)
+        }
+        
+        completeEditButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
+            $0.leading.equalTo(resetEditButton.snp.trailing).offset(15)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(view.bounds.height/12)
         }
     }
     
     private func configUI() {
         view.backgroundColor = .white
+        
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
         editItemsTableView.register(ArtistEditItemsTableViewCell.self, forCellReuseIdentifier: "editCell")
+        editItemsTableView.layer.cornerRadius = 20
+        
+        resetEditButton.addTarget(self, action: #selector(resetEditTapped), for: .touchUpInside)
+        completeEditButton.addTarget(self, action: #selector(completeEditTapped), for: .touchUpInside)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let buttonCornerRadius = view.bounds.width/18
+        resetEditButton.layer.cornerRadius = self.resetEditButton.frame.width/2
+        completeEditButton.layer.cornerRadius = buttonCornerRadius
+    }
+}
+
+extension ArtistEditViewController {
+    @objc func resetEditTapped() {
+        print("reset")
+    }
+    
+    @objc func completeEditTapped() {
+        print("complete and out")
     }
 }
 

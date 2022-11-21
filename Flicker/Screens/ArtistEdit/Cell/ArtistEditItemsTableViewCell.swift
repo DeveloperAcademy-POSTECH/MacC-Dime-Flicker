@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class ArtistEditItemsTableViewCell: UITableViewCell {
     
@@ -24,6 +26,23 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         $0.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
     }
     
+    private let edittedLabel = UILabel().makeBasicLabel(labelText: "수정됨", textColor: .white, fontStyle: .footnote, fontWeight: .semibold).then {
+        $0.textAlignment = .center
+        $0.clipsToBounds = true
+        $0.backgroundColor = .systemTeal.withAlphaComponent(0.4)
+        $0.isHidden = true
+    }
+    
+    var checkEditted: Bool = false {
+        didSet {
+            if oldValue == true {
+                edittedLabel.isHidden = false
+            } else {
+                edittedLabel.isHidden = true
+            }
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .mainPink.withAlphaComponent(0.1)
@@ -32,7 +51,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
     }
     
     private func render() {
-        self.addSubviews(cellImage, cellTextLabel, editButton)
+        self.addSubviews(cellImage, cellTextLabel, editButton, edittedLabel)
         
         cellImage.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(30)
@@ -50,6 +69,13 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
             $0.height.equalTo(self.bounds.height/2)
         }
+        
+        edittedLabel.snp.makeConstraints {
+            $0.leading.equalTo(cellTextLabel.snp.trailing).offset(11)
+            $0.centerY.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(3.5)
+            $0.width.equalToSuperview().dividedBy(7)
+        }
     }
     
     private func configUI() {
@@ -58,7 +84,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = self.bounds.height/3
+        self.edittedLabel.layer.cornerRadius = self.bounds.height/7
     }
     
     required init?(coder: NSCoder) {
