@@ -70,17 +70,11 @@ final class MainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setRegion()
         loadData()
-        
-        navigationController?.isNavigationBarHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, regionTagButton, listCollectionView, emptyThumnailView)
+        view.addSubviews(appTitleLabel, regionTagButton, emptyThumnailView, listCollectionView, emptyThumnailView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -103,9 +97,17 @@ final class MainViewController: BaseViewController {
         }
     }
     
+    override func configUI() {
+        super.configUI()
+        
+        navigationController?.isNavigationBarHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+    }
+    
     // MARK: - func
     
-    private func setRegion() {
+    private func setValues() {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
@@ -114,14 +116,14 @@ final class MainViewController: BaseViewController {
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
-    }
-    
-    private func loadData() {
+        
         emptyThumnailView.isHidden = true
         cursor = nil
         dataMayContinue = true
-        artists = [Artist]()
-        listCollectionView.reloadData()
+    }
+    
+    private func loadData() {
+        setValues()
         
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
         listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
@@ -130,10 +132,10 @@ final class MainViewController: BaseViewController {
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
                 self.artists = result.artists
                 self.cursor = result.cursor
-                
-                if self.artists.isEmpty {
-                    self.emptyThumnailView.isHidden = false
-                }
+            }
+            
+            if artists.isEmpty {
+                emptyThumnailView.isHidden = false
             }
             
             DispatchQueue.main.async {
@@ -145,6 +147,7 @@ final class MainViewController: BaseViewController {
     
     private func continueData() {
         guard dataMayContinue, let cursor = cursor else { return }
+        dataMayContinue = false
         
         Task {
             if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
@@ -155,14 +158,10 @@ final class MainViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.listCollectionView.reloadData()
             }
-            
-            dataMayContinue = false
         }
     }
     
     @objc func realoadTable(_ noti: Notification) {
-        listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        setRegion()
         loadData()
     }
     
@@ -202,9 +201,9 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.artistTagLabel.text = "#\(artist.tags.joined(separator: "#"))"
         
         Task {
-            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls[0])
+            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
             cell.makeBackgroudShadow()
-            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
+            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
         }
         
         return cell
