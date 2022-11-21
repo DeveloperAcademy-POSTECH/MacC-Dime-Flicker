@@ -37,6 +37,7 @@
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
 		7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */; };
+		7B589122292B6568008A950E /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B589121292B6568008A950E /* EmailViewController.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
 		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
@@ -120,6 +121,7 @@
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEnumeration.swift; sourceTree = "<group>"; };
+		7B589121292B6568008A950E /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
 		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 				CBDC03FA29060F6E00C6CF30 /* FirebaseManager.swift */,
 				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
 				102A4BEA29253AB2005A8BE5 /* LoginManager.swift */,
+				7B589121292B6568008A950E /* EmailViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 				CB5BF47A2919E10700A3E112 /* ChannelTableViewCell.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */,
+				7B589122292B6568008A950E /* EmailViewController.swift in Sources */,
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
 				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,

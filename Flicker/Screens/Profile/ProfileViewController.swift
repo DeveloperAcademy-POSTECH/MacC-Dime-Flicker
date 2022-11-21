@@ -9,7 +9,7 @@ import UIKit
 import AuthenticationServices
 import FirebaseAuth
 
-final class ProfileViewController: BaseViewController {
+final class ProfileViewController: EmailViewController {
     
     // MARK: - Properties
     private let userName: String? = "testString" ?? "Error"
