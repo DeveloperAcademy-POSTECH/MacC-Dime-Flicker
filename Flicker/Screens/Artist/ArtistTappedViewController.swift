@@ -15,11 +15,11 @@ final class ArtistTappedViewController: BaseViewController {
 
 //    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
 
-    private var imageList: [UIImage] = [UIImage(named: "port1")!, UIImage(named: "port1")!, UIImage(named: "port1")!]
+    private var imageList: [UIImage] = [UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!]
 
     private var profileImage: UIImage = UIImage()
 
-    private var headerHeight: Int = 710
+    private var headerHeight: Int = 715
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
