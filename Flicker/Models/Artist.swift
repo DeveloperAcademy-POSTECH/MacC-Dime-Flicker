@@ -17,4 +17,6 @@ struct Artist: Codable, Identifiable {
     
     var detailDescription: String
     var portfolioImageUrls: [String]
+    
+    var userInfo: [String: String]
 }
