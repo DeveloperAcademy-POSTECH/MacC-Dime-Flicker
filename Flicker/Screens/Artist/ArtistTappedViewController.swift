@@ -13,7 +13,7 @@ final class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
-    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+//    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
 
     private var imageList: [UIImage] = [UIImage(named: "port1")!, UIImage(named: "port1")!, UIImage(named: "port1")!]
 
