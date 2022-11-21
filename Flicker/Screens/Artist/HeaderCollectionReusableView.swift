@@ -57,17 +57,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.backgroundColor = .systemGray5
     }
 
-    private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .medium)
+    private let introductionLabel = UILabel().makeBasicLabel(labelText: "작가님은 이렇습니다!", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .bold)
 
     private let introductionTextView = UITextView().then {
-        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
+        $0.setUITextViewAttributes("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와", color: .black.withAlphaComponent(0.7), lineSpacing: 5)
         $0.isScrollEnabled = false
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.font = .preferredFont(forTextStyle: .headline, weight: .medium)
         $0.isUserInteractionEnabled = false
     }
 
     //TODO: 추후에 horizontal stackView로 바꾸기
-    
+
     private let regionImageView = UIImageView().then {
         $0.image = UIImage(systemName: "map.fill")
         $0.tintColor = .mainPink
@@ -104,6 +104,20 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
     required init?(coder: NSCoder) {
         fatalError ()
+    }
+
+    private func configUI() {
+//        backgroundView = artistThumnailImageView
+//
+//        let width = artistThumnailImageView.bounds.width
+//        let height = artistThumnailImageView.bounds.height
+//        let sHeight: CGFloat = 100.0
+//        let shadow = UIColor.black.withAlphaComponent(0.7).cgColor
+//
+//        let bottomImageGradient = CAGradientLayer()
+//        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+//        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+//        artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
     }
 
     override func layoutSubviews () {
@@ -152,22 +166,22 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         firstSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(artistUIView.snp.bottom).offset(3)
+            $0.top.equalTo(artistInformation.snp.bottom).offset(15)
             $0.width.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
 
         introductionLabel.snp.makeConstraints {
             $0.leading.equalTo(artistProfileImage)
-            $0.top.equalTo(firstSeperator.snp.bottom).offset(9)
+            $0.top.equalTo(firstSeperator.snp.bottom).offset(15)
         }
 
         introductionTextView.snp.makeConstraints {
-            $0.leading.equalTo(introductionLabel)
+            $0.leading.equalTo(artistProfileImage).offset(-5)
             $0.width.equalToSuperview().inset(20)
             $0.top.equalTo(introductionLabel.snp.bottom).offset(5)
         }
-        
+
         secondSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(introductionTextView.snp.bottom).offset(5)
@@ -178,7 +192,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         // Photographer Information
         regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.top.equalTo(secondSeperator.snp.bottom).offset(15)
             $0.width.height.equalTo(20)
         }
 
@@ -189,10 +203,10 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
-        
+
         bodyInfo.snp.makeConstraints {
             $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
             $0.centerY.equalTo(bodyInfoImageView)
@@ -200,7 +214,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         lensInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(5)
+            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
 
@@ -226,6 +240,13 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             imageView.image = images[pageIndex]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
+
+            // Gradient 효과
+//            let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+//            let topImageGradient = CAGradientLayer()
+//            topImageGradient.frame = CGRect(x: 0, y: 0, width: Int(self.bounds.width), height: 80)
+//            topImageGradient.colors = [shadow, UIColor.clear.cgColor]
+//            imageView.layer.insertSublayer(topImageGradient, at: 0)
             imageScrollView.addSubview(imageView)
         }
     }
