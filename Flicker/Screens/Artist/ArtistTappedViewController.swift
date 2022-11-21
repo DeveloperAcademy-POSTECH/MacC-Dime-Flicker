@@ -129,6 +129,12 @@ final class ArtistTappedViewController: BaseViewController {
         navigationBar.scrollEdgeAppearance = appearance
     }
 
+    override func setupBackButton() {
+        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
+        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
+        navigationItem.leftBarButtonItem = backButton
+    }
+
     private func showSkeletonView() {
         let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
 
@@ -144,13 +150,6 @@ final class ArtistTappedViewController: BaseViewController {
             view.stopSkeletonAnimation()
             view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
         }
-    }
-
-
-    override func setupBackButton() {
-        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
-        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
-        navigationItem.leftBarButtonItem = backButton
     }
 
     private func setDelegateAndDataSource() {
