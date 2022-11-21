@@ -10,6 +10,9 @@ import SnapKit
 
 final class ArtistTappedViewController: BaseViewController {
     
+    // 넘겨주는 데이터
+    var artist: Artist?
+    
     private let networkManager = NetworkManager.shared
     
     private var imageList: [UIImage] = []

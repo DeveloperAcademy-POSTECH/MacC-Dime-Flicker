@@ -29,7 +29,6 @@ final class MainViewController: BaseViewController {
     private var artists = [Artist]()
     
     private var cursor: DocumentSnapshot?
-    private let pageSize = 5 // use this for the document-limit value in the query
     private var dataMayContinue = true
     
     // MARK: - property
@@ -119,58 +118,33 @@ final class MainViewController: BaseViewController {
     }
     
     private func loadData() {
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        
-        FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).getDocuments(completion: { (querySnapshot, error) in
-            guard let querySnapshot = querySnapshot else { return }
-            if querySnapshot.count < self.pageSize {
-                self.cursor = nil
-            } else {
-                self.cursor = querySnapshot.documents.last
+        Task {
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
+                self.artists = result.artists
+                self.cursor = result.cursor
             }
             
-            querySnapshot.documents.forEach({ snapshot in
-                guard let artist = try? snapshot.data(as: Artist.self) else { return }
-                self.artists.append(artist)
-            })
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.listCollectionView.stopSkeletonAnimation()
-                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
             }
-        })
+        }
     }
     
     private func continueData() {
         guard dataMayContinue, let cursor = cursor else { return }
         
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        
-        dataMayContinue = false
-        
-        FirebaseManager.shared.firestore.collection("artists").whereField("regions", arrayContainsAny: selectedRegions).start(afterDocument: cursor).getDocuments(completion: { (querySnapshot, error) in
-            /* Always update the cursor whenever Firestore returns
-             whether it's loading data or continuing data. */
-            guard let querySnapshot = querySnapshot else { return }
-            if querySnapshot.count < self.pageSize {
-                self.cursor = nil
-            } else {
-                self.cursor = querySnapshot.documents.last
+        Task {
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
+                self.artists += result.artists
+                self.cursor = result.cursor
             }
             
-            /* Whenever we exit this method, reset dataMayContinue to true. */
-            querySnapshot.documents.forEach({ snapshot in
-                guard let artist = try? snapshot.data(as: Artist.self) else { return }
-                self.artists.append(artist)
-            })
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.listCollectionView.stopSkeletonAnimation()
-                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
             }
-        })
+            
+            dataMayContinue = false
+        }
     }
     
     @objc func realoadTable(_ noti: Notification) {
@@ -226,6 +200,10 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
         let artist = artists[indexPath.item] // 선택한 아티스트 데이터
+        let vc = ArtistTappedViewController()
+        vc.artist = artist
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

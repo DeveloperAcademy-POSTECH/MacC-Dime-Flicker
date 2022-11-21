@@ -267,4 +267,44 @@ final class FirebaseManager: NSObject {
             print("error string Artist Model")
         }
     }
+    
+    func loadArtist(regions: [String]) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            let querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).getDocuments()
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to load Artist")
+            return nil
+        }
+    }
+    
+    func continueArtist(regions: [String], cursor: DocumentSnapshot) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            let querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).getDocuments()
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to continue Artist")
+            return nil
+        }
+    }
 }
