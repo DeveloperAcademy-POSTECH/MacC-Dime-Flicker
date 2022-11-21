@@ -66,6 +66,8 @@ final class MainViewController: BaseViewController {
         $0.isSkeletonable = true
     }
     
+    private let emptyThumnailView = EmptyThumnailView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,7 +80,7 @@ final class MainViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, regionTagButton, listCollectionView)
+        view.addSubviews(appTitleLabel, regionTagButton, listCollectionView, emptyThumnailView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -91,6 +93,11 @@ final class MainViewController: BaseViewController {
         }
         
         listCollectionView.snp.makeConstraints {
+            $0.top.equalTo(appTitleLabel.snp.bottom).offset(12)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        emptyThumnailView.snp.makeConstraints {
             $0.top.equalTo(appTitleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -110,6 +117,7 @@ final class MainViewController: BaseViewController {
     }
     
     private func loadData() {
+        emptyThumnailView.isHidden = true
         cursor = nil
         dataMayContinue = true
         artists = [Artist]()
@@ -122,6 +130,10 @@ final class MainViewController: BaseViewController {
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
                 self.artists = result.artists
                 self.cursor = result.cursor
+                
+                if self.artists.isEmpty {
+                    self.emptyThumnailView.isHidden = false
+                }
             }
             
             DispatchQueue.main.async {
