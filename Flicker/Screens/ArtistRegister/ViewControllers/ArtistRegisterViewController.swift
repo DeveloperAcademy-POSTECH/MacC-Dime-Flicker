@@ -15,6 +15,8 @@ import Then
 // TODO: (다음 버전에..) 1.전 view에서넘어올때, dissolve 같은 간단한 애니메이션 추가 2.버튼 잠깐이라도 튀어오르는 애니메이션 추가
 final class ArtistRegisterViewController: UIViewController {
     
+    var ddd: Int?
+    
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken"])

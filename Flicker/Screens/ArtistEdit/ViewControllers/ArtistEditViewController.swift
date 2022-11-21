@@ -11,7 +11,17 @@ import Then
 
 class ArtistEditViewController: UIViewController {
     
-    // 받아온 나의 정보를 캐싱한 데이터
+    // 1. 받아온 나의 정보를 캐싱한 데이터 [A data] + A의 복사본 [B Data]
+    
+    // 2. [A Data] 전부를 바로 각 에디트하는 뷰컨에다가 뿌려!
+    //  예) private let gnbjerg = EditRegionViewController().then {
+    //    $0.ddd = 1
+    //  } 식으로~ 각 에디트 뷰컨 에 전달시키기
+    
+    // 3. 각 에디트 뷰컨에서는 델리겟을 선언해서 메인 뷰컨의 [B Data] 에 동기화시키기
+    // 4. A,B 데이터 비교하는건, 델리겟에서 받았던 A 와 보낸 B 데이터를 비교한 Bool 을 넣어놓고 매번 메인 뷰컨에서 테이블뷰 어차피 리로드 할거니깐, 테이블뷰 dataSource 에 bool 조건 넣어서 에디트함 띄우게 하기
+    // 5. 그리고 초기화 버튼은... 그냥 B = A 시키고 테이블뷰 리로드 시켜
+    // 6. 수정 완료하면, 기존의 사진... 지우고..? B 데이터로... 새롭게 올리기...? -> 코비에게 물어보기
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -78,14 +88,14 @@ class ArtistEditViewController: UIViewController {
         }
         
         resetEditButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
+            $0.centerY.equalTo(completeEditButton.snp.centerY)
             $0.leading.equalToSuperview().inset(20)
-            $0.height.width.equalTo(view.bounds.height/12)
+            $0.height.width.equalTo(view.bounds.height/13.5)
         }
         
         completeEditButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
-            $0.leading.equalTo(resetEditButton.snp.trailing).offset(15)
+            $0.leading.equalTo(resetEditButton.snp.trailing).offset(18)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(view.bounds.height/12)
         }
@@ -128,7 +138,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath) as? ArtistEditItemsTableViewCell else { return UITableViewCell() }
-        let imageWeight = UIImage.SymbolConfiguration(weight: .bold)
+        let imageWeight = UIImage.SymbolConfiguration(weight: .semibold)
         
         cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
         cell.cellTextLabel.text = editItemsArray[indexPath.row]

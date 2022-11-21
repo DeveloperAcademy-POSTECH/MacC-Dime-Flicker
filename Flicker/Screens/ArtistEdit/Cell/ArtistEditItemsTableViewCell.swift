@@ -29,7 +29,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
     private let edittedLabel = UILabel().makeBasicLabel(labelText: "수정됨", textColor: .white, fontStyle: .footnote, fontWeight: .semibold).then {
         $0.textAlignment = .center
         $0.clipsToBounds = true
-        $0.backgroundColor = .systemTeal.withAlphaComponent(0.4)
+        $0.backgroundColor = .systemTeal.withAlphaComponent(0.5)
         $0.isHidden = true
     }
     
