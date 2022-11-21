@@ -34,6 +34,8 @@
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
 		58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */; };
+		58DCC900292B76F900A2C644 /* ArtistEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */; };
+		58DCC905292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
@@ -118,6 +120,8 @@
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
 		58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConceptTagViewController.swift; sourceTree = "<group>"; };
+		58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditViewController.swift; sourceTree = "<group>"; };
+		58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditItemsTableViewCell.swift; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -232,7 +236,6 @@
 				589A1B6429268D7C00A39E3F /* Cell */,
 				5824E4A029155DB000916E0B /* Views */,
 				58A452A32912A21000C9707D /* ViewControllers */,
-				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = ArtistRegister;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 		589A1B6429268D7C00A39E3F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
 				58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */,
 				5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */,
 				5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */,
@@ -266,6 +270,39 @@
 				58A452A82912A24600C9707D /* RegisterTextDescriptionViewController.swift */,
 				58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */,
 				58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		58DCC8FE292B76D500A2C644 /* ArtistEdit */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC903292B7F5A00A2C644 /* ViewControllers */,
+				58DCC902292B7F5200A2C644 /* Views */,
+				58DCC901292B7F4D00A2C644 /* Cell */,
+			);
+			path = ArtistEdit;
+			sourceTree = "<group>";
+		};
+		58DCC901292B7F4D00A2C644 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		58DCC902292B7F5200A2C644 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		58DCC903292B7F5A00A2C644 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -512,6 +549,7 @@
 		CBDC0414290610F300C6CF30 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				58DCC8FE292B76D500A2C644 /* ArtistEdit */,
 				CB5BF4712919E10700A3E112 /* Channels */,
 				CB5BF46A2919E10700A3E112 /* Chat */,
 				58118D372911328A00F08D35 /* ArtistRegister */,
@@ -738,6 +776,7 @@
 				58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
+				58DCC905292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift in Sources */,
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
 				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CB5BF4792919E10700A3E112 /* ChannelsViewController.swift in Sources */,
@@ -757,6 +796,7 @@
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
 				107841FF29267C34004849FC /* PopUpViewController.swift in Sources */,
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
+				58DCC900292B76F900A2C644 /* ArtistEditViewController.swift in Sources */,
 				CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */,
 				CB5BF4762919E10700A3E112 /* MyChatTableViewCell.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
