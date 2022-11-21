@@ -21,10 +21,10 @@ final class CurrentUserDataManager {
 
     func saveUserDefault() async {
         if let userData = await FirebaseManager.shared.getUser() {
-            defaults.set(userData.email, forKey: "currentUserEmail")
-            defaults.set(userData.name, forKey: "currentUserName")
-            defaults.set(userData.profileImageUrl, forKey: "currentUserProfileImageUrl")
-            defaults.set(userData.token, forKey: "currentUserToken")
+            defaults.set(userData.email, forKey: "userEmail")
+            defaults.set(userData.name, forKey: "userName")
+            defaults.set(userData.profileImageUrl, forKey: "userProfileImageUrl")
+            defaults.set(userData.token, forKey: "userToken")
         }
     }
 }

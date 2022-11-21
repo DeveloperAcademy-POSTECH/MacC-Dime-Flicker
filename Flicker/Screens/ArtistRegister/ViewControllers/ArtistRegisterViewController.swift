@@ -17,7 +17,7 @@ final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
-    let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["currentUserEmail", "currentUserName", "currentUserProfileImageUrl", "currentUserToken"])
+    let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken"])
     
     private lazy var dataSourceToServer = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: userDefaultInfo)
     

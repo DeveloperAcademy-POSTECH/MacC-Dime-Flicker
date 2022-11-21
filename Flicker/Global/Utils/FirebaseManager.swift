@@ -260,7 +260,7 @@ final class FirebaseManager: NSObject {
     func storeArtistInformation(_ artist: Artist) async {
         guard let uid = auth.currentUser?.uid else { return }
         do {
-            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "conceptTags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
