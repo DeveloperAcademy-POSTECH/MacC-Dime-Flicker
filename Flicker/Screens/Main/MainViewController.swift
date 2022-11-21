@@ -213,15 +213,19 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let artist = artists[indexPath.item]
         cell.artistNameLabel.text = artist.userInfo["userName"]
         cell.artistTagLabel.text = artist.tags[0]
-        cell.artistThumnailImageView.load(url: URL(string: artist.portfolioImageUrls[0])!)
-        cell.artistProfileImageView.load(url: URL(string: artist.userInfo["userProfileImageUrl"]!)!)
-        cell.makeBackgroudShadow()
+        
+        Task {
+            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls[0])
+            cell.makeBackgroudShadow()
+            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
+        let artist = artists[indexPath.item] // 선택한 아티스트 데이터
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

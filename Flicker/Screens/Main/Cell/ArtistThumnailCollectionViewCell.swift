@@ -34,6 +34,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     lazy var artistProfileImageView = UIImageView().then {
+        $0.backgroundColor = .lightGray
         $0.layer.cornerRadius = 30
         $0.layer.masksToBounds = true
     }
