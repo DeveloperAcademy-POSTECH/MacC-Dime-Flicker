@@ -124,9 +124,6 @@ final class MainViewController: BaseViewController {
     private func loadData() {
         setValues()
         
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-        listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .gray002]), animation: skeletonAnimation, transition: .none)
-        
         Task {
             emptyThumnailView.isHidden = true
             
@@ -140,8 +137,7 @@ final class MainViewController: BaseViewController {
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.stopSkeletonAnimation()
-                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                self.listCollectionView.reloadData()
             }
         }
     }
