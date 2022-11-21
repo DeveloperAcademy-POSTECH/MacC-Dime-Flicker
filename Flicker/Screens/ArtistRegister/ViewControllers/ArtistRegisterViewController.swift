@@ -18,7 +18,7 @@ final class ArtistRegisterViewController: UIViewController {
     // MARK: - datas collected to post to the server
     let dataFirebase = FirebaseManager()
     
-    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [])
+    private var dataSourceToServer = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
     
     // MARK: observer to check whether the async tasks are done
     private var temporaryStrings: [String] = [] {
