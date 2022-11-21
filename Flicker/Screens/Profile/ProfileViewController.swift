@@ -10,10 +10,12 @@ import AuthenticationServices
 import FirebaseAuth
 
 final class ProfileViewController: EmailViewController {
-    
-    // MARK: - Properties
-    private let userName: String? = "testString" ?? "Error"
+    // MARK: - Properties: User Data
+    private let userName: String? = nil
     private var isArtist: Bool = false
+    private let defaults = UserDefaults.standard
+    
+    // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
     private let profileHeader = ProfileHeaderVIew()
@@ -22,7 +24,8 @@ final class ProfileViewController: EmailViewController {
         $0.showsVerticalScrollIndicator = false
         $0.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.className)
     }
-
+    
+    // MARK: - Funtions: UITable Rendering
     override func viewDidLoad() {
         super.viewDidLoad()
         setFunctionsAndDelegate()
@@ -30,9 +33,8 @@ final class ProfileViewController: EmailViewController {
         setTabGesture()
     }
     
-    // MARK: - rendering Functions
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -40,7 +42,7 @@ final class ProfileViewController: EmailViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
+    
     override func render() {
         view.backgroundColor = .systemGray6
         view.addSubviews(tableView, profileHeader)
@@ -63,12 +65,12 @@ final class ProfileViewController: EmailViewController {
         tableView.dataSource = self
     }
     
+    // MARK: - Funtions: Table React
     private func setTabGesture() {
         let tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileHeader))
         self.profileHeader.addGestureRecognizer(tabGesture)
     }
     
-    // MARK: - Setting Functions
     @objc func didTapProfileHeader() {
         transition(ProfileSettingViewController(), transitionStyle: .push)
     }
@@ -113,12 +115,16 @@ final class ProfileViewController: EmailViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource: Table Cell Text && Indicator
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.className, for: indexPath) as! ProfileTableViewCell
         let section = ProfileSection(rawValue: indexPath.section)
-
+        if indexPath.item == 0 {
+            Task {
+                await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName") ?? "", email: defaults.string(forKey: "currentUserEmail") ?? "", imageURL: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
+            }
+        }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
         cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
         if section == .settings {
@@ -141,7 +147,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate: Table Cell Funtions
 extension ProfileViewController: UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {

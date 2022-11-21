@@ -33,6 +33,7 @@
 		58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */; };
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
+		58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
@@ -117,6 +118,7 @@
 		58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioViewController.swift; sourceTree = "<group>"; };
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
+		58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConceptTagViewController.swift; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */,
 				58A452A42912A22500C9707D /* RegisterRegionViewController.swift */,
 				58A452A62912A23000C9707D /* RegisterGearsViewController.swift */,
+				58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */,
 				58A452A82912A24600C9707D /* RegisterTextDescriptionViewController.swift */,
 				58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */,
 				58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */,
@@ -700,6 +703,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */,
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */,
 				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,

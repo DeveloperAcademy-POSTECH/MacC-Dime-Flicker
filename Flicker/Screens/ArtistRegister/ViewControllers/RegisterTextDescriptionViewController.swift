@@ -16,7 +16,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
     weak var delegate: RegisterTextInfoDelegate?
     
     // MARK: - view UI components
-    static let mainTitleLabel = UILabel().then {
+    private let mainTitleLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .largeTitle, weight: .bold)
         $0.text = "자기 소개"
     }
@@ -55,15 +55,15 @@ final class RegisterTextDescriptionViewController: UIViewController {
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(RegisterTextDescriptionViewController.mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView)
+        view.addSubviews(mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView)
         
-        RegisterTextDescriptionViewController.mainTitleLabel.snp.makeConstraints {
+        mainTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(30)
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(RegisterTextDescriptionViewController.mainTitleLabel.snp.bottom).offset(30)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(30)
         }
         
@@ -105,12 +105,7 @@ final class RegisterTextDescriptionViewController: UIViewController {
 extension RegisterTextDescriptionViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         self.delegate?.textViewDescribed(textView: textView.text)
-
     }
-    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        self.delegate?.textViewDescribed(textView: textView.text)
-//    }
 }
 
 // MARK: - RegisterTextDescription custom delegate protocol

@@ -17,6 +17,11 @@ import FirebaseFirestore
 
 final class LogInViewController: BaseViewController {
 
+    private let defaults = UserDefaults.standard
+    
+    var currentNonce: String?
+    var currentAppleIdToken: String?
+
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black).then {
         $0.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
     }
@@ -231,6 +236,7 @@ final class LogInViewController: BaseViewController {
         Task { [weak self] in
             if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
                 await FirebaseManager.shared.updateUserToken(uid: userId)
+                await CurrentUserDataManager.shared.saveUserDefault()
                 self?.goHome()
             } else {
                 makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
