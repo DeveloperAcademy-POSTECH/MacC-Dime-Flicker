@@ -169,7 +169,7 @@ extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollection
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        UICollectionView.automaticNumberOfSkeletonItems
+        3
     }
 }
 
