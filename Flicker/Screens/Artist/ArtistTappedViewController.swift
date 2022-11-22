@@ -84,6 +84,8 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        render()
+        configUI()
         setDelegateAndDataSource()
 
         Task {
@@ -92,8 +94,7 @@ final class ArtistTappedViewController: BaseViewController {
 
         setupBackButton()
         setupNavigationBar()
-        render()
-        configUI()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -257,9 +258,8 @@ final class ArtistTappedViewController: BaseViewController {
     }
     
     @objc func didTapCounselingCancleButton() {
-        guard let artist = artist else { return }
-        
-        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: FirebaseManager.shared.auth.currentUser!.uid, toId: artist.userInfo["userId"]!)
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

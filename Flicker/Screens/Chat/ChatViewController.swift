@@ -55,8 +55,15 @@ final class ChatViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBarController?.tabBar.isHidden = true
+        
         hidekeyboardWhenTappedAroundExceptSendView()
         fetchData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func render() {
@@ -225,13 +232,6 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
             cell.chatLabel.text = chatMessages[indexPath.row].text
             cell.chatLabel.preferredMaxLayoutWidth = 220
             cell.selectionStyle = .none
-            
-            if let image = chatUserProfileImage {
-                DispatchQueue.main.async {
-                    cell.chatUserImageView.image = image
-                    cell.chatUserImageView.isHidden = false
-                }
-            }
             
             return cell
         }
