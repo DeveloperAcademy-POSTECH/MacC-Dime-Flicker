@@ -180,25 +180,28 @@ final class SignUpViewController: BaseViewController {
 
         title = "프로필 입력"
     }
-    //
-    @objc private func didTapSignUpButton() {
-        Task { [weak self] in
-            await FirebaseManager.shared.isEmailSameExist(Email: emailField.text ?? "")
-        }
-//        let viewController = LoginProfileViewController()
-//        guard let email = emailField.text, emailValidCheck(emailField),
-//              let password = passwordField.text, passwordValidCheck(passwordField),
-//              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
-//            print("Missing field data")
-//            return
-//        }
-//
-//        viewController.authEmail = email
-//        viewController.authPassword = passwordCheck
-//        viewController.isSignUpEmail = self.didTapSignUpEmail
-//
-//        self.navigationController?.pushViewController(viewController, animated: true)
 
+    @objc private func didTapSignUpButton() {
+        let viewController = LoginProfileViewController()
+        guard let email = emailField.text, emailValidCheck(emailField),
+              let password = passwordField.text, passwordValidCheck(passwordField),
+              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
+            print("Missing field data")
+            return
+        }
+
+        viewController.authEmail = email
+        viewController.authPassword = passwordCheck
+        viewController.isSignUpEmail = self.didTapSignUpEmail
+        
+        Task { [weak self] in
+            guard let isExistEmail = await FirebaseManager.shared.isEmailSameExist(Email: emailField.text ?? "") else { return }
+            if isExistEmail {
+                makeAlert(title: "이미 사용중인 메일 주소입니다.", message: "")
+            } else {
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
 }
 
