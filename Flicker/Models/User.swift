@@ -16,7 +16,6 @@ struct User: Codable, Identifiable {
 final class CurrentUserDataManager {
 
     static let shared = CurrentUserDataManager()
-
     private let defaults = UserDefaults.standard
 
     func saveUserDefault() async {
