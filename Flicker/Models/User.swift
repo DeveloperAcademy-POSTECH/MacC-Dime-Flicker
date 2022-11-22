@@ -29,11 +29,11 @@ final class CurrentUserDataManager {
     }
 
     func deleteUserDefault() async {
-        defaults.removeObject(forKey: "UserEmail")
-        defaults.removeObject(forKey: "UserName")
+        defaults.removeObject(forKey: "userEmail")
+        defaults.removeObject(forKey: "userName")
         defaults.removeObject(forKey: "userId")
-        defaults.removeObject(forKey: "UserProfileImageUrl")
-        defaults.removeObject(forKey: "UserToken")
+        defaults.removeObject(forKey: "userProfileImageUrl")
+        defaults.removeObject(forKey: "userToken")
         defaults.removeObject(forKey: "regions")
         defaults.removeObject(forKey: "state")
     }
