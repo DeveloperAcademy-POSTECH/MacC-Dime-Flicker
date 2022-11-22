@@ -56,7 +56,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
         $0.isSkeletonable = true
-        $0.addTarget(self, action: #selector(didTapCounselingCancleButton), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapCounselingButton), for: .touchUpInside)
     }
 
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold).then {
@@ -257,7 +257,7 @@ final class ArtistTappedViewController: BaseViewController {
         }
     }
     
-    @objc func didTapCounselingCancleButton() {
+    @objc func didTapCounselingButton() {
         guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
         let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
         navigationController?.pushViewController(viewController, animated: true)
