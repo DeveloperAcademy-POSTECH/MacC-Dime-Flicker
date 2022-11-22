@@ -293,8 +293,15 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 
             Auth.auth().signIn(with: credential) { (authDataResult, error) in
                 guard (authDataResult?.user) != nil else { return }
-                self.goProfile()
-                LoginManager.shared.currentAppleIdToken = idTokenString
+                Task { [weak self] in
+                    if (await FirebaseManager.shared.getUser()) != nil {
+                        LoginManager.shared.currentAppleIdToken = idTokenString
+                        self?.goHome()
+                    } else {
+                        LoginManager.shared.currentAppleIdToken = idTokenString
+                        self?.goProfile()
+                    }
+                }
 
                 if error != nil {
                     print(error?.localizedDescription ?? "error" as Any)
