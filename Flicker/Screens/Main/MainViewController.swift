@@ -181,8 +181,8 @@ final class MainViewController: BaseViewController {
     
     @objc private func didTapRegionTag() {
         let vc = RegionViewController()
-        vc.modalPresentationStyle = .pageSheet
-        vc.sheetPresentationController?.detents = [.medium()]
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
         
         present(vc, animated: true, completion: nil)
     }
@@ -233,5 +233,11 @@ extension MainViewController {
     
     private func didScrollToBottom() {
         continueData()
+    }
+}
+
+extension MainViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        PresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
