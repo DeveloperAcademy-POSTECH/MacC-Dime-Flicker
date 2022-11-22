@@ -182,20 +182,22 @@ final class SignUpViewController: BaseViewController {
     }
     //
     @objc private func didTapSignUpButton() {
-
-        let viewController = LoginProfileViewController()
-        guard let email = emailField.text, emailValidCheck(emailField),
-              let password = passwordField.text, passwordValidCheck(passwordField),
-              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
-            print("Missing field data")
-            return
+        Task { [weak self] in
+            await FirebaseManager.shared.isEmailSameExist(Email: emailField.text ?? "")
         }
-
-        viewController.authEmail = email
-        viewController.authPassword = passwordCheck
-        viewController.isSignUpEmail = self.didTapSignUpEmail
-
-        self.navigationController?.pushViewController(viewController, animated: true)
+//        let viewController = LoginProfileViewController()
+//        guard let email = emailField.text, emailValidCheck(emailField),
+//              let password = passwordField.text, passwordValidCheck(passwordField),
+//              let passwordCheck = passwordSameCheckField.text, passwordSameCheck(passwordField, passwordSameCheckField) else {
+//            print("Missing field data")
+//            return
+//        }
+//
+//        viewController.authEmail = email
+//        viewController.authPassword = passwordCheck
+//        viewController.isSignUpEmail = self.didTapSignUpEmail
+//
+//        self.navigationController?.pushViewController(viewController, animated: true)
 
     }
 }
