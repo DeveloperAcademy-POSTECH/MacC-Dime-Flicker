@@ -113,6 +113,8 @@ final class RegisterPortfolioViewController: UIViewController {
     
     // MARK: - view configurations
     private func configUI() {
+        view.backgroundColor = .systemBackground
+        
         portfolioPicker.delegate = self
         
         portfolioCollectionView.delegate = self

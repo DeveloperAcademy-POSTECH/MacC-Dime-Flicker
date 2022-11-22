@@ -33,7 +33,9 @@ class ArtistEditViewController: UIViewController {
     // 6. 수정 완료하면, 기존의 사진... 지우고..? B 데이터로... 새롭게 올리기...? -> 코비에게 물어보기
     let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
     
-    private lazy var dataA = EditData(regions: ["마포구", "종로구", "강동구"], camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    
+    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -161,7 +163,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let vc = RegisterRegionViewController()
+            let vc = ArtistEditRegionsViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 1:
             let vc = RegisterGearsViewController()

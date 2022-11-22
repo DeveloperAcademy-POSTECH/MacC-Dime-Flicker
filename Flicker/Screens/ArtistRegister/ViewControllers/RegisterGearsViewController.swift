@@ -165,6 +165,8 @@ final class RegisterGearsViewController: UIViewController {
     
     // MARK: - view configurations
     private func configUI() {
+        view.backgroundColor = .systemBackground
+        
         cameraBodyTextField.delegate = self
         cameraLensTextField.delegate = self
         
