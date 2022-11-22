@@ -275,9 +275,9 @@ final class FirebaseManager: NSObject {
             var querySnapshot: QuerySnapshot
             
             if regions == ["전체"] {
-                querySnapshot = try await firestore.collection("artists").getDocuments()
+                querySnapshot = try await firestore.collection("artists").limit(to: 5).getDocuments()
             } else {
-                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).getDocuments()
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: 5).getDocuments()
             }
             
             querySnapshot.documents.forEach({ snapshot in
@@ -301,9 +301,9 @@ final class FirebaseManager: NSObject {
             var querySnapshot: QuerySnapshot
             
             if regions == ["전체"] {
-                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).getDocuments()
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: 5).getDocuments()
             } else {
-                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).getDocuments()
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: 5).getDocuments()
             }
             
             querySnapshot.documents.forEach({ snapshot in
