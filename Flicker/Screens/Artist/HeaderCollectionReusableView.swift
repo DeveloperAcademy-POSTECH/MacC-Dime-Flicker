@@ -128,6 +128,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         lensInfo.linesCornerRadius = 5
         introductionLabel.linesCornerRadius = 5
         artistInformation.linesCornerRadius = 5
+        introductionTextView.linesCornerRadius = 5
     }
 
     override func layoutSubviews () {
