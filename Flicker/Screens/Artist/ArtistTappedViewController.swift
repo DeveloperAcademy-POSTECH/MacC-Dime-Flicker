@@ -48,15 +48,15 @@ final class ArtistTappedViewController: BaseViewController {
         UIView.isSkeletonable = true
         return UIView
     }()
-
-    private let counselingButton = UIButton().then {
-        $0.skeletonCornerRadius = 15
+    
+    private lazy var counselingButton = UIButton().then {
         $0.setTitle("문의하기", for: .normal)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
         $0.isSkeletonable = true
+        $0.addTarget(self, action: #selector(didTapCounselingButton), for: .touchUpInside)
     }
 
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold).then {
@@ -84,6 +84,8 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        render()
+        configUI()
         setDelegateAndDataSource()
 
         Task {
@@ -92,8 +94,7 @@ final class ArtistTappedViewController: BaseViewController {
 
         setupBackButton()
         setupNavigationBar()
-        render()
-        configUI()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -254,6 +255,12 @@ final class ArtistTappedViewController: BaseViewController {
             $0.height.equalTo(1)
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
+    }
+    
+    @objc func didTapCounselingButton() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

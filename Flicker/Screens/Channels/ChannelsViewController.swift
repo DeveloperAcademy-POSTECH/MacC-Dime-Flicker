@@ -47,6 +47,7 @@ final class ChannelsViewController: BaseViewController {
     override func setupNavigationBar() {
         super.setupNavigationBar()
         
+        navigationItem.leftBarButtonItem = nil        
         title = "메세지"
     }
     
