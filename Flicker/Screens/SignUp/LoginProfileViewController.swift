@@ -19,6 +19,7 @@ final class LoginProfileViewController: BaseViewController {
     var authPassword: String = ""
 
     private var isNickNameWrite = false
+    private var isTapArtistButton = false
 
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
@@ -103,18 +104,6 @@ final class LoginProfileViewController: BaseViewController {
 
     private let nickNameDivider = UIView().then {
         $0.backgroundColor = .loginGray
-    }
-
-    private let logOutButton = UIButton().then {
-        $0.setTitle("로그아웃", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
-        $0.backgroundColor = .clear
-    }
-
-    private let signOutButton = UIButton().then {
-        $0.setTitle("회원탈퇴", for: .normal)
-        $0.setTitleColor( .textSubBlack, for: .normal)
-        $0.backgroundColor = .clear
     }
 
     override func render() {
@@ -239,10 +228,15 @@ final class LoginProfileViewController: BaseViewController {
         artistFalseButton.backgroundColor = .loginGray
         artistFalseButton.setTitleColor(.black, for: .normal)
 
-        if isNickNameWrite {
+        if isNickNameWrite && !nickNameField.text!.isEmpty {
             signUpButton.isEnabled = true
             signUpButton.backgroundColor = .mainPink
+        } else {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = .loginGray
         }
+
+        isTapArtistButton = true
     }
 
     @objc private func didTapArtistFalseButton() {
@@ -251,10 +245,15 @@ final class LoginProfileViewController: BaseViewController {
         artistFalseButton.backgroundColor = .mainPink
         artistFalseButton.setTitleColor(.white, for: .normal)
 
-        if isNickNameWrite {
+        if isNickNameWrite && !nickNameField.text!.isEmpty {
             signUpButton.isEnabled = true
             signUpButton.backgroundColor = .mainPink
+        } else {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = .loginGray
         }
+
+        isTapArtistButton = true
     }
     //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
@@ -273,10 +272,8 @@ final class LoginProfileViewController: BaseViewController {
         } else {
             let fireBaseUser = Auth.auth().currentUser
             Task { [weak self] in
-                if let fireBaseUser = fireBaseUser {
-                    let email = fireBaseUser.email
-                }
-                await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
+                guard let fireBaseUser = fireBaseUser else { return }
+                await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
                 await CurrentUserDataManager.shared.saveUserDefault()
@@ -287,14 +284,40 @@ final class LoginProfileViewController: BaseViewController {
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
+
+        if isTapArtistButton {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = .loginGray
+        }
     }
 }
 
 extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
-    override func textFieldDidEndEditing(_ textField: UITextField) {
-        isNickNameWrite = true
+    override func textFieldDidBeginEditing(_ textField: UITextField) {
         nickNameTextFieldClearButton.isHidden = false
+    }
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+
+        isNickNameWrite = nickNameField.text!.isEmpty ? false : true
+
+        nickNameTextFieldClearButton.isHidden = nickNameField.text!.isEmpty ? true : false
+
+        signUpButton.isEnabled = nickNameField.text!.isEmpty ? false : true
+
+        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .loginGray
+    }
+    override func textFieldDidEndEditing(_ textField: UITextField) {
+        if !nickNameField.text!.isEmpty {
+            isNickNameWrite = true
+            nickNameTextFieldClearButton.isHidden = true
+
+            signUpButton.isEnabled = isTapArtistButton ? true : false
+            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .loginGray
+
+        }
+
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
