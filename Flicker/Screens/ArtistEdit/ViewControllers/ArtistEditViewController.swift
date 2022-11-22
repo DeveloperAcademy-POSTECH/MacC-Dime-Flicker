@@ -161,20 +161,20 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-//            let vc = RegisterRegionViewController()
-//            navigationController?.pushViewController(vc, animated: true)
+            let vc = RegisterRegionViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case 1:
-//            let vc = RegisterGearsViewController()
-//            navigationController?.pushViewController(vc, animated: true)
+            let vc = RegisterGearsViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case 2:
-//            let vc = RegisterConceptTagViewController()
-//            navigationController?.pushViewController(vc, animated: true)
+            let vc = RegisterConceptTagViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case 3:
-//            let vc = RegisterTextDescriptionViewController()
-//            navigationController?.pushViewController(vc, animated: true)
+            let vc = RegisterTextDescriptionViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case 4:
-//            let vc = RegisterPortfolioViewController()
-//            navigationController?.pushViewController(vc, animated: true)
+            let vc = RegisterPortfolioViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             print("not yet")
             return
