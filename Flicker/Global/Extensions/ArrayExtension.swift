@@ -6,7 +6,7 @@
 //
 
 extension Array {
-    func stringByJoining(separator: String) -> String {
+    func joinString(separator: String) -> String {
         var result = ""
         for (idx, item) in self.enumerated() {
             result += "\(item)"

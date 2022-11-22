@@ -11,12 +11,11 @@ import SnapKit
 
 final class ArtistTappedViewController: BaseViewController {
 
-    // 넘겨주는 데이터
-    var artist: Artist?
+    lazy var artist: Artist = defaultArtistInfo
 
     private let networkManager = NetworkManager.shared
 
-    //    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
+    private let defaultArtistInfo: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
 
     private var imageList: [UIImage] = [UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!]
 
@@ -166,8 +165,8 @@ final class ArtistTappedViewController: BaseViewController {
 
     private func fetchImages() async {
         do {
-            self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
-            self.profileImage = try await networkManager.fetchOneImage(withURL: networkManager.portFolioImageList.first!)
+            self.imageList = try await networkManager.fetchImages(withURLs: artist.portfolioImageUrls)
+            self.profileImage = try await networkManager.fetchOneImage(withURL: UserDefaults.standard.string(forKey: "currentUserProfileImageUrl") ?? "")
             isDownLoaded = true
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
@@ -295,6 +294,7 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         //        headerView.resetArtistInfo(with: artistInfo)
         headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
+        headerView.resetArtistInfo(with: artist ?? defaultArtistInfo)
         return headerView
     }
 }
