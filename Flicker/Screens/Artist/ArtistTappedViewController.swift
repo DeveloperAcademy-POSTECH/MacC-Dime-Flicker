@@ -106,11 +106,15 @@ final class ArtistTappedViewController: BaseViewController {
 //        }
 //    }
 
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        navigationController?.navigationBar.backgroundColor = .clear
-//        tabBarController?.tabBar.isHidden = false
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.backgroundColor = .clear
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+    }
 //
 //    override func viewDidDisappear(_ animated: Bool) {
 //        super.viewDidDisappear(animated)
