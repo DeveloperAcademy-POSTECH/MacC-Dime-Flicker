@@ -26,6 +26,7 @@ enum ImageLiteral {
     
     // MARK: - icon
     static var appLogo: UIImage { .load(name: "logo") }
+    static var defaultProfile: UIImage { .load(name: "DefaultProfile")}
 }
 
 extension UIImage {

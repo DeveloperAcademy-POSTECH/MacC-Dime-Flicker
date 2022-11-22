@@ -265,7 +265,7 @@ final class LoginProfileViewController: BaseViewController {
                 await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
@@ -275,7 +275,7 @@ final class LoginProfileViewController: BaseViewController {
                 guard let fireBaseUser = fireBaseUser else { return }
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
