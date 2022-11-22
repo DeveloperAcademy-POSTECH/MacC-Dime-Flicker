@@ -18,7 +18,6 @@ final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
     private let defaults = UserDefaults.standard
     var existingName: String = ""
-    private var existingImageUrl: String = ""
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
@@ -32,11 +31,6 @@ final class ProfileSettingViewController: BaseViewController {
         $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectButtonTouched)))
-    }
-
-    private lazy var cameraImage = UIImageView().then {
-        $0.tintColor = .black
-        $0.image = UIImage(systemName: "camera")
     }
 
     private func labelTemplate(labelText: String, textColor: UIColor ,fontStyle: UIFont.TextStyle, fontWeight: UIFont.Weight) -> UILabel {
@@ -109,7 +103,7 @@ final class ProfileSettingViewController: BaseViewController {
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(profileImageView, profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -122,12 +116,6 @@ final class ProfileSettingViewController: BaseViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
-        }
-
-        cameraImage.snp.makeConstraints {
-            $0.center.equalTo(profileImageView.snp.center)
-            $0.width.equalTo(50)
-            $0.height.equalTo(40)
         }
 
         profileLabelFirst.snp.makeConstraints {
@@ -194,15 +182,7 @@ final class ProfileSettingViewController: BaseViewController {
     override func loadView() {
          super.loadView()
     }
-    func setProfileImage(name: String, imageUrl: String) async{
-        do {
-            print("프로필 이미지 세팅 작동")
-            self.existingName = name
-            self.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageUrl)
-        } catch {
-            print(error)
-        }
-    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -252,6 +232,18 @@ final class ProfileSettingViewController: BaseViewController {
     }
     //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
+        let viewController = TabbarViewController()
+        let fireBaseUser = Auth.auth().currentUser
+        Task { [weak self] in
+            if let fireBaseUser = fireBaseUser {
+                let email = fireBaseUser.email
+            }
+            await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
+                                                              name: nickNameField.text ?? "",
+                                                              profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+            await CurrentUserDataManager.shared.saveUserDefault()
+            self?.navigationController?.pushViewController(viewController, animated: true)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -277,7 +269,6 @@ extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavi
             newImage = possibleImage        // 원본 이미지가 있을 경우
         }
         self.profileImageView.image = newImage
-        self.cameraImage.isHidden = true
         dismiss(animated: true, completion: nil)
     }
 }

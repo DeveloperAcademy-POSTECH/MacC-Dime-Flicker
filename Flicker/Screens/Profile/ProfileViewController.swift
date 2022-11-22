@@ -31,11 +31,6 @@ final class ProfileViewController: EmailViewController {
         setFunctionsAndDelegate()
         render()
         setTabGesture()
-        print("================================")
-        print(defaults.string(forKey: "currentUserEmail"))
-        print(defaults.string(forKey: "currentUserName"))
-        print(defaults.string(forKey: "currentUserProfileImageUrl"))
-        print("================================")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,9 +73,9 @@ final class ProfileViewController: EmailViewController {
     
     @objc func didTapProfileHeader() {
         let vc = ProfileSettingViewController()
-        vc.existingName = "aaa"
         Task {
-            let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") ?? ""
+            let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") ?? "https://cdn.pixabay.com/photo/2012/04/12/20/12/x-30465_1280.png"
+            vc.existingName = defaults.string(forKey: "currentUserName") ?? "Error"
             vc.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
         }
         transition(vc, transitionStyle: .push)
@@ -134,13 +129,6 @@ extension ProfileViewController: UITableViewDataSource {
         if indexPath.item == 0 {
             Task {
                 await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName") ?? "", email: defaults.string(forKey: "currentUserEmail") ?? "", imageURL: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
-            }
-        }
-        if indexPath.item == 1 {
-            Task {
-                await profileSettingView.setProfileImage(name: defaults.string(forKey: "currentUserName") ?? "", imageUrl: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
-                print(defaults.string(forKey: "currentUserName"))
-                print(defaults.string(forKey: "currentUserProfileImageUrl"))
             }
         }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
