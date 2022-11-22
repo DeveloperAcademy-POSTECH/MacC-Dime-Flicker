@@ -75,7 +75,7 @@ final class ProfileViewController: EmailViewController {
         let vc = ProfileSettingViewController()
         Task {
             let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") ?? "https://cdn.pixabay.com/photo/2012/04/12/20/12/x-30465_1280.png"
-            vc.existingName = defaults.string(forKey: "currentUserName") ?? "Error"
+            vc.currentUserName = defaults.string(forKey: "currentUserName") ?? "Error"
             vc.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
         }
         transition(vc, transitionStyle: .push)
