@@ -260,42 +260,32 @@ final class LoginProfileViewController: BaseViewController {
         let viewController = TabbarViewController()
         //애플 로그인을 통해 로그인을 할 경우 LoginProfileVC에 들어왔을 때 이미 로그인이 되어있어 creatNewAccount를 할 필요가 없으며,
         //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
-
-        if !nickNameField.text!.isEmpty && isTapArtistButton {
-            print("yyyy")
-//            if isSignUpEmail {
-//                Task { [weak self] in
-//                    await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
-//                    await FirebaseManager.shared.storeUserInformation(email: authEmail,
-//                                                                      name: nickNameField.text ?? "",
-//                                                                      profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
-//                    await CurrentUserDataManager.shared.saveUserDefault()
-//                    self?.navigationController?.pushViewController(viewController, animated: true)
-//                }
-//            } else {
-//                let fireBaseUser = Auth.auth().currentUser
-//                Task { [weak self] in
-//                    if let fireBaseUser = fireBaseUser {
-//                        let email = fireBaseUser.email
-//                    }
-//                    await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
-//                                                                      name: nickNameField.text ?? "",
-//                                                                      profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
-//                    await CurrentUserDataManager.shared.saveUserDefault()
-//                    self?.navigationController?.pushViewController(viewController, animated: true)
-//                }
-//            }
+        if isSignUpEmail {
+            Task { [weak self] in
+                await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
+                await FirebaseManager.shared.storeUserInformation(email: authEmail,
+                                                                  name: nickNameField.text ?? "",
+                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                await CurrentUserDataManager.shared.saveUserDefault()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
         } else {
-            print("ssss")
+            let fireBaseUser = Auth.auth().currentUser
+            Task { [weak self] in
+                guard let fireBaseUser = fireBaseUser else { return }
+                await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
+                                                                  name: nickNameField.text ?? "",
+                                                                  profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                await CurrentUserDataManager.shared.saveUserDefault()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
         }
     }
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
-        if isTapArtistButton {
-            signUpButton.backgroundColor = .loginGray
-            signUpButton.isEnabled = false
-        }
+        signUpButton.isEnabled = isTapArtistButton ? false : true
+        signUpButton.backgroundColor = isTapArtistButton ? .loginGray : .mainPink
     }
 }
 
@@ -306,27 +296,25 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if !nickNameField.text!.isEmpty {
-            isNickNameWrite = true
-            nickNameTextFieldClearButton.isHidden = false
 
-        } else {
-            isNickNameWrite = false
-            nickNameTextFieldClearButton.isHidden = true
-            signUpButton.isEnabled = false
+        isNickNameWrite = nickNameField.text!.isEmpty ? false : true
 
-            if isTapArtistButton {
-                signUpButton.backgroundColor = .loginGray
-            }
-        }
+        nickNameTextFieldClearButton.isHidden = nickNameField.text!.isEmpty ? true : false
+
+        signUpButton.isEnabled = nickNameField.text!.isEmpty ? false : true
+
+        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .loginGray
     }
     override func textFieldDidEndEditing(_ textField: UITextField) {
-        isNickNameWrite = true
-        nickNameTextFieldClearButton.isHidden = true
+        if !nickNameField.text!.isEmpty {
+            isNickNameWrite = true
+            nickNameTextFieldClearButton.isHidden = true
 
-        if isTapArtistButton {
-            signUpButton.isEnabled = false
+            signUpButton.isEnabled = isTapArtistButton ? true : false
+            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .loginGray
+
         }
+
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
