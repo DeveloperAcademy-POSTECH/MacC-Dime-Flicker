@@ -16,7 +16,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
     lazy var cellImage = UIImageView().then {
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
-        $0.tintColor = .mainPink
+        $0.tintColor = .systemRed.withAlphaComponent(0.7)
         $0.image = UIImage(systemName: "square")
     }
     

@@ -84,6 +84,7 @@ class ArtistEditViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
         self.tabBarController?.tabBar.isHidden = true
+        print(dataB)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -122,7 +123,8 @@ class ArtistEditViewController: UIViewController {
     private func configUI() {
         view.backgroundColor = .white
         
-        
+        editRegionsViewContrller.delegate = self
+        editGearsViewController.delegate = self
         
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
@@ -172,7 +174,11 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             let vc = editRegionsViewContrller
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = editGearsViewController
+            // 가데이터 들어감
+            let vc = editGearsViewController.then {
+                $0.currentLens = "소니 85mm f.18"
+                $0.currentBody = "소니 a7"
+            }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = editTagsViewController
@@ -190,7 +196,15 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ArtistEditViewController: EditRegionsDelegate {
+extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate {
+    func cameraBodySelected(cameraBody bodyName: String) {
+        self.dataB.camera = bodyName
+    }
+    
+    func cameraLensSelected(cameraLens lensName: String) {
+        self.dataB.lens = lensName
+    }
+    
     func regionSelected(regions regionDatas: [String]) {
         self.dataB.regions = regionDatas
     }

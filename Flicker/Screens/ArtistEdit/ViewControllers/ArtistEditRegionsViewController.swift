@@ -17,7 +17,7 @@ final class ArtistEditRegionsViewController: UIViewController {
     
     // MARK: - data sets to post to the server
     // TODO: - deleate 만들어서 ArtistRegisterViewController 에 연결해야한다.
-    var selectedRegion: [String] = []
+    private var selectedRegion: [String] = []
 
     // MARK: - data sets of regions of seoul
     private let seoulNorthDistricts: [String] = ["도봉구", "노원구", "강북구", "성북구", "은평구", "중랑구", "종로구", "동대문구", "서대문구", "중구", "성동구", "광진구", "마포구", "용산구"]
@@ -51,9 +51,10 @@ final class ArtistEditRegionsViewController: UIViewController {
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
+        $0.isEnabled = false
         $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemTeal.withAlphaComponent(0.5)
+        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
         $0.setTitle("지역 수정 완료", for: .normal)
         $0.clipsToBounds = true
     }
@@ -93,9 +94,6 @@ final class ArtistEditRegionsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tagFirstCollectionView.reloadData()
-        tagSecondCollectionView.reloadData()
-        
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.customNavigationBarView.popImage.isHidden = true
     }
@@ -159,6 +157,17 @@ final class ArtistEditRegionsViewController: UIViewController {
         
         completeEditButton.layer.cornerRadius = view.bounds.width/18
     }
+    
+    private func enableButton() {
+        switch selectedRegion.count {
+        case 0:
+            completeEditButton.isEnabled = false
+            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        default :
+            completeEditButton.isEnabled = true
+            completeEditButton.backgroundColor = .systemRed.withAlphaComponent(0.4)
+        }
+    }
 }
 
     // MARK: - collectionView datasource
@@ -203,13 +212,13 @@ extension ArtistEditRegionsViewController: UICollectionViewDelegate, UICollectio
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion)
+                enableButton()
             case 2:
                 guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
                 guard let cellText = cell.tagLabel.text else { return }
                 cell.toggleSelected()
                 selectedRegion.append(cellText)
-                print(selectedRegion)
+                enableButton()
             default:
                 return
             }
@@ -224,14 +233,14 @@ extension ArtistEditRegionsViewController: UICollectionViewDelegate, UICollectio
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion)
+            enableButton()
         case 2:
             guard let cell = collectionView.cellForItem(at: indexPath) as? RegisterRegionTagCell else { return }
             guard let cellText = cell.tagLabel.text else { return }
             cell.toggleSelected()
             let newRegions = selectedRegion.filter { $0 != cellText }
             selectedRegion = newRegions
-            print(selectedRegion)
+            enableButton()
         default:
             return
         }
@@ -269,7 +278,7 @@ extension ArtistEditRegionsViewController {
     }
     
     private func completeButton() {
-        let completeTapped = UITapGestureRecognizer(target: self.self, action: #selector(completeButtonTapped))
+        let completeTapped = UITapGestureRecognizer(target: self, action: #selector(completeButtonTapped))
         completeEditButton.addGestureRecognizer(completeTapped)
     }
     
@@ -278,7 +287,9 @@ extension ArtistEditRegionsViewController {
     }
     
     @objc func completeButtonTapped() {
-        self.delegate?.regionSelected(regions: self.selectedRegion)
+        if selectedRegion.count != 0 {
+            self.delegate?.regionSelected(regions: self.selectedRegion)
+        }
         self.navigationController?.popViewController(animated: true)
     }
 }
