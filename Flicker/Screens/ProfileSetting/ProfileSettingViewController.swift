@@ -141,7 +141,7 @@ final class ProfileSettingViewController: BaseViewController {
     }
     override func loadView() {
         super.loadView()
-        currentUserName = defaults.string(forKey: "currentUserName") ?? "Error"
+        currentUserName = defaults.string(forKey: "userName") ?? "Error"
     }
     
     override func viewDidAppear(_ animated: Bool) {
