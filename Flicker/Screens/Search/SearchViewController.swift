@@ -102,10 +102,8 @@ final class SearchViewController: BaseViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "작가를 검색하세요."
         searchController.searchResultsUpdater = self
-        
         navigationItem.leftBarButtonItem = nil
-        navigationItem.searchController = searchController
-        title = "작가 검색"
+        navigationItem.titleView = searchController.searchBar
     }
 }
 
