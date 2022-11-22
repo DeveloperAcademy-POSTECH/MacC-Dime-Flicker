@@ -10,20 +10,19 @@ import Then
 import SnapKit
 
 final class ArtistTappedViewController: BaseViewController {
-
-    lazy var artist: Artist = defaultArtistInfo
-
+    
+    // 넘겨주는 데이터
+    var artist: Artist?
+    
     private let networkManager = NetworkManager.shared
 
-    private let defaultArtistInfo: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
+//    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
 
-    private var imageList: [UIImage] = [UIImage(), UIImage(), UIImage()]
-
-    private var isDownLoaded: Bool = false
+    private var imageList: [UIImage] = [UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!]
 
     private var profileImage: UIImage = UIImage()
 
-    private var headerHeight: Int = 750
+    private var headerHeight: Int = 715
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
@@ -80,7 +79,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.frame.size.height = 30
         $0.layer.cornerRadius = 15
         $0.backgroundColor = .white.withAlphaComponent(0.7)
-        $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
 
     override func viewDidLoad() {
@@ -120,9 +119,6 @@ final class ArtistTappedViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = true
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
-
-        mutualPayLabel.linesCornerRadius = 10
-        mutualPayLabel.skeletonTextLineHeight = SkeletonTextLineHeight.fixed(30)
     }
 
     override func setupNavigationBar() {
@@ -141,13 +137,11 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     private func showSkeletonView() {
-        if !isDownLoaded {
-            let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
 
             self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
 
             self.bottomBackgroundView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        }
     }
 
     private func stopSkeleton(with views: [UIView]) {
@@ -165,9 +159,9 @@ final class ArtistTappedViewController: BaseViewController {
 
     private func fetchImages() async {
         do {
-            self.imageList = try await networkManager.fetchImages(withURLs: artist.portfolioImageUrls)
-            self.profileImage = try await networkManager.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
-            isDownLoaded = true
+            // TODO: 추후 ArtistUrls로 네트워크 매니저에 바꿔서 대입해야함, fetchOneImage에 artistProfile URL 들어가야함
+            self.imageList = try await networkManager.fetchImages(withURLs: networkManager.portFolioImageList)
+            self.profileImage = try await networkManager.fetchOneImage(withURL: networkManager.portFolioImageList.first!)
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
                 self.resetHeaderViewSize()
@@ -211,10 +205,18 @@ final class ArtistTappedViewController: BaseViewController {
             $0.width.equalToSuperview()
         }
 
-        statusBarBackGroundView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
-        }
+        // navigationBar 상단의 statusBar 자리를 UIView로 대체하여 조정
+        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+
+        statusBarBackGroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
+        statusBarBackGroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+
+        statusBarBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+
+        statusBarBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
 
         navigationBarSeperator.snp.makeConstraints {
             $0.width.equalToSuperview()
@@ -279,13 +281,13 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollectionReusableView.className, for: indexPath) as! HeaderCollectionReusableView
         headerHeight = Int(headerView.getTotalViewHeight())
-
+        
         let thumnailImages = Array(imageList.prefix(4))
-
         headerView.isSkeletonable = true
+        // TODO: 헤더뷰 데이터 업로드
+        //        headerView.resetArtistInfo(with: artistInfo)
         headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
-        headerView.resetArtistInfo(with: artist)
         return headerView
     }
 }
@@ -315,14 +317,6 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 5, left: 20, bottom: 0, right: 20)
     }
 }
-
-extension ArtistTappedViewController {
-    @objc func didTapCustomBackButton() {
-        self.navigationController?.isNavigationBarHidden = true
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
 
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {

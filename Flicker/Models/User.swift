@@ -16,23 +16,25 @@ struct User: Codable, Identifiable {
 final class CurrentUserDataManager {
 
     static let shared = CurrentUserDataManager()
-
     private let defaults = UserDefaults.standard
 
     func saveUserDefault() async {
         if let userData = await FirebaseManager.shared.getUser() {
             defaults.set(userData.email, forKey: "userEmail")
             defaults.set(userData.name, forKey: "userName")
+            defaults.set(userData.id, forKey: "userId")
             defaults.set(userData.profileImageUrl, forKey: "userProfileImageUrl")
             defaults.set(userData.token, forKey: "userToken")
         }
     }
 
     func deleteUserDefault() async {
-        defaults.removeObject(forKey: "currentUserEmail")
-        defaults.removeObject(forKey: "currentUserName")
-        defaults.removeObject(forKey: "currentUserProfileImageUrl")
-        defaults.removeObject(forKey: "currentUserToken")
+        defaults.removeObject(forKey: "userEmail")
+        defaults.removeObject(forKey: "userName")
+        defaults.removeObject(forKey: "userId")
+        defaults.removeObject(forKey: "userProfileImageUrl")
+        defaults.removeObject(forKey: "userToken")
         defaults.removeObject(forKey: "regions")
+        defaults.removeObject(forKey: "state")
     }
 }

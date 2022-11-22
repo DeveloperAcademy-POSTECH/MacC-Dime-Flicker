@@ -70,11 +70,6 @@ final class FirebaseManager: NSObject {
             
             try await firestore.collection("users").document(uid).setData(userData)
         } catch {
-//            print(email)
-//            print(name)
-//            print(uid)
-//            print(profileImage)
-//            print(error)
             print("Store User error")
         }
     }
@@ -126,7 +121,6 @@ final class FirebaseManager: NSObject {
                     users.append(user)
                 }
             })
-            
             print("Success get users")
             return users
         } catch {
@@ -134,6 +128,24 @@ final class FirebaseManager: NSObject {
             return nil
         }
     }
+/*파이어 베이스에서 Email필드에 값을 불러오는데 서치 값이 없을 경우 빈 배열을 불러온다. 빈 배열일 경우 사용자가 적은 이메일 값이
+ 없고, 배열에 값이 존재할 경우 사용자가 사용하려는 이메일은 이미 존재함을 의미한다. */
+    func isEmailSameExist(Email: String) async -> Bool? {
+        do {
+            let document = try await firestore.collection("users").whereField("email", isEqualTo: Email).getDocuments()
+            if document.isEmpty {
+                print("Email don't Exist")
+                return false
+            } else {
+                print("Already exist Email")
+                return true
+            }
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+
     
     func createChatMessage(currentUser: User, chatUser: User, chatText: String) {
         
@@ -265,6 +277,58 @@ final class FirebaseManager: NSObject {
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
             print("error string Artist Model")
+        }
+    }
+    
+    func loadArtist(regions: [String]) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").limit(to: 5).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: 5).getDocuments()
+            }
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to load Artist")
+            return nil
+        }
+    }
+    
+    func continueArtist(regions: [String], cursor: DocumentSnapshot) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: 5).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: 5).getDocuments()
+            }
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to continue Artist")
+            return nil
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-import SkeletonView
+import FirebaseFirestore
 import SnapKit
 import Then
 
@@ -15,17 +15,22 @@ final class MainViewController: BaseViewController {
     
     private enum Size {
         static let collectionHorizontalSpacing: CGFloat = 20.0
-        static let collectionVerticalSpacing: CGFloat = 0.0
+        static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
         static let cellHeight: CGFloat = 300
-        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
+        static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
     }
     
+    private var refreshControl = UIRefreshControl()
+    
     private var selectedRegions: [String] = ["전체"]
-
+    private var artists = [Artist]()
+    
+    private var cursor: DocumentSnapshot?
+    
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {
@@ -33,7 +38,6 @@ final class MainViewController: BaseViewController {
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE"
-        $0.isSkeletonable = true
     }
     
     private lazy var regionTagButton = UIButton().then {
@@ -59,22 +63,17 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
-        $0.isSkeletonable = true
     }
+    
+    private let emptyThumnailView = EmptyThumnailView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setRegion()
-        fetchData()
-        
-        navigationController?.isNavigationBarHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+        loadData()
     }
     
     override func render() {
-        view.addSubviews(appTitleLabel, regionTagButton, listCollectionView)
+        view.addSubviews(appTitleLabel, regionTagButton, emptyThumnailView, listCollectionView, emptyThumnailView)
         
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -90,11 +89,29 @@ final class MainViewController: BaseViewController {
             $0.top.equalTo(appTitleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        emptyThumnailView.snp.makeConstraints {
+            $0.top.equalTo(appTitleLabel.snp.bottom).offset(12)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    override func configUI() {
+        super.configUI()
+        
+        navigationController?.isNavigationBarHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
+        
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        refreshControl.tintColor = .mainPink
+        
+        listCollectionView.refreshControl = refreshControl
     }
     
     // MARK: - func
     
-    private func setRegion() {
+    private func setValues() {
         guard let regions = UserDefaults.standard.stringArray(forKey: "regions") else { return }
         selectedRegions = regions
         
@@ -103,23 +120,53 @@ final class MainViewController: BaseViewController {
         }
         let count = selectedRegions.count == 1 ? "" : "외 \(selectedRegions.count-1)곳"
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
+        
+        cursor = nil
     }
     
-    private func fetchData() {
-        let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+    private func loadData() {
+        Task {
+            setValues()
+            
+            emptyThumnailView.isHidden = true
+            
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
+                self.artists = result.artists
+                self.cursor = result.cursor
+            }
+            
+            if artists.isEmpty {
+                emptyThumnailView.isHidden = false
+            }
+            
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
+            }
+        }
+    }
+    
+    private func continueData() {
+        guard let cursor = cursor else { return }
         
-        self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.listCollectionView.stopSkeletonAnimation()
-            self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+        Task {
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
+                self.artists += result.artists
+                self.cursor = result.cursor
+            }
+            
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
+            }
         }
     }
     
     @objc func realoadTable(_ noti: Notification) {
-        listCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        setRegion()
-        fetchData()
+        loadData()
+    }
+    
+    @objc func pullToRefresh() {
+        loadData()
+        refreshControl.endRefreshing()
     }
     
     @objc private func didTapRegionTag() {
@@ -131,21 +178,10 @@ final class MainViewController: BaseViewController {
     }
 }
 
-// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
-extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        ArtistThumnailCollectionViewCell.className
-    }
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        UICollectionView.automaticNumberOfSkeletonItems
-    }
-}
-
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return artists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -153,30 +189,40 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             assert(false, "Wrong Cell")
         }
         
-        cell.artistNameLabel.text = "킹도영"
-        cell.artistTagLabel.text = "#섬세함 #친절함 #여자전문"
-        cell.artistThumnailImageView.image = UIImage(named: "port1")
-        cell.artistThumnailImageView.backgroundColor = .white
-        cell.artistProfileImageView.image = UIImage(named: "port2")
+        let artist = artists[indexPath.item]
+        cell.artistNameLabel.text = artist.userInfo["userName"]
+        cell.artistTagLabel.text = "#\(artist.tags.joined(separator: "#"))"
+        
+        Task {
+            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
+            cell.makeBackgroudShadow()
+            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 터치시 넘어가는 화면 코드 구현 예정
+        let artist = artists[indexPath.item] // 선택한 아티스트 데이터
+        let vc = ArtistTappedViewController()
+        vc.artist = artist
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MainViewController {
+    /* Standard scroll-view delegate */
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentSize = scrollView.contentSize.height
+        
+        if contentSize - scrollView.contentOffset.y <= scrollView.bounds.height {
+            didScrollToBottom()
+        }
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            guard velocity.y != 0 else { return }
-            if velocity.y < 0 {
-                let height = self?.tabBarController?.tabBar.frame.height ?? 0.0
-                self?.tabBarController?.tabBar.alpha = 1.0
-                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY - height)
-            } else {
-                self?.tabBarController?.tabBar.alpha = 0.0
-                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
-            }
-        }
+    private func didScrollToBottom() {
+        continueData()
     }
 }
