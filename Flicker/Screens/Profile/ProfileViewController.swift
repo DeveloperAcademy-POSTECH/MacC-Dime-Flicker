@@ -34,7 +34,8 @@ final class ProfileViewController: EmailViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         tabBarController?.tabBar.isHidden = false
     }
 

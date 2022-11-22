@@ -204,6 +204,11 @@ final class LogInViewController: BaseViewController {
         super.viewDidAppear(animated)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     private func goHome() {
         let viewController = TabbarViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
