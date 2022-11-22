@@ -34,22 +34,23 @@
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
 		58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */; };
+		58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
 		7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */; };
 		7B3DC43D2914DA8C00646909 /* ProfileEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */; };
 		7B589122292B6568008A950E /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B589121292B6568008A950E /* EmailViewController.swift */; };
 		A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */; };
-		A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F7290E3A6000B74693 /* APIResponseDTO.swift */; };
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
-		A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957FB290E3DF500B74693 /* AccessKey.swift */; };
 		A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */; };
+		A98F9533292BD02100E92A77 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98F9532292BD02100E92A77 /* ArrayExtension.swift */; };
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
 		CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD5292396F000B9B137 /* RegionTagListView.swift */; };
 		CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314EA292339AC00E11D70 /* RegionViewController.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
+		CB522D4C292BE43E0031BF24 /* EmptyThumnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */; };
 		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
 		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
 		CB5B1C3029134F75001E1EBD /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB5B1C2F29134F75001E1EBD /* Then */; };
@@ -119,16 +120,16 @@
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
 		58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConceptTagViewController.swift; sourceTree = "<group>"; };
+		58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
 		7B3DC43A2914DA3000646909 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		7B3DC43C2914DA8C00646909 /* ProfileEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEnumeration.swift; sourceTree = "<group>"; };
 		7B589121292B6568008A950E /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCase.swift; sourceTree = "<group>"; };
-		A94957F7290E3A6000B74693 /* APIResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseDTO.swift; sourceTree = "<group>"; };
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		A94957FB290E3DF500B74693 /* AccessKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessKey.swift; sourceTree = "<group>"; };
 		A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		A98F9532292BD02100E92A77 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		CB3314EA292339AC00E11D70 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyThumnailView.swift; sourceTree = "<group>"; };
 		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
 		CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistThumnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CB5BF46B2919E10700A3E112 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -285,9 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				A94957F5290E3A4900B74693 /* NetworkErrorCase.swift */,
-				A94957F7290E3A6000B74693 /* APIResponseDTO.swift */,
 				A94957F9290E3A8300B74693 /* NetworkManager.swift */,
-				A94957FB290E3DF500B74693 /* AccessKey.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -477,6 +477,8 @@
 				CBDC040E2906107900C6CF30 /* UIFont+Extension.swift */,
 				CBDC0410290610A200C6CF30 /* UITextView+Extension.swift */,
 				CBDC0412290610AD00C6CF30 /* Sequence+Extension.swift */,
+				58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */,
+				A98F9532292BD02100E92A77 /* ArrayExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -601,6 +603,7 @@
 			isa = PBXGroup;
 			children = (
 				CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */,
+				CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -706,7 +709,6 @@
 				58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */,
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */,
-				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
 				1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
 				CB5BF4802919E15400A3E112 /* User.swift in Sources */,
@@ -719,13 +721,13 @@
 				CBDC0413290610AD00C6CF30 /* Sequence+Extension.swift in Sources */,
 				CBDC03F329060F2500C6CF30 /* BaseViewController.swift in Sources */,
 				CBB0ACF62923A21C00B3381F /* StateTagListView.swift in Sources */,
+				CB522D4C292BE43E0031BF24 /* EmptyThumnailView.swift in Sources */,
 				58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */,
 				CB5BF47A2919E10700A3E112 /* ChannelTableViewCell.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */,
 				7B589122292B6568008A950E /* EmailViewController.swift in Sources */,
 				7B3DC43B2914DA3000646909 /* ProfileTableViewCell.swift in Sources */,
-				A94957FC290E3DF500B74693 /* AccessKey.swift in Sources */,
 				CB5BF47F2919E15400A3E112 /* RecentMessage.swift in Sources */,
 				CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */,
 				CBDC03D829060E6600C6CF30 /* MainViewController.swift in Sources */,
@@ -734,6 +736,7 @@
 				CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */,
 				CBDC03F129060F0800C6CF30 /* ImageLiteral.swift in Sources */,
 				CBDC03FF29060FBC00C6CF30 /* UIColor+Extension.swift in Sources */,
+				58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,
@@ -779,6 +782,7 @@
 				A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */,
 				5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */,
 				CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */,
+				A98F9533292BD02100E92A77 /* ArrayExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,10 +928,14 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3Y8YH8GWMM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Flicker/Global/Supports/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -961,10 +969,14 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3Y8YH8GWMM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Flicker/Global/Supports/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

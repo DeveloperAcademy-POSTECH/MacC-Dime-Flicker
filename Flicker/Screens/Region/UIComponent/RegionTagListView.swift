@@ -103,4 +103,8 @@ extension RegionTagListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         parent?.removeRegion(region: regionList[indexPath.item])
     }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return listCollectionView.indexPathsForSelectedItems!.count < 10
+    }
 }

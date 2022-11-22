@@ -128,6 +128,24 @@ final class FirebaseManager: NSObject {
             return nil
         }
     }
+/*파이어 베이스에서 Email필드에 값을 불러오는데 서치 값이 없을 경우 빈 배열을 불러온다. 빈 배열일 경우 사용자가 적은 이메일 값이
+ 없고, 배열에 값이 존재할 경우 사용자가 사용하려는 이메일은 이미 존재함을 의미한다. */
+    func isEmailSameExist(Email: String) async -> Bool? {
+        do {
+            let document = try await firestore.collection("users").whereField("email", isEqualTo: Email).getDocuments()
+            if document.isEmpty {
+                print("Email don't Exist")
+                return false
+            } else {
+                print("Already exist Email")
+                return true
+            }
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+
     
     func createChatMessage(currentUser: User, chatUser: User, chatText: String) {
         
@@ -253,14 +271,64 @@ final class FirebaseManager: NSObject {
     // MARK: - storing Artist Data to the Database
     func storeArtistInformation(_ artist: Artist) async {
         guard let uid = auth.currentUser?.uid else { return }
-        /// 로그인시 UserDefaults 에 user 인포를 다 저장시키는데 이 기능이 구현되고 나면 Artist 에 user 필드 추가, 아직은 기능 노놉
-//        guard let userInfo = UserDefaults.d
         do {
-            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "conceptTags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted()] as [String : Any]
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
             print("error string Artist Model")
+        }
+    }
+    
+    func loadArtist(regions: [String]) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").limit(to: 5).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: 5).getDocuments()
+            }
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to load Artist")
+            return nil
+        }
+    }
+    
+    func continueArtist(regions: [String], cursor: DocumentSnapshot) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            
+            var querySnapshot: QuerySnapshot
+            
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: 5).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: 5).getDocuments()
+            }
+            
+            querySnapshot.documents.forEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                artists.append(artist)
+            })
+            
+            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            
+            return (artists, cursor)
+        } catch {
+            print("error to continue Artist")
+            return nil
         }
     }
 }

@@ -180,9 +180,8 @@ final class SignUpViewController: BaseViewController {
 
         title = "프로필 입력"
     }
-    //
-    @objc private func didTapSignUpButton() {
 
+    @objc private func didTapSignUpButton() {
         let viewController = LoginProfileViewController()
         guard let email = emailField.text, emailValidCheck(emailField),
               let password = passwordField.text, passwordValidCheck(passwordField),
@@ -194,9 +193,15 @@ final class SignUpViewController: BaseViewController {
         viewController.authEmail = email
         viewController.authPassword = passwordCheck
         viewController.isSignUpEmail = self.didTapSignUpEmail
-
-        self.navigationController?.pushViewController(viewController, animated: true)
-
+        
+        Task { [weak self] in
+            guard let isExistEmail = await FirebaseManager.shared.isEmailSameExist(Email: emailField.text ?? "") else { return }
+            if isExistEmail {
+                makeAlert(title: "이미 사용중인 메일 주소입니다.", message: "")
+            } else {
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
 }
 

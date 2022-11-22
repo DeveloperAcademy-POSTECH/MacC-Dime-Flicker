@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestoreSwift
-import UIKit
 
 struct Artist: Codable, Identifiable {
     @DocumentID var id: String?
