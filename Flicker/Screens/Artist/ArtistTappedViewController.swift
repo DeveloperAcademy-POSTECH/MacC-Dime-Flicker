@@ -211,18 +211,10 @@ final class ArtistTappedViewController: BaseViewController {
             $0.width.equalToSuperview()
         }
 
-        // navigationBar 상단의 statusBar 자리를 UIView로 대체하여 조정
-        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
-
-        statusBarBackGroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
-        statusBarBackGroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-
-        statusBarBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-
-        statusBarBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-        statusBarBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+        statusBarBackGroundView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
 
         navigationBarSeperator.snp.makeConstraints {
             $0.width.equalToSuperview()
