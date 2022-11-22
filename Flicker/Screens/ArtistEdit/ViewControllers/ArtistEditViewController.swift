@@ -13,7 +13,7 @@ struct EditData {
     var regions: [String]
     var camera: String
     var lens: String
-    var tages: [String]
+    var tags: [String]
     var detailDescription: String
     var portfolioImages: [UIImage]
 }
@@ -33,9 +33,9 @@ class ArtistEditViewController: UIViewController {
     // 6. 수정 완료하면, 기존의 사진... 지우고..? B 데이터로... 새롭게 올리기...? -> 코비에게 물어보기
     let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
     
-    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
     
-    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -125,6 +125,7 @@ class ArtistEditViewController: UIViewController {
         
         editRegionsViewContrller.delegate = self
         editGearsViewController.delegate = self
+        editTagsViewController.delegate = self
         
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
@@ -174,14 +175,15 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             let vc = editRegionsViewContrller
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            // 가데이터 들어감
             let vc = editGearsViewController.then {
                 $0.currentLens = self.dataB.lens
                 $0.currentBody = self.dataB.camera
             }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = editTagsViewController
+            let vc = editTagsViewController.then {
+                $0.currentTags = self.dataB.tags
+            }
             navigationController?.pushViewController(vc, animated: true)
         case 3:
             let vc = editDescriptionViewController
@@ -196,7 +198,11 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate {
+extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate {
+    func conceptTagDescribed(tagLabel: [String]) {
+        self.dataB.tags = tagLabel
+    }
+    
     func cameraBodySelected(cameraBody bodyName: String) {
         self.dataB.camera = bodyName
     }
