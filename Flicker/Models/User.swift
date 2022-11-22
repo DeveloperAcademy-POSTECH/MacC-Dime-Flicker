@@ -22,16 +22,19 @@ final class CurrentUserDataManager {
         if let userData = await FirebaseManager.shared.getUser() {
             defaults.set(userData.email, forKey: "userEmail")
             defaults.set(userData.name, forKey: "userName")
+            defaults.set(userData.id, forKey: "userId")
             defaults.set(userData.profileImageUrl, forKey: "userProfileImageUrl")
             defaults.set(userData.token, forKey: "userToken")
         }
     }
 
     func deleteUserDefault() async {
-        defaults.removeObject(forKey: "currentUserEmail")
-        defaults.removeObject(forKey: "currentUserName")
-        defaults.removeObject(forKey: "currentUserProfileImageUrl")
-        defaults.removeObject(forKey: "currentUserToken")
+        defaults.removeObject(forKey: "UserEmail")
+        defaults.removeObject(forKey: "UserName")
+        defaults.removeObject(forKey: "userId")
+        defaults.removeObject(forKey: "UserProfileImageUrl")
+        defaults.removeObject(forKey: "UserToken")
         defaults.removeObject(forKey: "regions")
+        defaults.removeObject(forKey: "state")
     }
 }
