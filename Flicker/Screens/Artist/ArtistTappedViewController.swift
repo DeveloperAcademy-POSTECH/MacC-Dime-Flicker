@@ -80,7 +80,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.frame.size.height = 30
         $0.layer.cornerRadius = 15
         $0.backgroundColor = .white.withAlphaComponent(0.7)
-        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
     }
 
     override func viewDidLoad() {
@@ -323,6 +323,14 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 5, left: 20, bottom: 0, right: 20)
     }
 }
+
+extension ArtistTappedViewController {
+    @objc func didTapCustomBackButton() {
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
 
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
