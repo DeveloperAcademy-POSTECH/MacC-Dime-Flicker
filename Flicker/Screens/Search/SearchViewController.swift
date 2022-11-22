@@ -18,7 +18,7 @@ final class SearchViewController: BaseViewController {
         static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = (UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2 - 10)/3
         static let cellHeight: CGFloat = cellWidth
-        static let collectionInset = UIEdgeInsets(top: collectionVerticalSpacing,
+        static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
@@ -67,7 +67,7 @@ final class SearchViewController: BaseViewController {
             
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: ["전체"]) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: ["전체"], pages: 20) {
                 self.artists = result.artists
                 self.cursor = result.cursor
             }

@@ -130,7 +130,7 @@ final class MainViewController: BaseViewController {
             
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
                 self.artists = result.artists
                 self.cursor = result.cursor
             }
@@ -149,7 +149,7 @@ final class MainViewController: BaseViewController {
         guard let cursor = cursor else { return }
         
         Task {
-            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
                 self.artists += result.artists
                 self.cursor = result.cursor
             }
