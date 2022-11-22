@@ -47,11 +47,11 @@
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
 		A9F1F2E8290CC5690018C73F /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */; };
+		CB17CD70292CB2C400D6E5F9 /* ThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB17CD6F292CB2C400D6E5F9 /* ThumnailCollectionViewCell.swift */; };
 		CB26EFD6292396F000B9B137 /* RegionTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26EFD5292396F000B9B137 /* RegionTagListView.swift */; };
 		CB3314EB292339AC00E11D70 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3314EA292339AC00E11D70 /* RegionViewController.swift */; };
 		CB33C1D1290621C200F37626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB33C1D0290621C200F37626 /* GoogleService-Info.plist */; };
 		CB522D4C292BE43E0031BF24 /* EmptyThumnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */; };
-		CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */; };
 		CB5A8C342913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */; };
 		CB5B1C3029134F75001E1EBD /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB5B1C2F29134F75001E1EBD /* Then */; };
 		CB5BF4752919E10700A3E112 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF46B2919E10700A3E112 /* ChatViewController.swift */; };
@@ -133,12 +133,12 @@
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
 		A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		CB17CD6F292CB2C400D6E5F9 /* ThumnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CB26EFD5292396F000B9B137 /* RegionTagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTagListView.swift; sourceTree = "<group>"; };
 		CB3314EA292339AC00E11D70 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		CB33C1CF2906214200F37626 /* Flicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flicker.entitlements; sourceTree = "<group>"; };
 		CB33C1D0290621C200F37626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyThumnailView.swift; sourceTree = "<group>"; };
-		CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionListHorizontalView.swift; sourceTree = "<group>"; };
 		CB5A8C332913688B00AECE98 /* ArtistThumnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistThumnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CB5BF46B2919E10700A3E112 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		CB5BF46D2919E10700A3E112 /* MyChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -301,6 +301,14 @@
 				A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */,
 			);
 			path = Artist;
+			sourceTree = "<group>";
+		};
+		CB17CD6E292CB2AD00D6E5F9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CB17CD6F292CB2C400D6E5F9 /* ThumnailCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		CB26EFD4292396E000B9B137 /* UIComponent */ = {
@@ -584,6 +592,7 @@
 		CBDC043B2906149000C6CF30 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				CB17CD6E292CB2AD00D6E5F9 /* Cell */,
 				CBDC043C290614C100C6CF30 /* SearchViewController.swift */,
 			);
 			path = Search;
@@ -602,7 +611,6 @@
 		CBFBC05C2913431A00FBBD17 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
-				CB5A8C312913534200AECE98 /* RegionListHorizontalView.swift */,
 				CB522D4B292BE43E0031BF24 /* EmptyThumnailView.swift */,
 			);
 			path = UIComponent;
@@ -724,6 +732,7 @@
 				CB522D4C292BE43E0031BF24 /* EmptyThumnailView.swift in Sources */,
 				58A452AB2912A25E00C9707D /* RegisterPortfolioViewController.swift in Sources */,
 				CB5BF47A2919E10700A3E112 /* ChannelTableViewCell.swift in Sources */,
+				CB17CD70292CB2C400D6E5F9 /* ThumnailCollectionViewCell.swift in Sources */,
 				CBDC04092906102F00C6CF30 /* UIView+Extension.swift in Sources */,
 				CB5BF4832919E1A800A3E112 /* PaddingLabel.swift in Sources */,
 				7B589122292B6568008A950E /* EmailViewController.swift in Sources */,
@@ -739,7 +748,6 @@
 				58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */,
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
-				CB5A8C322913534200AECE98 /* RegionListHorizontalView.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
 				58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */,
