@@ -25,6 +25,15 @@ final class SearchViewController: BaseViewController {
     }
     
     private var artists = [Artist]()
+    private var filteredArtists = [Artist]()
+    
+    private var isFiltering: Bool {
+        let searchController = self.navigationItem.searchController
+        let isActive = searchController?.isActive ?? false
+        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        return isActive && isSearchBarHasText
+    }
+    
     private var cursor: DocumentSnapshot?
 
     // MARK: - property
@@ -86,12 +95,24 @@ final class SearchViewController: BaseViewController {
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+    
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "작가를 검색하세요."
+        searchController.searchResultsUpdater = self
+        
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.searchController = searchController
+        title = "작가 검색"
+    }
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return artists.count
+        return self.isFiltering ? filteredArtists.count : artists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -99,7 +120,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             assert(false, "Wrong Cell")
         }
         
-        let artist = artists[indexPath.item]
+        let artist = isFiltering ? filteredArtists[indexPath.item] : artists[indexPath.item]
         
         Task {
             try await cell.thumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
@@ -109,11 +130,18 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 터치시 넘어가는 화면 코드 구현 예정
-        let artist = artists[indexPath.item] // 선택한 아티스트 데이터
+        let artist = isFiltering ? filteredArtists[indexPath.item] : artists[indexPath.item]
         let vc = ArtistTappedViewController()
         vc.artist = artist
         navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        self.filteredArtists = self.artists.filter { $0.userInfo["userName"]!.lowercased().contains(text) }
+        self.listCollectionView.reloadData()
     }
 }
