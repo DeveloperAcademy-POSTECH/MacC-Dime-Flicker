@@ -30,7 +30,6 @@ final class MainViewController: BaseViewController {
     private var artists = [Artist]()
     
     private var cursor: DocumentSnapshot?
-    private var dataMayContinue = true
     
     // MARK: - property
     
@@ -124,7 +123,6 @@ final class MainViewController: BaseViewController {
         regionTagButton.setTitle("\(selectedRegions[0]) \(count) ", for: .normal)
         
         cursor = nil
-        dataMayContinue = true
     }
     
     private func loadData() {
@@ -149,8 +147,7 @@ final class MainViewController: BaseViewController {
     }
     
     private func continueData() {
-        guard dataMayContinue, let cursor = cursor else { return }
-        dataMayContinue = false
+        guard let cursor = cursor else { return }
         
         Task {
             if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
