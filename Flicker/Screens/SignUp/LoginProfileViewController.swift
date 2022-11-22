@@ -284,8 +284,11 @@ final class LoginProfileViewController: BaseViewController {
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
-        signUpButton.isEnabled = isTapArtistButton ? false : true
-        signUpButton.backgroundColor = isTapArtistButton ? .loginGray : .mainPink
+
+        if isTapArtistButton {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = .loginGray
+        }
     }
 }
 
