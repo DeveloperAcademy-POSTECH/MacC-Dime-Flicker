@@ -272,7 +272,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         self.artistNickname.text = UserDefaults.standard.string(forKey: "currentUserName") ?? "슈글 작가님"
         self.introductionTextView.text = artistInfo.detailDescription
         self.regionInfo.text = artistInfo.regions.joinString(separator: ", ")
-        let tagText = artistInfo.tags.joinString(separator: " # ")
+        let tagText = artistInfo.tags.joinString(separator: " #")
         self.artistInformation.text = "#\(tagText)"
         self.bodyInfo.text = artistInfo.camera
         self.lensInfo.text = artistInfo.lens

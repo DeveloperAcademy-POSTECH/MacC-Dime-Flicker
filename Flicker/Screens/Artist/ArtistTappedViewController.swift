@@ -23,7 +23,7 @@ final class ArtistTappedViewController: BaseViewController {
 
     private var profileImage: UIImage = UIImage()
 
-    private var headerHeight: Int = 715
+    private var headerHeight: Int = 750
 
     private lazy var portfolioFlowLayout = UICollectionViewFlowLayout().then {
         let imageWidth = (UIScreen.main.bounds.width - 50)/3
