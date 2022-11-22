@@ -13,8 +13,9 @@ final class ArtistTappedViewController: BaseViewController {
 
     private let networkManager = NetworkManager.shared
 
-//    var artistInfo: Artist = Artist(regions: [], camera: "", lens: "", detailDescription: "", portfolioImageUrls: [])
 
+
+    
     private var imageList: [UIImage] = [UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!]
 
     private var profileImage: UIImage = UIImage()
