@@ -36,12 +36,13 @@ final class ArtistTappedViewController: BaseViewController {
         return UIView
     }()
     
-    private let counselingButton = UIButton().then {
+    private lazy var counselingButton = UIButton().then {
         $0.setTitle("문의하기", for: .normal)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
+        $0.addTarget(self, action: #selector(didTapCounselingCancleButton), for: .touchUpInside)
     }
     
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold)
@@ -218,6 +219,13 @@ final class ArtistTappedViewController: BaseViewController {
             $0.height.equalTo(1)
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
+    }
+    
+    @objc func didTapCounselingCancleButton() {
+        guard let artist = artist else { return }
+        
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: FirebaseManager.shared.auth.currentUser!.uid, toId: artist.userInfo["userId"]!)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
