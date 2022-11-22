@@ -121,6 +121,9 @@ final class ArtistTappedViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = true
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
+
+        mutualPayLabel.linesCornerRadius = 10
+        mutualPayLabel.skeletonTextLineHeight = SkeletonTextLineHeight.fixed(30)
     }
 
     override func setupNavigationBar() {

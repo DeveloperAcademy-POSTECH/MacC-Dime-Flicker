@@ -271,6 +271,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     func resetArtistInfo(with artistInfo: Artist) {
         self.introductionTextView.text = artistInfo.detailDescription
         self.regionInfo.text = artistInfo.regions.stringByJoining(separator: ", ")
+        self.artistInformation.text = artistInfo.tags.stringByJoining(separator: ", ")
         self.bodyInfo.text = artistInfo.camera
         self.lensInfo.text = artistInfo.lens
     }
