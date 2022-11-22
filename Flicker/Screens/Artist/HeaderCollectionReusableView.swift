@@ -7,6 +7,7 @@
 import UIKit
 import SnapKit
 import Then
+import SkeletonView
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
@@ -15,14 +16,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     private var imageScrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
+        $0.isSkeletonable = true
     }
 
     private let imageHeight: Int = 380
+
     private let profileImageSize: Int = 45
 
     var images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
+        $0.skeletonCornerRadius = 5
         $0.numberOfPages = images.count
         $0.backgroundColor = .clear
         $0.pageIndicatorTintColor = .gray
@@ -43,6 +47,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.layer.cornerRadius = CGFloat(profileImageSize / 2)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
+        $0.skeletonCornerRadius = 5
     }
 
     private let firstSeperator = UIView().then {
@@ -57,30 +62,34 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         $0.backgroundColor = .systemGray5
     }
 
-    private let introductionLabel = UILabel().makeBasicLabel(labelText: "자기소개", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .medium)
+    private let introductionLabel = UILabel().makeBasicLabel(labelText: "작가님은 이렇습니다!", textColor: .MainTintColor, fontStyle: .subheadline, fontWeight: .bold)
 
     private let introductionTextView = UITextView().then {
-        $0.setLineAndLetterSpacing("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고")
+        $0.setUITextViewAttributes("저는 송도에 거주하며 인천대에 재학중입니다. 송도와 영종도 부근을 많이 찍어봤고 주로 커플 스냅을 많이 찍습니다.편하게 연락주세요!종도 부근을 많이 찍어봤고 하며 인천대에 재학중입니다. 송도와", color: .black.withAlphaComponent(0.7), lineSpacing: 5)
         $0.isScrollEnabled = false
-        $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
+        $0.font = .preferredFont(forTextStyle: .headline, weight: .medium)
         $0.isUserInteractionEnabled = false
+        $0.skeletonCornerRadius = 20
     }
 
     //TODO: 추후에 horizontal stackView로 바꾸기
-    
+
     private let regionImageView = UIImageView().then {
         $0.image = UIImage(systemName: "map.fill")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let bodyInfoImageView = UIImageView().then {
         $0.image = UIImage(systemName: "circle.rectangle.filled.pattern.diagonalline")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let lensInfoImageView = UIImageView().then {
         $0.image = UIImage(systemName: "camera.metering.center.weighted")
         $0.tintColor = .mainPink
+        $0.skeletonCornerRadius = 5
     }
 
     private let regionInfo = UILabel().makeBasicLabel(labelText: "서초구, 서대문구, 은평구", textColor: .black.withAlphaComponent(0.7), fontStyle: .callout, fontWeight: .light)
@@ -92,18 +101,33 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     override init (frame: CGRect) {
         super.init(frame: frame)
         // subview
+        
         self.addSubviews(imageScrollView, pageControl, artistUIView, artistProfileImage, artistNickname, artistInformation, introductionLabel, introductionTextView, firstSeperator, secondSeperator, thirdSeperator)
 
         self.addSubviews(regionInfo, bodyInfo, lensInfo)
 
         self.addSubviews(regionImageView, bodyInfoImageView, lensInfoImageView)
 
+        for view in self.subviews {
+            view.isSkeletonable = true
+        }
+
+        configUI()
         configureImageScrollView()
         setFunctionAndDelegate()
     }
 
     required init?(coder: NSCoder) {
         fatalError ()
+    }
+
+    private func configUI() {
+        artistNickname.linesCornerRadius = 5
+        regionInfo.linesCornerRadius = 5
+        bodyInfo.linesCornerRadius = 5
+        lensInfo.linesCornerRadius = 5
+        introductionLabel.linesCornerRadius = 5
+        artistInformation.linesCornerRadius = 5
     }
 
     override func layoutSubviews () {
@@ -152,22 +176,22 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         firstSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(artistUIView.snp.bottom).offset(3)
+            $0.top.equalTo(artistInformation.snp.bottom).offset(15)
             $0.width.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
 
         introductionLabel.snp.makeConstraints {
             $0.leading.equalTo(artistProfileImage)
-            $0.top.equalTo(firstSeperator.snp.bottom).offset(9)
+            $0.top.equalTo(firstSeperator.snp.bottom).offset(15)
         }
 
         introductionTextView.snp.makeConstraints {
-            $0.leading.equalTo(introductionLabel)
+            $0.leading.equalTo(artistProfileImage).offset(-5)
             $0.width.equalToSuperview().inset(20)
             $0.top.equalTo(introductionLabel.snp.bottom).offset(5)
         }
-        
+
         secondSeperator.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(introductionTextView.snp.bottom).offset(5)
@@ -178,7 +202,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         // Photographer Information
         regionImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(secondSeperator.snp.bottom).offset(12)
+            $0.top.equalTo(secondSeperator.snp.bottom).offset(15)
             $0.width.height.equalTo(20)
         }
 
@@ -189,10 +213,10 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         bodyInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(regionInfo.snp.bottom).offset(5)
+            $0.top.equalTo(regionInfo.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
-        
+
         bodyInfo.snp.makeConstraints {
             $0.leading.equalTo(bodyInfoImageView.snp.trailing).offset(8)
             $0.centerY.equalTo(bodyInfoImageView)
@@ -200,7 +224,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
 
         lensInfoImageView.snp.makeConstraints {
             $0.leading.equalTo(secondSeperator)
-            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(5)
+            $0.top.equalTo(bodyInfoImageView.snp.bottom).offset(6)
             $0.width.height.equalTo(20)
         }
 
@@ -237,6 +261,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     func resetPortfolioImage(with images: [UIImage]) {
         self.images = images
         configureImageScrollView()
+    }
+
+    func resetProfileImage(with image: UIImage) {
+        self.artistProfileImage.image = image
+    }
+
+    func resetArtistInfo(with artistInfo: Artist) {
+        self.introductionTextView.text = artistInfo.detailDescription
+        self.regionInfo.text = artistInfo.regions.stringByJoining(separator: ", ")
+        self.bodyInfo.text = artistInfo.camera
+        self.lensInfo.text = artistInfo.lens
     }
 }
 

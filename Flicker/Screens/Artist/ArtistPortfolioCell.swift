@@ -6,12 +6,14 @@
 //
 import UIKit
 import Then
+import SkeletonView
 
 final class ArtistPortfolioCell: UICollectionViewCell {
 
     let imageView: UIImageView = UIImageView(frame: .zero).then {
         $0.contentMode = .scaleToFill
         $0.clipsToBounds = true
+        $0.isSkeletonable = true
     }
     
     var image: UIImage? {
@@ -19,7 +21,6 @@ final class ArtistPortfolioCell: UICollectionViewCell {
             imageView.image = image
         }
     }
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
