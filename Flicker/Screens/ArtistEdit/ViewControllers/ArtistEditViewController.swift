@@ -176,8 +176,8 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         case 1:
             // 가데이터 들어감
             let vc = editGearsViewController.then {
-                $0.currentLens = "소니 85mm f.18"
-                $0.currentBody = "소니 a7"
+                $0.currentLens = self.dataB.lens
+                $0.currentBody = self.dataB.camera
             }
             navigationController?.pushViewController(vc, animated: true)
         case 2:

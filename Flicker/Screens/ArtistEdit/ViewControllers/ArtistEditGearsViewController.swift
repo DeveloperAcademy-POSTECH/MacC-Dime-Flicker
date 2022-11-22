@@ -21,8 +21,8 @@ final class ArtistEditGearsViewController: UIViewController {
     // MARK: - data Transferred
     var currentBody: String = "body"
     var currentLens: String = "lens"
-    private var editedBody: String = ""
-    private var editedLens: String = ""
+    private lazy var editedBody: String = currentBody
+    private lazy var editedLens: String = currentLens
     
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
@@ -49,9 +49,9 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.text = "카메라"
     }
     
-    private let cameraBodyExampleSectionLabel = UILabel().then {
-        $0.textColor = .systemGray
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+    private lazy var cameraBodyExampleSectionLabel = UILabel().then {
+        $0.textColor = .systemGray2.withAlphaComponent(0.9)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
         $0.text = "예)  Sony a7m3, Canon Eos R..."
     }
     
@@ -61,16 +61,16 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.text = "렌즈"
     }
     
-    private let cameraLensExampleSectionLabel = UILabel().then {
-        $0.textColor = .systemGray
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+    private lazy var cameraLensExampleSectionLabel = UILabel().then {
+        $0.textColor = .systemGray2.withAlphaComponent(0.9)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
         $0.text = "예)  Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
         $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemTeal.withAlphaComponent(0.3)
+        $0.backgroundColor = .mainPink
         $0.setTitle("장비 수정 완료", for: .normal)
         $0.clipsToBounds = true
     }
@@ -87,7 +87,7 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
-        $0.attributedPlaceholder = NSAttributedString(string: "작가님의 바디: \(currentBody)", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .subheadline, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor(.black.opacity(0.5))])
+        $0.placeholder = "바디를 입력해주세요."
     }
     
     private lazy var cameraLensTextField = UITextField().then {
@@ -99,7 +99,8 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
-        $0.attributedPlaceholder = NSAttributedString(string: "작가님의 렌즈: \(currentLens)", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .subheadline, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor(.black.opacity(0.5))])    }
+        $0.placeholder = "렌즈를 입력해주세요."
+    }
     
     // MARK: - life cycle
     override func viewDidLoad() {
@@ -114,6 +115,12 @@ final class ArtistEditGearsViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.customNavigationBarView.popImage.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        cameraBodyTextField.text = ""
+        cameraLensTextField.text = ""
     }
     
     // MARK: - keyboard automatically pop
@@ -205,9 +212,17 @@ extension ArtistEditGearsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField.tag {
         case 1:
-            self.editedBody = textField.text ?? ""
+            if textField.text == "" {
+                self.currentBody = editedBody
+            } else {
+                self.currentBody = textField.text ?? ""
+            }
         case 2:
-            self.editedLens = textField.text ?? ""
+            if textField.text == "" {
+                self.currentLens = editedLens
+            } else {
+                self.currentLens = textField.text ?? ""
+            }
         default:
             return
         }
@@ -216,7 +231,7 @@ extension ArtistEditGearsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.dismiss(animated: true)
-        print(editedBody, editedLens)
+        print(currentLens, currentBody)
         return true
     }
 }
@@ -237,15 +252,9 @@ extension ArtistEditGearsViewController {
     }
     
     @objc func completeButtonTapped() {
-        if editedBody.isEmpty || editedLens.isEmpty || editedBody == currentBody || editedLens == currentLens {
-            self.navigationController?.popViewController(animated: true)
-            print("gears nothing Changed")
-        } else {
-            self.delegate?.cameraBodySelected(cameraBody: editedBody)
-            self.delegate?.cameraLensSelected(cameraLens: editedLens)
-            self.navigationController?.popViewController(animated: true)
-            print("gears changed")
-        }
+        self.delegate?.cameraBodySelected(cameraBody: currentBody)
+        self.delegate?.cameraLensSelected(cameraLens: currentLens)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -254,7 +263,3 @@ protocol EditGearsDelegate: AnyObject {
     func cameraBodySelected(cameraBody bodyName: String)
     func cameraLensSelected(cameraLens lensName: String)
 }
-
-
-
-

@@ -165,7 +165,7 @@ final class ArtistEditRegionsViewController: UIViewController {
             completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
         default :
             completeEditButton.isEnabled = true
-            completeEditButton.backgroundColor = .systemRed.withAlphaComponent(0.4)
+            completeEditButton.backgroundColor = .mainPink
         }
     }
 }
