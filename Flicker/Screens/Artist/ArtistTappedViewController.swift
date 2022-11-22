@@ -87,38 +87,45 @@ final class ArtistTappedViewController: BaseViewController {
         render()
         configUI()
         setDelegateAndDataSource()
+        setupBackButton()
+        setupNavigationBar()
 
         Task {
             await fetchImages()
-        }
-
-        setupBackButton()
-        setupNavigationBar()
-        
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-            self.showSkeletonView()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                self.showSkeletonView()
+            }
         }
     }
+
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+//            self.showSkeletonView()
+//        }
+//    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
         tabBarController?.tabBar.isHidden = false
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        statusBarBackGroundView.isHidden = true
-        navigationBarSeperator.isHidden = true
-        navigationController?.navigationBar.backgroundColor = .clear
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
     }
+//
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        statusBarBackGroundView.isHidden = true
+//        navigationBarSeperator.isHidden = true
+//        navigationController?.navigationBar.backgroundColor = .clear
+//    }
 
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
+        navigationController?.isNavigationBarHidden = false
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
 
@@ -304,10 +311,10 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         let viewController = ImageViewController()
         viewController.image = cell.imageView.image
         viewController.modalPresentationStyle = .fullScreen
-        viewController.completion = {
-            self.resetNavigationBarBackground()
-            self.tabBarController?.tabBar.isHidden = true
-        }
+//        viewController.completion = {
+//            self.resetNavigationBarBackground()
+//            self.tabBarController?.tabBar.isHidden = true
+//        }
         present(viewController, animated: false)
     }
     // 스크롤시 네비게이션바 커스텀화
