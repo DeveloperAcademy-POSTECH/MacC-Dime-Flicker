@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import FirebaseAuth
+import Firebase
 /*
  LoginProfileViewController와 같은 뷰이지만 재사용성을 강조해 두 뷰를 종속시키는 것 보다
  그냥 같은 뷰를 새로 그려 따로 관리하는 것이 더 효율적이라고 생각이 되어 거의 같은 코드를 쓰는 뷰가 두 개가 있습니다.
@@ -16,14 +17,16 @@ import FirebaseAuth
 final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
     private let defaults = UserDefaults.standard
-    private var ExistingName: String = ""
+    var existingName: String = ""
+    private var existingImageUrl: String = ""
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
         $0.delegate = self
     }
 
-    private lazy var profileImageView = UIImageView().then {
+    lazy var profileImageView = UIImageView().then {
+        $0.image = UIImage(named: "DefaultProfile")
         $0.backgroundColor = .loginGray
         $0.layer.cornerRadius = 50
         $0.clipsToBounds = true
@@ -31,7 +34,7 @@ final class ProfileSettingViewController: BaseViewController {
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectButtonTouched)))
     }
 
-    private let cameraImage = UIImageView().then {
+    private lazy var cameraImage = UIImageView().then {
         $0.tintColor = .black
         $0.image = UIImage(systemName: "camera")
     }
@@ -58,7 +61,7 @@ final class ProfileSettingViewController: BaseViewController {
         ]
 
         $0.backgroundColor = .clear
-        $0.attributedPlaceholder = NSAttributedString(string: ExistingName, attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: existingName, attributes: attributes)
         $0.autocapitalizationType = .none
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -189,9 +192,16 @@ final class ProfileSettingViewController: BaseViewController {
         }
     }
     override func loadView() {
-        super.loadView()
-        
-        ExistingName = defaults.string(forKey: "currentUserName") ?? "유저명"
+         super.loadView()
+    }
+    func setProfileImage(name: String, imageUrl: String) async{
+        do {
+            print("프로필 이미지 세팅 작동")
+            self.existingName = name
+            self.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageUrl)
+        } catch {
+            print(error)
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

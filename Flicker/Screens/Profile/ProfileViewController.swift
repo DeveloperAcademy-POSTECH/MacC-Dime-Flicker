@@ -14,7 +14,7 @@ final class ProfileViewController: EmailViewController {
     private let userName: String? = nil
     private var isArtist: Bool = false
     private let defaults = UserDefaults.standard
-    
+    private let profileSettingView = ProfileSettingViewController()
     // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
@@ -77,7 +77,13 @@ final class ProfileViewController: EmailViewController {
     }
     
     @objc func didTapProfileHeader() {
-        transition(ProfileSettingViewController(), transitionStyle: .push)
+        let vc = ProfileSettingViewController()
+        vc.existingName = "aaa"
+        Task {
+            let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") ?? ""
+            vc.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
+        }
+        transition(vc, transitionStyle: .push)
     }
 
 
@@ -128,6 +134,13 @@ extension ProfileViewController: UITableViewDataSource {
         if indexPath.item == 0 {
             Task {
                 await profileHeader.setupHeaderData(name: defaults.string(forKey: "currentUserName") ?? "", email: defaults.string(forKey: "currentUserEmail") ?? "", imageURL: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
+            }
+        }
+        if indexPath.item == 1 {
+            Task {
+                await profileSettingView.setProfileImage(name: defaults.string(forKey: "currentUserName") ?? "", imageUrl: defaults.string(forKey: "currentUserProfileImageUrl") ?? "")
+                print(defaults.string(forKey: "currentUserName"))
+                print(defaults.string(forKey: "currentUserProfileImageUrl"))
             }
         }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
