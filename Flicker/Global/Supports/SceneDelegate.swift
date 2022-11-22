@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let AuthController = UINavigationController(rootViewController: LogInViewController())
         
-        window?.rootViewController = ( Auth.auth().currentUser != nil && UserDefaults.standard.string(forKey: "currentUserEmail") != nil ) ? TabbarViewController() : AuthController
+        window?.rootViewController = ( Auth.auth().currentUser != nil && UserDefaults.standard.string(forKey: "userEmail") != nil ) ? TabbarViewController() : AuthController
 
         window?.makeKeyAndVisible()
     }
