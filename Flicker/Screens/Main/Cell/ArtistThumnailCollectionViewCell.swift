@@ -63,17 +63,6 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    override func configUI() {
-        self.isSkeletonable = true
-        self.artistThumnailImageView.isSkeletonable = true
-        self.artistProfileImageView.isSkeletonable = true
-        self.artistNameLabel.isSkeletonable = true
-        self.artistTagLabel.isSkeletonable = true
-        
-        self.artistNameLabel.linesCornerRadius = 5
-        self.artistTagLabel.linesCornerRadius = 5
-    }
-    
     func makeBackgroudShadow() {
         self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         

@@ -8,7 +8,6 @@
 import UIKit
 
 import FirebaseFirestore
-import SkeletonView
 import SnapKit
 import Then
 
@@ -65,7 +64,6 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
-        $0.isSkeletonable = true
     }
     
     private let emptyThumnailView = EmptyThumnailView()
@@ -181,17 +179,6 @@ final class MainViewController: BaseViewController {
         vc.sheetPresentationController?.detents = [.medium()]
         
         present(vc, animated: true, completion: nil)
-    }
-}
-
-// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
-extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        ArtistThumnailCollectionViewCell.className
-    }
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
     }
 }
 
