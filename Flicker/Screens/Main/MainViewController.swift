@@ -105,7 +105,6 @@ final class MainViewController: BaseViewController {
         
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         refreshControl.tintColor = .mainPink
-        refreshControl.attributedTitle = NSAttributedString(string: "새로고침", attributes: [ NSAttributedString.Key.foregroundColor: UIColor.mainPink, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
         
         listCollectionView.refreshControl = refreshControl
     }
