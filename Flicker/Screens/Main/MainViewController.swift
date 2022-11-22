@@ -207,7 +207,6 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let artist = artists[indexPath.item] // 선택한 아티스트 데이터
         let vc = ArtistTappedViewController()
         vc.artist = artist
-        navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(vc, animated: true)
     }
 }
