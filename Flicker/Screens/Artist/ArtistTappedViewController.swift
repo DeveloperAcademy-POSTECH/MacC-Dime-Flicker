@@ -17,7 +17,7 @@ final class ArtistTappedViewController: BaseViewController {
 
     private let defaultArtistInfo: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
 
-    private var imageList: [UIImage] = [UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!, UIImage(systemName: "questionmark.app")!]
+    private var imageList: [UIImage] = [UIImage(), UIImage(), UIImage()]
 
     private var isDownLoaded: Bool = false
 
@@ -166,7 +166,7 @@ final class ArtistTappedViewController: BaseViewController {
     private func fetchImages() async {
         do {
             self.imageList = try await networkManager.fetchImages(withURLs: artist.portfolioImageUrls)
-            self.profileImage = try await networkManager.fetchOneImage(withURL: UserDefaults.standard.string(forKey: "currentUserProfileImageUrl") ?? "")
+            self.profileImage = try await networkManager.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
             isDownLoaded = true
             self.collectionView.reloadData()
             self.collectionView.performBatchUpdates {
@@ -289,12 +289,11 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         headerHeight = Int(headerView.getTotalViewHeight())
 
         let thumnailImages = Array(imageList.prefix(4))
+
         headerView.isSkeletonable = true
-        // TODO: 헤더뷰 데이터 업로드
-        //        headerView.resetArtistInfo(with: artistInfo)
         headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
-        headerView.resetArtistInfo(with: artist ?? defaultArtistInfo)
+        headerView.resetArtistInfo(with: artist)
         return headerView
     }
 }

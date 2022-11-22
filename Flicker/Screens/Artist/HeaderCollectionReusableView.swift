@@ -276,6 +276,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         self.artistInformation.text = "#\(tagText)"
         self.bodyInfo.text = artistInfo.camera
         self.lensInfo.text = artistInfo.lens
+        self.setNumberOfPageControl(with: artistInfo.portfolioImageUrls.count)
+    }
+
+    private func setNumberOfPageControl(with number: Int) {
+        switch number {
+        case 0: self.pageControl.numberOfPages = 0
+        case 1: self.pageControl.numberOfPages = 1
+        case 2: self.pageControl.numberOfPages = 2
+        case 3: self.pageControl.numberOfPages = 3
+        default: self.pageControl.numberOfPages = 4
+        }
     }
 }
 
