@@ -9,6 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+struct EditData {
+    let regions: [String]
+    let camera: String
+    let lens: String
+    let tages: [String]
+    let detailDescription: String
+    let portfolioImages: [UIImage]
+}
+
 class ArtistEditViewController: UIViewController {
     
     // 1. 받아온 나의 정보를 캐싱한 데이터 [A data] + A의 복사본 [B Data]
@@ -22,6 +31,9 @@ class ArtistEditViewController: UIViewController {
     // 4. A,B 데이터 비교하는건, 델리겟에서 받았던 A 와 보낸 B 데이터를 비교한 Bool 을 넣어놓고 매번 메인 뷰컨에서 테이블뷰 어차피 리로드 할거니깐, 테이블뷰 dataSource 에 bool 조건 넣어서 에디트함 띄우게 하기
     // 5. 그리고 초기화 버튼은... 그냥 B = A 시키고 테이블뷰 리로드 시켜
     // 6. 수정 완료하면, 기존의 사진... 지우고..? B 데이터로... 새롭게 올리기...? -> 코비에게 물어보기
+    let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
+    
+    private lazy var dataA = EditData(regions: ["마포구", "종로구", "강동구"], camera: "소니 a7", lens: "짜이즈 55mm f1.8", tages: ["친절한작가"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -149,26 +161,20 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let vc = RegisterRegionViewController()
-            vc.modalTransitionStyle = .coverVertical
-            vc.modalPresentationStyle = .popover
-            navigationController?.present(vc, animated: true)
+//            let vc = RegisterRegionViewController()
+//            navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = RegisterGearsViewController()
-            vc.modalPresentationStyle = .popover
-            navigationController?.present(vc, animated: true)
+//            let vc = RegisterGearsViewController()
+//            navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = RegisterConceptTagViewController()
-            vc.modalPresentationStyle = .popover
-            navigationController?.present(vc, animated: true)
+//            let vc = RegisterConceptTagViewController()
+//            navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = RegisterTextDescriptionViewController()
-            vc.modalPresentationStyle = .popover
-            navigationController?.present(vc, animated: true)
+//            let vc = RegisterTextDescriptionViewController()
+//            navigationController?.pushViewController(vc, animated: true)
         case 4:
-            let vc = RegisterPortfolioViewController()
-            vc.modalPresentationStyle = .popover
-            navigationController?.present(vc, animated: true)
+//            let vc = RegisterPortfolioViewController()
+//            navigationController?.pushViewController(vc, animated: true)
         default:
             print("not yet")
             return
