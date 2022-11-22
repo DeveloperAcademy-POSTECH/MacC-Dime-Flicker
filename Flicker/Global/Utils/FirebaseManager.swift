@@ -70,11 +70,6 @@ final class FirebaseManager: NSObject {
             
             try await firestore.collection("users").document(uid).setData(userData)
         } catch {
-//            print(email)
-//            print(name)
-//            print(uid)
-//            print(profileImage)
-//            print(error)
             print("Store User error")
         }
     }
@@ -126,7 +121,6 @@ final class FirebaseManager: NSObject {
                     users.append(user)
                 }
             })
-            
             print("Success get users")
             return users
         } catch {

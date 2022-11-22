@@ -128,6 +128,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         lensInfo.linesCornerRadius = 5
         introductionLabel.linesCornerRadius = 5
         artistInformation.linesCornerRadius = 5
+        introductionTextView.linesCornerRadius = 5
     }
 
     override func layoutSubviews () {
@@ -268,10 +269,24 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     func resetArtistInfo(with artistInfo: Artist) {
+        self.artistNickname.text = UserDefaults.standard.string(forKey: "userName") ?? "슈글 작가님"
         self.introductionTextView.text = artistInfo.detailDescription
-        self.regionInfo.text = artistInfo.regions.stringByJoining(separator: ", ")
+        self.regionInfo.text = artistInfo.regions.joinString(separator: ", ")
+        let tagText = artistInfo.tags.joinString(separator: " #")
+        self.artistInformation.text = "#\(tagText)"
         self.bodyInfo.text = artistInfo.camera
         self.lensInfo.text = artistInfo.lens
+        self.setNumberOfPageControl(with: artistInfo.portfolioImageUrls.count)
+    }
+
+    private func setNumberOfPageControl(with number: Int) {
+        switch number {
+        case 0: self.pageControl.numberOfPages = 0
+        case 1: self.pageControl.numberOfPages = 1
+        case 2: self.pageControl.numberOfPages = 2
+        case 3: self.pageControl.numberOfPages = 3
+        default: self.pageControl.numberOfPages = 4
+        }
     }
 }
 

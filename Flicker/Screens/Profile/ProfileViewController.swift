@@ -14,7 +14,7 @@ final class ProfileViewController: EmailViewController {
     private let userName: String? = nil
     private var isArtist: Bool = false
     private let defaults = UserDefaults.standard
-    
+    private let profileSettingView = ProfileSettingViewController()
     // MARK: - Properties: UITable layout
     private let sectionHeaderTitle = ["설정"]
     private let userProfileCell = UIView(frame: .zero)
@@ -72,7 +72,14 @@ final class ProfileViewController: EmailViewController {
     }
     
     @objc func didTapProfileHeader() {
-        transition(ProfileSettingViewController(), transitionStyle: .push)
+        let vc = ProfileSettingViewController()
+        Task {
+            guard let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") else { return }
+            guard let currentUserName = defaults.string(forKey: "currentUserName") else { return }
+            vc.currentUserName = currentUserName
+            vc.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
+        }
+        transition(vc, transitionStyle: .push)
     }
 
 
