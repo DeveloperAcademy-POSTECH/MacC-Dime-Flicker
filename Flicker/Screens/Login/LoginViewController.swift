@@ -37,7 +37,7 @@ final class LogInViewController: BaseViewController {
         $0.font = UIFont(name: "TsukimiRounded-Bold", size: 15)
         $0.textColor = .textMainBlack
         $0.textAlignment = .center
-        $0.text = "국내 최초의 지역 기반 사진활영 플랫폼 슈글!"
+        $0.text = "국내 최초의 지역 기반 사진촬영 플랫폼 슈글!"
     }
 
     private let loginNormalLabel = UILabel().then {
@@ -296,6 +296,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 Task { [weak self] in
                     if (await FirebaseManager.shared.getUser()) != nil {
                         LoginManager.shared.currentAppleIdToken = idTokenString
+                        await CurrentUserDataManager.shared.saveUserDefault()
                         self?.goHome()
                     } else {
                         LoginManager.shared.currentAppleIdToken = idTokenString
