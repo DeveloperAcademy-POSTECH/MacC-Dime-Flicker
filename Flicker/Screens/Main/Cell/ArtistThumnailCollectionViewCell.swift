@@ -15,21 +15,10 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     // MARK: - property
     
     lazy var artistThumnailImageView = UIImageView().then {
-        $0.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        
+        $0.backgroundColor = .gray002.withAlphaComponent(0.5)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 20
-        
-        let width: CGFloat = UIScreen.main.bounds.size.width - 40
-        let height: CGFloat = 300.0
-        let sHeight: CGFloat = 150.0
-        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
-
-        let bottomImageGradient = CAGradientLayer()
-        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
-        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
-        $0.layer.insertSublayer(bottomImageGradient, at: 0)
     }
     
     let artistNameLabel = UILabel().then {
@@ -45,6 +34,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
     }
     
     lazy var artistProfileImageView = UIImageView().then {
+        $0.backgroundColor = .gray002
         $0.layer.cornerRadius = 30
         $0.layer.masksToBounds = true
     }
@@ -73,14 +63,17 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    override func configUI() {
-        self.isSkeletonable = true
-        self.artistProfileImageView.isSkeletonable = true
-        self.artistThumnailImageView.isSkeletonable = true
-        self.artistNameLabel.isSkeletonable = true
-        self.artistTagLabel.isSkeletonable = true
+    func makeBackgroudShadow() {
+        self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
-        self.artistNameLabel.linesCornerRadius = 5
-        self.artistTagLabel.linesCornerRadius = 5
+        let width: CGFloat = UIScreen.main.bounds.size.width - 40
+        let height: CGFloat = 300.0
+        let sHeight: CGFloat = 150.0
+        let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
+
+        let bottomImageGradient = CAGradientLayer()
+        bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
+        bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
+        self.artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
     }
 }
