@@ -10,12 +10,12 @@ import SnapKit
 import Then
 
 struct EditData {
-    let regions: [String]
-    let camera: String
-    let lens: String
-    let tages: [String]
-    let detailDescription: String
-    let portfolioImages: [UIImage]
+    var regions: [String]
+    var camera: String
+    var lens: String
+    var tages: [String]
+    var detailDescription: String
+    var portfolioImages: [UIImage]
 }
 
 class ArtistEditViewController: UIViewController {
@@ -41,7 +41,11 @@ class ArtistEditViewController: UIViewController {
     
     private let editItemsImageArray: [String] = ["mappin.and.ellipse", "camera.shutter.button", "tag", "doc.plaintext", "photo.artframe"]
     
-    private let editViews: [UIViewController] = []
+    private let editRegionsViewContrller = ArtistEditRegionsViewController()
+    private let editGearsViewController = ArtistEditGearsViewController()
+    private let editTagsViewController = ArtistEditTagsViewController()
+    private let editDescriptionViewController = ArtistEditDescriptionViewController()
+    private let editPortfoiloViewController = ArtistEditPortfoiloViewController()
     
     private let mainTitleLabel = UILabel().makeBasicLabel(labelText: "작가 정보 수정하기", textColor: .textMainBlack, fontStyle: .title1, fontWeight: .bold)
     
@@ -118,6 +122,8 @@ class ArtistEditViewController: UIViewController {
     private func configUI() {
         view.backgroundColor = .white
         
+        
+        
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
         editItemsTableView.register(ArtistEditItemsTableViewCell.self, forCellReuseIdentifier: "editCell")
@@ -163,23 +169,29 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let vc = ArtistEditRegionsViewController()
+            let vc = editRegionsViewContrller
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = RegisterGearsViewController()
+            let vc = editGearsViewController
             navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = RegisterConceptTagViewController()
+            let vc = editTagsViewController
             navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = RegisterTextDescriptionViewController()
+            let vc = editDescriptionViewController
             navigationController?.pushViewController(vc, animated: true)
         case 4:
-            let vc = RegisterPortfolioViewController()
+            let vc = editPortfoiloViewController
             navigationController?.pushViewController(vc, animated: true)
         default:
             print("not yet")
             return
         }
+    }
+}
+
+extension ArtistEditViewController: EditRegionsDelegate {
+    func regionSelected(regions regionDatas: [String]) {
+        self.dataB.regions = regionDatas
     }
 }
