@@ -126,6 +126,7 @@ class ArtistEditViewController: UIViewController {
         editRegionsViewContrller.delegate = self
         editGearsViewController.delegate = self
         editTagsViewController.delegate = self
+        editDescriptionViewController.delegate = self
         
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
@@ -186,7 +187,9 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             }
             navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = editDescriptionViewController
+            let vc = editDescriptionViewController.then {
+                $0.currentInfo = self.dataB.detailDescription
+            }
             navigationController?.pushViewController(vc, animated: true)
         case 4:
             let vc = editPortfoiloViewController
@@ -198,7 +201,11 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate {
+extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate {
+    func textViewDescribed(textView textDescribed: String) {
+        self.dataB.detailDescription = textDescribed
+    }
+    
     func conceptTagDescribed(tagLabel: [String]) {
         self.dataB.tags = tagLabel
     }
