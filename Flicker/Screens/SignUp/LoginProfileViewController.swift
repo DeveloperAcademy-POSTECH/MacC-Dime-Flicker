@@ -21,6 +21,25 @@ final class LoginProfileViewController: BaseViewController {
     private var isNickNameWrite = false
     private var isTapArtistButton = false
 
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .black.withAlphaComponent(0.7)
+    }
+
+    private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
+        $0.color = .mainPink
+    }
+
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "등록 중이에요!", textColor: .mainPink.withAlphaComponent(0.8), fontStyle: .headline, fontWeight: .bold).then {
+        $0.shadowOffset = CGSize(width: 0.7, height: 0.7)
+        $0.layer.shadowRadius = 20
+        $0.shadowColor = .black.withAlphaComponent(0.6)
+        $0.isHidden = true
+    }
+
+    // MARK: -LoginProfileViewUI
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
@@ -113,6 +132,8 @@ final class LoginProfileViewController: BaseViewController {
 
         view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
 
+        view.addSubviews(loadingView, spinnerView,loadingLabel)
+
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
@@ -197,6 +218,19 @@ final class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
+
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        spinnerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+
+        loadingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -262,21 +296,25 @@ final class LoginProfileViewController: BaseViewController {
         //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
         if isSignUpEmail {
             Task { [weak self] in
+                self.openLoadingView()
                 await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
+                self.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
             let fireBaseUser = Auth.auth().currentUser
             Task { [weak self] in
+                self.openLoadingView()
                 guard let fireBaseUser = fireBaseUser else { return }
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
+                self.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
@@ -289,6 +327,19 @@ final class LoginProfileViewController: BaseViewController {
             signUpButton.isEnabled = false
             signUpButton.backgroundColor = .loginGray
         }
+    }
+
+    // MARK: - changing loading view status action
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+        self.spinnerView.startAnimating()
+        self.loadingLabel.isHidden = false
+    }
+
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+        self.spinnerView.stopAnimating()
+        self.loadingLabel.isHidden = true
     }
 }
 
