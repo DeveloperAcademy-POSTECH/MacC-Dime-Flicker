@@ -296,25 +296,25 @@ final class LoginProfileViewController: BaseViewController {
         //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
         if isSignUpEmail {
             Task { [weak self] in
-                self.openLoadingView()
+                self?.openLoadingView()
                 await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
-                self.hideLoadingView()
+                self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
             let fireBaseUser = Auth.auth().currentUser
             Task { [weak self] in
-                self.openLoadingView()
+                self?.openLoadingView()
                 guard let fireBaseUser = fireBaseUser else { return }
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
-                self.hideLoadingView()
+                self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
