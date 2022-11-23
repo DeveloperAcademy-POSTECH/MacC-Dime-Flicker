@@ -96,6 +96,7 @@
 		CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC042B2906125A00C6CF30 /* LoginViewController.swift */; };
 		CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC04392906143200C6CF30 /* TabbarViewController.swift */; };
 		CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC043C290614C100C6CF30 /* SearchViewController.swift */; };
+		CBDC8093292DF5690077EA62 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDC8092292DF5690077EA62 /* PresentationController.swift */; };
 		CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +184,7 @@
 		CBDC042B2906125A00C6CF30 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CBDC04392906143200C6CF30 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		CBDC043C290614C100C6CF30 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		CBDC8092292DF5690077EA62 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		CBFBC05E2913434400FBBD17 /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -507,6 +509,7 @@
 				CB5BF4812919E1A800A3E112 /* PaddingLabel.swift */,
 				CB5BF4822919E1A800A3E112 /* SendButton.swift */,
 				CBDC04152906116E00C6CF30 /* BackButton.swift */,
+				CBDC8092292DF5690077EA62 /* PresentationController.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -749,6 +752,7 @@
 				A94957F6290E3A4900B74693 /* NetworkErrorCase.swift in Sources */,
 				CBDC043D290614C100C6CF30 /* SearchViewController.swift in Sources */,
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
+				CBDC8093292DF5690077EA62 /* PresentationController.swift in Sources */,
 				58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
