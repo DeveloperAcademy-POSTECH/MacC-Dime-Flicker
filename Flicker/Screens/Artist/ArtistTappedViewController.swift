@@ -125,7 +125,6 @@ final class ArtistTappedViewController: BaseViewController {
 
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
-        navigationController?.isNavigationBarHidden = false
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
 
