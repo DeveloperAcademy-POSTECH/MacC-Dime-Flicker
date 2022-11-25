@@ -48,15 +48,15 @@ final class ArtistTappedViewController: BaseViewController {
         UIView.isSkeletonable = true
         return UIView
     }()
-
-    private let counselingButton = UIButton().then {
-        $0.skeletonCornerRadius = 15
+    
+    private lazy var counselingButton = UIButton().then {
         $0.setTitle("문의하기", for: .normal)
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout, weight: .black)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
         $0.isSkeletonable = true
+        $0.addTarget(self, action: #selector(didTapCounselingButton), for: .touchUpInside)
     }
 
     private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold).then {
@@ -84,40 +84,48 @@ final class ArtistTappedViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        render()
+        configUI()
         setDelegateAndDataSource()
+        setupBackButton()
+        setupNavigationBar()
 
         Task {
             await fetchImages()
-        }
-
-        setupBackButton()
-        setupNavigationBar()
-        render()
-        configUI()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-            self.showSkeletonView()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                self.showSkeletonView()
+            }
         }
     }
+
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+//            self.showSkeletonView()
+//        }
+//    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
         tabBarController?.tabBar.isHidden = false
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        statusBarBackGroundView.isHidden = true
-        navigationBarSeperator.isHidden = true
-        navigationController?.navigationBar.backgroundColor = .clear
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
     }
+//
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        statusBarBackGroundView.isHidden = true
+//        navigationBarSeperator.isHidden = true
+//        navigationController?.navigationBar.backgroundColor = .clear
+//    }
 
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
+        navigationController?.isNavigationBarHidden = false
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
 
@@ -255,6 +263,12 @@ final class ArtistTappedViewController: BaseViewController {
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
     }
+    
+    @objc func didTapCounselingButton() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension ArtistTappedViewController: UICollectionViewDataSource {
@@ -297,10 +311,10 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         let viewController = ImageViewController()
         viewController.image = cell.imageView.image
         viewController.modalPresentationStyle = .fullScreen
-        viewController.completion = {
-            self.resetNavigationBarBackground()
-            self.tabBarController?.tabBar.isHidden = true
-        }
+//        viewController.completion = {
+//            self.resetNavigationBarBackground()
+//            self.tabBarController?.tabBar.isHidden = true
+//        }
         present(viewController, animated: false)
     }
     // 스크롤시 네비게이션바 커스텀화

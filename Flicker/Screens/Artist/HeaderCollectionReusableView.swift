@@ -269,7 +269,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     }
 
     func resetArtistInfo(with artistInfo: Artist) {
-        self.artistNickname.text = UserDefaults.standard.string(forKey: "currentUserName") ?? "슈글 작가님"
+        self.artistNickname.text = artistInfo.userInfo["userName"]
         self.introductionTextView.text = artistInfo.detailDescription
         self.regionInfo.text = artistInfo.regions.joinString(separator: ", ")
         let tagText = artistInfo.tags.joinString(separator: " #")

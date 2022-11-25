@@ -34,7 +34,8 @@ final class ProfileViewController: EmailViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -74,8 +75,8 @@ final class ProfileViewController: EmailViewController {
     @objc func didTapProfileHeader() {
         let vc = ProfileSettingViewController()
         Task {
-            guard let imageURL = defaults.string(forKey: "currentUserProfileImageUrl") else { return }
-            guard let currentUserName = defaults.string(forKey: "currentUserName") else { return }
+            guard let imageURL = defaults.string(forKey: "userProfileImageUrl") else { return }
+            guard let currentUserName = defaults.string(forKey: "userName") else { return }
             vc.currentUserName = currentUserName
             vc.profileImageView.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
         }

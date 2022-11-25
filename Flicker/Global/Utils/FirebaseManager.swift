@@ -280,16 +280,16 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func loadArtist(regions: [String]) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+    func loadArtist(regions: [String], pages: Int) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
         do {
             var artists = [Artist]()
             
             var querySnapshot: QuerySnapshot
             
             if regions == ["전체"] {
-                querySnapshot = try await firestore.collection("artists").limit(to: 5).getDocuments()
+                querySnapshot = try await firestore.collection("artists").limit(to: pages).getDocuments()
             } else {
-                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: 5).getDocuments()
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: pages).getDocuments()
             }
             
             querySnapshot.documents.forEach({ snapshot in
@@ -297,7 +297,7 @@ final class FirebaseManager: NSObject {
                 artists.append(artist)
             })
             
-            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
             
             return (artists, cursor)
         } catch {
@@ -306,16 +306,16 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func continueArtist(regions: [String], cursor: DocumentSnapshot) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+    func continueArtist(regions: [String], cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
         do {
             var artists = [Artist]()
             
             var querySnapshot: QuerySnapshot
             
             if regions == ["전체"] {
-                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: 5).getDocuments()
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: pages).getDocuments()
             } else {
-                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: 5).getDocuments()
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: pages).getDocuments()
             }
             
             querySnapshot.documents.forEach({ snapshot in
@@ -323,7 +323,7 @@ final class FirebaseManager: NSObject {
                 artists.append(artist)
             })
             
-            let cursor = querySnapshot.count < 5 ? nil : querySnapshot.documents.last
+            let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
             
             return (artists, cursor)
         } catch {

@@ -71,6 +71,16 @@ final class MainViewController: BaseViewController {
         super.viewDidLoad()
         loadData()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
     
     override func render() {
         view.addSubviews(appTitleLabel, regionTagButton, emptyThumnailView, listCollectionView, emptyThumnailView)
@@ -130,7 +140,7 @@ final class MainViewController: BaseViewController {
             
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
                 self.artists = result.artists
                 self.cursor = result.cursor
             }
@@ -149,7 +159,7 @@ final class MainViewController: BaseViewController {
         guard let cursor = cursor else { return }
         
         Task {
-            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor) {
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
                 self.artists += result.artists
                 self.cursor = result.cursor
             }
@@ -171,8 +181,8 @@ final class MainViewController: BaseViewController {
     
     @objc private func didTapRegionTag() {
         let vc = RegionViewController()
-        vc.modalPresentationStyle = .pageSheet
-        vc.sheetPresentationController?.detents = [.medium()]
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
         
         present(vc, animated: true, completion: nil)
     }
@@ -207,7 +217,6 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let artist = artists[indexPath.item] // 선택한 아티스트 데이터
         let vc = ArtistTappedViewController()
         vc.artist = artist
-        navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -224,5 +233,11 @@ extension MainViewController {
     
     private func didScrollToBottom() {
         continueData()
+    }
+}
+
+extension MainViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        PresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
