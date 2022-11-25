@@ -258,12 +258,6 @@ final class ArtistTappedViewController: BaseViewController {
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
     }
-    
-    @objc func didTapCounselingButton() {
-        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
-        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
-        navigationController?.pushViewController(viewController, animated: true)
-    }
 }
 
 extension ArtistTappedViewController: UICollectionViewDataSource {
@@ -331,9 +325,13 @@ extension ArtistTappedViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.popViewController(animated: true)
     }
+
+    @objc func didTapCounselingButton() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
-
-
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
 //            $0.image = UIImage(systemName: "square.and.arrow.up")
