@@ -173,7 +173,9 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let vc = editRegionsViewContrller
+            let vc = editRegionsViewContrller.then {
+                $0.currentRegion = self.dataB.regions
+            }
             navigationController?.pushViewController(vc, animated: true)
         case 1:
             let vc = editGearsViewController.then {

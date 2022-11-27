@@ -83,7 +83,7 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.clipsToBounds = true
         $0.leftViewMode = .always
         $0.autocorrectionType = .no
-        $0.textColor = .textMainBlack
+        $0.textColor = .textSubBlack
         $0.layer.masksToBounds = true
         $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
@@ -96,7 +96,7 @@ final class ArtistEditGearsViewController: UIViewController {
         $0.text = ""
         $0.leftViewMode = .always
         $0.autocorrectionType = .no
-        $0.textColor = .textMainBlack
+        $0.textColor = .textSubBlack
         $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)

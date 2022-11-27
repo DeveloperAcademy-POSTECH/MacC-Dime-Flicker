@@ -49,7 +49,7 @@ final class ArtistEditTagsViewController: UIViewController {
     
     private lazy var conceptTagExampleSectionLabel = UILabel().then {
         $0.numberOfLines = 1
-        $0.textColor = .systemGray
+        $0.textColor = .systemGray2.withAlphaComponent(0.9)
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
         $0.text = "예)  #인물사진#영화사진#가족사진#후지필름"
     }

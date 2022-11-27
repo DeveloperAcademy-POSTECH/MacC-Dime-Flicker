@@ -17,7 +17,8 @@ final class ArtistEditRegionsViewController: UIViewController {
     
     // MARK: - data sets to post to the server
     // TODO: - deleate 만들어서 ArtistRegisterViewController 에 연결해야한다.
-    private var selectedRegion: [String] = []
+    var currentRegion: [String] = []
+    var selectedRegion: [String] = []
 
     // MARK: - data sets of regions of seoul
     private let seoulNorthDistricts: [String] = ["도봉구", "노원구", "강북구", "성북구", "은평구", "중랑구", "종로구", "동대문구", "서대문구", "중구", "성동구", "광진구", "마포구", "용산구"]
@@ -48,6 +49,10 @@ final class ArtistEditRegionsViewController: UIViewController {
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .body, weight: .medium)
         $0.text = "지역은 최대 3개까지 설정할 수 있어요."
+    }
+    
+    private lazy var currentLabel = UILabel().makeBasicLabel(labelText: "", textColor: .systemTeal.withAlphaComponent(0.5), fontStyle: .subheadline, fontWeight: .bold).then {
+        $0.numberOfLines = 1
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
@@ -95,12 +100,13 @@ final class ArtistEditRegionsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.currentLabel.text = "- 현재 지역: \(self.currentRegion.joinString(separator: ", "))"
         self.customNavigationBarView.popImage.isHidden = true
     }
 
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, bodyTitleLabel, tagFirstCollectionView, tagSecondCollectionView, completeEditButton)
+        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, bodyTitleLabel, currentLabel, tagFirstCollectionView, tagSecondCollectionView, completeEditButton)
 
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -122,8 +128,13 @@ final class ArtistEditRegionsViewController: UIViewController {
             $0.leading.equalToSuperview().inset(30)
         }
         
+        currentLabel.snp.makeConstraints {
+            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(30)
+        }
+        
         tagFirstCollectionView.snp.makeConstraints {
-            $0.top.equalTo(bodyTitleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(currentLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(180)
         }
