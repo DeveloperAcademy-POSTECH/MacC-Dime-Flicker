@@ -51,7 +51,7 @@ final class ArtistEditTagsViewController: UIViewController {
         $0.numberOfLines = 1
         $0.textColor = .systemGray
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
-        $0.text = "작가님의 태그: #\(joinStrings(array: currentTags))"
+        $0.text = "예)  #인물사진#영화사진#가족사진#후지필름"
     }
     
     private let conceptTagWarningLabel = UILabel().makeBasicLabel(labelText: "#로 시작하지 않으면 제대로 태그가 생성되지 않을 수 있어요!", textColor: .red.withAlphaComponent(0.5), fontStyle: .footnote, fontWeight: .medium).then {
@@ -93,12 +93,13 @@ final class ArtistEditTagsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        conceptTagTextField.text = "#\(joinStrings(array: currentTags))"
         self.customNavigationBarView.popImage.isHidden = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        conceptTagTextField.text = ""
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        conceptTagTextField.text = ""
+//    }
     
     // MARK: - keyboard automatically pop
     
