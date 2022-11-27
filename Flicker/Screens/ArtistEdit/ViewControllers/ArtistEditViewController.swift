@@ -147,7 +147,17 @@ class ArtistEditViewController: UIViewController {
 
 extension ArtistEditViewController {
     @objc func resetEditTapped() {
-        print("reset")
+        let animation = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        self.dataB = self.dataA
+        UIView.animate(withDuration: 0.2, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
+            self.resetEditButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }
+        
+        UIView.animate(withDuration: 0.1, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
+            self.resetEditButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }
+        
+        print(self.dataB)
     }
     
     @objc func completeEditTapped() {
