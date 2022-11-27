@@ -69,7 +69,6 @@ final class ArtistEditRegionsViewController: UIViewController {
         let layout = LeftAlignedCollectionViewFlowLayout()
         layout.minimumLineSpacing = 9
         layout.minimumInteritemSpacing = 7
-        
         let tagListView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         tagListView.tag = 1
         tagListView.isScrollEnabled = false
@@ -90,7 +89,6 @@ final class ArtistEditRegionsViewController: UIViewController {
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(selectedRegion)
         configUI()
         render()
         customBackButton()

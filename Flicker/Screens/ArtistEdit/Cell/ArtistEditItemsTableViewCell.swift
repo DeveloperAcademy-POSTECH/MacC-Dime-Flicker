@@ -26,7 +26,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         $0.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
     }
     
-    private let edittedLabel = UILabel().makeBasicLabel(labelText: "수정됨", textColor: .white, fontStyle: .footnote, fontWeight: .semibold).then {
+    let edittedLabel = UILabel().makeBasicLabel(labelText: "수정됨", textColor: .white, fontStyle: .footnote, fontWeight: .semibold).then {
         $0.textAlignment = .center
         $0.clipsToBounds = true
         $0.backgroundColor = .systemTeal.withAlphaComponent(0.5)

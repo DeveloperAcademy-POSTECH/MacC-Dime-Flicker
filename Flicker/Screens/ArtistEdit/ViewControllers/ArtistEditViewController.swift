@@ -20,22 +20,12 @@ struct EditData {
 
 class ArtistEditViewController: UIViewController {
     
-    // 1. 받아온 나의 정보를 캐싱한 데이터 [A data] + A의 복사본 [B Data]
-    
-    // 2. [A Data] 전부를 바로 각 에디트하는 뷰컨에다가 뿌려!
-    //  예) private let gnbjerg = EditRegionViewController().then {
-    //    $0.ddd = 1
-    //  } 식으로~ 각 에디트 뷰컨 에 전달시키기
-    
-    // 3. 각 에디트 뷰컨에서는 델리겟을 선언해서 메인 뷰컨의 [B Data] 에 동기화시키기
-    // 4. A,B 데이터 비교하는건, 델리겟에서 받았던 A 와 보낸 B 데이터를 비교한 Bool 을 넣어놓고 매번 메인 뷰컨에서 테이블뷰 어차피 리로드 할거니깐, 테이블뷰 dataSource 에 bool 조건 넣어서 에디트함 띄우게 하기
-    // 5. 그리고 초기화 버튼은... 그냥 B = A 시키고 테이블뷰 리로드 시켜
-    // 6. 수정 완료하면, 기존의 사진... 지우고..? B 데이터로... 새롭게 올리기...? -> 코비에게 물어보기
-    let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
-    
+    // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 dataA 와 그 dataA 와 비교하기 위한 복제된 데이터 dataB 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
     private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
     
     private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    
+    let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -82,9 +72,9 @@ class ArtistEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.editItemsTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: false)
         self.tabBarController?.tabBar.isHidden = true
-        print(dataB)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -147,7 +137,6 @@ class ArtistEditViewController: UIViewController {
 
 extension ArtistEditViewController {
     @objc func resetEditTapped() {
-        let animation = CGAffineTransform(scaleX: 0.6, y: 0.6)
         self.dataB = self.dataA
         UIView.animate(withDuration: 0.2, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -156,12 +145,17 @@ extension ArtistEditViewController {
         UIView.animate(withDuration: 0.1, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
-        
+        self.editItemsTableView.reloadData()
         print(self.dataB)
     }
     
     @objc func completeEditTapped() {
         print("complete and out")
+    }
+    
+    private func anyToGenerics<T: Equatable>(dataAEq: T, dataBEq: T) -> Bool {
+        let editCheck = dataAEq == dataBEq
+        return editCheck
     }
 }
 
@@ -174,11 +168,62 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath) as? ArtistEditItemsTableViewCell else { return UITableViewCell() }
         let imageWeight = UIImage.SymbolConfiguration(weight: .semibold)
         
-        cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
-        cell.cellTextLabel.text = editItemsArray[indexPath.row]
-        
-        return cell
-    }
+        switch indexPath.row {
+        case 0:
+            let isEdited = self.dataA.regions != self.dataB.regions
+            cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
+            cell.cellTextLabel.text = editItemsArray[indexPath.row]
+            if isEdited {
+                cell.edittedLabel.isHidden = false
+            } else {
+                cell.edittedLabel.isHidden = true
+            }
+            return cell
+        case 1:
+            let isEditedBody = self.dataA.camera != self.dataB.camera
+            let isEditedLens = self.dataA.lens != self.dataB.lens
+            cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
+            cell.cellTextLabel.text = editItemsArray[indexPath.row]
+            if isEditedBody || isEditedLens {
+                cell.edittedLabel.isHidden = false
+            } else {
+                cell.edittedLabel.isHidden = true
+            }
+            return cell
+        case 2:
+            let isEdited = self.dataA.tags != self.dataB.tags
+            cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
+            cell.cellTextLabel.text = editItemsArray[indexPath.row]
+            if isEdited {
+                cell.edittedLabel.isHidden = false
+            } else {
+                cell.edittedLabel.isHidden = true
+            }
+            return cell
+        case 3:
+            let isEdited = self.dataA.detailDescription != self.dataB.detailDescription
+            cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
+            cell.cellTextLabel.text = editItemsArray[indexPath.row]
+            if isEdited {
+                cell.edittedLabel.isHidden = false
+            } else {
+                cell.edittedLabel.isHidden = true
+            }
+            return cell
+        case 4:
+            let isEdited = self.dataA.portfolioImages != self.dataB.portfolioImages
+            cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
+            cell.cellTextLabel.text = editItemsArray[indexPath.row]
+            if isEdited {
+                cell.edittedLabel.isHidden = false
+            } else {
+                cell.edittedLabel.isHidden = true
+            }
+            return cell
+        default:
+            return cell
+        }
+}
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
@@ -231,6 +276,6 @@ extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, Edit
     }
     
     func regionSelected(regions regionDatas: [String]) {
-        self.dataB.regions = regionDatas
+        self.dataB.regions = regionDatas.sorted()
     }
 }
