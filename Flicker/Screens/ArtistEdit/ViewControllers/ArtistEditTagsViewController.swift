@@ -60,9 +60,10 @@ final class ArtistEditTagsViewController: UIViewController {
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
+        $0.isEnabled = false
         $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .mainPink
+        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
         $0.setTitle("태그 수정 완료", for: .normal)
         $0.clipsToBounds = true
     }
@@ -96,10 +97,6 @@ final class ArtistEditTagsViewController: UIViewController {
         conceptTagTextField.text = "#\(joinStrings(array: currentTags))"
         self.customNavigationBarView.popImage.isHidden = true
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        conceptTagTextField.text = ""
-//    }
     
     // MARK: - keyboard automatically pop
     
@@ -188,6 +185,7 @@ extension ArtistEditTagsViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        enableButton()
         guard let textInput = textField.text else { return }
         if textInput.count > 1 {
             let firstChar: Character = textInput[textInput.startIndex]
@@ -256,6 +254,17 @@ extension ArtistEditTagsViewController {
     private func tagStringConvert(label: String) -> [String] {
         let array = label.components(separatedBy: "#").filter{ $0 != ""}
         return array
+    }
+    
+    private func enableButton() {
+        guard let tagText = conceptTagTextField.text else { return }
+        if !tagText.isEmpty {
+            completeEditButton.isEnabled = true
+            completeEditButton.backgroundColor = .mainPink
+        } else {
+            completeEditButton.isEnabled = false
+            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        }
     }
 }
 

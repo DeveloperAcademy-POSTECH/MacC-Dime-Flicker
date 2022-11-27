@@ -55,9 +55,10 @@ final class ArtistEditDescriptionViewController: UIViewController {
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
+        $0.isEnabled = false
         $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .mainPink
+        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
         $0.setTitle("소개 수정 완료", for: .normal)
         $0.clipsToBounds = true
     }
@@ -123,6 +124,7 @@ final class ArtistEditDescriptionViewController: UIViewController {
     private func configUI() {
         view.backgroundColor = .systemBackground
         
+        descriptionTextView.delegate = self
         descriptionTextView.layer.cornerRadius = view.bounds.width/22
         
         completeEditButton.layer.cornerRadius = view.bounds.width/18
@@ -153,6 +155,23 @@ extension ArtistEditDescriptionViewController {
     @objc func completeButtonTapped() {
         self.delegate?.textViewDescribed(textView: self.descriptionTextView.text)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func enableButton() {
+        guard let descText = descriptionTextView.text else { return }
+        if !descText.isEmpty {
+            completeEditButton.isEnabled = true
+            completeEditButton.backgroundColor = .mainPink
+        } else {
+            completeEditButton.isEnabled = false
+            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        }
+    }
+}
+
+extension ArtistEditDescriptionViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        enableButton()
     }
 }
 
