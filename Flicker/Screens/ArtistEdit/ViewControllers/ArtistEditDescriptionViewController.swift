@@ -79,10 +79,6 @@ final class ArtistEditDescriptionViewController: UIViewController {
         self.customNavigationBarView.popImage.isHidden = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     // MARK: - layout constraints
     private func render() {
         view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView, completeEditButton)
