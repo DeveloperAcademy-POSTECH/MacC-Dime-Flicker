@@ -20,6 +20,7 @@ final class ArtistEditDescriptionViewController: UIViewController {
     
     // MARK: - data Transferred
     var currentInfo: String = ""
+    lazy var editedInfo: String = currentInfo
     
     // MARK: - view UI components
     private let mainTitleLabel = UILabel().then {
@@ -53,16 +54,37 @@ final class ArtistEditDescriptionViewController: UIViewController {
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
     }
     
+    private lazy var completeEditButton = UIButton(type: .system).then {
+        $0.tintColor = .white
+        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.backgroundColor = .mainPink
+        $0.setTitle("소개 수정 완료", for: .normal)
+        $0.clipsToBounds = true
+    }
+    
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
         render()
+        customBackButton()
+        completeButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        descriptionTextView.text = self.currentInfo // 이게 @State 같은 느낌이랄까?
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.customNavigationBarView.popImage.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     // MARK: - layout constraints
     private func render() {
-        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView)
+        view.addSubviews(customNavigationBarView, mainTitleLabel, subTitleLabel, bodyTitleLabel, descriptionTextView, completeEditButton)
         
         customNavigationBarView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
@@ -89,36 +111,48 @@ final class ArtistEditDescriptionViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(UIScreen.main.bounds.height/3.3)
         }
+        
+        completeEditButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(UIScreen.main.bounds.height/13)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(view.bounds.height/12)
+        }
     }
     
     // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .systemBackground
         
-        descriptionTextView.delegate = self
         descriptionTextView.layer.cornerRadius = view.bounds.width/22
+        
+        completeEditButton.layer.cornerRadius = view.bounds.width/18
     }
     
     // MARK: - keyboard touch dismiss
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        guard let checkTextViewTextEmpty = descriptionTextView.text else { return }
-        if checkTextViewTextEmpty.isEmpty {
-            DispatchQueue.main.async {
-                self.descriptionTextView.becomeFirstResponder()
-            }
-        }
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
 }
 
-    // MARK: - textView delegate
-extension ArtistEditDescriptionViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        self.delegate?.textViewDescribed(textView: textView.text)
+extension ArtistEditDescriptionViewController {
+    private func customBackButton() {
+        let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
+        customNavigationBarView.customBackButton.addGestureRecognizer(backTapped)
+    }
+    
+    private func completeButton() {
+        let completeTapped = UITapGestureRecognizer(target: self, action: #selector(completeButtonTapped))
+        completeEditButton.addGestureRecognizer(completeTapped)
+    }
+    
+    @objc func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func completeButtonTapped() {
+        self.delegate?.textViewDescribed(textView: self.descriptionTextView.text)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

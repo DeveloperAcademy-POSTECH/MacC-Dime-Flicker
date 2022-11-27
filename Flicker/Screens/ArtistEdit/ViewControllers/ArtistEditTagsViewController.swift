@@ -50,7 +50,7 @@ final class ArtistEditTagsViewController: UIViewController {
     private lazy var conceptTagExampleSectionLabel = UILabel().then {
         $0.numberOfLines = 1
         $0.textColor = .systemGray
-        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
         $0.text = "작가님의 태그: #\(joinStrings(array: currentTags))"
     }
     
@@ -75,7 +75,7 @@ final class ArtistEditTagsViewController: UIViewController {
         $0.autocorrectionType = .no
         $0.textColor = .textSubBlack
         $0.layer.masksToBounds = true
-        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
+        $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline, weight: .medium)
         $0.placeholder = "태그 사이를 띄어쓰기 없이 적어주세요!"
