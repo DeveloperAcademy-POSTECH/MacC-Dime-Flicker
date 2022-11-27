@@ -19,8 +19,8 @@ final class ArtistEditGearsViewController: UIViewController {
     private let customNavigationBarView = RegisterCustomNavigationView()
     
     // MARK: - data Transferred
-    var currentBody: String = "body"
-    var currentLens: String = "lens"
+    var currentBody: String = ""
+    var currentLens: String = ""
     private lazy var editedBody: String = currentBody
     private lazy var editedLens: String = currentLens
     
@@ -68,9 +68,10 @@ final class ArtistEditGearsViewController: UIViewController {
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {
+        $0.isEnabled = false
         $0.tintColor = .white
         $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .mainPink
+        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
         $0.setTitle("장비 수정 완료", for: .normal)
         $0.clipsToBounds = true
     }
@@ -114,13 +115,9 @@ final class ArtistEditGearsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.cameraBodyTextField.text = currentBody
+        self.cameraLensTextField.text = currentLens
         self.customNavigationBarView.popImage.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        cameraBodyTextField.text = ""
-        cameraLensTextField.text = ""
     }
     
     // MARK: - keyboard automatically pop
@@ -212,17 +209,9 @@ extension ArtistEditGearsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField.tag {
         case 1:
-            if textField.text == "" {
-                self.currentBody = editedBody
-            } else {
-                self.currentBody = textField.text ?? ""
-            }
+            enableButton()
         case 2:
-            if textField.text == "" {
-                self.currentLens = editedLens
-            } else {
-                self.currentLens = textField.text ?? ""
-            }
+            enableButton()
         default:
             return
         }
@@ -231,7 +220,6 @@ extension ArtistEditGearsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.dismiss(animated: true)
-        print(currentLens, currentBody)
         return true
     }
 }
@@ -252,9 +240,20 @@ extension ArtistEditGearsViewController {
     }
     
     @objc func completeButtonTapped() {
-        self.delegate?.cameraBodySelected(cameraBody: currentBody)
-        self.delegate?.cameraLensSelected(cameraLens: currentLens)
+        self.delegate?.cameraBodySelected(cameraBody: cameraBodyTextField.text ?? currentBody)
+        self.delegate?.cameraLensSelected(cameraLens: cameraLensTextField.text ?? currentLens)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func enableButton() {
+        guard let bodyText = cameraBodyTextField.text, let lensText = cameraLensTextField.text else { return }
+        if !bodyText.isEmpty && !lensText.isEmpty {
+            completeEditButton.isEnabled = true
+            completeEditButton.backgroundColor = .mainPink
+        } else {
+            completeEditButton.isEnabled = false
+            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        }
     }
 }
 
