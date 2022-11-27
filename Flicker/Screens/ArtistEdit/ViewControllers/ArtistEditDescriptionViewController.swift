@@ -49,7 +49,7 @@ final class ArtistEditDescriptionViewController: UIViewController {
         $0.textColor = .textSubBlack
         $0.autocorrectionType = .no
         $0.isUserInteractionEnabled = true
-        $0.backgroundColor = .loginGray.withAlphaComponent(0.5)
+        $0.backgroundColor = .systemTeal.withAlphaComponent(0.1)
         $0.textContainerInset = UIEdgeInsets(top: 25, left: 10, bottom: 20, right: 10)
         $0.font = .preferredFont(forTextStyle: .callout, weight: .regular)
     }

@@ -64,7 +64,7 @@ final class ArtistEditGearsViewController: UIViewController {
     private lazy var cameraLensExampleSectionLabel = UILabel().then {
         $0.textColor = .systemGray2.withAlphaComponent(0.9)
         $0.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .bold)
-        $0.text = "예)  Sony 50mm f1.2 GM, Canon RF 24-70mm F2.8..."
+        $0.text = "예)  Sony 50mm f1.2 GM, Canon RF 85mm F2..."
     }
     
     private lazy var completeEditButton = UIButton(type: .system).then {

@@ -11,7 +11,7 @@ import Then
 
 class ArtistEditItemsTableViewCell: UITableViewCell {
     
-    let cellTextLabel = UILabel().makeBasicLabel(labelText: "a", textColor: .textSubBlack, fontStyle: .title3, fontWeight: .bold)
+    let cellTextLabel = UILabel().makeBasicLabel(labelText: "a", textColor: .textMainBlack.withAlphaComponent(0.8), fontStyle: .title3, fontWeight: .bold)
     
     lazy var cellImage = UIImageView().then {
         $0.clipsToBounds = true

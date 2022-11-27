@@ -152,11 +152,6 @@ extension ArtistEditViewController {
     @objc func completeEditTapped() {
         print("complete and out")
     }
-    
-    private func anyToGenerics<T: Equatable>(dataAEq: T, dataBEq: T) -> Bool {
-        let editCheck = dataAEq == dataBEq
-        return editCheck
-    }
 }
 
 extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
