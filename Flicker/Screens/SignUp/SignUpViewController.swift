@@ -114,7 +114,7 @@ final class SignUpViewController: BaseViewController {
         view.addSubviews(emailValidCheckLabel ,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, navigationDivider, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
 
         signUpTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
             $0.leading.equalToSuperview().inset(30)
         }
 
@@ -166,19 +166,13 @@ final class SignUpViewController: BaseViewController {
         navigationDivider.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2)
+            $0.height.equalTo(1)
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailField.becomeFirstResponder()
-    }
-
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-
-        title = "프로필 입력"
     }
 
     @objc private func didTapSignUpButton() {
