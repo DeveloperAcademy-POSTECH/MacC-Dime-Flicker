@@ -118,11 +118,8 @@ final class MainViewController: BaseViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
-        
         refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
-        refreshControl.tintColor = .mainPink
-        
+        refreshControl.tintColor = .mainPink        
         listCollectionView.refreshControl = refreshControl
     }
     
@@ -186,10 +183,6 @@ final class MainViewController: BaseViewController {
         }
     }
     
-    @objc func realoadTable(_ noti: Notification) {
-        loadData()
-    }
-    
     @objc func refreshTable(refresh: UIRefreshControl) {
         loadData()
     }
@@ -198,6 +191,7 @@ final class MainViewController: BaseViewController {
         let vc = RegionViewController()
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
+        vc.delegate = self
         
         present(vc, animated: true, completion: nil)
     }
@@ -261,5 +255,15 @@ extension MainViewController {
 extension MainViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         PresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+protocol RegionViewControllerDelegate: AnyObject {
+    func dismissRegionViewController()
+}
+
+extension MainViewController: RegionViewControllerDelegate {
+    func dismissRegionViewController() {
+        loadData()
     }
 }
