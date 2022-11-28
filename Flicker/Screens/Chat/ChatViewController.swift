@@ -216,7 +216,7 @@ final class ChatViewController: BaseViewController {
     @objc private func didTapReportButton() {
         let recheckAlert = UIAlertController(title: "신고하시겠어요?", message: "이 게시글을 신고하시게 된 사유에 대해서 자세히 말씀해주세요.", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "신고", style: .default) { _ in
-            self.sendReportMail(userName: UserDefaults.standard.string(forKey: "userName"), reportType: .reportAnotherUser)
+            self.sendReportMail(userName: UserDefaults.standard.string(forKey: "userName"))
         }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
 
@@ -240,7 +240,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if chatMessages[indexPath.row].fromId == fromId {
             let cell = tableView.dequeueReusableCell(withIdentifier: MyChatTableViewCell.className, for: indexPath) as! MyChatTableViewCell
-                  
+
             cell.chatLabel.text = chatMessages[indexPath.row].text
             cell.chatLabel.preferredMaxLayoutWidth = 250
             cell.selectionStyle = .none
@@ -260,50 +260,15 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ChatViewController: MFMailComposeViewControllerDelegate {
 
-     func sendReportMail(userName: String?, reportType: ReportType) {
-         if MFMailComposeViewController.canSendMail() {
-             let formatter = DateFormatter()
-             formatter.dateFormat = "yyyy-MM-dd HH:mm"
-             let currentDateString = formatter.string(from: Date())
-             let composeViewController = MFMailComposeViewController()
-             let dimeEmail = "haptic_04_minis@icloud.com"
-             switch reportType {
-             case .askSomething:
-                 let messageBody = """
-                                   -----------------------------
-                                   - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                                   - 문의 날짜: \(currentDateString)
-                                   ------------------------------
-                                   - 내용
+    func sendReportMail(userName: String?) {
+        if MFMailComposeViewController.canSendMail() {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            let currentDateString = formatter.string(from: Date())
+            let composeViewController = MFMailComposeViewController()
+            let dimeEmail = "haptic_04_minis@icloud.com"
 
-
-
-
-                                   """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             case .reportAnotherUser:
-                 let messageBody = """
-                                   -----------------------------
-                                   - 신고자: \(String(describing: userName ?? "UNKNOWN"))
-                                   - 일시: \(currentDateString)
-                                   ------------------------------
-                                   - 신고 사유 (상대의 이름, 왜 신고하시는지)
-
-
-
-
-                                   """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             case .reportChatUser:
-                 let messageBody = """
+            let messageBody = """
                                    -----------------------------
                                    - 신고자: \(String(describing: userName ?? "UNKNOWN"))
                                    - 신고일시: \(currentDateString)
@@ -314,29 +279,28 @@ extension ChatViewController: MFMailComposeViewControllerDelegate {
 
 
                                    """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             }
-         }
-         else {
-             showSendMailErrorAlert()
-         }
-     }
+            composeViewController.mailComposeDelegate = self
+            composeViewController.setToRecipients([dimeEmail])
+            composeViewController.setSubject("")
+            composeViewController.setMessageBody(messageBody, isHTML: false)
+            self.present(composeViewController, animated: true, completion: nil)
+        }
+        else {
+            showSendMailErrorAlert()
+        }
+    }
 
-     func showSendMailErrorAlert() {
-         let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-         let confirmAction = UIAlertAction(title: "확인", style: .default) {
-             (action) in
-             print("확인")
-         }
-         sendMailErrorAlert.addAction(confirmAction)
-         self.present(sendMailErrorAlert, animated: true, completion: nil)
-     }
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) {
+            (action) in
+            print("확인")
+        }
+        sendMailErrorAlert.addAction(confirmAction)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
 
-     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-         controller.dismiss(animated: true, completion: nil)
-     }
- }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}

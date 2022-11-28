@@ -357,33 +357,15 @@ extension ArtistTappedViewController {
 
 extension ArtistTappedViewController: MFMailComposeViewControllerDelegate {
 
-     func sendReportMail(userName: String?, reportType: ReportType) {
-         if MFMailComposeViewController.canSendMail() {
-             let formatter = DateFormatter()
-             formatter.dateFormat = "yyyy-MM-dd HH:mm"
-             let currentDateString = formatter.string(from: Date())
-             let composeViewController = MFMailComposeViewController()
-             let dimeEmail = "haptic_04_minis@icloud.com"
-             switch reportType {
-             case .askSomething:
-                 let messageBody = """
-                                   -----------------------------
-                                   - 문의하시는 분: \(String(describing: userName ?? "UNKNOWN"))
-                                   - 문의 날짜: \(currentDateString)
-                                   ------------------------------
-                                   - 내용
+    func sendReportMail(userName: String?, reportType: ReportType) {
+        if MFMailComposeViewController.canSendMail() {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            let currentDateString = formatter.string(from: Date())
+            let composeViewController = MFMailComposeViewController()
+            let dimeEmail = "haptic_04_minis@icloud.com"
 
-
-
-
-                                   """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             case .reportAnotherUser:
-                 let messageBody = """
+            let messageBody = """
                                    -----------------------------
                                    - 신고자: \(String(describing: userName ?? "UNKNOWN"))
                                    - 일시: \(currentDateString)
@@ -394,50 +376,32 @@ extension ArtistTappedViewController: MFMailComposeViewControllerDelegate {
 
 
                                    """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             case .reportChatUser:
-                 let messageBody = """
-                                   -----------------------------
-                                   - 신고자: \(String(describing: userName ?? "UNKNOWN"))
-                                   - 신고일시: \(currentDateString)
-                                   ------------------------------
-                                   - 신고사유
+            composeViewController.mailComposeDelegate = self
+            composeViewController.setToRecipients([dimeEmail])
+            composeViewController.setSubject("")
+            composeViewController.setMessageBody(messageBody, isHTML: false)
+            self.present(composeViewController, animated: true, completion: nil)
+        }
+        else {
+            showSendMailErrorAlert()
+        }
+    }
 
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) {
+            (action) in
+            print("확인")
+        }
+        sendMailErrorAlert.addAction(confirmAction)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
 
-
-
-                                   """
-                 composeViewController.mailComposeDelegate = self
-                 composeViewController.setToRecipients([dimeEmail])
-                 composeViewController.setSubject("")
-                 composeViewController.setMessageBody(messageBody, isHTML: false)
-                 self.present(composeViewController, animated: true, completion: nil)
-             }
-         }
-         else {
-             showSendMailErrorAlert()
-         }
-     }
-
-     func showSendMailErrorAlert() {
-         let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-         let confirmAction = UIAlertAction(title: "확인", style: .default) {
-             (action) in
-             print("확인")
-         }
-         sendMailErrorAlert.addAction(confirmAction)
-         self.present(sendMailErrorAlert, animated: true, completion: nil)
-     }
-
-     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-         controller.dismiss(animated: true, completion: nil)
-     }
- }
-        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+//TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
 //            $0.image = UIImage(systemName: "square.and.arrow.up")
 //            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))
