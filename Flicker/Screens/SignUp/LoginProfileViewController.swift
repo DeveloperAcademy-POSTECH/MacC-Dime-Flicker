@@ -81,7 +81,7 @@ final class LoginProfileViewController: BaseViewController {
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .light)
         ]
 
-        $0.backgroundColor = .red
+        $0.backgroundColor = .clear
         $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해 주세요.", attributes: attributes)
         $0.autocapitalizationType = .none
         $0.layer.masksToBounds = true
@@ -92,7 +92,7 @@ final class LoginProfileViewController: BaseViewController {
         $0.autocorrectionType = .no
     }
 
-    private lazy var nickNameCountLabel = UILabel().makeBasicLabel(labelText: "\(self.nickNameCount)/8", textColor: .textMainBlack, fontStyle: .body, fontWeight: .bold)
+    private lazy var nickNameCountLabel = UILabel().makeBasicLabel(labelText: "(\(self.nickNameCount)/8)", textColor: .textMainBlack, fontStyle: .body, fontWeight: .bold)
 
     private let nickNameTextFieldClearButton = UIButton().then {
         $0.setImage(UIImage(systemName: "x.circle"), for: .normal)
@@ -132,6 +132,7 @@ final class LoginProfileViewController: BaseViewController {
         nickNameField.delegate = self
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
+        nickNameCountLabel.isHidden = true
 
         view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
 
@@ -184,7 +185,7 @@ final class LoginProfileViewController: BaseViewController {
 
         nickNameCountLabel.snp.makeConstraints {
             $0.centerY.equalTo(nickNameField.snp.centerY)
-            $0.leading.equalTo(nickNameField.snp.trailing).offset(10)
+            $0.leading.equalTo(nickNameField.snp.trailing)
         }
 
         nickNameTextFieldClearButton.snp.makeConstraints {
@@ -212,7 +213,7 @@ final class LoginProfileViewController: BaseViewController {
         artistTrueButton.snp.makeConstraints {
             $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalTo(view.snp.centerX).inset(25 )
+            $0.trailing.equalTo(view.snp.centerX).inset(25)
         }
 
         artistFalseButton.snp.makeConstraints {
@@ -318,6 +319,7 @@ final class LoginProfileViewController: BaseViewController {
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
+        self.nickNameCountLabel.isHidden = true
 
         if isTapArtistButton {
             signUpButton.isEnabled = false
@@ -340,7 +342,7 @@ final class LoginProfileViewController: BaseViewController {
 }
 
 extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
-
+    //8글자를 입력하면 백스페이스를 포함한 어떠한 입력도 입력되지 않아 예외처리로 지우기는 가능하게 하는 코드입니다.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
@@ -348,7 +350,9 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
                 return true
             }
         }
-        return range.upperBound < 8
+
+        guard nickNameField.text?.count ?? 0 < 8 else { return false }
+        return true
     }
 
     override func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -358,7 +362,9 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
 
-        nickNameCountLabel.text = "\(nickNameField.text?.count ?? 0)/8"
+        nickNameCountLabel.isHidden = nickNameField.text?.count == 0 ? true : false
+
+        nickNameCountLabel.text = "(\(nickNameField.text?.count ?? 0)/8)"
 
         isNickNameWrite = nickNameField.text!.isEmpty ? false : true
 
