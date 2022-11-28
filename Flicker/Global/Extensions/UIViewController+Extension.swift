@@ -110,17 +110,8 @@ extension UIViewController {
         return UIBarButtonItem(customView: view)
     }
 
-    private func removeBarButtonItemOffset(with button: UIButton, offsetX: CGFloat = 0, offsetY: CGFloat = 0) -> UIView {
-        let offsetView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
-        offsetView.bounds = offsetView.bounds.offsetBy(dx: offsetX, dy: offsetY)
-        offsetView.addSubview(button)
-        return offsetView
-    }
-    
     func setupRightNavigationBarItem(with button: UIButton) {
-        let rightNavigationBarItem = removeBarButtonItemOffset(with: button)
-        let rightNavigationBarButton = makeBarButtonItem(with: rightNavigationBarItem)
-
+        let rightNavigationBarButton = makeBarButtonItem(with: button)
         navigationItem.rightBarButtonItem = rightNavigationBarButton
     }
 }
