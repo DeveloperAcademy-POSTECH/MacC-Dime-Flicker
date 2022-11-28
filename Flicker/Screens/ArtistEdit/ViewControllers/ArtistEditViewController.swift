@@ -26,10 +26,10 @@ class ArtistEditViewController: UIViewController {
     private var originalEditData: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     private var copiedItems: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     
-    // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 dataA 와 그 dataA 와 비교하기 위한 복제된 데이터 dataB 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
-    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
+    // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 originalEditData 와 그 originalEditData 와 비교하기 위한 복제된 데이터 copiedItems 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
+//    private lazy var originalEditData = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
     
-    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
+//    private lazy var copiedItems = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -76,7 +76,7 @@ class ArtistEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(dataB)
+        print(copiedItems)
         self.editItemsTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: false)
         self.tabBarController?.tabBar.isHidden = true
@@ -150,7 +150,7 @@ class ArtistEditViewController: UIViewController {
 
 extension ArtistEditViewController {
     @objc func resetEditTapped() {
-        self.dataB = self.dataA
+        self.copiedItems = self.originalEditData
         UIView.animate(withDuration: 0.2, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }
@@ -159,7 +159,7 @@ extension ArtistEditViewController {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
         self.editItemsTableView.reloadData()
-        print(self.dataB)
+        print(self.copiedItems)
     }
     
     @objc func completeEditTapped() {
@@ -196,7 +196,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch indexPath.row {
         case 0:
-            let isEdited = self.dataA.regions != self.dataB.regions
+            let isEdited = self.originalEditData.regions != self.copiedItems.regions
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -207,8 +207,8 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         case 1:
-            let isEditedBody = self.dataA.camera != self.dataB.camera
-            let isEditedLens = self.dataA.lens != self.dataB.lens
+            let isEditedBody = self.originalEditData.camera != self.copiedItems.camera
+            let isEditedLens = self.originalEditData.lens != self.copiedItems.lens
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEditedBody || isEditedLens {
@@ -218,7 +218,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         case 2:
-            let isEdited = self.dataA.tags != self.dataB.tags
+            let isEdited = self.originalEditData.tags != self.copiedItems.tags
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -229,7 +229,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         case 3:
-            let isEdited = self.dataA.detailDescription != self.dataB.detailDescription
+            let isEdited = self.originalEditData.detailDescription != self.copiedItems.detailDescription
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -240,7 +240,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         case 4:
-            let isEdited = self.dataA.portfolioImages != self.dataB.portfolioImages
+            let isEdited = self.originalEditData.portfolioImages != self.copiedItems.portfolioImages
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -260,23 +260,23 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             let vc = editRegionsViewContrller.then {
-                $0.currentRegion = self.dataB.regions
+                $0.currentRegion = self.copiedItems.regions
             }
             navigationController?.pushViewController(vc, animated: true)
         case 1:
             let vc = editGearsViewController.then {
-                $0.currentLens = self.dataB.lens
-                $0.currentBody = self.dataB.camera
+                $0.currentLens = self.copiedItems.lens
+                $0.currentBody = self.copiedItems.camera
             }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = editTagsViewController.then {
-                $0.currentTags = self.dataB.tags
+                $0.currentTags = self.copiedItems.tags
             }
             navigationController?.pushViewController(vc, animated: true)
         case 3:
             let vc = editDescriptionViewController.then {
-                $0.currentInfo = self.dataB.detailDescription
+                $0.currentInfo = self.copiedItems.detailDescription
             }
             navigationController?.pushViewController(vc, animated: true)
         case 4:
@@ -291,21 +291,21 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate, EditPortfolioDelegate {
     func photoSelected(photos imagesPicked: [UIImage]) {
-        self.dataB.portfolioImages = imagesPicked
+        self.copiedItems.portfolioImages = imagesPicked
     }
     func textViewDescribed(textView textDescribed: String) {
-        self.dataB.detailDescription = textDescribed
+        self.copiedItems.detailDescription = textDescribed
     }
     func conceptTagDescribed(tagLabel: [String]) {
-        self.dataB.tags = tagLabel
+        self.copiedItems.tags = tagLabel
     }
     func cameraBodySelected(cameraBody bodyName: String) {
-        self.dataB.camera = bodyName
+        self.copiedItems.camera = bodyName
     }
     func cameraLensSelected(cameraLens lensName: String) {
-        self.dataB.lens = lensName
+        self.copiedItems.lens = lensName
     }
     func regionSelected(regions regionDatas: [String]) {
-        self.dataB.regions = regionDatas.sorted()
+        self.copiedItems.regions = regionDatas.sorted()
     }
 }

@@ -107,7 +107,8 @@ extension RegisterConfirmViewController {
         dynamicNextButton.addGestureRecognizer(buttonTapped)
     }
     
+    // Tabview 로 넘어가야함! 돌려놔!
     @objc func moveNextTapped() {
-        navigationController?.pushViewController(TabbarViewController(), animated: true)
+        navigationController?.pushViewController(ArtistEditViewController(), animated: true)
     }
 }
