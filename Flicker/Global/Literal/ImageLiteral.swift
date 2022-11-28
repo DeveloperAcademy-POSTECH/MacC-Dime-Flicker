@@ -29,7 +29,7 @@ enum ImageLiteral {
 
     static var btnFilter: UIImage { .load(systemName: "line.3.horizontal.decrease.circle") }
 
-    static var reportButton: UIImage { .load(systemName: "ellipsis") }
+    static var reportButton: UIImage { .load(systemName: "exclamationmark.triangle") }
     
     // MARK: - icon
     static var appLogo: UIImage { .load(name: "logo") }
