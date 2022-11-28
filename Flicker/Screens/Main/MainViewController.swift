@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseFirestore
+import SkeletonView
 import SnapKit
 import Then
 
@@ -24,13 +25,17 @@ final class MainViewController: BaseViewController {
                                                   right: collectionHorizontalSpacing)
     }
     
+    private let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+    
     private var refreshControl = UIRefreshControl()
     
     private var selectedRegions: [String] = ["전체"]
     private var artists = [Artist]()
+    private var artistThumbnails = [ArtistThumbnail]()
     
     private var cursor: DocumentSnapshot?
     private var dataMayContinue = true
+    private var pages = 3
     
     // MARK: - property
     
@@ -64,6 +69,7 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+        $0.isSkeletonable = true
     }
     
     private let emptyThumnailView = EmptyThumnailView()
@@ -106,11 +112,8 @@ final class MainViewController: BaseViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
-        
-        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        refreshControl.tintColor = .mainPink
-        
+        refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
+        refreshControl.tintColor = .mainPink        
         listCollectionView.refreshControl = refreshControl
     }
     
@@ -133,10 +136,13 @@ final class MainViewController: BaseViewController {
         Task {
             setValues()
             
+            self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+            
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: pages) {
                 self.artists = result.artists
+                self.artistThumbnails = result.artistThumbnails
                 self.cursor = result.cursor
             }
             
@@ -145,7 +151,9 @@ final class MainViewController: BaseViewController {
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.reloadData()
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -155,8 +163,9 @@ final class MainViewController: BaseViewController {
         dataMayContinue = false
         
         Task {
-            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: pages) {
                 self.artists += result.artists
+                self.artistThumbnails += result.artistThumbnails
                 self.cursor = result.cursor
             }
             
@@ -168,21 +177,28 @@ final class MainViewController: BaseViewController {
         }
     }
     
-    @objc func realoadTable(_ noti: Notification) {
+    @objc func refreshTable(refresh: UIRefreshControl) {
         loadData()
-    }
-    
-    @objc func pullToRefresh() {
-        loadData()
-        refreshControl.endRefreshing()
     }
     
     @objc private func didTapRegionTag() {
         let vc = RegionViewController()
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
+        vc.delegate = self
         
         present(vc, animated: true, completion: nil)
+    }
+}
+
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        ArtistThumnailCollectionViewCell.className
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        pages
     }
 }
 
@@ -197,15 +213,11 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             assert(false, "Wrong Cell")
         }
         
-        let artist = artists[indexPath.item]
-        cell.artistNameLabel.text = artist.userInfo["userName"]
-        cell.artistTagLabel.text = "#\(artist.tags.joined(separator: "#"))"
-        
-        Task {
-            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
-            cell.makeBackgroudShadow()
-            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
-        }
+        let artist = artistThumbnails[indexPath.item]
+        cell.artistNameLabel.text = artist.artistName
+        cell.artistTagLabel.text = artist.artistTag
+        cell.artistThumnailImageView.image = artist.artistThumnailImageView
+        cell.artistProfileImageView.image =  artist.artistProfileImageView
         
         return cell
     }
@@ -237,5 +249,15 @@ extension MainViewController {
 extension MainViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         PresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+protocol RegionViewControllerDelegate: AnyObject {
+    func dismissRegionViewController()
+}
+
+extension MainViewController: RegionViewControllerDelegate {
+    func dismissRegionViewController() {
+        loadData()
     }
 }

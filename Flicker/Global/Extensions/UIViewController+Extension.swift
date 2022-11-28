@@ -34,14 +34,14 @@ extension UIViewController {
         }
     }
     func changeRootView<T: UIViewController>(_ viewController: T) {
-           let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-           let sceneDelegate = windowScene?.delegate as? SceneDelegate
-           
-           let viewCon = viewController
-           
-           sceneDelegate?.window?.rootViewController = UINavigationController(rootViewController: viewCon)
-           sceneDelegate?.window?.makeKeyAndVisible()
-       }
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+
+        let rootView = viewController
+
+        sceneDelegate?.window?.rootViewController = UINavigationController(rootViewController: rootView)
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
 
     func makeAlert(title: String,
                    message: String,
@@ -101,5 +101,17 @@ extension UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// navigationItem
+extension UIViewController {
+    private func makeBarButtonItem<T: UIView>(with view: T) -> UIBarButtonItem {
+        return UIBarButtonItem(customView: view)
+    }
+
+    func setupRightNavigationBarItem(with button: UIButton) {
+        let rightNavigationBarButton = makeBarButtonItem(with: button)
+        navigationItem.rightBarButtonItem = rightNavigationBarButton
     }
 }

@@ -63,7 +63,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func makeBackgroudShadow() {
+    override func configUI() {
         self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         let width: CGFloat = UIScreen.main.bounds.size.width - 40
@@ -75,5 +75,11 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         bottomImageGradient.frame = CGRect(x: 0, y: height - sHeight, width: width, height: sHeight)
         bottomImageGradient.colors = [UIColor.clear.cgColor, shadow]
         self.artistThumnailImageView.layer.insertSublayer(bottomImageGradient, at: 0)
+        
+        self.isSkeletonable = true
+        self.artistThumnailImageView.isSkeletonable = true
+        self.artistProfileImageView.isSkeletonable = true
+        self.artistNameLabel.isSkeletonable = true
+        self.artistTagLabel.isSkeletonable = true
     }
 }
