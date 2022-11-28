@@ -120,7 +120,7 @@ final class MainViewController: BaseViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(realoadTable(_:)), name: Notification.Name("willDissmiss"), object: nil)
         
-        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
         refreshControl.tintColor = .mainPink
         
         listCollectionView.refreshControl = refreshControl
@@ -162,6 +162,7 @@ final class MainViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.listCollectionView.stopSkeletonAnimation()
                 self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -189,9 +190,8 @@ final class MainViewController: BaseViewController {
         loadData()
     }
     
-    @objc func pullToRefresh() {
+    @objc func refreshTable(refresh: UIRefreshControl) {
         loadData()
-        refreshControl.endRefreshing()
     }
     
     @objc private func didTapRegionTag() {
@@ -255,6 +255,13 @@ extension MainViewController {
     
     private func didScrollToBottom() {
         continueData()
+    }
+    
+    //MARK: - UIRefreshControl of ScrollView
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if(velocity.y < -0.1) {
+            self.refreshTable(refresh: self.refreshControl)
+        }
     }
 }
 
