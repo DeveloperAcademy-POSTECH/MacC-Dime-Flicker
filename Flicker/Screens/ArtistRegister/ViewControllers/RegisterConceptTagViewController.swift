@@ -131,6 +131,8 @@ final class RegisterConceptTagViewController: UIViewController {
     
     // MARK: - view configurations
     private func configUI() {
+        view.backgroundColor = .systemBackground
+
         conceptTagTextField.delegate = self
         conceptTagTextField.layer.cornerRadius = view.bounds.width/22
     }

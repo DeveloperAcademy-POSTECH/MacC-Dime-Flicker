@@ -81,6 +81,8 @@ final class RegisterTextDescriptionViewController: UIViewController {
     
     // MARK: - view configurations
     private func configUI() {
+        view.backgroundColor = .systemBackground
+        
         descriptionTextView.delegate = self
         descriptionTextView.layer.cornerRadius = view.bounds.width/22
     }

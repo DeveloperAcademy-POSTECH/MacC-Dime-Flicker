@@ -26,6 +26,11 @@
 		5819EE5029236EEE000077D7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE4F29236EEE000077D7 /* Artist.swift */; };
 		5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */; };
 		5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */; };
+		58A20CE9292C8C840036A474 /* ArtistEditRegionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CE8292C8C840036A474 /* ArtistEditRegionsViewController.swift */; };
+		58A20CEB292C8C950036A474 /* ArtistEditGearsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CEA292C8C950036A474 /* ArtistEditGearsViewController.swift */; };
+		58A20CED292C8CB30036A474 /* ArtistEditTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CEC292C8CB30036A474 /* ArtistEditTagsViewController.swift */; };
+		58A20CEF292C8CE10036A474 /* ArtistEditDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CEE292C8CE10036A474 /* ArtistEditDescriptionViewController.swift */; };
+		58A20CF1292C8D030036A474 /* ArtistEditPortfoiloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CF0292C8D030036A474 /* ArtistEditPortfoiloViewController.swift */; };
 		58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */; };
 		58A452A52912A22500C9707D /* RegisterRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A42912A22500C9707D /* RegisterRegionViewController.swift */; };
 		58A452A72912A23000C9707D /* RegisterGearsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452A62912A23000C9707D /* RegisterGearsViewController.swift */; };
@@ -34,6 +39,8 @@
 		58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */; };
 		58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */; };
 		58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */; };
+		58DCC900292B76F900A2C644 /* ArtistEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */; };
+		58DCC905292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */; };
 		58DCC907292BAEF000A2C644 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */; };
 		7B3DC4342912ACA000646909 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC4332912ACA000646909 /* ProfileViewController.swift */; };
 		7B3DC43829134DB600646909 /* ProfileHeaderVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */; };
@@ -113,6 +120,11 @@
 		5819EE4F29236EEE000077D7 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioImageCell.swift; sourceTree = "<group>"; };
 		5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAddPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		58A20CE8292C8C840036A474 /* ArtistEditRegionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditRegionsViewController.swift; sourceTree = "<group>"; };
+		58A20CEA292C8C950036A474 /* ArtistEditGearsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditGearsViewController.swift; sourceTree = "<group>"; };
+		58A20CEC292C8CB30036A474 /* ArtistEditTagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditTagsViewController.swift; sourceTree = "<group>"; };
+		58A20CEE292C8CE10036A474 /* ArtistEditDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditDescriptionViewController.swift; sourceTree = "<group>"; };
+		58A20CF0292C8D030036A474 /* ArtistEditPortfoiloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditPortfoiloViewController.swift; sourceTree = "<group>"; };
 		58A452A12912A20800C9707D /* RegisterWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWelcomeViewController.swift; sourceTree = "<group>"; };
 		58A452A42912A22500C9707D /* RegisterRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionViewController.swift; sourceTree = "<group>"; };
 		58A452A62912A23000C9707D /* RegisterGearsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGearsViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +133,8 @@
 		58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmViewController.swift; sourceTree = "<group>"; };
 		58A452B02913963600C9707D /* RegisterCustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCustomNavigationView.swift; sourceTree = "<group>"; };
 		58ABF698292A486900D051E2 /* RegisterConceptTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConceptTagViewController.swift; sourceTree = "<group>"; };
+		58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditViewController.swift; sourceTree = "<group>"; };
+		58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditItemsTableViewCell.swift; sourceTree = "<group>"; };
 		58DCC906292BAEF000A2C644 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		7B3DC4332912ACA000646909 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7B3DC43729134DB600646909 /* ProfileHeaderVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderVIew.swift; sourceTree = "<group>"; };
@@ -238,7 +252,6 @@
 				589A1B6429268D7C00A39E3F /* Cell */,
 				5824E4A029155DB000916E0B /* Views */,
 				58A452A32912A21000C9707D /* ViewControllers */,
-				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = ArtistRegister;
 			sourceTree = "<group>";
@@ -254,6 +267,7 @@
 		589A1B6429268D7C00A39E3F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */,
 				58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */,
 				5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */,
 				5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */,
@@ -272,6 +286,36 @@
 				58A452A82912A24600C9707D /* RegisterTextDescriptionViewController.swift */,
 				58A452AA2912A25E00C9707D /* RegisterPortfolioViewController.swift */,
 				58A452AC2912A26F00C9707D /* RegisterConfirmViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		58DCC8FE292B76D500A2C644 /* ArtistEdit */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC903292B7F5A00A2C644 /* ViewControllers */,
+				58DCC901292B7F4D00A2C644 /* Cell */,
+			);
+			path = ArtistEdit;
+			sourceTree = "<group>";
+		};
+		58DCC901292B7F4D00A2C644 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC904292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		58DCC903292B7F5A00A2C644 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				58DCC8FF292B76F900A2C644 /* ArtistEditViewController.swift */,
+				58A20CE8292C8C840036A474 /* ArtistEditRegionsViewController.swift */,
+				58A20CEA292C8C950036A474 /* ArtistEditGearsViewController.swift */,
+				58A20CEC292C8CB30036A474 /* ArtistEditTagsViewController.swift */,
+				58A20CEE292C8CE10036A474 /* ArtistEditDescriptionViewController.swift */,
+				58A20CF0292C8D030036A474 /* ArtistEditPortfoiloViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -528,6 +572,7 @@
 		CBDC0414290610F300C6CF30 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				58DCC8FE292B76D500A2C644 /* ArtistEdit */,
 				CB5BF4712919E10700A3E112 /* Channels */,
 				CB5BF46A2919E10700A3E112 /* Chat */,
 				58118D372911328A00F08D35 /* ArtistRegister */,
@@ -720,6 +765,8 @@
 				58ABF699292A486900D051E2 /* RegisterConceptTagViewController.swift in Sources */,
 				CBDC040B2906104800C6CF30 /* UILabel+Extension.swift in Sources */,
 				108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */,
+				A94957F8290E3A6000B74693 /* APIResponseDTO.swift in Sources */,
+				58A20CEB292C8C950036A474 /* ArtistEditGearsViewController.swift in Sources */,
 				1032FFA72911EE6400AE3363 /* LoginProfileViewController.swift in Sources */,
 				CBDC040F2906107900C6CF30 /* UIFont+Extension.swift in Sources */,
 				CB5BF4802919E15400A3E112 /* User.swift in Sources */,
@@ -757,16 +804,21 @@
 				58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
+				58DCC905292B81C300A2C644 /* ArtistEditItemsTableViewCell.swift in Sources */,
+				58A20CED292C8CB30036A474 /* ArtistEditTagsViewController.swift in Sources */,
 				CBDC040D2906106500C6CF30 /* Notification+Extension.swift in Sources */,
+				58A20CF1292C8D030036A474 /* ArtistEditPortfoiloViewController.swift in Sources */,
 				A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */,
 				CB5BF4792919E10700A3E112 /* ChannelsViewController.swift in Sources */,
 				CBB0ACF42923A1FA00B3381F /* StateCollectionViewCell.swift in Sources */,
 				58A452B12913963600C9707D /* RegisterCustomNavigationView.swift in Sources */,
+				58A20CEF292C8CE10036A474 /* ArtistEditDescriptionViewController.swift in Sources */,
 				CB5BF47E2919E15400A3E112 /* ChatMessage.swift in Sources */,
 				CBDC042C2906125A00C6CF30 /* LoginViewController.swift in Sources */,
 				CBFBC05F2913434400FBBD17 /* RegionCollectionViewCell.swift in Sources */,
 				CBDC03FD29060F7A00C6CF30 /* PushNotificationSender.swift in Sources */,
 				CBDC03FB29060F6E00C6CF30 /* FirebaseManager.swift in Sources */,
+				58A20CE9292C8C840036A474 /* ArtistEditRegionsViewController.swift in Sources */,
 				58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
@@ -776,6 +828,7 @@
 				CBDC03F729060F3B00C6CF30 /* BaseTableViewCell.swift in Sources */,
 				107841FF29267C34004849FC /* PopUpViewController.swift in Sources */,
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
+				58DCC900292B76F900A2C644 /* ArtistEditViewController.swift in Sources */,
 				CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */,
 				CB5BF4762919E10700A3E112 /* MyChatTableViewCell.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,

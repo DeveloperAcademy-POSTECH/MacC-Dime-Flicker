@@ -351,11 +351,8 @@ extension ArtistRegisterViewController: RegisterRegionDelegate, RegisterGearsDel
     
     func conceptTagDescribed(tagLabel: String) {
         let editedStringArray = tagStringConvert(label: tagLabel)
-        print("---- editedStringArray == \(editedStringArray)")
         if editedStringArray.count > 4 {
             var temporaryArray: [String] = []
-            // TODO: for문 말고 다른걸로 콜렉션의 범위에 해당하는 원소 가져오는 방법?
-            // TODO: Array[0...3] 로 하면 Array<String>.SubSequence 타입 나옴
             for i in 0...3 {
                 temporaryArray.append(editedStringArray[i])
             }
