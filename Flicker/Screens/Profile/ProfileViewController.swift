@@ -86,8 +86,10 @@ final class ProfileViewController: EmailViewController {
 
     @objc func didToggleSwitch(_ sender: UISwitch) {
         print(sender.isOn)
-        if !sender.isOn {
-            makeAlert(title: "알림 비활성화", message: "")
+        if sender.isOn {
+            UIApplication.shared.registerForRemoteNotifications()
+        } else {
+            UIApplication.shared.unregisterForRemoteNotifications()
         }
     }
 
