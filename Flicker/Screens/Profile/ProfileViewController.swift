@@ -92,6 +92,14 @@ final class ProfileViewController: EmailViewController {
             UIApplication.shared.unregisterForRemoteNotifications()
         }
     }
+    
+    private func setNotification() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
 
     private func goToArtistRegistration() {
         transition(RegisterWelcomeViewController(), transitionStyle: .push)
@@ -140,16 +148,7 @@ extension ProfileViewController: UITableViewDataSource {
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
         cell.cellTextLabel.text = section!.sectionOptions(isArtist: isArtist)[indexPath.row]
         if section == .settings {
-            switch indexPath.row {
-            case 0:
-                let switchView = UISwitch(frame: .zero)
-                switchView.setOn(true, animated: true)
-                switchView.addTarget(self, action: #selector(didToggleSwitch), for: .valueChanged)
-                cell.accessoryView = switchView
-                cell.selectionStyle = .none
-            default:
-                cell.accessoryType = .disclosureIndicator
-            }
+            cell.accessoryType = .disclosureIndicator
         }
         return cell
     }
@@ -176,6 +175,8 @@ extension ProfileViewController: UITableViewDelegate {
 
         if section == .settings {
             switch indexPath.row {
+            case 0:
+                setNotification()
             case 1:
                 isArtist ? print("이 영역에 작가 프로필을 수정 하는 뷰를 만들어 넣어야 합니다.") : goToArtistRegistration()
             case 2:
