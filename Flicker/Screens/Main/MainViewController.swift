@@ -35,6 +35,7 @@ final class MainViewController: BaseViewController {
     
     private var cursor: DocumentSnapshot?
     private var dataMayContinue = true
+    private var pages = 3
     
     // MARK: - property
     
@@ -148,7 +149,7 @@ final class MainViewController: BaseViewController {
             
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: pages) {
                 self.artists = result.artists
                 self.artistThumbnails = result.artistThumbnails
                 self.cursor = result.cursor
@@ -170,17 +171,14 @@ final class MainViewController: BaseViewController {
         dataMayContinue = false
         
         Task {
-            self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-            
-            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
-                self.artists = result.artists
-                self.artistThumbnails = result.artistThumbnails
+            if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: pages) {
+                self.artists += result.artists
+                self.artistThumbnails += result.artistThumbnails
                 self.cursor = result.cursor
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.stopSkeletonAnimation()
-                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                self.listCollectionView.reloadData()
             }
             
             self.dataMayContinue = true
@@ -212,7 +210,7 @@ extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollection
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        pages
     }
 }
 
