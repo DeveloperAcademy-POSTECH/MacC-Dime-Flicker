@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseFirestore
+import SkeletonView
 import SnapKit
 import Then
 
@@ -23,6 +24,8 @@ final class MainViewController: BaseViewController {
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
     }
+    
+    private let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
     
     private var refreshControl = UIRefreshControl()
     
@@ -65,6 +68,7 @@ final class MainViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ArtistThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ArtistThumnailCollectionViewCell.className)
+        $0.isSkeletonable = true
     }
     
     private let emptyThumnailView = EmptyThumnailView()
@@ -140,6 +144,8 @@ final class MainViewController: BaseViewController {
         Task {
             setValues()
             
+            self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+            
             emptyThumnailView.isHidden = true
             
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
@@ -153,7 +159,8 @@ final class MainViewController: BaseViewController {
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.reloadData()
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
             }
         }
     }
@@ -163,6 +170,8 @@ final class MainViewController: BaseViewController {
         dataMayContinue = false
         
         Task {
+            self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+            
             if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
                 self.artists = result.artists
                 self.artistThumbnails = result.artistThumbnails
@@ -170,7 +179,8 @@ final class MainViewController: BaseViewController {
             }
             
             DispatchQueue.main.async {
-                self.listCollectionView.reloadData()
+                self.listCollectionView.stopSkeletonAnimation()
+                self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
             }
             
             self.dataMayContinue = true
@@ -192,6 +202,17 @@ final class MainViewController: BaseViewController {
         vc.transitioningDelegate = self
         
         present(vc, animated: true, completion: nil)
+    }
+}
+
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+extension MainViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        ArtistThumnailCollectionViewCell.className
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        3
     }
 }
 
