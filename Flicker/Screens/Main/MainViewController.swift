@@ -30,6 +30,7 @@ final class MainViewController: BaseViewController {
     private var artists = [Artist]()
     
     private var cursor: DocumentSnapshot?
+    private var dataMayContinue = true
     
     // MARK: - property
     
@@ -78,7 +79,7 @@ final class MainViewController: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
@@ -156,7 +157,8 @@ final class MainViewController: BaseViewController {
     }
     
     private func continueData() {
-        guard let cursor = cursor else { return }
+        guard dataMayContinue, let cursor = cursor else { return }
+        dataMayContinue = false
         
         Task {
             if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
@@ -167,6 +169,8 @@ final class MainViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.listCollectionView.reloadData()
             }
+            
+            self.dataMayContinue = true
         }
     }
     

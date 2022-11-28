@@ -56,6 +56,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.backgroundColor = .mainPink
         $0.layer.cornerRadius = 15
         $0.isSkeletonable = true
+        $0.skeletonCornerRadius = 15
         $0.addTarget(self, action: #selector(didTapCounselingButton), for: .touchUpInside)
     }
 
@@ -87,8 +88,6 @@ final class ArtistTappedViewController: BaseViewController {
         render()
         configUI()
         setDelegateAndDataSource()
-        setupBackButton()
-        setupNavigationBar()
 
         Task {
             await fetchImages()
@@ -98,34 +97,30 @@ final class ArtistTappedViewController: BaseViewController {
             }
         }
     }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-//            self.showSkeletonView()
-//        }
-//    }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupBackButton()
+        setupNavigationBar()
+        tabBarController?.tabBar.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+            self.showSkeletonView()
+        }
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
         tabBarController?.tabBar.isHidden = false
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = true
-    }
-//
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        statusBarBackGroundView.isHidden = true
-//        navigationBarSeperator.isHidden = true
-//        navigationController?.navigationBar.backgroundColor = .clear
-//    }
+    // MARK: 추후 다른 뷰와 연결시 불필요하다고 판단되면 삭제 예정 (일단 주석)
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        super.viewDidDisappear(animated)
+    //        statusBarBackGroundView.isHidden = true
+    //        navigationBarSeperator.isHidden = true
+    //        navigationController?.navigationBar.backgroundColor = .clear
+    //    }
 
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
-        navigationController?.isNavigationBarHidden = false
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
 
@@ -263,12 +258,6 @@ final class ArtistTappedViewController: BaseViewController {
             $0.bottom.equalTo(bottomBackgroundView.snp.top)
         }
     }
-    
-    @objc func didTapCounselingButton() {
-        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
-        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
-        navigationController?.pushViewController(viewController, animated: true)
-    }
 }
 
 extension ArtistTappedViewController: UICollectionViewDataSource {
@@ -311,10 +300,11 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         let viewController = ImageViewController()
         viewController.image = cell.imageView.image
         viewController.modalPresentationStyle = .fullScreen
-//        viewController.completion = {
-//            self.resetNavigationBarBackground()
-//            self.tabBarController?.tabBar.isHidden = true
-//        }
+        // MARK: 추후 다른 뷰와 연결시 불필요하다고 판단되면 삭제 예정 (일단 주석)
+        //        viewController.completion = {
+        //            self.resetNavigationBarBackground()
+        //            self.tabBarController?.tabBar.isHidden = true
+        //        }
         present(viewController, animated: false)
     }
     // 스크롤시 네비게이션바 커스텀화
@@ -335,9 +325,13 @@ extension ArtistTappedViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.popViewController(animated: true)
     }
+
+    @objc func didTapCounselingButton() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
+        let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
-
-
 //        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
 //            $0.image = UIImage(systemName: "square.and.arrow.up")
