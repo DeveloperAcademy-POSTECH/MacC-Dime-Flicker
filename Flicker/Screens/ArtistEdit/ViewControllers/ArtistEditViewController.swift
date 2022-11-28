@@ -21,12 +21,15 @@ struct EditData {
 
 class ArtistEditViewController: UIViewController {
     
+    private let dataFirebase = FirebaseManager()
+    private var downloadedItems: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
+    private var originalEditData: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
+    private var copiedItems: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
+    
     // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 dataA 와 그 dataA 와 비교하기 위한 복제된 데이터 dataB 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
-    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage], portfolioUrls: [])
+    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
     
-    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage], portfolioUrls: [])
-    
-    let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
+    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
@@ -128,6 +131,13 @@ class ArtistEditViewController: UIViewController {
         
         resetEditButton.addTarget(self, action: #selector(resetEditTapped), for: .touchUpInside)
         completeEditButton.addTarget(self, action: #selector(completeEditTapped), for: .touchUpInside)
+        
+        Task {
+            await getData()
+            moveDataToEditItems()
+            copyDataWithinEditItems()
+            print(originalEditData, copiedItems)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -155,6 +165,24 @@ extension ArtistEditViewController {
     @objc func completeEditTapped() {
         print("complete and out")
     }
+    
+    private func getData() async {
+        guard let temporaryArtist = await dataFirebase.getArtists() else { return }
+        downloadedItems = temporaryArtist
+    }
+    
+    private func moveDataToEditItems() {
+        originalEditData.regions = downloadedItems.regions.sorted()
+        originalEditData.camera = downloadedItems.camera
+        originalEditData.lens = downloadedItems.lens
+        originalEditData.tags = downloadedItems.tags
+        originalEditData.detailDescription = downloadedItems.detailDescription
+        originalEditData.portfolioUrls = downloadedItems.portfolioImageUrls
+    }
+    
+    private func copyDataWithinEditItems() {
+        copiedItems = originalEditData
+    }
 }
 
 extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
@@ -176,6 +204,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 1:
             let isEditedBody = self.dataA.camera != self.dataB.camera
@@ -197,6 +226,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 3:
             let isEdited = self.dataA.detailDescription != self.dataB.detailDescription
@@ -207,6 +237,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 4:
             let isEdited = self.dataA.portfolioImages != self.dataB.portfolioImages
@@ -217,8 +248,10 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         default:
+            
             return cell
         }
 }
@@ -260,23 +293,18 @@ extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, Edit
     func photoSelected(photos imagesPicked: [UIImage]) {
         self.dataB.portfolioImages = imagesPicked
     }
-    
     func textViewDescribed(textView textDescribed: String) {
         self.dataB.detailDescription = textDescribed
     }
-    
     func conceptTagDescribed(tagLabel: [String]) {
         self.dataB.tags = tagLabel
     }
-    
     func cameraBodySelected(cameraBody bodyName: String) {
         self.dataB.camera = bodyName
     }
-    
     func cameraLensSelected(cameraLens lensName: String) {
         self.dataB.lens = lensName
     }
-    
     func regionSelected(regions regionDatas: [String]) {
         self.dataB.regions = regionDatas.sorted()
     }
