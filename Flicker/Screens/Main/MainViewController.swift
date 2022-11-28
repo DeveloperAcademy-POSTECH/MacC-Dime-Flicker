@@ -256,13 +256,6 @@ extension MainViewController {
     private func didScrollToBottom() {
         continueData()
     }
-    
-    //MARK: - UIRefreshControl of ScrollView
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if(velocity.y < -0.1) {
-            self.refreshTable(refresh: self.refreshControl)
-        }
-    }
 }
 
 extension MainViewController: UIViewControllerTransitioningDelegate {
