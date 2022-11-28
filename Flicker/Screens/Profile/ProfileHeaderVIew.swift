@@ -24,11 +24,8 @@ final class ProfileHeaderVIew: UIView {
         $0.clipsToBounds = true
     }
     
-    private lazy var idLabel = UILabel().then {
-        $0.text = "Unknown"
-        $0.font = .preferredFont(forTextStyle: .largeTitle, weight: .bold)
-        $0.textColor = .textMainBlack
-    }
+    private lazy var idLabel = UILabel().makeBasicLabel(labelText: "Error", textColor: .textMainBlack, fontStyle: .title1, fontWeight: .bold)
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,7 +51,7 @@ final class ProfileHeaderVIew: UIView {
         }
         idLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImage.snp.centerY)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
         }
     }
     func setupHeaderData( name: String, imageURL: String) async {
