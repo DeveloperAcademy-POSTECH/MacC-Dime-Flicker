@@ -211,9 +211,8 @@ final class LogInViewController: BaseViewController {
     
     private func goHome() {
         let viewController = TabbarViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true, completion: nil)
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true, completion: nil)
     }
 
     private func goProfile() {
