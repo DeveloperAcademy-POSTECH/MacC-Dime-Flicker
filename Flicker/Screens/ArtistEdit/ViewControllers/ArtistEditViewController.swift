@@ -16,14 +16,15 @@ struct EditData {
     var tags: [String]
     var detailDescription: String
     var portfolioImages: [UIImage]
+    var portfolioUrls: [String]
 }
 
 class ArtistEditViewController: UIViewController {
     
     // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 dataA 와 그 dataA 와 비교하기 위한 복제된 데이터 dataB 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
-    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage], portfolioUrls: [])
     
-    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage], portfolioUrls: [])
     
     let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
     
@@ -72,6 +73,7 @@ class ArtistEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(dataB)
         self.editItemsTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: false)
         self.tabBarController?.tabBar.isHidden = true
@@ -117,6 +119,7 @@ class ArtistEditViewController: UIViewController {
         editGearsViewController.delegate = self
         editTagsViewController.delegate = self
         editDescriptionViewController.delegate = self
+        editPortfoiloViewController.delegate = self
         
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
@@ -253,7 +256,11 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate {
+extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate, EditPortfolioDelegate {
+    func photoSelected(photos imagesPicked: [UIImage]) {
+        self.dataB.portfolioImages = imagesPicked
+    }
+    
     func textViewDescribed(textView textDescribed: String) {
         self.dataB.detailDescription = textDescribed
     }
