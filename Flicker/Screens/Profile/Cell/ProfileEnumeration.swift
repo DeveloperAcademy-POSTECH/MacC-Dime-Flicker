@@ -30,7 +30,7 @@ enum ProfileSection: Int, CaseIterable {
         
         switch self {
         case .settings:
-            return ["알람", category, "문의하기"]
+            return ["알림설정", category, "문의하기"]
         case .logout:
             return ["로그아웃"]
         case .signOut:
