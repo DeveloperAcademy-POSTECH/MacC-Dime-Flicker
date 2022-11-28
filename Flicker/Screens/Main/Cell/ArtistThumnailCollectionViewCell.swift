@@ -63,7 +63,7 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func makeBackgroudShadow() {
+    override func configUI() {
         self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         let width: CGFloat = UIScreen.main.bounds.size.width - 40

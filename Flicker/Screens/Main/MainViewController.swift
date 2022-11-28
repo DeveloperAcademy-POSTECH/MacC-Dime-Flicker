@@ -28,6 +28,7 @@ final class MainViewController: BaseViewController {
     
     private var selectedRegions: [String] = ["전체"]
     private var artists = [Artist]()
+    private var artistThumbnails = [ArtistThumbnail]()
     
     private var cursor: DocumentSnapshot?
     private var dataMayContinue = true
@@ -143,6 +144,7 @@ final class MainViewController: BaseViewController {
             
             if let result = await FirebaseManager.shared.loadArtist(regions: selectedRegions, pages: 10) {
                 self.artists = result.artists
+                self.artistThumbnails = result.artistThumbnails
                 self.cursor = result.cursor
             }
             
@@ -162,7 +164,8 @@ final class MainViewController: BaseViewController {
         
         Task {
             if let result = await FirebaseManager.shared.continueArtist(regions: selectedRegions, cursor: cursor, pages: 10) {
-                self.artists += result.artists
+                self.artists = result.artists
+                self.artistThumbnails = result.artistThumbnails
                 self.cursor = result.cursor
             }
             
@@ -203,15 +206,11 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             assert(false, "Wrong Cell")
         }
         
-        let artist = artists[indexPath.item]
-        cell.artistNameLabel.text = artist.userInfo["userName"]
-        cell.artistTagLabel.text = "#\(artist.tags.joined(separator: "#"))"
-        
-        Task {
-            try await cell.artistThumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
-            cell.makeBackgroudShadow()
-            try await cell.artistProfileImageView.image =  NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
-        }
+        let artist = artistThumbnails[indexPath.item]
+        cell.artistNameLabel.text = artist.artistName
+        cell.artistTagLabel.text = artist.artistTag
+        cell.artistThumnailImageView.image = artist.artistThumnailImageView
+        cell.artistProfileImageView.image =  artist.artistProfileImageView
         
         return cell
     }
