@@ -89,7 +89,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.frame.size.height = 30
         $0.layer.cornerRadius = 15
         $0.backgroundColor = .white.withAlphaComponent(0.7)
-        $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
     }
 
     override func viewDidLoad() {
@@ -339,6 +339,17 @@ extension ArtistTappedViewController {
         guard let userId = UserDefaults.standard.string(forKey: "userId") else { return }
         let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc func didTapReportButton() {
+        let recheckAlert = UIAlertController(title: "신고하시겠어요?", message: "이 게시글을 신고하시게 된 사유에 대해서 자세히 말씀해주세요.", preferredStyle: .actionSheet)
+        let confirm = UIAlertAction(title: "신고", style: .default) { _ in
+        }
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+
+        recheckAlert.addAction(confirm)
+        recheckAlert.addAction(cancel)
+        present(recheckAlert, animated: true, completion: nil)
     }
 }
         //TODO: 공유하기 기능으로 출시 후 업데이트 예정
