@@ -280,9 +280,10 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func loadArtist(regions: [String], pages: Int) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+    func loadArtist(regions: [String], pages: Int) async -> (artists: [Artist], artistThumbnails: [ArtistThumbnail], cursor: QueryDocumentSnapshot?)? {
         do {
             var artists = [Artist]()
+            var artistThumbnails = [ArtistThumbnail]()
             
             var querySnapshot: QuerySnapshot
             
@@ -292,23 +293,36 @@ final class FirebaseManager: NSObject {
                 querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).limit(to: pages).getDocuments()
             }
             
-            querySnapshot.documents.forEach({ snapshot in
+            await querySnapshot.documents.asyncForEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                let artistProfileImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
+                let artistThumnailImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first!)
+                
+                let artistThumbnail = ArtistThumbnail(
+                    id: artist.id,
+                    artistName: artist.userInfo["userName"] ?? "",
+                    artistTag: "#\(artist.tags.joined(separator: "#"))",
+                    artistProfileImageView: artistProfileImageView,
+                    artistThumnailImageView: artistThumnailImageView
+                )
+                
                 artists.append(artist)
+                artistThumbnails.append(artistThumbnail)
             })
             
             let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
             
-            return (artists, cursor)
+            return (artists, artistThumbnails, cursor)
         } catch {
             print("error to load Artist")
             return nil
         }
     }
     
-    func continueArtist(regions: [String], cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
+    func continueArtist(regions: [String], cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], artistThumbnails: [ArtistThumbnail], cursor: QueryDocumentSnapshot?)? {
         do {
             var artists = [Artist]()
+            var artistThumbnails = [ArtistThumbnail]()
             
             var querySnapshot: QuerySnapshot
             
@@ -318,14 +332,26 @@ final class FirebaseManager: NSObject {
                 querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: pages).getDocuments()
             }
             
-            querySnapshot.documents.forEach({ snapshot in
+            await querySnapshot.documents.asyncForEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                let artistProfileImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
+                let artistThumnailImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first!)
+                
+                let artistThumbnail = ArtistThumbnail(
+                    id: artist.id,
+                    artistName: artist.userInfo["userName"] ?? "",
+                    artistTag: "#\(artist.tags.joined(separator: "#"))",
+                    artistProfileImageView: artistProfileImageView,
+                    artistThumnailImageView: artistThumnailImageView
+                )
+                
                 artists.append(artist)
+                artistThumbnails.append(artistThumbnail)
             })
             
             let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
             
-            return (artists, cursor)
+            return (artists, artistThumbnails, cursor)
         } catch {
             print("error to continue Artist")
             return nil

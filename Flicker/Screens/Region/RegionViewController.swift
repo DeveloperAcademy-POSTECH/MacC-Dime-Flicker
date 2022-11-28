@@ -20,6 +20,8 @@ final class RegionViewController: BaseViewController {
     
     var selectedState: String = "전체"
     var selectedRegions: [String] = ["전체"]
+    
+    weak var delegate: RegionViewControllerDelegate?
 
     // MARK: - property
     
@@ -111,8 +113,7 @@ final class RegionViewController: BaseViewController {
         UserDefaults.standard.setValue(selectedState, forKey: "state")
         UserDefaults.standard.set(selectedRegions, forKey: "regions")
         
-        NotificationCenter.default.post(name: Notification.Name("willDissmiss"), object: nil)
-        
+        delegate?.dismissRegionViewController()
         dismiss(animated: true, completion: nil)
     }
 }
