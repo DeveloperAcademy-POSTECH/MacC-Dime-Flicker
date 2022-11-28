@@ -84,10 +84,19 @@ final class ArtistTappedViewController: BaseViewController {
         $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
     }
 
+    private lazy var reportButton = ReportButton().then {
+        $0.frame.size.width = 30
+        $0.frame.size.height = 30
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .white.withAlphaComponent(0.7)
+        $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
+    }
+
     override func viewDidLoad() {
         render()
         configUI()
         setDelegateAndDataSource()
+        setupRightNavigationBarItem(with: reportButton)
 
         Task {
             await fetchImages()
@@ -332,7 +341,7 @@ extension ArtistTappedViewController {
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
-//        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
+        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
 //            $0.image = UIImage(systemName: "square.and.arrow.up")
 //            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))

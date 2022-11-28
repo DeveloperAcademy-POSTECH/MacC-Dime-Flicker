@@ -34,15 +34,15 @@ extension UIViewController {
         }
     }
     func changeRootView<T: UIViewController>(_ viewController: T) {
-           let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-           let sceneDelegate = windowScene?.delegate as? SceneDelegate
-           
-           let viewCon = viewController
-           
-           sceneDelegate?.window?.rootViewController = UINavigationController(rootViewController: viewCon)
-           sceneDelegate?.window?.makeKeyAndVisible()
-       }
-
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        
+        let viewCon = viewController
+        
+        sceneDelegate?.window?.rootViewController = UINavigationController(rootViewController: viewCon)
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
+    
     func makeAlert(title: String,
                    message: String,
                    okAction: ((UIAlertAction) -> Void)? = nil,
@@ -101,5 +101,26 @@ extension UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// navigationItem
+extension UIViewController {
+    private func makeBarButtonItem<T: UIView>(with view: T) -> UIBarButtonItem {
+        return UIBarButtonItem(customView: view)
+    }
+    
+    private func removeBarButtonItemOffset(with button: UIButton, offsetX: CGFloat = 0, offsetY: CGFloat = 0) -> UIView {
+        let offsetView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+        offsetView.bounds = offsetView.bounds.offsetBy(dx: offsetX, dy: offsetY)
+        offsetView.addSubview(button)
+        return offsetView
+    }
+    
+    func setupRightNavigationBarItem(with button: UIButton) {
+        let rightNavigationBarItem = removeBarButtonItemOffset(with: button)
+        let rightNavigationBarButton = makeBarButtonItem(with: rightNavigationBarItem)
+        
+        navigationItem.rightBarButtonItem = rightNavigationBarButton
     }
 }
