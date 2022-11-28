@@ -173,6 +173,7 @@ final class SignUpViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailField.becomeFirstResponder()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func setupNavigationBar() {

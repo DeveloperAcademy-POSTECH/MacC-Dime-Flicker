@@ -76,12 +76,6 @@ final class MainViewController: BaseViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-
     
     override func render() {
         view.addSubviews(appTitleLabel, regionTagButton, emptyThumnailView, listCollectionView, emptyThumnailView)

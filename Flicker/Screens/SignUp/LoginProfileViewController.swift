@@ -220,7 +220,8 @@ final class LoginProfileViewController: BaseViewController {
         }
 
         loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.leading.trailing.equalToSuperview()
         }
 
         spinnerView.snp.makeConstraints {
@@ -231,20 +232,6 @@ final class LoginProfileViewController: BaseViewController {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     override func setupNavigationBar() {
@@ -318,6 +305,7 @@ final class LoginProfileViewController: BaseViewController {
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     @objc private func didTapClearButton() {
