@@ -214,7 +214,7 @@ final class ChatViewController: BaseViewController {
     }
 
     @objc private func didTapReportButton() {
-        let recheckAlert = UIAlertController(title: "신고하시겠어요?", message: "이 게시글을 신고하시게 된 사유에 대해서 자세히 말씀해주세요.", preferredStyle: .actionSheet)
+        let recheckAlert = UIAlertController(title: "신고하시겠어요?", message: "이 유저를 신고하시게 된 사유에 대해서 자세히 말씀해주세요.", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "신고", style: .default) { _ in
             self.sendReportMail(userName: UserDefaults.standard.string(forKey: "userName"))
         }
