@@ -30,12 +30,6 @@ final class ProfileHeaderVIew: UIView {
         $0.textColor = .textMainBlack
     }
     
-    private lazy var emailLabel = UILabel().then {
-        $0.text = "User Email Error"
-        $0.font = .preferredFont(forTextStyle: .footnote, weight: .regular)
-        $0.textColor = .textSubBlack
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -47,7 +41,7 @@ final class ProfileHeaderVIew: UIView {
     // MARK: - Render
     func configureUI() {
         addSubviews(headerCard)
-        headerCard.addSubviews(profileImage, idLabel, emailLabel)
+        headerCard.addSubviews(profileImage, idLabel)
         headerCard.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -59,18 +53,13 @@ final class ProfileHeaderVIew: UIView {
             $0.centerY.equalToSuperview()
         }
         idLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImage.snp.top)
+            $0.centerY.equalTo(profileImage.snp.centerY)
             $0.leading.equalTo(profileImage.snp.trailing).offset(20)
         }
-        emailLabel.snp.makeConstraints {
-            $0.top.equalTo(idLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(idLabel)
-        }
     }
-    func setupHeaderData( name: String, email: String, imageURL: String) async {
+    func setupHeaderData( name: String, imageURL: String) async {
         do {
-            self.idLabel.text = name
-            self.emailLabel.text = email
+            self.idLabel.text = "\(name)님"
             self.profileImage.image = try await NetworkManager.shared.fetchOneImage(withURL: imageURL)
         } catch {
             print(error)

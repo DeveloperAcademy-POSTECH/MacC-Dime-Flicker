@@ -132,7 +132,7 @@ extension ProfileViewController: UITableViewDataSource {
         let section = ProfileSection(rawValue: indexPath.section)
         if indexPath.item == 0 {
             Task {
-                await profileHeader.setupHeaderData(name: defaults.string(forKey: "userName") ?? "", email: defaults.string(forKey: "userEmail") ?? "", imageURL: defaults.string(forKey: "userProfileImageUrl") ?? "")
+                await profileHeader.setupHeaderData(name: defaults.string(forKey: "userName") ?? "", imageURL: defaults.string(forKey: "userProfileImageUrl") ?? "")
             }
         }
         // section에 !가 붙었는데 코드가 바뀌지 않는 이상 강제 언래핑을 해도 무관하다고 생각합니다.
