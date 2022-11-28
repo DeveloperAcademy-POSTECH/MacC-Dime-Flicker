@@ -175,11 +175,7 @@ extension ArtistEditTagsViewController: UITextFieldDelegate {
         guard let textInput = textField.text else { return true }
         if textInput.count > 1 {
             let firstChar: Character = textInput[textInput.startIndex]
-            if firstChar == "#" {
-                self.conceptTagWarningLabel.isHidden = true
-            } else {
-                self.conceptTagWarningLabel.isHidden = false
-            }
+            firstChar == "#" ? (self.conceptTagWarningLabel.isHidden = true) : (self.conceptTagWarningLabel.isHidden = false)
         }
         return true
     }

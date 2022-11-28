@@ -56,7 +56,8 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         cellImage.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(30)
             $0.centerY.equalToSuperview()
-            $0.height.equalTo(self.bounds.height/2)
+            $0.height.width.equalTo(self.bounds.height/2)
+    
         }
         
         cellTextLabel.snp.makeConstraints {
