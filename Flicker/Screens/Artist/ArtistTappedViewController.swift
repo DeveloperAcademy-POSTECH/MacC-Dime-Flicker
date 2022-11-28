@@ -8,6 +8,7 @@ import SkeletonView
 import UIKit
 import Then
 import SnapKit
+import MessageUI
 
 final class ArtistTappedViewController: BaseViewController {
 
@@ -84,10 +85,19 @@ final class ArtistTappedViewController: BaseViewController {
         $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
     }
 
+    private lazy var reportButton = ReportButton().then {
+        $0.frame.size.width = 30
+        $0.frame.size.height = 30
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .white.withAlphaComponent(0.7)
+        $0.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
+    }
+
     override func viewDidLoad() {
         render()
         configUI()
         setDelegateAndDataSource()
+        setupRightNavigationBarItem(with: reportButton)
 
         Task {
             await fetchImages()
@@ -331,8 +341,67 @@ extension ArtistTappedViewController {
         let viewController = ChatViewController(name: artist.userInfo["userName"]!, fromId: userId, toId: artist.userInfo["userId"]!)
         navigationController?.pushViewController(viewController, animated: true)
     }
+
+    @objc func didTapReportButton() {
+        let recheckAlert = UIAlertController(title: "신고하시겠어요?", message: "이 게시글을 신고하시게 된 사유에 대해서 자세히 말씀해주세요.", preferredStyle: .actionSheet)
+        let confirm = UIAlertAction(title: "신고", style: .default) { _ in
+            self.sendReportMail(userName: UserDefaults.standard.string(forKey: "userName"), reportType: .reportAnotherUser)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+
+        recheckAlert.addAction(confirm)
+        recheckAlert.addAction(cancel)
+        present(recheckAlert, animated: true, completion: nil)
+    }
 }
-//        //TODO: 공유하기 기능으로 출시 후 업데이트 예정
+
+extension ArtistTappedViewController: MFMailComposeViewControllerDelegate {
+
+    func sendReportMail(userName: String?, reportType: ReportType) {
+        if MFMailComposeViewController.canSendMail() {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            let currentDateString = formatter.string(from: Date())
+            let composeViewController = MFMailComposeViewController()
+            let dimeEmail = "haptic_04_minis@icloud.com"
+
+            let messageBody = """
+                                   -----------------------------
+                                   - 신고자: \(String(describing: userName ?? "UNKNOWN"))
+                                   - 일시: \(currentDateString)
+                                   ------------------------------
+                                   - 신고 사유 (상대의 이름, 왜 신고하시는지)
+
+
+
+
+                                   """
+            composeViewController.mailComposeDelegate = self
+            composeViewController.setToRecipients([dimeEmail])
+            composeViewController.setSubject("")
+            composeViewController.setMessageBody(messageBody, isHTML: false)
+            self.present(composeViewController, animated: true, completion: nil)
+        }
+        else {
+            showSendMailErrorAlert()
+        }
+    }
+
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "메일 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) {
+            (action) in
+            print("확인")
+        }
+        sendMailErrorAlert.addAction(confirmAction)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+//TODO: 공유하기 기능으로 출시 후 업데이트 예정
 //        let shareImageView = UIImageView().then {
 //            $0.image = UIImage(systemName: "square.and.arrow.up")
 //            $0.frame = .init(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 24, height: 24))
