@@ -184,16 +184,31 @@ final class ProfileSettingViewController: BaseViewController {
     
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
+        self.signUpButton.isEnabled = false
+        self.signUpButton.backgroundColor = .loginGray
     }
 }
 
 extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
+    override func textFieldDidBeginEditing(_ textField: UITextField) {
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = true
+            disableButton()
+        }
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = true
+            disableButton()
+        }
+    }
     override func textFieldDidEndEditing(_ textField: UITextField) {
-        isNickNameWrite = true
-        nickNameTextFieldClearButton.isHidden = false
-        signUpButton.isEnabled = true
-        signUpButton.backgroundColor = .mainPink
+        if !nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = false
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = .mainPink
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -207,5 +222,9 @@ extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavi
         }
         self.profileImageView.image = newImage
         dismiss(animated: true, completion: nil)
+    }
+    func disableButton() {
+        signUpButton.isEnabled = false
+        signUpButton.backgroundColor = .loginGray
     }
 }
