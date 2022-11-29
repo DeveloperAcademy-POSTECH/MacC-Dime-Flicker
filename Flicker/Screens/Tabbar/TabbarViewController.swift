@@ -15,6 +15,7 @@ final class TabbarViewController: UITabBarController {
     private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
     
     override func viewDidLoad() {
+
         super.viewDidLoad()
         
         mainViewController.tabBarItem.image = ImageLiteral.btnMain
