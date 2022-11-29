@@ -16,10 +16,6 @@ import FirebaseFirestore
 
 final class WithDrawViewController: BaseViewController {
     
-    private let navigationDivider = UIView().then {
-        $0.backgroundColor = .loginGray
-    }
-    
     private let mainLabel = UILabel().makeBasicLabel(labelText: "고마웠어요!", textColor: .textMainBlack, fontStyle: .largeTitle, fontWeight: .bold)
     
     private let subLabel = UILabel().makeBasicLabel(labelText: "순간을 기념하고 싶을 때 언제든 다시 찾아주세요!", textColor: .textSubBlack, fontStyle: .title3, fontWeight: .bold).then {
@@ -37,31 +33,26 @@ final class WithDrawViewController: BaseViewController {
         $0.backgroundColor = .mainPink
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("로그인화면으로 돌아가기", for: .normal)
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = (DeviceFrame.screenHeight * 0.077) * 0.35
     }
     
     override func render() {
         
-        view.addSubviews(navigationDivider, mainLabel, subLabel, titleLabel, signOutButton)
+        view.addSubviews(mainLabel, subLabel, titleLabel, signOutButton)
         
         signOutButton.addTarget(self, action: #selector(didTapSignInbutton), for: .touchUpInside)
-        
-        navigationDivider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2)
-        }
+
         
         mainLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationDivider.snp.bottom).offset(170)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(180)
             $0.leading.equalToSuperview().inset(45)
         }
         
         subLabel.snp.makeConstraints {
             $0.top.equalTo(mainLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(45)
-            $0.width.equalTo(220)
-            $0.height.equalTo(60)
+            $0.width.equalTo(DeviceFrame.screenWidth * 0.64)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.08)
         }
         
         titleLabel.snp.makeConstraints {
@@ -72,7 +63,7 @@ final class WithDrawViewController: BaseViewController {
         signOutButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(65)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.077)
         }
     }
     
