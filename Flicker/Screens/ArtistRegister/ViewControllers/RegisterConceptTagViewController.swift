@@ -22,6 +22,7 @@ final class RegisterConceptTagViewController: UIViewController {
     }
     
     private let subTitleLabel = UILabel().then {
+        $0.numberOfLines = 2
         $0.font = UIFont.preferredFont(forTextStyle: .title3, weight: .bold)
         $0.text = "작가님의 대표 컨셉들을 태그로 남겨주세요!"
     }
