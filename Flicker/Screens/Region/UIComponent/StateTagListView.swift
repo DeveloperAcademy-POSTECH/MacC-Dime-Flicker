@@ -77,7 +77,7 @@ extension StateTagListView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StateCollectionViewCell.className, for: indexPath) as? StateCollectionViewCell else {
-            assert(false, "Wrong Cell")
+            return UICollectionViewCell()
         }
         
         cell.stateLabel.text = stateList[indexPath.item]

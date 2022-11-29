@@ -115,7 +115,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThumnailCollectionViewCell.className, for: indexPath) as? ThumnailCollectionViewCell else {
-            assert(false, "Wrong Cell")
+            return UICollectionViewCell()
         }
         
         let artist = isFiltering ? filteredArtists[indexPath.item] : artists[indexPath.item]

@@ -79,7 +79,7 @@ extension RegionTagListView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegionCollectionViewCell.className, for: indexPath) as? RegionCollectionViewCell else {
-            assert(false, "Wrong Cell")
+            return UICollectionViewCell()
         }
         
         cell.regionLabel.text = regionList[indexPath.item]
