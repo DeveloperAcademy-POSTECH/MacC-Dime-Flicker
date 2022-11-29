@@ -27,7 +27,7 @@ final class LogInViewController: BaseViewController {
     }
 
     private let loginTitleLabel = UILabel().then {
-        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 30)
+        $0.font = UIFont(name: "TsukimiRounded-Bold", size: 36)
         $0.textColor = .mainPink
         $0.textAlignment = .center
         $0.text = "SHUGGLE"
@@ -56,7 +56,7 @@ final class LogInViewController: BaseViewController {
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = (DeviceFrame.screenHeight * 0.07) / 5
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.leftViewMode = .always
@@ -72,7 +72,7 @@ final class LogInViewController: BaseViewController {
         $0.autocorrectionType = .no
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = (DeviceFrame.screenHeight * 0.07) / 5
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.leftViewMode = .always
@@ -82,7 +82,7 @@ final class LogInViewController: BaseViewController {
     }
 
     private let logInbutton = UIButton().then {
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = (DeviceFrame.screenHeight * 0.07) / 4
         $0.backgroundColor = .mainPink
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("로그인", for: .normal)
@@ -141,31 +141,31 @@ final class LogInViewController: BaseViewController {
         emailField.snp.makeConstraints {
             $0.top.equalTo(loginNormalLabel.snp.bottom).offset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
 
         passwordField.snp.makeConstraints {
             $0.top.equalTo(emailField.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
 
         logInbutton.snp.makeConstraints {
             $0.top.equalTo(passwordField.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
 
         signUpButton.snp.makeConstraints {
             $0.top.equalTo(logInbutton.snp.bottom).offset(20)
             $0.trailing.equalTo(view.snp.centerX).offset(-40)
-            $0.height.equalTo(30)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.035)
         }
 
         resetPasswordButton.snp.makeConstraints {
             $0.top.equalTo(logInbutton.snp.bottom).offset(20)
             $0.leading.equalTo(view.snp.centerX).offset(20)
-            $0.height.equalTo(30)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.035)
         }
 
         loginDividerText.snp.makeConstraints {
@@ -191,7 +191,7 @@ final class LogInViewController: BaseViewController {
             $0.top.equalTo(loginDividerText.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
     }
     
