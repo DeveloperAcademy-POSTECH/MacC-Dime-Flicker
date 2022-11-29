@@ -19,9 +19,9 @@ final class PopUpViewController: BaseViewController  {
         $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
     }
 
-    private let mainLabel = UILabel().makeBasicLabel(labelText: "이메일을 입력하세요", textColor: .textMainBlack, fontStyle: .headline, fontWeight: .bold)
+    private let mainLabel = UILabel().makeBasicLabel(labelText: "이메일을 입력하세요", textColor: .mainPink, fontStyle: .title3, fontWeight: .bold)
 
-    private let subLabel = UILabel().makeBasicLabel(labelText: "이메일을 통해 비밀번호 재설정을 할 수 있어요!", textColor: .textMainBlack, fontStyle: .caption1, fontWeight: .bold)
+    private let subLabel = UILabel().makeBasicLabel(labelText: "이메일로 비밀번호 재설정을 해요!", textColor: .textMainBlack, fontStyle: .caption2, fontWeight: .bold)
 
     private let emailField = UITextField().then {
         let attributes = [
@@ -72,7 +72,7 @@ final class PopUpViewController: BaseViewController  {
 
         popUpView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(DeviceFrame.screenWidth * 0.75)
+            $0.width.equalTo(DeviceFrame.screenWidth * 0.85)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.37)
         }
 
@@ -84,7 +84,7 @@ final class PopUpViewController: BaseViewController  {
 
         subLabel.snp.makeConstraints {
             $0.top.equalTo(mainLabel.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.leading.trailing.equalToSuperview().inset(31)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.035)
         }
 
