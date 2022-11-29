@@ -175,9 +175,10 @@ final class ProfileSettingViewController: BaseViewController {
                                                               name: nickNameField.text ?? "",
                                                               profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
             await CurrentUserDataManager.shared.saveUserDefault()
-            self?.navigationController?.pushViewController(viewController, animated: true)
+            self?.navigationController?.popViewController(animated: true)
+            
         }
-        self.dismiss(animated: true, completion: nil)
+      
     }
     
     @objc private func didTapClearButton() {
