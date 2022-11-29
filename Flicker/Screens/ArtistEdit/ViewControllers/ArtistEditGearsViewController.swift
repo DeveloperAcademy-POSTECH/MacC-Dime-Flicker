@@ -121,7 +121,6 @@ final class ArtistEditGearsViewController: UIViewController {
     }
     
     // MARK: - keyboard automatically pop
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -224,6 +223,7 @@ extension ArtistEditGearsViewController: UITextFieldDelegate {
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditGearsViewController {
     private func customBackButton() {
         let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
@@ -245,6 +245,7 @@ extension ArtistEditGearsViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // MARK: enable disabled button under the condtion
     private func enableButton() {
         guard let bodyText = cameraBodyTextField.text, let lensText = cameraLensTextField.text else { return }
         if !bodyText.isEmpty && !lensText.isEmpty {
@@ -257,7 +258,7 @@ extension ArtistEditGearsViewController {
     }
 }
 
-// MARK: - RegisterGears custom delegate protocol
+// MARK: - Edit Gears custom delegate protocol
 protocol EditGearsDelegate: AnyObject {
     func cameraBodySelected(cameraBody bodyName: String)
     func cameraLensSelected(cameraLens lensName: String)

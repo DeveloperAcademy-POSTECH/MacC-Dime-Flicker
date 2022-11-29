@@ -42,6 +42,15 @@ final class ArtistEditPortfoiloViewController: UIViewController {
         $0.isHidden = true
     }
     
+    private let completeEditButton = UIButton(type: .system).then {
+        $0.isEnabled = false
+        $0.tintColor = .white
+        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
+        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        $0.setTitle("사진 수정 완료", for: .normal)
+        $0.clipsToBounds = true
+    }
+    
     // MARK: - portfolio image components
     private var portfolioPhotosFetched: [UIImage] = []
         
@@ -67,15 +76,6 @@ final class ArtistEditPortfoiloViewController: UIViewController {
     private lazy var portfolioCollectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then {
         $0.showsVerticalScrollIndicator = false
         $0.isScrollEnabled = true
-    }
-    
-    private let completeEditButton = UIButton(type: .system).then {
-        $0.isEnabled = false
-        $0.tintColor = .white
-        $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3, weight: .semibold)
-        $0.backgroundColor = .systemGray2.withAlphaComponent(0.6)
-        $0.setTitle("장비 수정 완료", for: .normal)
-        $0.clipsToBounds = true
     }
     
     // MARK: - life cycle
@@ -243,6 +243,7 @@ extension ArtistEditPortfoiloViewController: UICollectionViewDelegate {
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditPortfoiloViewController {
     private func customBackButton() {
         let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
@@ -263,6 +264,7 @@ extension ArtistEditPortfoiloViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // MARK: enable disabled button under the condtion
     private func enableButton() {
         if !portfolioPhotosFetched.isEmpty {
             completeEditButton.isEnabled = true
@@ -273,6 +275,7 @@ extension ArtistEditPortfoiloViewController {
         }
     }
     
+    // MARK: reset photos array
     private func resetData() {
         portfolioPhotosFetched = []
         portfolioCollectionView.reloadData()
@@ -280,7 +283,7 @@ extension ArtistEditPortfoiloViewController {
     }
 }
 
-// MARK: - RegisterPortfolio custom delegate protocol
+// MARK: - Edit Portfolio custom delegate protocol
 protocol EditPortfolioDelegate: AnyObject {
     func photoSelected(photos imagesPicked: [UIImage])
 }

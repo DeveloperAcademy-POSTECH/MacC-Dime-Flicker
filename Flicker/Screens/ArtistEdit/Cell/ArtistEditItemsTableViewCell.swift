@@ -11,6 +11,7 @@ import Then
 
 class ArtistEditItemsTableViewCell: UITableViewCell {
     
+    // MARK: - view UI components
     let cellTextLabel = UILabel().makeBasicLabel(labelText: "a", textColor: .textMainBlack.withAlphaComponent(0.8), fontStyle: .title3, fontWeight: .bold)
     
     lazy var cellImage = UIImageView().then {
@@ -33,6 +34,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         $0.isHidden = true
     }
     
+    // MARK: - bool for checking changes of the data
     var checkEditted: Bool = false {
         didSet {
             if oldValue == true {
@@ -43,6 +45,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .mainPink.withAlphaComponent(0.1)
@@ -50,6 +53,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         configUI()
     }
     
+    // MARK: - layout constraints
     private func render() {
         self.addSubviews(cellImage, cellTextLabel, editButton, edittedLabel)
         
@@ -78,6 +82,7 @@ class ArtistEditItemsTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         self.selectionStyle = .none
     }

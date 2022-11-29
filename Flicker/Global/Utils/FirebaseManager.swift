@@ -129,7 +129,7 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    // TODO: - 여기서 uid 어떻게 사용해야하나??? 이거만 처리하면 얼추 처리 된듯? ✅ + Task 그 이미지 처리하는 거 잘 붙여 넣고, Task 처리 잘하고... 그리고 테스트를 위해서 붙였던 등록 맨 끝 뒤에 바로 에디트뷰로 옮긴거 잘 해놓자.
+    // MARK: - get Artist Datas for update
     func getArtists() async -> Artist? {
         guard let uid = auth.currentUser?.uid else { return nil }
         do {
@@ -146,10 +146,11 @@ final class FirebaseManager: NSObject {
         }
     }
     
+    // MARK: - remove Images with downloadUrl index numbers
     func removeImages(urlCount: Int) async {
         guard let uid = auth.currentUser?.uid else { return }
         do {
-            var fileName = uid + "_" + String(urlCount)
+            let fileName = uid + "_" + String(urlCount)
             let deleteRef = storage.reference().child("ArtistPortfolio/\(fileName).jpg")
             try await deleteRef.delete()
         } catch {
@@ -308,7 +309,7 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    // 일단 setData 로 하는데 안 건든 부분은 없어지는 것인가? 아니면 업데이트 되지 않고 남아있는 것인가?
+    // MARK: - updating Artist Data using EditData
     func updateArtistInformation(_ artist: EditData) async {
         guard let uid = auth.currentUser?.uid else { return }
         let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken", "userId"])

@@ -74,7 +74,7 @@ final class ArtistEditDescriptionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        descriptionTextView.text = self.currentInfo // 이게 @State 같은 느낌이랄까?
+        descriptionTextView.text = self.currentInfo
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.customNavigationBarView.popImage.isHidden = true
     }
@@ -127,12 +127,19 @@ final class ArtistEditDescriptionViewController: UIViewController {
     }
     
     // MARK: - keyboard touch dismiss
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
 }
 
+    // MARK: - textView delegate
+extension ArtistEditDescriptionViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        enableButton()
+    }
+}
+
+    // MARK: - action functions
 extension ArtistEditDescriptionViewController {
     private func customBackButton() {
         let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
@@ -153,6 +160,7 @@ extension ArtistEditDescriptionViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // MARK: enable disabled button under the condtion
     private func enableButton() {
         guard let descText = descriptionTextView.text else { return }
         if !descText.isEmpty {
@@ -165,13 +173,7 @@ extension ArtistEditDescriptionViewController {
     }
 }
 
-extension ArtistEditDescriptionViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        enableButton()
-    }
-}
-
-// MARK: - RegisterTextDescription custom delegate protocol
+// MARK: - Edit TextDescription custom delegate protocol
 protocol EditTextInfoDelegate: AnyObject {
     func textViewDescribed(textView textDescribed: String)
 }

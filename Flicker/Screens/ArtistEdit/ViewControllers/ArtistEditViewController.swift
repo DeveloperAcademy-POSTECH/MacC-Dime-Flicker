@@ -9,24 +9,21 @@ import UIKit
 import SnapKit
 import Then
 
-struct EditData {
-    var regions: [String]
-    var camera: String
-    var lens: String
-    var tags: [String]
-    var detailDescription: String
-    var portfolioImages: [UIImage]
-    var portfolioUrls: [String]
-}
-
 class ArtistEditViewController: UIViewController {
     
+    // MARK: - data sets to post to the server
     private let dataFirebase = FirebaseManager()
+    
+    // MARK: datas from Firebase
     private var downloadedItems: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
+    
+    // MARK: datas collected from downloadedItems to edit
     private var originalEditData: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
+    
+    // MARK: copied datas to check whether datas are edited
     private var copiedItems: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     
-    // MARK: observer to check whether the async tasks are done
+    // MARK: - observer to check whether the async tasks are done
     private var temporaryStrings: [String] = [] {
         didSet {
             if self.temporaryStrings.count == self.copiedItems.portfolioImages.count {
@@ -41,6 +38,8 @@ class ArtistEditViewController: UIViewController {
         }
     }
     
+    // MARK: - table lists components
+    // TODO: enum 으로 바꾸기
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
     private let editItemsImageArray: [String] = ["mappin.and.ellipse", "camera.shutter.button", "tag", "doc.plaintext", "photo.artframe"]
@@ -63,6 +62,7 @@ class ArtistEditViewController: UIViewController {
         $0.isHidden = true
     }
     
+    // MARK: - view UI components
     private let editRegionsViewContrller = ArtistEditRegionsViewController()
     private let editGearsViewController = ArtistEditGearsViewController()
     private let editTagsViewController = ArtistEditTagsViewController()
@@ -96,6 +96,7 @@ class ArtistEditViewController: UIViewController {
         $0.clipsToBounds = true
     }
     
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
@@ -115,6 +116,7 @@ class ArtistEditViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    // MARK: - layout constraints
     private func render() {
         view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton, loadingView, spinnerView, loadingLabel)
 
@@ -156,6 +158,7 @@ class ArtistEditViewController: UIViewController {
         }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .white
         
@@ -173,6 +176,7 @@ class ArtistEditViewController: UIViewController {
         resetEditButton.addTarget(self, action: #selector(resetEditTapped), for: .touchUpInside)
         completeEditButton.addTarget(self, action: #selector(completeEditTapped), for: .touchUpInside)
         
+        // MARK: get Artist datas from the server
         Task {
             await getData()
             moveDataToEditItems()
@@ -189,7 +193,9 @@ class ArtistEditViewController: UIViewController {
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditViewController {
+    // MARK: reset action
     @objc func resetEditTapped() {
         self.copiedItems = self.originalEditData
         UIView.animate(withDuration: 0.2, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
@@ -203,10 +209,17 @@ extension ArtistEditViewController {
         print(self.copiedItems)
     }
     
+    // MARK: complete action
     @objc func completeEditTapped() {
-        recheckAlert()
+        if originalEditData == copiedItems {
+            print("None of data has been edited.")
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            recheckAlert()
+        }
     }
     
+    // MARK: alert action with networking *
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "수정이 끝나셨나요?", message: "", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
@@ -236,11 +249,13 @@ extension ArtistEditViewController {
         present(recheckAlert, animated: true, completion: nil)
     }
     
+    // MARK: get datas from the server
     private func getData() async {
         guard let temporaryArtist = await dataFirebase.getArtists() else { return }
         downloadedItems = temporaryArtist
     }
     
+    // MARK: modify and copy datas to edit
     private func moveDataToEditItems() {
         originalEditData.regions = downloadedItems.regions.sorted()
         originalEditData.camera = downloadedItems.camera
@@ -269,6 +284,7 @@ extension ArtistEditViewController {
     }
 }
 
+    // MARK: - tableView delegate and dataSource
 extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         editItemsArray.count
@@ -372,6 +388,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+    // MARK: - data transfer delegates
 extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate, EditPortfolioDelegate {
     func photoSelected(photos imagesPicked: [UIImage]) {
         self.copiedItems.portfolioImages = imagesPicked

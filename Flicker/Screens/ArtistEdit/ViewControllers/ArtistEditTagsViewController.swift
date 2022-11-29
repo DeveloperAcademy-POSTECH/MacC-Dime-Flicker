@@ -99,7 +99,6 @@ final class ArtistEditTagsViewController: UIViewController {
     }
     
     // MARK: - keyboard automatically pop
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -201,6 +200,7 @@ extension ArtistEditTagsViewController: UITextFieldDelegate {
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditTagsViewController {
     private func customBackButton() {
         let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
@@ -230,10 +230,12 @@ extension ArtistEditTagsViewController {
         }
     }
     
+    // MARK: joins seperated Strings into a String
     private func joinStrings(array: [String]) -> String {
         return array.joinString(separator: "#")
     }
     
+    // MARK: filters tags
     private func conceptTextTagDescribed(tagLabel: String) {
         let editedStringArray = tagStringConvert(label: tagLabel)
         if editedStringArray.count > 4 {
@@ -247,11 +249,13 @@ extension ArtistEditTagsViewController {
         }
     }
     
+    // MARK: seperates a single merged String
     private func tagStringConvert(label: String) -> [String] {
         let array = label.components(separatedBy: "#").filter{ $0 != ""}
         return array
     }
     
+    // MARK: enable disabled button under the condtion
     private func enableButton() {
         guard let tagText = conceptTagTextField.text else { return }
         if !tagText.isEmpty {
@@ -264,7 +268,7 @@ extension ArtistEditTagsViewController {
     }
 }
 
-// MARK: - RegisterConceptTagDelegate custom delegate protocol
+// MARK: - Edit ConceptTags custom delegate protocol
 protocol EditConceptTagDelegate: AnyObject {
     func conceptTagDescribed(tagLabel: [String])
 }
