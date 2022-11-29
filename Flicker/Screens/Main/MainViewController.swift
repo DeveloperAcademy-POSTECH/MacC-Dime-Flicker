@@ -18,7 +18,7 @@ final class MainViewController: BaseViewController {
         static let collectionHorizontalSpacing: CGFloat = 20.0
         static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
-        static let cellHeight: CGFloat = 300
+        static let cellHeight: CGFloat = cellWidth * 0.85
         static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
