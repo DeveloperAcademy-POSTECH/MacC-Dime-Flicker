@@ -117,7 +117,7 @@ final class SignUpViewController: BaseViewController {
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(signUpTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(30)
-            $0.width.equalTo(250)
+            $0.width.equalTo(DeviceFrame.screenWidth * 0.63)
         }
 
         emailField.snp.makeConstraints {
@@ -156,7 +156,7 @@ final class SignUpViewController: BaseViewController {
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.065)
         }
 
     }
