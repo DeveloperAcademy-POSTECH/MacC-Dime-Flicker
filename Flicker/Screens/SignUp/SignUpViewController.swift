@@ -14,11 +14,11 @@ final class SignUpViewController: BaseViewController {
 
     private let didTapSignUpEmail = true
 
-    private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .black, fontStyle: .largeTitle, fontWeight: .bold)
+    private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .mainPink, fontStyle: .largeTitle, fontWeight: .bold)
 
 
     private let signUpLabel = UILabel().then {
-        $0.tintColor = .black
+        $0.tintColor = .textSubBlack
         $0.font = .preferredFont(forTextStyle: .title3, weight: .semibold)
         $0.numberOfLines = 2
         $0.text = "로그인에 사용될 이메일과 비밀번호를 설정해주세요"
@@ -44,7 +44,7 @@ final class SignUpViewController: BaseViewController {
 
     }
 
-    private let emailValidCheckLabel = UILabel().makeBasicLabel(labelText: "이메일 주소를 확인해 주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+    private let emailValidCheckLabel = UILabel().makeBasicLabel(labelText: "이메일 주소를 확인해 주세요.", textColor: .red, fontStyle: .caption1, fontWeight: .light)
 
     private let passwordField = UITextField().then {
         let attributes = [
@@ -52,7 +52,7 @@ final class SignUpViewController: BaseViewController {
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
         $0.tag = 1
-        $0.backgroundColor = .loginGray
+        $0.backgroundColor = .systemGray3
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 (최소 6자 이상)", attributes: attributes)
         $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
         $0.layer.masksToBounds = true
@@ -64,7 +64,7 @@ final class SignUpViewController: BaseViewController {
         $0.autocorrectionType = .no
     }
 
-    private let passwordValidCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호는 6자리 이상으로 작성해주세요.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+    private let passwordValidCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호는 6자리 이상으로 작성해주세요.", textColor: .red, fontStyle: .caption1, fontWeight: .light)
 
     private let passwordSameCheckField = UITextField().then {
         let attributes = [
@@ -72,7 +72,7 @@ final class SignUpViewController: BaseViewController {
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .bold)
         ]
         $0.tag = 2
-        $0.backgroundColor = .loginGray
+        $0.backgroundColor = .systemGray3
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 확인", attributes: attributes)
         $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
         $0.layer.masksToBounds = true
@@ -84,10 +84,10 @@ final class SignUpViewController: BaseViewController {
         $0.autocorrectionType = .no
     }
 
-    private let passwordSameCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호가 일치하지 않습니다.", textColor: .red, fontStyle: .subheadline, fontWeight: .light)
+    private let passwordSameCheckLabel = UILabel().makeBasicLabel(labelText: "비밀번호가 일치하지 않습니다.", textColor: .red, fontStyle: .caption1, fontWeight: .light)
 
     private lazy var signUpButton = UIButton().then {
-        $0.backgroundColor = .loginGray
+        $0.backgroundColor = .systemGray2
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("다음", for: .normal)
         $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.024
@@ -110,14 +110,14 @@ final class SignUpViewController: BaseViewController {
         view.addSubviews(emailValidCheckLabel ,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
 
         signUpTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40)
             $0.leading.equalToSuperview().inset(30)
         }
 
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(signUpTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(30)
-            $0.width.equalTo(DeviceFrame.screenWidth * 0.63)
+            $0.width.equalTo(DeviceFrame.screenWidth * 0.65)
         }
 
         emailField.snp.makeConstraints {
@@ -143,7 +143,7 @@ final class SignUpViewController: BaseViewController {
         }
 
         passwordSameCheckField.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(35)
+            $0.top.equalTo(passwordField.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
@@ -220,7 +220,7 @@ extension SignUpViewController {
         if ( emailValidCheck(emailField) && passwordValidCheck(passwordField) && passwordSameCheck(passwordField, passwordSameCheckField)) {
             signUpButton.backgroundColor = .mainPink
         } else {
-            signUpButton.backgroundColor = .loginGray
+            signUpButton.backgroundColor = .systemGray2
         }
     }
 }
