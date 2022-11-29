@@ -29,10 +29,11 @@ class ArtistEditViewController: UIViewController {
     // MARK: observer to check whether the async tasks are done
     private var temporaryStrings: [String] = [] {
         didSet {
-            if self.temporaryStrings.count == self.copiedItems.portfolioUrls.count {
+            if self.temporaryStrings.count == self.copiedItems.portfolioImages.count {
                 Task {
                     self.copiedItems.portfolioUrls = self.temporaryStrings
                     await self.dataFirebase.updateArtistInformation(copiedItems)
+                    print("Updated")
                     self.hideLoadingView()
                     self.navigationController?.pushViewController(TabbarViewController(), animated: true)
                 }
@@ -209,10 +210,11 @@ extension ArtistEditViewController {
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "수정이 끝나셨나요?", message: "", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함
-            for (indexNum, _) in self.copiedItems.portfolioUrls.enumerated() {
+            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함 ✅
+            let numberOfUrls = self.copiedItems.portfolioUrls.count
+            for indexNumber in 0..<numberOfUrls {
                 Task {
-                    await self.dataFirebase.removeImages(urlCount: indexNum)
+                    await self.dataFirebase.removeImages(urlCount: indexNumber)
                 }
             }
             
@@ -221,10 +223,9 @@ extension ArtistEditViewController {
                 Task {
                     async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
                     await self.temporaryStrings.append(urlString)
-                    print("Artist is \(self.temporaryStrings)")
                 }
             }
-            
+            self.copiedItems.portfolioUrls.removeAll()
             self.openLoadingView()
         }
         

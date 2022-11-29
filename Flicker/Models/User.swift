@@ -36,5 +36,6 @@ final class CurrentUserDataManager {
         defaults.removeObject(forKey: "userToken")
         defaults.removeObject(forKey: "regions")
         defaults.removeObject(forKey: "state")
+        defaults.removeObject(forKey: "isArtist")
     }
 }
