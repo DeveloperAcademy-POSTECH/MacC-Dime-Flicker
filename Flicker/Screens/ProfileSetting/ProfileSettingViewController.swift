@@ -10,10 +10,7 @@ import SnapKit
 import Then
 import FirebaseAuth
 import Firebase
-/*
- LoginProfileViewController와 같은 뷰이지만 재사용성을 강조해 두 뷰를 종속시키는 것 보다
- 그냥 같은 뷰를 새로 그려 따로 관리하는 것이 더 효율적이라고 생각이 되어 거의 같은 코드를 쓰는 뷰가 두 개가 있습니다.
- */
+
 final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
     private let defaults = UserDefaults.standard
@@ -177,23 +174,39 @@ final class ProfileSettingViewController: BaseViewController {
                                                               name: nickNameField.text ?? "",
                                                               profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
             await CurrentUserDataManager.shared.saveUserDefault()
-            self?.navigationController?.pushViewController(viewController, animated: true)
+            self?.navigationController?.popViewController(animated: true)
+            
         }
-        self.dismiss(animated: true, completion: nil)
+      
     }
     
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
+        self.signUpButton.isEnabled = false
+        self.signUpButton.backgroundColor = .loginGray
     }
 }
 
 extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
+    override func textFieldDidBeginEditing(_ textField: UITextField) {
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = true
+            disableButton()
+        }
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = true
+            disableButton()
+        }
+    }
     override func textFieldDidEndEditing(_ textField: UITextField) {
-        isNickNameWrite = true
-        nickNameTextFieldClearButton.isHidden = false
-        signUpButton.isEnabled = true
-        signUpButton.backgroundColor = .mainPink
+        if !nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = false
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = .mainPink
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -206,6 +219,16 @@ extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavi
             newImage = possibleImage        // 원본 이미지가 있을 경우
         }
         self.profileImageView.image = newImage
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = false
+            nickNameField.text = currentUserName
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = .mainPink
+        }
         dismiss(animated: true, completion: nil)
+    }
+    func disableButton() {
+        signUpButton.isEnabled = false
+        signUpButton.backgroundColor = .loginGray
     }
 }

@@ -37,6 +37,7 @@ final class ProfileViewController: EmailViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
         tabBarController?.tabBar.isHidden = false
+        tableView.reloadData()
     }
     
     override func render() {
