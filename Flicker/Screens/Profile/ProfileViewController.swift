@@ -38,27 +38,22 @@ final class ProfileViewController: EmailViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         tabBarController?.tabBar.isHidden = false
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
     
     override func render() {
         view.backgroundColor = .systemGray6
         view.addSubviews(tableView, profileHeader)
         profileHeader.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(tableView.snp.top)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.height.equalTo(180)
         }
 
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(profileHeader.snp.bottom)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
 
-        tableView.tableHeaderView = profileHeader
     }
 
     private func setFunctionsAndDelegate() {
