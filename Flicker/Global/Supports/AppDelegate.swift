@@ -52,4 +52,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
 
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let application = UIApplication.shared
+        
+        //앱이 켜져있는 상태에서 푸쉬 알림을 눌렀을 때
+        if application.applicationState == .active {
+            print("푸쉬알림 탭(앱 켜져있음)")
+            NotificationCenter.default.post(name: Notification.Name("showPage"), object: nil, userInfo: ["index": 2])
+        }
+        
+        //앱이 꺼져있는 상태에서 푸쉬 알림을 눌렀을 때
+        if application.applicationState == .inactive {
+            print("푸쉬알림 탭(앱 꺼져있음)")
+            NotificationCenter.default.post(name: Notification.Name("showPage"), object: nil, userInfo: ["index": 2])
+        }
+    }
 }
