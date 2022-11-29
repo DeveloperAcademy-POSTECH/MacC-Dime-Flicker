@@ -18,9 +18,29 @@ final class LoginProfileViewController: BaseViewController {
     var authEmail: String = ""
     var authPassword: String = ""
 
+    private var nickNameCount: Int = 0
     private var isNickNameWrite = false
     private var isTapArtistButton = false
 
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .black.withAlphaComponent(0.7)
+    }
+
+    private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
+        $0.color = .mainPink
+    }
+
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "등록 중이에요!", textColor: .mainPink.withAlphaComponent(0.8), fontStyle: .headline, fontWeight: .bold).then {
+        $0.shadowOffset = CGSize(width: 0.7, height: 0.7)
+        $0.layer.shadowRadius = 20
+        $0.shadowColor = .black.withAlphaComponent(0.6)
+        $0.isHidden = true
+    }
+
+    // MARK: -LoginProfileViewUI
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
@@ -55,14 +75,14 @@ final class LoginProfileViewController: BaseViewController {
     private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
     private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
-    private let nickNameField = UITextField().then {
+    private lazy var nickNameField = UITextField().then {
         let attributes = [
             NSAttributedString.Key.foregroundColor : UIColor.textSubBlack,
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .light)
         ]
 
         $0.backgroundColor = .clear
-        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해 주세요!", attributes: attributes)
+        $0.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해 주세요.", attributes: attributes)
         $0.autocapitalizationType = .none
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -71,6 +91,8 @@ final class LoginProfileViewController: BaseViewController {
         $0.makeShadow(color: .black, opacity: 0.08, offset: CGSize(width: 0, height: 4), radius: 20)
         $0.autocorrectionType = .no
     }
+
+    private lazy var nickNameCountLabel = UILabel().makeBasicLabel(labelText: "(\(self.nickNameCount)/8)", textColor: .textMainBlack, fontStyle: .body, fontWeight: .bold)
 
     private let nickNameTextFieldClearButton = UIButton().then {
         $0.setImage(UIImage(systemName: "x.circle"), for: .normal)
@@ -98,10 +120,6 @@ final class LoginProfileViewController: BaseViewController {
         $0.layer.cornerRadius = 15
     }
 
-    private let navigationDivider = UIView().then {
-        $0.backgroundColor = .loginGray
-    }
-
     private let nickNameDivider = UIView().then {
         $0.backgroundColor = .loginGray
     }
@@ -110,8 +128,11 @@ final class LoginProfileViewController: BaseViewController {
         nickNameField.delegate = self
         signUpButton.isEnabled = false
         nickNameTextFieldClearButton.isHidden = true
+        nickNameCountLabel.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
+
+        view.addSubviews(loadingView, spinnerView,loadingLabel)
 
 
         artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
@@ -119,14 +140,8 @@ final class LoginProfileViewController: BaseViewController {
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
 
-        navigationDivider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2)
-        }
-
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }
@@ -155,12 +170,17 @@ final class LoginProfileViewController: BaseViewController {
         nickNameField.snp.makeConstraints {
             $0.top.equalTo(nickNameLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(60)
+            $0.trailing.equalToSuperview().inset(100)
+        }
+
+        nickNameCountLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nickNameField.snp.centerY)
+            $0.leading.equalTo(nickNameField.snp.trailing)
         }
 
         nickNameTextFieldClearButton.snp.makeConstraints {
             $0.centerY.equalTo(nickNameField.snp.centerY)
-            $0.leading.equalTo(nickNameField.snp.trailing)
+            $0.leading.equalTo(nickNameField.snp.trailing).offset(40)
             $0.trailing.equalToSuperview().inset(30)
         }
 
@@ -183,7 +203,7 @@ final class LoginProfileViewController: BaseViewController {
         artistTrueButton.snp.makeConstraints {
             $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalTo(view.snp.centerX).inset(25 )
+            $0.trailing.equalTo(view.snp.centerX).inset(25)
         }
 
         artistFalseButton.snp.makeConstraints {
@@ -197,25 +217,20 @@ final class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
+        loadingView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
+        spinnerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-        title = "프로필 입력"
+        loadingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
+        }
     }
 
     @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {
@@ -262,43 +277,79 @@ final class LoginProfileViewController: BaseViewController {
         //storeUserInformation을 하기 위해 이메일 값을 파이어베이스에서 이메일 값을 가져온다.
         if isSignUpEmail {
             Task { [weak self] in
+                self?.openLoadingView()
                 await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
+                self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
             let fireBaseUser = Auth.auth().currentUser
             Task { [weak self] in
+                self?.openLoadingView()
                 guard let fireBaseUser = fireBaseUser else { return }
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
                                                                   profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
                 await CurrentUserDataManager.shared.saveUserDefault()
+                self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
+        self.nickNameCountLabel.isHidden = true
 
         if isTapArtistButton {
             signUpButton.isEnabled = false
             signUpButton.backgroundColor = .loginGray
         }
     }
+
+    // MARK: - changing loading view status action
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+        self.spinnerView.startAnimating()
+        self.loadingLabel.isHidden = false
+    }
+
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+        self.spinnerView.stopAnimating()
+        self.loadingLabel.isHidden = true
+    }
 }
 
 extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+    //8글자를 입력하면 백스페이스를 포함한 어떠한 입력도 입력되지 않아 예외처리로 지우기는 가능하게 하는 코드입니다.
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
+        }
+
+        guard nickNameField.text?.count ?? 0 < 8 else { return false }
+        return true
+    }
 
     override func textFieldDidBeginEditing(_ textField: UITextField) {
         nickNameTextFieldClearButton.isHidden = false
     }
 
+
     func textFieldDidChangeSelection(_ textField: UITextField) {
+
+        nickNameCountLabel.isHidden = nickNameField.text?.count == 0 ? true : false
+
+        nickNameCountLabel.text = "(\(nickNameField.text?.count ?? 0)/8)"
 
         isNickNameWrite = nickNameField.text!.isEmpty ? false : true
 
