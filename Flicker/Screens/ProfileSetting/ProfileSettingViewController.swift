@@ -13,7 +13,6 @@ import Firebase
 
 final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
-//    private var isImageWrite = false
     private let defaults = UserDefaults.standard
     var currentUserName: String = ""
     private lazy var imagePicker = UIImagePickerController().then {
