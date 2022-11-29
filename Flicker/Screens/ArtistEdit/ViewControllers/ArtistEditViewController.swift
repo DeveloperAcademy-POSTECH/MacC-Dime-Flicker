@@ -223,23 +223,31 @@ extension ArtistEditViewController {
     private func recheckAlert() {
         let recheckAlert = UIAlertController(title: "수정이 끝나셨나요?", message: "", preferredStyle: .actionSheet)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함 ✅
-            let numberOfUrls = self.copiedItems.portfolioUrls.count
-            for indexNumber in 0..<numberOfUrls {
+            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함
+            if self.originalEditData.portfolioImages != self.copiedItems.portfolioImages {
+                let numberOfUrls = self.copiedItems.portfolioUrls.count
+                for indexNumber in 0..<numberOfUrls {
+                    Task {
+                        await self.dataFirebase.removeImages(urlCount: indexNumber)
+                    }
+                }
+                // MARK: Concurrent uploading photos
+                for (indexNum, photo) in self.copiedItems.portfolioImages.enumerated() {
+                    Task {
+                        async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
+                        await self.temporaryStrings.append(urlString)
+                    }
+                }
+                self.copiedItems.portfolioUrls.removeAll()
+                self.openLoadingView()
+            } else {
                 Task {
-                    await self.dataFirebase.removeImages(urlCount: indexNumber)
+                    await self.dataFirebase.updateArtistInformation(self.copiedItems)
+                    print("Updated")
+                    self.hideLoadingView()
+                    self.navigationController?.pushViewController(TabbarViewController(), animated: true)
                 }
             }
-            
-            // MARK: Concurrent uploading photos
-            for (indexNum, photo) in self.copiedItems.portfolioImages.enumerated() {
-                Task {
-                    async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
-                    await self.temporaryStrings.append(urlString)
-                }
-            }
-            self.copiedItems.portfolioUrls.removeAll()
-            self.openLoadingView()
         }
         
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
