@@ -175,7 +175,7 @@ final class LoginProfileViewController: BaseViewController {
 
         nickNameCountLabel.snp.makeConstraints {
             $0.centerY.equalTo(nickNameField.snp.centerY)
-            $0.leading.equalTo(nickNameField.snp.trailing)
+            $0.leading.equalTo(nickNameField.snp.trailing).offset(-10)
         }
 
         nickNameTextFieldClearButton.snp.makeConstraints {
