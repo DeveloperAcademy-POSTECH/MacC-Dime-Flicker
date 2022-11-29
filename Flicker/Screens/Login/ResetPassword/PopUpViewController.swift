@@ -84,14 +84,14 @@ final class PopUpViewController: BaseViewController  {
 
         subLabel.snp.makeConstraints {
             $0.top.equalTo(mainLabel.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(31)
+            $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.035)
         }
 
         emailField.snp.makeConstraints {
-            $0.top.equalTo(subLabel.snp.bottom).offset(20)
+            $0.top.equalTo(subLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.065)
         }
 
         emailValidCheckLabel.snp.makeConstraints {
