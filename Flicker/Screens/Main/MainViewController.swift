@@ -36,7 +36,7 @@ final class MainViewController: BaseViewController {
     private var cursor: DocumentSnapshot?
     private var dataMayContinue = true
     private var pages = 3
-    
+
     // MARK: - property
     
     private let appTitleLabel = UILabel().then {

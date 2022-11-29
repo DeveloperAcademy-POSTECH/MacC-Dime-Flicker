@@ -314,7 +314,46 @@ final class FirebaseManager: NSObject {
             
             return (artists, artistThumbnails, cursor)
         } catch {
-            print("error to load Artist")
+            print("error to load Artist \(error)")
+            return nil
+        }
+    }
+
+    func continueArtist(regions: [String], cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], artistThumbnails: [ArtistThumbnail], cursor: QueryDocumentSnapshot?)? {
+        do {
+            var artists = [Artist]()
+            var artistThumbnails = [ArtistThumbnail]()
+
+            var querySnapshot: QuerySnapshot
+
+            if regions == ["전체"] {
+                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: pages).getDocuments()
+            } else {
+                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: pages).getDocuments()
+            }
+
+            await querySnapshot.documents.asyncForEach({ snapshot in
+                guard let artist = try? snapshot.data(as: Artist.self) else { return }
+                let artistProfileImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
+                let artistThumnailImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first!)
+
+                let artistThumbnail = ArtistThumbnail(
+                    id: artist.id,
+                    artistName: artist.userInfo["userName"] ?? "",
+                    artistTag: "#\(artist.tags.joined(separator: "#"))",
+                    artistProfileImageView: artistProfileImageView,
+                    artistThumnailImageView: artistThumnailImageView
+                )
+
+                artists.append(artist)
+                artistThumbnails.append(artistThumbnail)
+            })
+
+            let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
+
+            return (artists, artistThumbnails, cursor)
+        } catch {
+            print("error to continue Artist\(error)")
             return nil
         }
     }
@@ -341,46 +380,34 @@ final class FirebaseManager: NSObject {
 
             return (searchedArtists, cursor)
         } catch {
-            print(error)
+            print("error in search Artist\(error)")
             return nil
         }
     }
-    
-    func continueArtist(regions: [String], cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], artistThumbnails: [ArtistThumbnail], cursor: QueryDocumentSnapshot?)? {
+
+    func continueArtistInSearch(with searchText: String, cursor: DocumentSnapshot, pages: Int) async -> (artists: [Artist], cursor: QueryDocumentSnapshot?)? {
         do {
-            var artists = [Artist]()
-            var artistThumbnails = [ArtistThumbnail]()
-            
+            var searchedArtists = [Artist]()
+
             var querySnapshot: QuerySnapshot
-            
-            if regions == ["전체"] {
-                querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: pages).getDocuments()
-            } else {
-                querySnapshot = try await firestore.collection("artists").whereField("regions", arrayContainsAny: regions).start(afterDocument: cursor).limit(to: pages).getDocuments()
-            }
-            
+
+            querySnapshot = try await firestore.collection("artists").start(afterDocument: cursor).limit(to: pages).getDocuments()
+
             await querySnapshot.documents.asyncForEach({ snapshot in
                 guard let artist = try? snapshot.data(as: Artist.self) else { return }
-                let artistProfileImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"]!)
-                let artistThumnailImageView = try? await NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first!)
-                
-                let artistThumbnail = ArtistThumbnail(
-                    id: artist.id,
-                    artistName: artist.userInfo["userName"] ?? "",
-                    artistTag: "#\(artist.tags.joined(separator: "#"))",
-                    artistProfileImageView: artistProfileImageView,
-                    artistThumnailImageView: artistThumnailImageView
-                )
-                
-                artists.append(artist)
-                artistThumbnails.append(artistThumbnail)
+
+                let searchedString = artist.regions.joined() + artist.tags.joined() + artist.camera + artist.lens
+
+                if searchedString.contains(searchText) {
+                    searchedArtists.append(artist)
+                }
             })
-            
+
             let cursor = querySnapshot.count < pages ? nil : querySnapshot.documents.last
-            
-            return (artists, artistThumbnails, cursor)
+
+            return (searchedArtists, cursor)
         } catch {
-            print("error to continue Artist")
+            print("error in continuie Artist\(error)")
             return nil
         }
     }

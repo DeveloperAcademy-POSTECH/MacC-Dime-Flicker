@@ -44,6 +44,10 @@ final class SearchViewController: BaseViewController {
 
     private var searchText: String = ""
 
+    private var dataMayContinue = true
+
+    private var pages = 20
+
     // MARK: - property
 
     private let collectionViewFlowLayout = UICollectionViewFlowLayout().then {
@@ -120,7 +124,7 @@ final class SearchViewController: BaseViewController {
 
             emptyThumnailView.isHidden = true
 
-            if let result = await FirebaseManager.shared.searchArtist(with: searchText, pages: 10) {
+            if let result = await FirebaseManager.shared.searchArtist(with: searchText, pages: pages) {
                 self.artists = result.artists
                 self.cursor = result.cursor
             }
@@ -137,6 +141,24 @@ final class SearchViewController: BaseViewController {
                     self.refreshControl.endRefreshing()
                 }
             }
+        }
+    }
+
+    private func continueData() {
+        guard dataMayContinue, let cursor = cursor else { return }
+        dataMayContinue = false
+
+        Task {
+            if let result = await FirebaseManager.shared.continueArtistInSearch(with: searchText, cursor: cursor, pages: pages) {
+                self.artists += result.artists
+                self.cursor = result.cursor
+            }
+
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
+            }
+
+            self.dataMayContinue = true
         }
     }
     
@@ -200,5 +222,20 @@ extension SearchViewController: UISearchBarDelegate {
         self.searchText = text
         self.searchArtists()
         dismissSearchKeyboard()
+    }
+}
+
+extension SearchViewController {
+    /* Standard scroll-view delegate */
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentSize = scrollView.contentSize.height
+
+        if contentSize - scrollView.contentOffset.y <= scrollView.bounds.height {
+            didScrollToBottom()
+        }
+    }
+
+    private func didScrollToBottom() {
+        continueData()
     }
 }
