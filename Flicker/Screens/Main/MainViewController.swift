@@ -224,6 +224,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let vc = ArtistTappedViewController()
         vc.artist = artist
         navigationController?.pushViewController(vc, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 
