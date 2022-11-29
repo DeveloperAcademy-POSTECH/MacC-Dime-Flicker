@@ -34,10 +34,4 @@ final class TabbarViewController: UITabBarController {
         tabBar.backgroundColor = .white
         setViewControllers([mainViewController, searchViewController, messageViewController, profileViewController], animated: true)
     }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: false)
-//    }
-
 }
