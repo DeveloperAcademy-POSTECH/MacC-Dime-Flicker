@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -18,6 +19,7 @@ final class ThumnailCollectionViewCell: BaseCollectionViewCell {
         $0.backgroundColor = .gray002.withAlphaComponent(0.5)
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
+        $0.isSkeletonable = true
     }
     
     override func render() {

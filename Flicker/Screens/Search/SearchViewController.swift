@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import FirebaseFirestore
 import SnapKit
 import Then
@@ -23,8 +24,11 @@ final class SearchViewController: BaseViewController {
                                                   bottom: collectionVerticalSpacing,
                                                   right: collectionHorizontalSpacing)
     }
+
+    private let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
     
     private var artists = [Artist]()
+
     private var filteredArtists = [Artist]()
     
     private var isFiltering: Bool {
@@ -35,6 +39,10 @@ final class SearchViewController: BaseViewController {
     }
     
     private var cursor: DocumentSnapshot?
+
+    private var refreshControl = UIRefreshControl()
+
+    private var searchText: String = ""
 
     // MARK: - property
 
@@ -52,13 +60,37 @@ final class SearchViewController: BaseViewController {
         $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(ThumnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumnailCollectionViewCell.className)
+        $0.isSkeletonable = true
+        $0.isUserInteractionEnabled = true
     }
     
     private let emptyThumnailView = EmptyThumnailView()
+
+    private lazy var searchBar = UISearchBar().then {
+        $0.placeholder = "작가를 검색하세요."
+        $0.delegate = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideSearchKeyboard()
         loadData()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
+    func hideSearchKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissSearchKeyboard))
+        view.addGestureRecognizer(tap)
+        listCollectionView.addGestureRecognizer(tap)
+        emptyThumnailView.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissSearchKeyboard() {
+        searchBar.resignFirstResponder()
     }
     
     private func loadData() {
@@ -81,6 +113,32 @@ final class SearchViewController: BaseViewController {
             }
         }
     }
+
+    private func searchArtists() {
+        Task {
+            self.listCollectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+
+            emptyThumnailView.isHidden = true
+
+            if let result = await FirebaseManager.shared.searchArtist(with: searchText, pages: 10) {
+                self.artists = result.artists
+                self.cursor = result.cursor
+            }
+
+            if artists.isEmpty {
+                emptyThumnailView.isHidden = false
+            }
+
+            DispatchQueue.main.async {
+                self.listCollectionView.reloadData()
+                self.listCollectionView.performBatchUpdates {
+                    self.listCollectionView.stopSkeletonAnimation()
+                    self.listCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+                    self.refreshControl.endRefreshing()
+                }
+            }
+        }
+    }
     
     override func render() {
         view.addSubviews(listCollectionView, emptyThumnailView)
@@ -98,12 +156,9 @@ final class SearchViewController: BaseViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "작가를 검색하세요."
-        searchController.searchResultsUpdater = self
+
+        navigationItem.titleView = searchBar
         navigationItem.leftBarButtonItem = nil
-        navigationItem.titleView = searchController.searchBar
     }
 }
 
@@ -123,7 +178,6 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         Task {
             try await cell.thumnailImageView.image = NetworkManager.shared.fetchOneImage(withURL: artist.portfolioImageUrls.first ?? "")
         }
-        
         return cell
     }
     
@@ -136,10 +190,11 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text?.lowercased() else { return }
-        self.filteredArtists = self.artists.filter { $0.userInfo["userName"]!.lowercased().contains(text) }
-        self.listCollectionView.reloadData()
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        self.searchText = text
+        self.searchArtists()
+        dismissSearchKeyboard()
     }
 }
