@@ -67,8 +67,8 @@ final class ArtistThumnailCollectionViewCell: BaseCollectionViewCell {
         self.artistThumnailImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         let width: CGFloat = UIScreen.main.bounds.size.width - 40
-        let height: CGFloat = 300.0
-        let sHeight: CGFloat = 150.0
+        let height: CGFloat = width * 0.85
+        let sHeight: CGFloat = height / 2
         let shadow = UIColor.black.withAlphaComponent(0.8).cgColor
 
         let bottomImageGradient = CAGradientLayer()
