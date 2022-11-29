@@ -20,7 +20,7 @@ final class ProfileHeaderVIew: UIView {
     private lazy var profileImage = UIImageView().then {
         $0.image = UIImage(named: "DefaultProfile")
         $0.contentMode = .scaleToFill
-        $0.layer.cornerRadius = 40
+        $0.layer.cornerRadius = (DeviceFrame.screenHeight * 0.086) / 2
         $0.clipsToBounds = true
     }
     
@@ -45,13 +45,13 @@ final class ProfileHeaderVIew: UIView {
             $0.bottom.equalToSuperview()
         }
         profileImage.snp.makeConstraints {
-            $0.height.width.equalTo(80)
+            $0.height.width.equalTo(DeviceFrame.screenHeight * 0.086)
             $0.leading.equalTo(headerCard.snp.leading).inset(30)
             $0.centerY.equalToSuperview()
         }
         idLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImage.snp.centerY)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
         }
     }
     func setupHeaderData( name: String, imageURL: String) async {

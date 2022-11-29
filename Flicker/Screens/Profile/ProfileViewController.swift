@@ -45,7 +45,7 @@ final class ProfileViewController: EmailViewController {
         profileHeader.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.height.equalTo(180)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.2)
         }
 
         tableView.snp.makeConstraints {
