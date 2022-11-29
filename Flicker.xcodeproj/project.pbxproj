@@ -13,6 +13,7 @@
 		103EB1FC29224F2600E11A2A /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */; };
 		107841FF29267C34004849FC /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107841FE29267C34004849FC /* PopUpViewController.swift */; };
 		108561112923EAB00083E156 /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108561102923EAB00083E156 /* ProfileSettingViewController.swift */; };
+		10CAB7B32935CD8F00442A49 /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CAB7B22935CD8F00442A49 /* Static.swift */; };
 		10FE6B6029064FE60064201F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B5F29064FE60064201F /* FirebaseAuth */; };
 		10FE6B6229064FE60064201F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6129064FE60064201F /* FirebaseFirestore */; };
 		10FE6B6429064FE60064201F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FE6B6329064FE60064201F /* FirebaseFirestoreSwift */; };
@@ -115,6 +116,7 @@
 		103EB1FB29224F2600E11A2A /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
 		107841FE29267C34004849FC /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		108561102923EAB00083E156 /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
+		10CAB7B22935CD8F00442A49 /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		58118D38291132FB00F08D35 /* ArtistRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRegisterViewController.swift; sourceTree = "<group>"; };
 		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
 		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				CBDC03FC29060F7A00C6CF30 /* PushNotificationSender.swift */,
 				102A4BEA29253AB2005A8BE5 /* LoginManager.swift */,
 				7B589121292B6568008A950E /* EmailViewController.swift */,
+				10CAB7B22935CD8F00442A49 /* Static.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				58A20CE9292C8C840036A474 /* ArtistEditRegionsViewController.swift in Sources */,
 				58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */,
 				CBDC03D429060E6600C6CF30 /* AppDelegate.swift in Sources */,
+				10CAB7B32935CD8F00442A49 /* Static.swift in Sources */,
 				CBDC04052906100D00C6CF30 /* UICollectionView+Extension.swift in Sources */,
 				58A452A92912A24600C9707D /* RegisterTextDescriptionViewController.swift in Sources */,
 				CB5BF4782919E10700A3E112 /* ChatSendView.swift in Sources */,

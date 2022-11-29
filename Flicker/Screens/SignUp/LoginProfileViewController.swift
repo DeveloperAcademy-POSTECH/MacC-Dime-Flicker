@@ -103,21 +103,21 @@ final class LoginProfileViewController: BaseViewController {
         $0.setTitle("네", for: .normal)
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
     }
 
     private let artistFalseButton = UIButton().then {
         $0.setTitle("아니오", for: .normal)
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
     }
 
     private let signUpButton = UIButton().then {
-        $0.backgroundColor = .loginGray
+        $0.backgroundColor = .systemGray2
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("완료", for: .normal)
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.014
     }
 
     private let nickNameDivider = UIView().then {
@@ -175,7 +175,7 @@ final class LoginProfileViewController: BaseViewController {
 
         nickNameCountLabel.snp.makeConstraints {
             $0.centerY.equalTo(nickNameField.snp.centerY)
-            $0.leading.equalTo(nickNameField.snp.trailing)
+            $0.leading.equalTo(nickNameField.snp.trailing).offset(-10)
         }
 
         nickNameTextFieldClearButton.snp.makeConstraints {
@@ -248,7 +248,7 @@ final class LoginProfileViewController: BaseViewController {
             signUpButton.backgroundColor = .mainPink
         } else {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .loginGray
+            signUpButton.backgroundColor = .systemGray2
         }
 
         isTapArtistButton = true
@@ -265,7 +265,7 @@ final class LoginProfileViewController: BaseViewController {
             signUpButton.backgroundColor = .mainPink
         } else {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .loginGray
+            signUpButton.backgroundColor = .systemGray2
         }
 
         isTapArtistButton = true
@@ -308,7 +308,7 @@ final class LoginProfileViewController: BaseViewController {
 
         if isTapArtistButton {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .loginGray
+            signUpButton.backgroundColor = .systemGray2
         }
     }
 
@@ -357,7 +357,7 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
 
         signUpButton.isEnabled = nickNameField.text!.isEmpty ? false : true
 
-        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .loginGray
+        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .systemGray2
     }
     override func textFieldDidEndEditing(_ textField: UITextField) {
         if !nickNameField.text!.isEmpty {
@@ -365,7 +365,7 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
             nickNameTextFieldClearButton.isHidden = true
 
             signUpButton.isEnabled = isTapArtistButton ? true : false
-            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .loginGray
+            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .systemGray2
 
         }
 
