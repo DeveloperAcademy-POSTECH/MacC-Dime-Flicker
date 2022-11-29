@@ -246,13 +246,13 @@ final class ArtistTappedViewController: BaseViewController {
         bottomBackgroundView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(view.frame.height / 10)
+            $0.height.equalTo(view.frame.height / 9)
             $0.width.equalToSuperview()
         }
 
         counselingButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(10)
+            $0.top.equalToSuperview().inset(15)
             $0.height.equalTo(view.frame.height / 18)
             $0.width.equalTo(view.frame.width / 2.2)
         }
