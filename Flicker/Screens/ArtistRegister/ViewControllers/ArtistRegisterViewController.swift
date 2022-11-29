@@ -245,6 +245,7 @@ extension ArtistRegisterViewController {
                     print("Artist is \(self.temporaryStrings)")
                 }
             }
+            UserDefaults.standard.set(true, forKey: "isArtist")
             // MARK: Intentional delay for uploading the photos
             self.openLoadingView()
         }
