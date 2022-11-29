@@ -4,7 +4,6 @@
 //
 //  Created by COBY_PRO on 2022/10/24.
 //
-//TODO: navigationBackButton 지워야합니다앗 
 import UIKit
 
 final class TabbarViewController: UITabBarController {
@@ -15,7 +14,6 @@ final class TabbarViewController: UITabBarController {
     private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
     
     override func viewDidLoad() {
-
         super.viewDidLoad()
         
         mainViewController.tabBarItem.image = ImageLiteral.btnMain
@@ -30,14 +28,24 @@ final class TabbarViewController: UITabBarController {
         profileViewController.tabBarItem.image = ImageLiteral.btnProfile
         profileViewController.tabBarItem.title = "프로필"
         
-        tabBar.tintColor = .mainYellow
+        tabBar.tintColor = .mainPink
         tabBar.backgroundColor = .white
         setViewControllers([mainViewController, searchViewController, messageViewController, profileViewController], animated: true)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showPage(_:)), name: NSNotification.Name("showPage"), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    @objc func showPage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if let index = userInfo["index"] as? Int {
+                self.selectedIndex = index
+            }
+        }
     }
 
 }

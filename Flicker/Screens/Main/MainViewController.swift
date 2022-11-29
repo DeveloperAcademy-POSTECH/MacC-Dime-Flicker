@@ -18,7 +18,7 @@ final class MainViewController: BaseViewController {
         static let collectionHorizontalSpacing: CGFloat = 20.0
         static let collectionVerticalSpacing: CGFloat = 20.0
         static let cellWidth: CGFloat = UIScreen.main.bounds.size.width - collectionHorizontalSpacing * 2
-        static let cellHeight: CGFloat = 300
+        static let cellHeight: CGFloat = cellWidth * 0.85
         static let collectionInset = UIEdgeInsets(top: 0,
                                                   left: collectionHorizontalSpacing,
                                                   bottom: collectionVerticalSpacing,
@@ -77,10 +77,6 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func render() {
@@ -228,6 +224,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let vc = ArtistTappedViewController()
         vc.artist = artist
         navigationController?.pushViewController(vc, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 
