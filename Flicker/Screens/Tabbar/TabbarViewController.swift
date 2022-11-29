@@ -9,7 +9,7 @@ import UIKit
 final class TabbarViewController: UITabBarController {
     
     private let mainViewController = UINavigationController(rootViewController: MainViewController())
-    private let searchViewController = UINavigationController(rootViewController: SearchViewController())
+//    private let searchViewController = UINavigationController(rootViewController: SearchViewController())
     private let messageViewController = UINavigationController(rootViewController: ChannelsViewController())
     private let profileViewController = UINavigationController(rootViewController: ProfileViewController())
     
@@ -19,9 +19,9 @@ final class TabbarViewController: UITabBarController {
         mainViewController.tabBarItem.image = ImageLiteral.btnMain
         mainViewController.tabBarItem.title = "메인"
         
-        searchViewController.tabBarItem.image = ImageLiteral.btnSearch
-        searchViewController.tabBarItem.title = "검색"
-        
+//        searchViewController.tabBarItem.image = ImageLiteral.btnSearch
+//        searchViewController.tabBarItem.title = "검색"
+//
         messageViewController.tabBarItem.image = ImageLiteral.btnMessage
         messageViewController.tabBarItem.title = "메세지"
         
@@ -30,7 +30,7 @@ final class TabbarViewController: UITabBarController {
         
         tabBar.tintColor = .mainPink
         tabBar.backgroundColor = .white
-        setViewControllers([mainViewController, searchViewController, messageViewController, profileViewController], animated: true)
+        setViewControllers([mainViewController, messageViewController, profileViewController], animated: true)
         
         NotificationCenter.default.addObserver(self, selector: #selector(showPage(_:)), name: NSNotification.Name("showPage"), object: nil)
     }
