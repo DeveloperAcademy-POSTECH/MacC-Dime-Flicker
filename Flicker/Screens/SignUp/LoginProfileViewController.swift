@@ -120,10 +120,6 @@ final class LoginProfileViewController: BaseViewController {
         $0.layer.cornerRadius = 15
     }
 
-    private let navigationDivider = UIView().then {
-        $0.backgroundColor = .loginGray
-    }
-
     private let nickNameDivider = UIView().then {
         $0.backgroundColor = .loginGray
     }
@@ -134,7 +130,7 @@ final class LoginProfileViewController: BaseViewController {
         nickNameTextFieldClearButton.isHidden = true
         nickNameCountLabel.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, navigationDivider, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
 
         view.addSubviews(loadingView, spinnerView,loadingLabel)
 
@@ -143,12 +139,6 @@ final class LoginProfileViewController: BaseViewController {
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
-
-        navigationDivider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1)
-        }
 
         profileImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
@@ -241,11 +231,6 @@ final class LoginProfileViewController: BaseViewController {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
         }
-    }
-
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-        title = "프로필 입력"
     }
 
     @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {
