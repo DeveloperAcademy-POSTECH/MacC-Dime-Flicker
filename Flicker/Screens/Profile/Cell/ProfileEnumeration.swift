@@ -26,7 +26,7 @@ enum ProfileSection: Int, CaseIterable {
     case signOut
     
     func sectionOptions(isArtist: Bool) -> [String] {
-        let category = isArtist ? "작가설정" : "작가등록"
+        let category = isArtist ? "작가 수정" : "작가 등록"
         
         switch self {
         case .settings:

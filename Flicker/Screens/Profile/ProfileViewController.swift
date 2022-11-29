@@ -11,8 +11,8 @@ import FirebaseAuth
 
 final class ProfileViewController: EmailViewController {
     // MARK: - Properties: User Data
+    private let isArtist: Bool = UserDefaults.standard.bool(forKey: "isArtist")
     private let userName: String? = nil
-    private var isArtist: Bool = false
     private let defaults = UserDefaults.standard
     private let profileSettingView = ProfileSettingViewController()
     // MARK: - Properties: UITable layout
