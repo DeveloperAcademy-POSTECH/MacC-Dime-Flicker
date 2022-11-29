@@ -16,7 +16,7 @@ final class PopUpViewController: BaseViewController  {
     private let popUpView = UIView().then {
         $0.clipsToBounds = true
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
     }
 
     private let mainLabel = UILabel().makeBasicLabel(labelText: "이메일을 입력하세요", textColor: .textMainBlack, fontStyle: .headline, fontWeight: .bold)
@@ -32,7 +32,7 @@ final class PopUpViewController: BaseViewController  {
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.014
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         $0.leftViewMode = .always
@@ -47,7 +47,7 @@ final class PopUpViewController: BaseViewController  {
         $0.backgroundColor = .systemGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("보내기", for: .normal)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
     }
 
     private let cancleButton = UIButton().then {
@@ -55,7 +55,7 @@ final class PopUpViewController: BaseViewController  {
         $0.backgroundColor = .systemGray2
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("나가기", for: .normal)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
     }
 
 
@@ -72,26 +72,26 @@ final class PopUpViewController: BaseViewController  {
 
         popUpView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width * 0.75)
-            $0.height.equalTo(UIScreen.main.bounds.height * 0.35)
+            $0.width.equalTo(DeviceFrame.screenWidth * 0.75)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.37)
         }
 
         mainLabel.snp.makeConstraints {
-            $0.top.equalTo(popUpView.snp.top).offset(45)
+            $0.top.equalTo(popUpView.snp.top).offset(DeviceFrame.screenHeight * 0.053)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(40)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.047)
         }
 
         subLabel.snp.makeConstraints {
             $0.top.equalTo(mainLabel.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(30)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.035)
         }
 
         emailField.snp.makeConstraints {
             $0.top.equalTo(subLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(60)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.07)
         }
 
         emailValidCheckLabel.snp.makeConstraints {
@@ -100,15 +100,15 @@ final class PopUpViewController: BaseViewController  {
         }
         
         sendEmailButton.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(35)
-            $0.height.equalTo(50)
+            $0.top.equalTo(emailField.snp.bottom).offset(DeviceFrame.screenHeight * 0.042)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.05)
             $0.leading.equalToSuperview().inset(30)
             $0.trailing.equalTo(emailField.snp.centerX).offset(-5)
         }
 
         cancleButton.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(35)
-            $0.height.equalTo(50)
+            $0.top.equalTo(emailField.snp.bottom).offset(DeviceFrame.screenHeight * 0.042)
+            $0.height.equalTo(DeviceFrame.screenHeight * 0.05)
             $0.leading.equalTo(emailField.snp.centerX).offset(5)
             $0.trailing.equalToSuperview().inset(30)
 

@@ -34,7 +34,7 @@ final class SignUpViewController: BaseViewController {
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "이메일 주소", attributes: attributes)
         $0.autocapitalizationType = .none
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.leftViewMode = .always
@@ -54,7 +54,7 @@ final class SignUpViewController: BaseViewController {
         $0.tag = 1
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 (최소 6자 이상)", attributes: attributes)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.leftViewMode = .always
@@ -74,7 +74,7 @@ final class SignUpViewController: BaseViewController {
         $0.tag = 2
         $0.backgroundColor = .loginGray
         $0.attributedPlaceholder = NSAttributedString(string: "비밀번호 확인", attributes: attributes)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
         $0.layer.masksToBounds = true
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         $0.leftViewMode = .always
@@ -90,7 +90,7 @@ final class SignUpViewController: BaseViewController {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("다음", for: .normal)
-        $0.layer.cornerRadius = 20
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.024
         $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
     }
 

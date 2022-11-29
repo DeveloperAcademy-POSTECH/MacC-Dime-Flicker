@@ -103,21 +103,21 @@ final class LoginProfileViewController: BaseViewController {
         $0.setTitle("네", for: .normal)
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
     }
 
     private let artistFalseButton = UIButton().then {
         $0.setTitle("아니오", for: .normal)
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
     }
 
     private let signUpButton = UIButton().then {
         $0.backgroundColor = .loginGray
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("완료", for: .normal)
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.014
     }
 
     private let nickNameDivider = UIView().then {
