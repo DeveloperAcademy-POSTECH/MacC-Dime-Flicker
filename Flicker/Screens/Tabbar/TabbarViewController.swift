@@ -35,9 +35,9 @@ final class TabbarViewController: UITabBarController {
         setViewControllers([mainViewController, searchViewController, messageViewController, profileViewController], animated: true)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.setNavigationBarHidden(true, animated: false)
+//    }
 
 }
