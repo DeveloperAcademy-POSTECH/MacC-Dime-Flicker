@@ -103,7 +103,7 @@ final class SearchViewController: BaseViewController {
             
             emptyThumnailView.isHidden = true
             
-            if let result = await FirebaseManager.shared.loadArtist(regions: ["전체"], pages: 20) {
+            if let result = await FirebaseManager.shared.loadArtist(regions: ["전체"], pages: 50) {
                 self.artists = result.artists
                 self.cursor = result.cursor
             }
