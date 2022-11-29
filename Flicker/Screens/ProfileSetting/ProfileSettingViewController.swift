@@ -10,12 +10,10 @@ import SnapKit
 import Then
 import FirebaseAuth
 import Firebase
-/*
- LoginProfileViewController와 같은 뷰이지만 재사용성을 강조해 두 뷰를 종속시키는 것 보다
- 그냥 같은 뷰를 새로 그려 따로 관리하는 것이 더 효율적이라고 생각이 되어 거의 같은 코드를 쓰는 뷰가 두 개가 있습니다.
- */
+
 final class ProfileSettingViewController: BaseViewController {
     private var isNickNameWrite = false
+//    private var isImageWrite = false
     private let defaults = UserDefaults.standard
     var currentUserName: String = ""
     private lazy var imagePicker = UIImagePickerController().then {
@@ -221,6 +219,12 @@ extension ProfileSettingViewController : UIImagePickerControllerDelegate, UINavi
             newImage = possibleImage        // 원본 이미지가 있을 경우
         }
         self.profileImageView.image = newImage
+        if nickNameField.text!.isEmpty {
+            nickNameTextFieldClearButton.isHidden = false
+            nickNameField.text = currentUserName
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = .mainPink
+        }
         dismiss(animated: true, completion: nil)
     }
     func disableButton() {
