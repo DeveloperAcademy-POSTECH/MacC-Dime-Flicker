@@ -11,8 +11,8 @@ import FirebaseAuth
 
 final class ProfileViewController: EmailViewController {
     // MARK: - Properties: User Data
+    private let isArtist: Bool = UserDefaults.standard.bool(forKey: "isArtist")
     private let userName: String? = nil
-    private var isArtist: Bool = false
     private let defaults = UserDefaults.standard
     private let profileSettingView = ProfileSettingViewController()
     // MARK: - Properties: UITable layout
@@ -100,6 +100,10 @@ final class ProfileViewController: EmailViewController {
     private func goToArtistRegistration() {
         transition(RegisterWelcomeViewController(), transitionStyle: .push)
     }
+    
+    private func goToEditArtist() {
+        transition(ArtistEditViewController(), transitionStyle: .push)
+    }
 
     private func goToCustomerInquiry() {
         sendReportMail(userName: userName, reportType: .askSomething)
@@ -174,7 +178,7 @@ extension ProfileViewController: UITableViewDelegate {
             case 0:
                 setNotification()
             case 1:
-                isArtist ? print("이 영역에 작가 프로필을 수정 하는 뷰를 만들어 넣어야 합니다.") : goToArtistRegistration()
+                isArtist ? goToEditArtist() : goToArtistRegistration()
             case 2:
                 goToCustomerInquiry()
             default:

@@ -16,8 +16,8 @@ import Then
 final class ArtistRegisterViewController: UIViewController {
     
     // MARK: - datas collected to post to the server
-    let dataFirebase = FirebaseManager()
-    let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken", "userId"])
+    private let dataFirebase = FirebaseManager()
+    private let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken", "userId"])
     
     private lazy var dataSourceToServer = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: userDefaultInfo)
     
@@ -245,6 +245,7 @@ extension ArtistRegisterViewController {
                     print("Artist is \(self.temporaryStrings)")
                 }
             }
+            UserDefaults.standard.set(true, forKey: "isArtist")
             // MARK: Intentional delay for uploading the photos
             self.openLoadingView()
         }
@@ -255,12 +256,7 @@ extension ArtistRegisterViewController {
         recheckAlert.addAction(cancel)
         present(recheckAlert, animated: true, completion: nil)
     }
-    
-    // MARK: uploading Data func (Not UIImages)
-    private func sequenceUploadingDatas() async {
-        await self.dataFirebase.storeArtistInformation(self.dataSourceToServer)
-    }
-    
+
     // MARK: changing loading view status action
     private func openLoadingView() {
         self.loadingView.isHidden = false

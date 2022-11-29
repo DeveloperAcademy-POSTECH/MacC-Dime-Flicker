@@ -25,6 +25,7 @@
 		58118D4D29116B5400F08D35 /* RegisterRegionTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */; };
 		58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		5819EE5029236EEE000077D7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE4F29236EEE000077D7 /* Artist.swift */; };
+		582EDE1A2935FCBD00E44035 /* EditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582EDE192935FCBD00E44035 /* EditData.swift */; };
 		5833A775291A48820077855F /* RegisterPortfolioImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */; };
 		5833A779291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */; };
 		58A20CE9292C8C840036A474 /* ArtistEditRegionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A20CE8292C8C840036A474 /* ArtistEditRegionsViewController.swift */; };
@@ -121,6 +122,7 @@
 		58118D4C29116B5400F08D35 /* RegisterRegionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRegionTagCell.swift; sourceTree = "<group>"; };
 		58118D4E29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		5819EE4F29236EEE000077D7 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		582EDE192935FCBD00E44035 /* EditData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditData.swift; sourceTree = "<group>"; };
 		5833A774291A48820077855F /* RegisterPortfolioImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPortfolioImageCell.swift; sourceTree = "<group>"; };
 		5833A778291A66FF0077855F /* RegisterAddPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAddPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		58A20CE8292C8C840036A474 /* ArtistEditRegionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditRegionsViewController.swift; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 				CB5BF47C2919E15300A3E112 /* RecentMessage.swift */,
 				CB5BF47D2919E15400A3E112 /* User.swift */,
 				5819EE4F29236EEE000077D7 /* Artist.swift */,
+				582EDE192935FCBD00E44035 /* EditData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				CBDC043A2906143200C6CF30 /* TabbarViewController.swift in Sources */,
 				58DCC900292B76F900A2C644 /* ArtistEditViewController.swift in Sources */,
 				CB5BF4842919E1A800A3E112 /* SendButton.swift in Sources */,
+				582EDE1A2935FCBD00E44035 /* EditData.swift in Sources */,
 				CB5BF4762919E10700A3E112 /* MyChatTableViewCell.swift in Sources */,
 				CBDC03D629060E6600C6CF30 /* SceneDelegate.swift in Sources */,
 				58A452AD2912A26F00C9707D /* RegisterConfirmViewController.swift in Sources */,

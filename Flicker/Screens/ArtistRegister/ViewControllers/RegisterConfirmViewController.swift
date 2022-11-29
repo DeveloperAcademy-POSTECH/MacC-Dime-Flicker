@@ -107,6 +107,7 @@ extension RegisterConfirmViewController {
         dynamicNextButton.addGestureRecognizer(buttonTapped)
     }
     
+    // popToRoot 하면?
     @objc func moveNextTapped() {
         navigationController?.pushViewController(TabbarViewController(), animated: true)
     }

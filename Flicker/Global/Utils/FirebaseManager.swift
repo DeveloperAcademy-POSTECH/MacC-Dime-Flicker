@@ -128,6 +128,36 @@ final class FirebaseManager: NSObject {
             return nil
         }
     }
+    
+    // MARK: - get Artist Datas for update
+    func getArtists() async -> Artist? {
+        guard let uid = auth.currentUser?.uid else { return nil }
+        do {
+            var downloadedArtist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
+            let documentsSnapshot = try await firestore.collection("artists").document(uid).getDocument()
+            let artistFetched = try documentsSnapshot.data(as: Artist.self)
+            downloadedArtist = artistFetched
+
+            return downloadedArtist
+        } catch {
+            print(error)
+            
+            return nil
+        }
+    }
+    
+    // MARK: - remove Images with downloadUrl index numbers
+    func removeImages(urlCount: Int) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        do {
+            let fileName = uid + "_" + String(urlCount)
+            let deleteRef = storage.reference().child("ArtistPortfolio/\(fileName).jpg")
+            try await deleteRef.delete()
+        } catch {
+            print(error)
+        }
+    }
+    
 /*파이어 베이스에서 Email필드에 값을 불러오는데 서치 값이 없을 경우 빈 배열을 불러온다. 빈 배열일 경우 사용자가 적은 이메일 값이
  없고, 배열에 값이 존재할 경우 사용자가 사용하려는 이메일은 이미 존재함을 의미한다. */
     func isEmailSameExist(Email: String) async -> Bool? {
@@ -145,7 +175,6 @@ final class FirebaseManager: NSObject {
             return nil
         }
     }
-
     
     func createChatMessage(currentUser: User, chatUser: User, chatText: String) {
         
@@ -273,6 +302,19 @@ final class FirebaseManager: NSObject {
         guard let uid = auth.currentUser?.uid else { return }
         do {
             let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
+            try await firestore.collection("artists").document(uid).setData(artistData)
+            print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
+        } catch {
+            print("error string Artist Model")
+        }
+    }
+    
+    // MARK: - updating Artist Data using EditData
+    func updateArtistInformation(_ artist: EditData) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken", "userId"])
+        do {
+            let artistData = ["state": "전체", "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioUrls.sorted(), "userInfo": userDefaultInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {

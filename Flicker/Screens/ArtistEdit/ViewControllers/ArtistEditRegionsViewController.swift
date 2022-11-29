@@ -16,7 +16,6 @@ final class ArtistEditRegionsViewController: UIViewController {
     weak var delegate: EditRegionsDelegate?
     
     // MARK: - data sets to post to the server
-    // TODO: - deleate 만들어서 ArtistRegisterViewController 에 연결해야한다.
     var currentRegion: [String] = []
     var selectedRegion: [String] = []
 
@@ -166,17 +165,6 @@ final class ArtistEditRegionsViewController: UIViewController {
         
         completeEditButton.layer.cornerRadius = view.bounds.width/18
     }
-    
-    private func enableButton() {
-        switch selectedRegion.count {
-        case 0:
-            completeEditButton.isEnabled = false
-            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
-        default :
-            completeEditButton.isEnabled = true
-            completeEditButton.backgroundColor = .mainPink
-        }
-    }
 }
 
     // MARK: - collectionView datasource
@@ -280,6 +268,7 @@ extension ArtistEditRegionsViewController: UICollectionViewDelegate, UICollectio
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditRegionsViewController {
     private func customBackButton() {
         let backTapped = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
@@ -301,9 +290,21 @@ extension ArtistEditRegionsViewController {
         }
         self.navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: enable disabled button under the condtion
+    private func enableButton() {
+        switch selectedRegion.count {
+        case 0:
+            completeEditButton.isEnabled = false
+            completeEditButton.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        default :
+            completeEditButton.isEnabled = true
+            completeEditButton.backgroundColor = .mainPink
+        }
+    }
 }
 
-    // MARK: - RegisterRegion custom delegate protocol
+    // MARK: - Edit Region custom delegate protocol
 protocol EditRegionsDelegate: AnyObject {
     func regionSelected(regions regionDatas: [String])
 }

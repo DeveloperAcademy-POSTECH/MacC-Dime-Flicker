@@ -9,28 +9,60 @@ import UIKit
 import SnapKit
 import Then
 
-struct EditData {
-    var regions: [String]
-    var camera: String
-    var lens: String
-    var tags: [String]
-    var detailDescription: String
-    var portfolioImages: [UIImage]
-}
-
 class ArtistEditViewController: UIViewController {
     
-    // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 dataA 와 그 dataA 와 비교하기 위한 복제된 데이터 dataB 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
-    private lazy var dataA = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    // MARK: - data sets to post to the server
+    private let dataFirebase = FirebaseManager()
     
-    private lazy var dataB = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [exImage])
+    // MARK: datas from Firebase
+    private var downloadedItems: Artist = Artist(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImageUrls: [], userInfo: [:])
     
-    let exImage = UIImage(named: "RegisterEnd") ?? UIImage()
+    // MARK: datas collected from downloadedItems to edit
+    private var originalEditData: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     
+    // MARK: copied datas to check whether datas are edited
+    private var copiedItems: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
+    
+    // MARK: - observer to check whether the async tasks are done
+    private var temporaryStrings: [String] = [] {
+        didSet {
+            if self.temporaryStrings.count == self.copiedItems.portfolioImages.count {
+                Task {
+                    self.copiedItems.portfolioUrls = self.temporaryStrings
+                    await self.dataFirebase.updateArtistInformation(copiedItems)
+                    print("Updated")
+                    self.hideLoadingView()
+                    self.navigationController?.pushViewController(TabbarViewController(), animated: true)
+                }
+            }
+        }
+    }
+    
+    // MARK: - table lists components
+    // TODO: enum 으로 바꾸기
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
     private let editItemsImageArray: [String] = ["mappin.and.ellipse", "camera.shutter.button", "tag", "doc.plaintext", "photo.artframe"]
     
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .black.withAlphaComponent(0.7)
+    }
+    
+    private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
+        $0.color = .mainPink
+    }
+    
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "수정 중이에요!", textColor: .mainPink.withAlphaComponent(0.8), fontStyle: .headline, fontWeight: .bold).then {
+        $0.shadowOffset = CGSize(width: 0.7, height: 0.7)
+        $0.layer.shadowRadius = 20
+        $0.shadowColor = .black.withAlphaComponent(0.6)
+        $0.isHidden = true
+    }
+    
+    // MARK: - view UI components
     private let editRegionsViewContrller = ArtistEditRegionsViewController()
     private let editGearsViewController = ArtistEditGearsViewController()
     private let editTagsViewController = ArtistEditTagsViewController()
@@ -64,6 +96,7 @@ class ArtistEditViewController: UIViewController {
         $0.clipsToBounds = true
     }
     
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
@@ -72,6 +105,7 @@ class ArtistEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(copiedItems)
         self.editItemsTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: false)
         self.tabBarController?.tabBar.isHidden = true
@@ -82,8 +116,9 @@ class ArtistEditViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    // MARK: - layout constraints
     private func render() {
-        view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton)
+        view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton, loadingView, spinnerView, loadingLabel)
 
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
@@ -108,8 +143,22 @@ class ArtistEditViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(view.bounds.height/12)
         }
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        spinnerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        loadingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
+        }
     }
     
+    // MARK: - view configurations
     private func configUI() {
         view.backgroundColor = .white
         
@@ -117,6 +166,7 @@ class ArtistEditViewController: UIViewController {
         editGearsViewController.delegate = self
         editTagsViewController.delegate = self
         editDescriptionViewController.delegate = self
+        editPortfoiloViewController.delegate = self
         
         editItemsTableView.delegate = self
         editItemsTableView.dataSource = self
@@ -125,6 +175,14 @@ class ArtistEditViewController: UIViewController {
         
         resetEditButton.addTarget(self, action: #selector(resetEditTapped), for: .touchUpInside)
         completeEditButton.addTarget(self, action: #selector(completeEditTapped), for: .touchUpInside)
+        
+        // MARK: get Artist datas from the server
+        Task {
+            await getData()
+            moveDataToEditItems()
+            copyDataWithinEditItems()
+            print(originalEditData, copiedItems)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -135,9 +193,11 @@ class ArtistEditViewController: UIViewController {
     }
 }
 
+    // MARK: - action functions
 extension ArtistEditViewController {
+    // MARK: reset action
     @objc func resetEditTapped() {
-        self.dataB = self.dataA
+        self.copiedItems = self.originalEditData
         UIView.animate(withDuration: 0.2, delay: 0.0,options: [.allowUserInteraction, .curveEaseInOut]) {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }
@@ -146,14 +206,93 @@ extension ArtistEditViewController {
             self.resetEditButton.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
         self.editItemsTableView.reloadData()
-        print(self.dataB)
+        print(self.copiedItems)
     }
     
+    // MARK: complete action
     @objc func completeEditTapped() {
-        print("complete and out")
+        if originalEditData == copiedItems {
+            print("None of data has been edited.")
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            recheckAlert()
+        }
+    }
+    
+    // MARK: alert action with networking *
+    private func recheckAlert() {
+        let recheckAlert = UIAlertController(title: "수정이 끝나셨나요?", message: "", preferredStyle: .actionSheet)
+        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
+            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함
+            if self.originalEditData.portfolioImages != self.copiedItems.portfolioImages {
+                let numberOfUrls = self.copiedItems.portfolioUrls.count
+                for indexNumber in 0..<numberOfUrls {
+                    Task {
+                        await self.dataFirebase.removeImages(urlCount: indexNumber)
+                    }
+                }
+                // MARK: Concurrent uploading photos
+                for (indexNum, photo) in self.copiedItems.portfolioImages.enumerated() {
+                    Task {
+                        async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
+                        await self.temporaryStrings.append(urlString)
+                    }
+                }
+                self.copiedItems.portfolioUrls.removeAll()
+                self.openLoadingView()
+            } else {
+                Task {
+                    await self.dataFirebase.updateArtistInformation(self.copiedItems)
+                    print("Updated")
+                    self.hideLoadingView()
+                    self.navigationController?.pushViewController(TabbarViewController(), animated: true)
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        recheckAlert.addAction(confirm)
+        recheckAlert.addAction(cancel)
+        present(recheckAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: get datas from the server
+    private func getData() async {
+        guard let temporaryArtist = await dataFirebase.getArtists() else { return }
+        downloadedItems = temporaryArtist
+    }
+    
+    // MARK: modify and copy datas to edit
+    private func moveDataToEditItems() {
+        originalEditData.regions = downloadedItems.regions.sorted()
+        originalEditData.camera = downloadedItems.camera
+        originalEditData.lens = downloadedItems.lens
+        originalEditData.tags = downloadedItems.tags
+        originalEditData.detailDescription = downloadedItems.detailDescription
+        originalEditData.portfolioUrls = downloadedItems.portfolioImageUrls
+    }
+    
+    private func copyDataWithinEditItems() {
+        copiedItems = originalEditData
+    }
+    
+    // MARK: changing loading view status action
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+        self.spinnerView.startAnimating()
+        self.loadingLabel.isHidden = false
+    }
+    
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+        self.spinnerView.stopAnimating()
+        self.loadingLabel.isHidden = true
+        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️HIDELOADINGVIEW")
     }
 }
 
+    // MARK: - tableView delegate and dataSource
 extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         editItemsArray.count
@@ -165,7 +304,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch indexPath.row {
         case 0:
-            let isEdited = self.dataA.regions != self.dataB.regions
+            let isEdited = self.originalEditData.regions != self.copiedItems.regions
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -173,10 +312,11 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 1:
-            let isEditedBody = self.dataA.camera != self.dataB.camera
-            let isEditedLens = self.dataA.lens != self.dataB.lens
+            let isEditedBody = self.originalEditData.camera != self.copiedItems.camera
+            let isEditedLens = self.originalEditData.lens != self.copiedItems.lens
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEditedBody || isEditedLens {
@@ -186,7 +326,7 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         case 2:
-            let isEdited = self.dataA.tags != self.dataB.tags
+            let isEdited = self.originalEditData.tags != self.copiedItems.tags
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -194,9 +334,10 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 3:
-            let isEdited = self.dataA.detailDescription != self.dataB.detailDescription
+            let isEdited = self.originalEditData.detailDescription != self.copiedItems.detailDescription
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -204,9 +345,10 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         case 4:
-            let isEdited = self.dataA.portfolioImages != self.dataB.portfolioImages
+            let isEdited = self.originalEditData.portfolioImages != self.copiedItems.portfolioImages
             cell.cellImage.image = UIImage(systemName: editItemsImageArray[indexPath.row], withConfiguration: imageWeight)
             cell.cellTextLabel.text = editItemsArray[indexPath.row]
             if isEdited {
@@ -214,8 +356,10 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.edittedLabel.isHidden = true
             }
+            
             return cell
         default:
+            
             return cell
         }
 }
@@ -224,53 +368,52 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             let vc = editRegionsViewContrller.then {
-                $0.currentRegion = self.dataB.regions
+                $0.currentRegion = self.copiedItems.regions
             }
             navigationController?.pushViewController(vc, animated: true)
         case 1:
             let vc = editGearsViewController.then {
-                $0.currentLens = self.dataB.lens
-                $0.currentBody = self.dataB.camera
+                $0.currentLens = self.copiedItems.lens
+                $0.currentBody = self.copiedItems.camera
             }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = editTagsViewController.then {
-                $0.currentTags = self.dataB.tags
+                $0.currentTags = self.copiedItems.tags
             }
             navigationController?.pushViewController(vc, animated: true)
         case 3:
             let vc = editDescriptionViewController.then {
-                $0.currentInfo = self.dataB.detailDescription
+                $0.currentInfo = self.copiedItems.detailDescription
             }
             navigationController?.pushViewController(vc, animated: true)
         case 4:
             let vc = editPortfoiloViewController
             navigationController?.pushViewController(vc, animated: true)
         default:
-            print("not yet")
             return
         }
     }
 }
 
-extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate {
+    // MARK: - data transfer delegates
+extension ArtistEditViewController: EditRegionsDelegate, EditGearsDelegate, EditConceptTagDelegate, EditTextInfoDelegate, EditPortfolioDelegate {
+    func photoSelected(photos imagesPicked: [UIImage]) {
+        self.copiedItems.portfolioImages = imagesPicked
+    }
     func textViewDescribed(textView textDescribed: String) {
-        self.dataB.detailDescription = textDescribed
+        self.copiedItems.detailDescription = textDescribed
     }
-    
     func conceptTagDescribed(tagLabel: [String]) {
-        self.dataB.tags = tagLabel
+        self.copiedItems.tags = tagLabel
     }
-    
     func cameraBodySelected(cameraBody bodyName: String) {
-        self.dataB.camera = bodyName
+        self.copiedItems.camera = bodyName
     }
-    
     func cameraLensSelected(cameraLens lensName: String) {
-        self.dataB.lens = lensName
+        self.copiedItems.lens = lensName
     }
-    
     func regionSelected(regions regionDatas: [String]) {
-        self.dataB.regions = regionDatas.sorted()
+        self.copiedItems.regions = regionDatas.sorted()
     }
 }
