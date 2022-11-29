@@ -132,7 +132,7 @@ final class SignUpViewController: BaseViewController {
         }
 
         passwordField.snp.makeConstraints {
-            $0.top.equalTo(emailField.snp.bottom).offset(45)
+            $0.top.equalTo(emailField.snp.bottom).offset(35)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
@@ -143,7 +143,7 @@ final class SignUpViewController: BaseViewController {
         }
 
         passwordSameCheckField.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(45)
+            $0.top.equalTo(passwordField.snp.bottom).offset(35)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
