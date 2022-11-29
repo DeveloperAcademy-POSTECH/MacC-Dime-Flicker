@@ -26,14 +26,41 @@ class ArtistEditViewController: UIViewController {
     private var originalEditData: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     private var copiedItems: EditData = EditData(regions: [], camera: "", lens: "", tags: [], detailDescription: "", portfolioImages: [], portfolioUrls: [])
     
-    // TODO: main 화면에서 받아온 캐싱된 데이터를 그대로 들고온 originalEditData 와 그 originalEditData 와 비교하기 위한 복제된 데이터 copiedItems 가 있다. 이걸 받아오는 작업이 필요하다. 해당 데이터들은 가데이터들이다.
-//    private lazy var originalEditData = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
-    
-//    private lazy var copiedItems = EditData(regions: ["마포구",  "강동구"].sorted(), camera: "소니 a7", lens: "짜이즈 55mm f1.8", tags: ["인물사진", "색감장인", "소니장인"], detailDescription: "뇸뇸뇸뇸자기소개", portfolioImages: [], portfolioUrls: [])
+    // MARK: observer to check whether the async tasks are done
+    private var temporaryStrings: [String] = [] {
+        didSet {
+            if self.temporaryStrings.count == self.copiedItems.portfolioUrls.count {
+                Task {
+                    self.copiedItems.portfolioUrls = self.temporaryStrings
+                    await self.dataFirebase.updateArtistInformation(copiedItems)
+                    self.hideLoadingView()
+                    self.navigationController?.pushViewController(TabbarViewController(), animated: true)
+                }
+            }
+        }
+    }
     
     private let editItemsArray: [String] = ["지역 수정", "장비 수정", "태그 수정", "자기 소개 수정", "포트폴리오 수정"]
     
     private let editItemsImageArray: [String] = ["mappin.and.ellipse", "camera.shutter.button", "tag", "doc.plaintext", "photo.artframe"]
+    
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .black.withAlphaComponent(0.7)
+    }
+    
+    private let spinnerView = UIActivityIndicatorView(style: .large).then {
+        $0.stopAnimating()
+        $0.color = .mainPink
+    }
+    
+    private let loadingLabel = UILabel().makeBasicLabel(labelText: "수정 중이에요!", textColor: .mainPink.withAlphaComponent(0.8), fontStyle: .headline, fontWeight: .bold).then {
+        $0.shadowOffset = CGSize(width: 0.7, height: 0.7)
+        $0.layer.shadowRadius = 20
+        $0.shadowColor = .black.withAlphaComponent(0.6)
+        $0.isHidden = true
+    }
     
     private let editRegionsViewContrller = ArtistEditRegionsViewController()
     private let editGearsViewController = ArtistEditGearsViewController()
@@ -88,7 +115,7 @@ class ArtistEditViewController: UIViewController {
     }
     
     private func render() {
-        view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton)
+        view.addSubviews(mainTitleLabel, editItemsTableView, resetEditButton, completeEditButton, loadingView, spinnerView, loadingLabel)
 
         mainTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
@@ -112,6 +139,19 @@ class ArtistEditViewController: UIViewController {
             $0.leading.equalTo(resetEditButton.snp.trailing).offset(18)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(view.bounds.height/12)
+        }
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        spinnerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        loadingLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
         }
     }
     
@@ -163,7 +203,36 @@ extension ArtistEditViewController {
     }
     
     @objc func completeEditTapped() {
-        print("complete and out")
+        recheckAlert()
+    }
+    
+    private func recheckAlert() {
+        let recheckAlert = UIAlertController(title: "수정이 끝나셨나요?", message: "", preferredStyle: .actionSheet)
+        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
+            // MARK: 먼저 url 을 통해 서버에 저장된 image를 지우게 만들어야 함
+            for (indexNum, _) in self.copiedItems.portfolioUrls.enumerated() {
+                Task {
+                    await self.dataFirebase.removeImages(urlCount: indexNum)
+                }
+            }
+            
+            // MARK: Concurrent uploading photos
+            for (indexNum, photo) in self.copiedItems.portfolioImages.enumerated() {
+                Task {
+                    async let urlString = self.dataFirebase.uploadImage(photo: photo, indexNum: indexNum)
+                    await self.temporaryStrings.append(urlString)
+                    print("Artist is \(self.temporaryStrings)")
+                }
+            }
+            
+            self.openLoadingView()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        recheckAlert.addAction(confirm)
+        recheckAlert.addAction(cancel)
+        present(recheckAlert, animated: true, completion: nil)
     }
     
     private func getData() async {
@@ -182,6 +251,20 @@ extension ArtistEditViewController {
     
     private func copyDataWithinEditItems() {
         copiedItems = originalEditData
+    }
+    
+    // MARK: changing loading view status action
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+        self.spinnerView.startAnimating()
+        self.loadingLabel.isHidden = false
+    }
+    
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+        self.spinnerView.stopAnimating()
+        self.loadingLabel.isHidden = true
+        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️HIDELOADINGVIEW")
     }
 }
 
@@ -283,7 +366,6 @@ extension ArtistEditViewController: UITableViewDataSource, UITableViewDelegate {
             let vc = editPortfoiloViewController
             navigationController?.pushViewController(vc, animated: true)
         default:
-            print("not yet")
             return
         }
     }

@@ -146,6 +146,17 @@ final class FirebaseManager: NSObject {
         }
     }
     
+    func removeImages(urlCount: Int) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        do {
+            var fileName = uid + "_" + String(urlCount)
+            let deleteRef = storage.reference().child("ArtistPortfolio/\(fileName).jpg")
+            try await deleteRef.delete()
+        } catch {
+            print(error)
+        }
+    }
+    
 /*파이어 베이스에서 Email필드에 값을 불러오는데 서치 값이 없을 경우 빈 배열을 불러온다. 빈 배열일 경우 사용자가 적은 이메일 값이
  없고, 배열에 값이 존재할 경우 사용자가 사용하려는 이메일은 이미 존재함을 의미한다. */
     func isEmailSameExist(Email: String) async -> Bool? {
@@ -290,6 +301,19 @@ final class FirebaseManager: NSObject {
         guard let uid = auth.currentUser?.uid else { return }
         do {
             let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
+            try await firestore.collection("artists").document(uid).setData(artistData)
+            print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
+        } catch {
+            print("error string Artist Model")
+        }
+    }
+    
+    // 일단 setData 로 하는데 안 건든 부분은 없어지는 것인가? 아니면 업데이트 되지 않고 남아있는 것인가?
+    func updateArtistInformation(_ artist: EditData) async {
+        guard let uid = auth.currentUser?.uid else { return }
+        let userDefaultInfo = UserDefaults.standard.getObjects(forKeys: ["userEmail", "userName", "userProfileImageUrl", "userToken", "userId"])
+        do {
+            let artistData = ["state": "전체", "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioUrls.sorted(), "userInfo": userDefaultInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
