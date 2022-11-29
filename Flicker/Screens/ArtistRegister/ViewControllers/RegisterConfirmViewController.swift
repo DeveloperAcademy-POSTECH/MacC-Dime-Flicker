@@ -109,6 +109,6 @@ extension RegisterConfirmViewController {
     
     // Tabview 로 넘어가야함! 돌려놔!
     @objc func moveNextTapped() {
-        navigationController?.pushViewController(ArtistEditViewController(), animated: true)
+        navigationController?.pushViewController(TabbarViewController(), animated: true)
     }
 }
