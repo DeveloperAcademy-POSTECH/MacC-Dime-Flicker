@@ -114,7 +114,7 @@ final class SignUpViewController: BaseViewController {
 
         backButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
-            $0.leading.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview().inset(15)
         }
 
         signUpTitleLabel.snp.makeConstraints {

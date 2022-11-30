@@ -85,7 +85,6 @@ class BaseViewController: UIViewController {
     }
 
     func setupInteractivePopGestureRecognizer() {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
