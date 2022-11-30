@@ -14,8 +14,14 @@ final class SignUpViewController: BaseViewController {
 
     private let didTapSignUpEmail = true
 
-    private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .mainPink, fontStyle: .largeTitle, fontWeight: .bold)
+    private lazy var backButton = UIButton().then {
+        $0.setPreferredSymbolConfiguration(.init(pointSize: 27, weight: .bold, scale: .large), forImageIn: .normal)
+        $0.tintColor = .black
+        $0.setImage(ImageLiteral.btnBack, for: .normal)
+        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    }
 
+    private let signUpTitleLabel = UILabel().makeBasicLabel(labelText: "반가워요!", textColor: .mainPink, fontStyle: .largeTitle, fontWeight: .bold)
 
     private let signUpLabel = UILabel().then {
         $0.tintColor = .textSubBlack
@@ -107,10 +113,15 @@ final class SignUpViewController: BaseViewController {
         passwordValidCheckLabel.isHidden = true
         passwordSameCheckLabel.isHidden = true
 
-        view.addSubviews(emailValidCheckLabel ,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
+        view.addSubviews(backButton, emailValidCheckLabel,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
+
+        backButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            $0.leading.equalToSuperview().inset(20)
+        }
 
         signUpTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(80)
             $0.leading.equalToSuperview().inset(30)
         }
 
