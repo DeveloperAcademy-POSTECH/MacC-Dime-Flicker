@@ -363,7 +363,7 @@ extension ArtistTappedViewController: MFMailComposeViewControllerDelegate {
             formatter.dateFormat = "yyyy-MM-dd HH:mm"
             let currentDateString = formatter.string(from: Date())
             let composeViewController = MFMailComposeViewController()
-            let dimeEmail = "haptic_04_minis@icloud.com"
+            let dimeEmail = "shuggledime@gmail.com"
 
             let messageBody = """
                                    -----------------------------
