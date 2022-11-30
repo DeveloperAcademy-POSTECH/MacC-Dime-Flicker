@@ -14,10 +14,7 @@ final class SignUpViewController: BaseViewController {
 
     private let didTapSignUpEmail = true
 
-    private lazy var backButton = UIButton().then {
-        $0.setPreferredSymbolConfiguration(.init(pointSize: 27, weight: .bold, scale: .large), forImageIn: .normal)
-        $0.tintColor = .black
-        $0.setImage(ImageLiteral.btnBack, for: .normal)
+    private lazy var backButton = RegisterCustomNavigationView().customBackButton.then {
         $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
 
@@ -174,8 +171,12 @@ final class SignUpViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        emailField.becomeFirstResponder()
+        super.setupInteractivePopGestureRecognizer()
     }
+
+//    override func setupInteractivePopGestureRecognizer() {
+//        super.setupInteractivePopGestureRecognizer()
+//    }
 
     @objc private func didTapSignUpButton() {
         let viewController = LoginProfileViewController()
