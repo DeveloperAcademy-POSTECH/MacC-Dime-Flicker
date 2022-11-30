@@ -60,11 +60,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.skeletonCornerRadius = 15
         $0.addTarget(self, action: #selector(didTapCounselingButton), for: .touchUpInside)
     }
-
-    private let mutualPayLabel = UILabel().makeBasicLabel(labelText: "상호 페이", textColor: .textSubBlack.withAlphaComponent(0.9), fontStyle: .title3, fontWeight: .bold).then {
-        $0.skeletonCornerRadius = 5
-    }
-
+    
     private let statusBarBackGroundView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -128,9 +124,6 @@ final class ArtistTappedViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = true
         statusBarBackGroundView.isHidden = true
         navigationBarSeperator.isHidden = true
-
-        mutualPayLabel.linesCornerRadius = 10
-        mutualPayLabel.skeletonTextLineHeight = SkeletonTextLineHeight.fixed(30)
     }
 
     override func setupNavigationBar() {
@@ -235,7 +228,7 @@ final class ArtistTappedViewController: BaseViewController {
         navigationBarSeperator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 
         // fixed bottomView with counseling button
-        bottomBackgroundView.addSubviews(counselingButton, mutualPayLabel)
+        bottomBackgroundView.addSubviews(counselingButton)
 
         for subview in bottomBackgroundView.subviews {
             subview.isSkeletonable = true
@@ -249,15 +242,10 @@ final class ArtistTappedViewController: BaseViewController {
         }
 
         counselingButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.equalToSuperview().inset(10)
-            $0.height.equalTo(view.frame.height / 18)
+            $0.height.equalTo(view.frame.height / 17)
             $0.width.equalTo(view.frame.width / 2.2)
-        }
-
-        mutualPayLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(40)
-            $0.centerY.equalTo(counselingButton)
         }
 
         bottomBarSeperator.snp.makeConstraints {
