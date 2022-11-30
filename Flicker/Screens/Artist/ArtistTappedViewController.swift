@@ -93,6 +93,7 @@ final class ArtistTappedViewController: BaseViewController {
         $0.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
     }
 
+    // view life cycle
     override func viewDidLoad() {
         render()
         configUI()
@@ -121,14 +122,8 @@ final class ArtistTappedViewController: BaseViewController {
         navigationController?.navigationBar.backgroundColor = .clear
         tabBarController?.tabBar.isHidden = false
     }
-    // MARK: 추후 다른 뷰와 연결시 불필요하다고 판단되면 삭제 예정 (일단 주석)
-    //    override func viewDidDisappear(_ animated: Bool) {
-    //        super.viewDidDisappear(animated)
-    //        statusBarBackGroundView.isHidden = true
-    //        navigationBarSeperator.isHidden = true
-    //        navigationController?.navigationBar.backgroundColor = .clear
-    //    }
 
+    // configuration about view UI
     override func configUI() {
         tabBarController?.tabBar.isHidden = true
         statusBarBackGroundView.isHidden = true
@@ -152,45 +147,13 @@ final class ArtistTappedViewController: BaseViewController {
         let backButton = makeBarButtonItem(with: leftOffsetBackButton)
         navigationItem.leftBarButtonItem = backButton
     }
-
-    private func showSkeletonView() {
-        if !isDownLoaded {
-            let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-
-            self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-
-            self.bottomBackgroundView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
-        }
-    }
-
-    private func stopSkeleton(with views: [UIView]) {
-        for view in views {
-            view.stopSkeletonAnimation()
-            view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
-        }
-    }
-
+    
     private func setDelegateAndDataSource() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
     }
-
-    private func fetchImages() async {
-        do {
-            self.imageList = try await networkManager.fetchImages(withURLs: artist.portfolioImageUrls)
-            self.profileImage = try await networkManager.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
-            isDownLoaded = true
-            self.collectionView.reloadData()
-            self.collectionView.performBatchUpdates {
-                self.resetHeaderViewSize()
-                self.stopSkeleton(with: [collectionView, bottomBackgroundView])
-            }
-        } catch {
-            print(error)
-        }
-    }
-
+    
     private func resetNavigationBarBackground() {
         if collectionView.contentOffset.y > 280 {
             navigationController?.navigationBar.backgroundColor = .white
@@ -209,6 +172,41 @@ final class ArtistTappedViewController: BaseViewController {
         self.collectionView.collectionViewLayout = layout
     }
 
+    // set skeletonView
+    private func showSkeletonView() {
+        if !isDownLoaded {
+            let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+
+            self.collectionView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+
+            self.bottomBackgroundView.showAnimatedGradientSkeleton(usingGradient: .init(colors: [.gray001, .lightGray]), animation: skeletonAnimation, transition: .none)
+        }
+    }
+
+    private func stopSkeleton(with views: [UIView]) {
+        for view in views {
+            view.stopSkeletonAnimation()
+            view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
+        }
+    }
+
+    // get images from server
+    private func fetchImages() async {
+        do {
+            self.imageList = try await networkManager.fetchImages(withURLs: artist.portfolioImageUrls)
+            self.profileImage = try await networkManager.fetchOneImage(withURL: artist.userInfo["userProfileImageUrl"] ?? "")
+            isDownLoaded = true
+            self.collectionView.reloadData()
+            self.collectionView.performBatchUpdates {
+                self.resetHeaderViewSize()
+                self.stopSkeleton(with: [collectionView, bottomBackgroundView])
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    // set layout
     override func render() {
 
         view.addSubviews(collectionView, statusBarBackGroundView, navigationBarSeperator, bottomBackgroundView, counselingButton, bottomBarSeperator)
@@ -236,7 +234,7 @@ final class ArtistTappedViewController: BaseViewController {
 
         navigationBarSeperator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 
-        // 하단의 문의하기 버튼이 있는 UIView
+        // fixed bottomView with counseling button
         bottomBackgroundView.addSubviews(counselingButton, mutualPayLabel)
 
         for subview in bottomBackgroundView.subviews {
@@ -272,16 +270,15 @@ final class ArtistTappedViewController: BaseViewController {
 
 extension ArtistTappedViewController: UICollectionViewDataSource {
 
-    // numberOfCell
+    // set number of cells according to images
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageList.count
     }
 
-    // ReusableCell setting + image loading
+    // set reusable cell and its image
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistPortfolioCell.className, for: indexPath) as! ArtistPortfolioCell
-        // 이미지 URL을 가진 response 배열
         cell.isSkeletonable = true
         let image = imageList[indexPath.item]
         cell.image = image
@@ -294,7 +291,6 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
         headerHeight = Int(headerView.getTotalViewHeight())
 
         let thumnailImages = Array(imageList.prefix(4))
-
         headerView.isSkeletonable = true
         headerView.resetProfileImage(with: profileImage)
         headerView.resetPortfolioImage(with: thumnailImages)
@@ -310,14 +306,11 @@ extension ArtistTappedViewController: UICollectionViewDelegate {
         let viewController = ImageViewController()
         viewController.image = cell.imageView.image
         viewController.modalPresentationStyle = .fullScreen
-        // MARK: 추후 다른 뷰와 연결시 불필요하다고 판단되면 삭제 예정 (일단 주석)
-        //        viewController.completion = {
-        //            self.resetNavigationBarBackground()
-        //            self.tabBarController?.tabBar.isHidden = true
-        //        }
+
         present(viewController, animated: false)
     }
-    // 스크롤시 네비게이션바 커스텀화
+    
+    // set NavigationBar while scrolling
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         resetNavigationBarBackground()
     }
@@ -331,6 +324,8 @@ extension ArtistTappedViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ArtistTappedViewController {
+    
+    // fuctions to call for button
     @objc func didTapCustomBackButton() {
         self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.popViewController(animated: true)
