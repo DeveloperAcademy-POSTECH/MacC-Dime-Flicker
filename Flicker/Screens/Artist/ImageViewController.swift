@@ -43,7 +43,7 @@ final class ImageViewController: UIViewController {
 
         cancelImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
-            $0.width.height.equalTo(24)
+            $0.width.height.equalTo(28)
             $0.trailing.equalToSuperview().inset(20)
         }
     }
