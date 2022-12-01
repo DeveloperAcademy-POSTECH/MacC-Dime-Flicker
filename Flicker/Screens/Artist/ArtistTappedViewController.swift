@@ -135,8 +135,7 @@ final class ArtistTappedViewController: BaseViewController {
     }
     
     override func setupBackButton() {
-        let leftOffsetBackButton = removeBarButtonItemOffset(with: backButton, offsetX: 0)
-        let backButton = makeBarButtonItem(with: leftOffsetBackButton)
+        let backButton = makeBarButtonItem(with: backButton)
         navigationItem.leftBarButtonItem = backButton
     }
     
