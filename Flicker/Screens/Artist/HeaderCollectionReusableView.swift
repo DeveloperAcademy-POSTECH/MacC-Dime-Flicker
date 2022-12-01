@@ -111,6 +111,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         for view in self.subviews {
             view.isSkeletonable = true
         }
+        
+        pageControl.isSkeletonable = false
 
         configUI()
         configureImageScrollView()
