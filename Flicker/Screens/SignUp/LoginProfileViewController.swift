@@ -41,6 +41,10 @@ final class LoginProfileViewController: BaseViewController {
     }
 
     // MARK: -LoginProfileViewUI
+    private lazy var backButton = RegisterCustomNavigationView().customBackButton.then {
+        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    }
+    
     private lazy var imagePicker = UIImagePickerController().then {
         $0.sourceType = .photoLibrary
         $0.allowsEditing = true
@@ -130,7 +134,7 @@ final class LoginProfileViewController: BaseViewController {
         nickNameTextFieldClearButton.isHidden = true
         nickNameCountLabel.isHidden = true
 
-        view.addSubviews(profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(backButton, profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
 
         view.addSubviews(loadingView, spinnerView,loadingLabel)
 
@@ -139,6 +143,11 @@ final class LoginProfileViewController: BaseViewController {
         artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
+
+        backButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            $0.leading.equalToSuperview().inset(15)
+        }
 
         profileImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
@@ -231,6 +240,11 @@ final class LoginProfileViewController: BaseViewController {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(self.spinnerView.snp.bottom).offset(35)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        super.setupInteractivePopGestureRecognizer()
     }
 
     @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {

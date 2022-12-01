@@ -84,14 +84,14 @@ class BaseViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
     }
 
+    func setupInteractivePopGestureRecognizer() {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+
     // MARK: - private func
     
     @objc func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    private func setupInteractivePopGestureRecognizer() {
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
