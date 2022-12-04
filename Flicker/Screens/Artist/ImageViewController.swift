@@ -25,7 +25,7 @@ final class ImageViewController: UIViewController {
         $0.maximumZoomScale = 3.0
     }
     
-    var image: UIImage? = UIImage(named: "port1")
+    var image: UIImage? = UIImage(named: "RegisterEnd")
     
     private let cancelImageView = UIImageView().then {
         $0.isUserInteractionEnabled = true
@@ -48,11 +48,14 @@ final class ImageViewController: UIViewController {
     
     private func render() {
         scrollView.snp.makeConstraints {
-            $0.width.height.equalToSuperview()
+            $0.height.equalToSuperview()
+            $0.width.equalToSuperview().inset(5)
+            $0.center.equalToSuperview()
         }
 
         imageView.snp.makeConstraints {
             $0.width.height.equalToSuperview()
+            $0.center.equalToSuperview()
         }
         
         cancelImageView.snp.makeConstraints {

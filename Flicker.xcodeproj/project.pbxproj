@@ -53,6 +53,7 @@
 		A94957FA290E3A8300B74693 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94957F9290E3A8300B74693 /* NetworkManager.swift */; };
 		A98DCAD4291DDC2000C3CFAE /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */; };
 		A98F9533292BD02100E92A77 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98F9532292BD02100E92A77 /* ArrayExtension.swift */; };
+		A9A263A7293CD56700C49CE0 /* ImagePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A263A6293CD56700C49CE0 /* ImagePageController.swift */; };
 		A9C670132934D268007E006B /* ReportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C670122934D268007E006B /* ReportButton.swift */; };
 		A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */; };
 		A9F1F2E6290CC0EE0018C73F /* ArtistPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */; };
@@ -150,6 +151,7 @@
 		A94957F9290E3A8300B74693 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		A98F9532292BD02100E92A77 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		A9A263A6293CD56700C49CE0 /* ImagePageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageController.swift; sourceTree = "<group>"; };
 		A9C670122934D268007E006B /* ReportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportButton.swift; sourceTree = "<group>"; };
 		A9F1F2E3290CB99A0018C73F /* ArtistTappedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTappedViewController.swift; sourceTree = "<group>"; };
 		A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistPortfolioCell.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 				A9F1F2E7290CC5690018C73F /* HeaderCollectionReusableView.swift */,
 				A9F1F2E5290CC0EE0018C73F /* ArtistPortfolioCell.swift */,
 				A98DCAD3291DDC2000C3CFAE /* ImageViewController.swift */,
+				A9A263A6293CD56700C49CE0 /* ImagePageController.swift */,
 			);
 			path = Artist;
 			sourceTree = "<group>";
@@ -810,6 +813,7 @@
 				CBDC04072906102000C6CF30 /* NSObject+Extension.swift in Sources */,
 				CBDC8093292DF5690077EA62 /* PresentationController.swift in Sources */,
 				58118D4F29116B8B00F08D35 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				A9A263A7293CD56700C49CE0 /* ImagePageController.swift in Sources */,
 				58A452A22912A20800C9707D /* RegisterWelcomeViewController.swift in Sources */,
 				CBDC042A2906124600C6CF30 /* SignUpViewController.swift in Sources */,
 				A9F1F2E4290CB99A0018C73F /* ArtistTappedViewController.swift in Sources */,
