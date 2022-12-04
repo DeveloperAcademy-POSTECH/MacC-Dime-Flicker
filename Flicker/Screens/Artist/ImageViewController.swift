@@ -120,43 +120,63 @@ extension ImageViewController: UIScrollViewDelegate {
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        var viewForZoom = UIView()
-        if scrollView.tag == self.selectedPage {
-            guard let imageView = scrollView.subviews.first else { return nil }
-            viewForZoom = imageView
-            print("=============")
-            print("View For Zoom")
-            print("=============")
-        } else {
-            return nil
-        }
-        return viewForZoom
+        guard scrollView.tag == self.selectedPage else { return nil }
+        guard let imageView = scrollView.subviews.first else { return nil }
+        print("==============")
+        print("반환 뷰가 있고 그 인덱스는 \(scrollView.tag)")
+        print("==============")
+        return imageView
     }
 
 //    func scrollViewDidZoom(_ scrollView: UIScrollView) {
 //        if scrollView.tag == self.selectedPage {
-//            guard let imageUIView = scrollView.subviews.first else { return }
-//            let imageView = imageUIView as! UIImageView
 //            if scrollView.zoomScale > 1 {
-//                if let image = imageView.image {
-//                    let widthRatio = imageView.frame.width / image.size.width
-//                    let heightRatio = imageView.frame.height / image.size.height
+//                guard let imageView = scrollView.subviews.first as? UIImageView else { return }
+//                guard let image = imageView.image else { return }
+//                guard let zoomView = viewForZooming(in: scrollView) else { return }
 //
-//                    let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
-//                    let newWidth = image.size.width * ratio
-//                    let newHeight = image.size.height * ratio
-//                    let conditionLeft = newWidth * scrollView.zoomScale > imageView.frame.width
-//                    let left = 0.5 * (conditionLeft ? newWidth - imageView.frame.width : (scrollView.frame.width - scrollView.contentSize.width))
-//                    let conditioTop = newHeight * scrollView.zoomScale > imageView.frame.height
+//                let widthRatio = zoomView.frame.width / image.size.width
+//                let heightRatio = zoomView.frame.height / image.size.height
+//                let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
 //
-//                    let top = 0.5 * (conditioTop ? newHeight - imageView.frame.height : (scrollView.frame.height - scrollView.contentSize.height))
+//                let newWidth = image.size.width * ratio
+//                let newHeight = image.size.height * ratio
 //
-//                    scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
-//                }
+//                let left = 0.5 * (newWidth * scrollView.zoomScale > zoomView.frame.width ?
+//                                  (newWidth - zoomView.frame.width) : (scrollView.frame.width - scrollView.contentSize.width))
+//                let top = 0.5 * (newHeight * scrollView.zoomScale > zoomView.frame.height ? (newHeight - zoomView.frame.height) : (scrollView.frame.height - scrollView.contentSize.height))
+//
+//                scrollView.contentInset = UIEdgeInsets(top: top.rounded(), left: left.rounded(), bottom: top.rounded(), right: left.rounded())
 //            } else {
 //                scrollView.contentInset = .zero
 //            }
-//
 //        }
 //    }
+
+    //    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+    //        if scrollView.tag == self.selectedPage {
+    //            guard let imageUIView = scrollView.subviews.first else { return }
+    //            let imageView = imageUIView as! UIImageView
+    //            if scrollView.zoomScale > 1 {
+    //                if let image = imageView.image {
+    //                    let widthRatio = imageView.frame.width / image.size.width
+    //                    let heightRatio = imageView.frame.height / image.size.height
+    //
+    //                    let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
+    //                    let newWidth = image.size.width * ratio
+    //                    let newHeight = image.size.height * ratio
+    //                    let conditionLeft = newWidth * scrollView.zoomScale > imageView.frame.width
+    //                    let left = 0.5 * (conditionLeft ? newWidth - imageView.frame.width : (scrollView.frame.width - scrollView.contentSize.width))
+    //                    let conditioTop = newHeight * scrollView.zoomScale > imageView.frame.height
+    //
+    //                    let top = 0.5 * (conditioTop ? newHeight - imageView.frame.height : (scrollView.frame.height - scrollView.contentSize.height))
+    //
+    //                    scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
+    //                }
+    //            } else {
+    //                scrollView.contentInset = .zero
+    //            }
+    //
+    //        }
+    //    }
 }
