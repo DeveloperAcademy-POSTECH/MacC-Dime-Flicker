@@ -67,10 +67,18 @@ final class ImageViewController: UIViewController {
     
     private func addGestures() {
         cancelImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCancelButton(_:))))
+
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(didDoubleTapImage(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubleTap)
     }
     
     @objc private func didTapCancelButton(_ sender: Any) {
         dismiss(animated: false) { self.completion() }
+    }
+
+    @objc private func didDoubleTapImage(_ sender: Any) {
+        self.scrollView.zoomScale = 1
     }
 }
 
