@@ -11,20 +11,17 @@ import Then
 
 final class ImageViewController: UIViewController {
     
-    private let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.clipsToBounds = true
-        $0.isUserInteractionEnabled = true
-    }
-    
-    var pageIndex: Int = 0
-    
-    private var imageScrollView = UIScrollView().then {
+    var startingPageIndex: Int = 0
+
+    private var selectedPage: Int = 0
+
+    private lazy var imageScrollView = UIScrollView().then {
+        $0.minimumZoomScale = 1
+        $0.maximumZoomScale = 1
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
     }
-    
-    var image: UIImage? = UIImage(named: "port1")
     
     var images: [UIImage] = []
     
@@ -34,16 +31,16 @@ final class ImageViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
         $0.image = UIImage(systemName: "x.circle.fill")
     }
+
+    private var scrollViewForZoom = UIScrollView(frame: .zero)
     
     var completion: ()->Void = {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        imageView.image = image
         addGestures()
         render()
-        configureImageScrollView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,15 +51,9 @@ final class ImageViewController: UIViewController {
     private func render() {
         view.addSubviews(imageScrollView, cancelImageView)
         
-        imageScrollView.addSubview(imageView)
-        
         imageScrollView.snp.makeConstraints {
-            $0.width.height.equalToSuperview()
+            $0.leading.trailing.top.bottom.equalToSuperview()
         }
-//
-//        imageView.snp.makeConstraints {
-//            $0.width.height.equalToSuperview()
-//        }
         
         cancelImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -76,19 +67,36 @@ final class ImageViewController: UIViewController {
         imageScrollView.contentSize.width = view.frame.width * CGFloat(images.count)
 
         for pageIndex in 0..<images.count {
-            let imageView = UIImageView()
+            let scrollViewForZoom = UIScrollView().then {
+                $0.delegate = self
+                $0.zoomScale = 1.0
+                $0.minimumZoomScale = 1.0
+                $0.maximumZoomScale = 3.0
+                $0.showsVerticalScrollIndicator = false
+                $0.isScrollEnabled = false
+                $0.tag = pageIndex
+            }
+            let imageView = UIImageView().then {
+                $0.image = images[pageIndex]
+                $0.backgroundColor = .black
+                $0.clipsToBounds = true
+                $0.contentMode = .scaleAspectFit
+                $0.tag = pageIndex
+            }
             let xPositionOrigin = view.frame.width * CGFloat(pageIndex)
-            imageView.frame = CGRect(x: xPositionOrigin, y: 0, width: view.bounds.width, height: view.bounds.height)
-            imageView.backgroundColor = .black
-            imageView.image = images[pageIndex]
-            imageView.contentMode = .scaleAspectFit
-            imageView.clipsToBounds = true
-            imageScrollView.addSubview(imageView)
+
+            imageScrollView.addSubview(scrollViewForZoom)
+            scrollViewForZoom.addSubview(imageView)
+
+            scrollViewForZoom.frame = CGRect(x: xPositionOrigin, y: 0, width: view.bounds.width, height: view.bounds.height)
+            imageView.snp.makeConstraints { $0.width.height.equalToSuperview()
+                $0.center.equalToSuperview()
+            }
         }
         
-        let startingPoint = CGPoint(x: view.frame.width * CGFloat(pageIndex), y: 0)
-        
+        let startingPoint = CGPoint(x: view.frame.width * CGFloat(startingPageIndex), y: 0)
         imageScrollView.setContentOffset(startingPoint, animated: false)
+        selectedPage = startingPageIndex
     }
     
     private func addGestures() {
@@ -98,4 +106,57 @@ final class ImageViewController: UIViewController {
     @objc private func didTapCancelButton(_ sender: Any) {
         dismiss(animated: false) { self.completion() }
     }
+}
+
+extension ImageViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == imageScrollView {
+            let size = scrollView.contentOffset.x / scrollView.frame.size.width
+            guard !(round(size).isNaN || round(size).isInfinite) else { return }
+            selectedPage = Int(round(size))
+            print(selectedPage)
+        }
+    }
+
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        var viewForZoom = UIView()
+        if scrollView.tag == self.selectedPage {
+            guard let imageView = scrollView.subviews.first else { return nil }
+            viewForZoom = imageView
+            print("=============")
+            print("View For Zoom")
+            print("=============")
+        } else {
+            return nil
+        }
+        return viewForZoom
+    }
+
+//    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+//        if scrollView.tag == self.selectedPage {
+//            guard let imageUIView = scrollView.subviews.first else { return }
+//            let imageView = imageUIView as! UIImageView
+//            if scrollView.zoomScale > 1 {
+//                if let image = imageView.image {
+//                    let widthRatio = imageView.frame.width / image.size.width
+//                    let heightRatio = imageView.frame.height / image.size.height
+//
+//                    let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
+//                    let newWidth = image.size.width * ratio
+//                    let newHeight = image.size.height * ratio
+//                    let conditionLeft = newWidth * scrollView.zoomScale > imageView.frame.width
+//                    let left = 0.5 * (conditionLeft ? newWidth - imageView.frame.width : (scrollView.frame.width - scrollView.contentSize.width))
+//                    let conditioTop = newHeight * scrollView.zoomScale > imageView.frame.height
+//
+//                    let top = 0.5 * (conditioTop ? newHeight - imageView.frame.height : (scrollView.frame.height - scrollView.contentSize.height))
+//
+//                    scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
+//                }
+//            } else {
+//                scrollView.contentInset = .zero
+//            }
+//
+//        }
+//    }
 }

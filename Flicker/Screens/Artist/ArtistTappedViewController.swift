@@ -295,11 +295,9 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
 extension ArtistTappedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ArtistPortfolioCell
         let viewController = ImageViewController()
-//        viewController.image = cell.imageView.image
         viewController.images = imageList
-        viewController.pageIndex = indexPath.item
+        viewController.startingPageIndex = indexPath.item
         viewController.modalPresentationStyle = .fullScreen
         
         present(viewController, animated: false)
