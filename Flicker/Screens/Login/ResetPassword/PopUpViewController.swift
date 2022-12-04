@@ -19,9 +19,9 @@ final class PopUpViewController: BaseViewController  {
         $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.018
     }
 
-    private let mainLabel = UILabel().makeBasicLabel(labelText: "이메일을 입력하세요", textColor: .mainPink, fontStyle: .title3, fontWeight: .bold)
+    private let mainLabel = UILabel().makeBasicLabel(labelText: "이메일을 입력하세요", textColor: .mainPink, fontStyle: .title2, fontWeight: .bold)
 
-    private let subLabel = UILabel().makeBasicLabel(labelText: "이메일로 비밀번호 재설정을 해요!", textColor: .textMainBlack, fontStyle: .caption2, fontWeight: .bold)
+    private let subLabel = UILabel().makeBasicLabel(labelText: "이메일로 비밀번호 재설정을 해요!", textColor: .textMainBlack, fontStyle: .callout, fontWeight: .bold)
 
     private let emailField = UITextField().then {
         let attributes = [
@@ -71,7 +71,8 @@ final class PopUpViewController: BaseViewController  {
         sendEmailButton.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
 
         popUpView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.top.equalToSuperview().offset(DeviceFrame.screenHeight * 0.27)
+            $0.centerX.equalToSuperview()
             $0.width.equalTo(DeviceFrame.screenWidth * 0.85)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.37)
         }
