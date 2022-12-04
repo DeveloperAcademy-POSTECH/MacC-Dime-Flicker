@@ -123,6 +123,7 @@ final class PopUpViewController: BaseViewController  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.backgroundColor = UIColor.gray.withAlphaComponent(0.8)
+        emailField.becomeFirstResponder()
         emailValidCheckLabel.isHidden = true
         sendEmailButton.isEnabled = false
     }
