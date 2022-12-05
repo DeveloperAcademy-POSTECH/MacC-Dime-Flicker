@@ -27,26 +27,24 @@ final class ImageViewController: UIViewController {
     
     var image: UIImage? = UIImage(named: "RegisterEnd")
     
-    private let cancelImageView = UIImageView().then {
-        $0.isUserInteractionEnabled = true
-        $0.tintColor = .white
-        $0.contentMode = .scaleAspectFill
-        $0.image = UIImage(systemName: "x.circle.fill")
-    }
-    
-    var completion: ()->Void = {}
+    var completion: ()->Void = { }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubviews(scrollView, cancelImageView)
-        scrollView.addSubview(imageView)
-        view.backgroundColor = .black
-        imageView.image = image
+        configUI()
         addGestures()
         render()
     }
+
+    private func configUI() {
+        imageView.image = image
+        view.backgroundColor = .black
+    }
     
     private func render() {
+        view.addSubviews(scrollView)
+        scrollView.addSubview(imageView)
+
         scrollView.snp.makeConstraints {
             $0.height.equalToSuperview()
             $0.width.equalToSuperview().inset(5)
@@ -57,25 +55,26 @@ final class ImageViewController: UIViewController {
             $0.width.height.equalToSuperview()
             $0.center.equalToSuperview()
         }
-        
-        cancelImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
-            $0.width.height.equalTo(28)
-            $0.trailing.equalToSuperview().inset(20)
-        }
     }
     
     private func addGestures() {
-        cancelImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCancelButton(_:))))
-
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(didDoubleTapImage(_:)))
         doubleTap.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTap)
     }
-    
-    @objc private func didTapCancelButton(_ sender: Any) {
-        dismiss(animated: false) { self.completion() }
+
+    func zoomRectForScale(scale: CGFloat, center: CGPoint) -> CGRect {
+        var zoomRect = CGRect.zero
+        zoomRect.size.height = imageView.frame.size.height / scale
+        zoomRect.size.width  = imageView.frame.size.width  / scale
+        let newCenter = scrollView.convert(center, from: imageView)
+        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
+        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+        return zoomRect
     }
+}
+
+extension ImageViewController {
 
     @objc private func didDoubleTapImage(_ sender: UITapGestureRecognizer) {
         let scale = min(scrollView.zoomScale * 2, scrollView.maximumZoomScale)
@@ -94,15 +93,6 @@ final class ImageViewController: UIViewController {
         }
     }
 
-    func zoomRectForScale(scale: CGFloat, center: CGPoint) -> CGRect {
-        var zoomRect = CGRect.zero
-        zoomRect.size.height = imageView.frame.size.height / scale
-        zoomRect.size.width  = imageView.frame.size.width  / scale
-        let newCenter = scrollView.convert(center, from: imageView)
-        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
-        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
-        return zoomRect
-    }
 }
 
 extension ImageViewController: UIScrollViewDelegate {
@@ -126,7 +116,6 @@ extension ImageViewController: UIScrollViewDelegate {
                 let top = 0.5 * (conditioTop ? newHeight - imageView.frame.height : (scrollView.frame.height - scrollView.contentSize.height))
                 
                 scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
-                
             }
         } else {
             scrollView.contentInset = .zero

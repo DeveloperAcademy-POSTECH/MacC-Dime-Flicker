@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagePageController: UIPageViewController {
+class ImageSliderViewController: UIPageViewController {
 
     var images: [UIImage] = []
 
@@ -15,15 +15,29 @@ class ImagePageController: UIPageViewController {
 
     var subViewControllers: [UIViewController] = []
 
+    private lazy var backButton = BackButton().then {
+        $0.frame.size.width = 30
+        $0.frame.size.height = 30
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .white.withAlphaComponent(0.7)
+        $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         delegate = self
-        setData()
+        setImageSlide()
         setViewControllerFromIndex(index: startingPageIndex)
+        configUI()
     }
 
-    private func setData() {
+    private func configUI() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.hidesBackButton = true
+    }
+
+    private func setImageSlide() {
         for image in images {
             let imageViewController = ImageViewController()
             imageViewController.image = image
@@ -31,12 +45,19 @@ class ImagePageController: UIPageViewController {
         }
     }
 
-    func setViewControllerFromIndex(index:Int) {
+    private func setViewControllerFromIndex(index:Int) {
         self.setViewControllers([subViewControllers[index]], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil)
     }
 }
 
-extension ImagePageController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+// objc 함수
+extension ImageSliderViewController {
+    @objc func didTapCustomBackButton() {
+        self.navigationController?.popViewController(animated: false)
+    }
+}
+
+extension ImageSliderViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         return subViewControllers.count
     }

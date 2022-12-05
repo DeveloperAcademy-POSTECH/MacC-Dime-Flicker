@@ -115,7 +115,6 @@ final class ArtistTappedViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.backgroundColor = .clear
-        tabBarController?.tabBar.isHidden = false
     }
     
     // configuration about view UI
@@ -295,11 +294,11 @@ extension ArtistTappedViewController: UICollectionViewDataSource {
 extension ArtistTappedViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewController = ImagePageController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let viewController = ImageSliderViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         viewController.images = imageList
         viewController.startingPageIndex = indexPath.item
         viewController.modalPresentationStyle = .fullScreen
-        present(viewController, animated: false)
+        navigationController?.pushViewController(viewController, animated: false)
     }
     
     // set NavigationBar while scrolling
@@ -321,6 +320,7 @@ extension ArtistTappedViewController {
     @objc func didTapCustomBackButton() {
         self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.popViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
     
     @objc func didTapCounselingButton() {
