@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageSliderViewController: UIPageViewController {
+final class ImageSliderViewController: UIPageViewController {
 
     var images: [UIImage] = []
 
