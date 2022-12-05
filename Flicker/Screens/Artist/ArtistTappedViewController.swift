@@ -37,10 +37,13 @@ final class ArtistTappedViewController: BaseViewController {
     }
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: portfolioFlowLayout).then {
-        $0.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.className)
-        
-        $0.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
+        $0.delegate = self
+        $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
         $0.contentInsetAdjustmentBehavior = .never
+        $0.register(ArtistPortfolioCell.self, forCellWithReuseIdentifier: ArtistPortfolioCell.className)
+        $0.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.className)
+
         $0.isSkeletonable = true
         $0.skeletonCornerRadius = 5
     }
@@ -100,7 +103,6 @@ final class ArtistTappedViewController: BaseViewController {
         }
         render()
         configUI()
-        setDelegateAndDataSource()
         setupRightNavigationBarItem(with: reportButton)
     }
     
@@ -136,12 +138,6 @@ final class ArtistTappedViewController: BaseViewController {
     override func setupBackButton() {
         let backButton = makeBarButtonItem(with: backButton)
         navigationItem.leftBarButtonItem = backButton
-    }
-    
-    private func setDelegateAndDataSource() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.showsVerticalScrollIndicator = false
     }
     
     private func resetNavigationBarBackground() {
@@ -229,7 +225,7 @@ final class ArtistTappedViewController: BaseViewController {
         navigationBarSeperator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         // fixed bottomView with counseling button
-        
+        // TODO: UserDefault isArtist를 사용하는 것으로 추후 바꿔야함
         if artist.userInfo["userId"] != currentUserID {
             bottomBackgroundView.addSubview(counselingButton)
             

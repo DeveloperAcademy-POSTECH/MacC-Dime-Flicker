@@ -12,8 +12,6 @@ import Then
 final class ImageViewController: UIViewController {
 
     var image: UIImage? = UIImage(named: "RegisterEnd")
-
-    var completion: ()->Void = { }
     
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
