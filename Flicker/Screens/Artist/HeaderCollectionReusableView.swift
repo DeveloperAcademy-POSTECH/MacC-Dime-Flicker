@@ -11,6 +11,8 @@ import SkeletonView
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
+    var images: [UIImage?] = [UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default")]
+
     private let networkManager = NetworkManager.shared
 
     private var imageScrollView = UIScrollView().then {
@@ -22,8 +24,6 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     private let imageHeight: Int = 380
 
     private let profileImageSize: Int = 45
-
-    var images: [UIImage?] = [UIImage(named: "port1"), UIImage(named: "port2"), UIImage(named: "port3"), UIImage(named: "port4")]
 
     private lazy var pageControl = UIPageControl().then {
         $0.skeletonCornerRadius = 5
@@ -111,6 +111,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         for view in self.subviews {
             view.isSkeletonable = true
         }
+        
+        pageControl.isSkeletonable = false
 
         configUI()
         configureImageScrollView()
@@ -247,7 +249,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
             let imageView = UIImageView()
             let xPositionOrigin = self.frame.width * CGFloat(pageIndex)
             imageView.frame = CGRect(x: xPositionOrigin, y: 0, width: self.bounds.width, height: CGFloat(imageHeight))
-            imageView.backgroundColor = .orange
+            imageView.backgroundColor = .white
             imageView.image = images[pageIndex]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
