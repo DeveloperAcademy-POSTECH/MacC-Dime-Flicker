@@ -10,6 +10,10 @@ import SnapKit
 import Then
 
 final class ImageViewController: UIViewController {
+
+    var image: UIImage? = UIImage(named: "RegisterEnd")
+
+    var completion: ()->Void = { }
     
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -24,10 +28,6 @@ final class ImageViewController: UIViewController {
         $0.minimumZoomScale = 1.0
         $0.maximumZoomScale = 3.0
     }
-    
-    var image: UIImage? = UIImage(named: "RegisterEnd")
-    
-    var completion: ()->Void = { }
     
     override func viewDidLoad() {
         super.viewDidLoad()

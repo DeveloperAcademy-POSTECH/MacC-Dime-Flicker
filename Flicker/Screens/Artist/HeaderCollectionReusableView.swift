@@ -11,6 +11,8 @@ import SkeletonView
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
+    var images: [UIImage?] = [UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default")]
+
     private let networkManager = NetworkManager.shared
 
     private var imageScrollView = UIScrollView().then {
@@ -22,8 +24,6 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     private let imageHeight: Int = 380
 
     private let profileImageSize: Int = 45
-
-    var images: [UIImage?] = [UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default"), UIImage(named: "default")]
 
     private lazy var pageControl = UIPageControl().then {
         $0.skeletonCornerRadius = 5
