@@ -71,7 +71,7 @@ final class PopUpViewController: BaseViewController  {
         sendEmailButton.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
 
         popUpView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(DeviceFrame.screenHeight * 0.27)
+            $0.top.equalToSuperview().offset(DeviceFrame.screenHeight * 0.2)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(DeviceFrame.screenWidth * 0.85)
             $0.height.equalTo(DeviceFrame.screenHeight * 0.37)
