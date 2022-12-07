@@ -299,10 +299,12 @@ final class FirebaseManager: NSObject {
     // MARK: - storing Artist Data to the Database
     func storeArtistInformation(_ artist: Artist) async {
         guard let uid = auth.currentUser?.uid else { return }
-        guard let isArtistBool = UserDefaults.standard.object(forKey: "isArtist") else { return }
+        let isArtistBool = UserDefaults.standard.bool(forKey: "isArtist")
         do {
-            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo, "isArtist": isArtistBool] as [String : Any]
+            let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
+            try await firestore.collection("users").document(uid).updateData(["isArtist": isArtistBool])
+            print("-------BUG TEST \(isArtistBool) ------")
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
             print("error string Artist Model")
