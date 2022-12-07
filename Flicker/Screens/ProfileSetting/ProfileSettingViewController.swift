@@ -172,7 +172,8 @@ final class ProfileSettingViewController: BaseViewController {
         Task { [weak self] in
             await FirebaseManager.shared.storeUserInformation(email: fireBaseUser?.email ?? "",
                                                               name: nickNameField.text ?? "",
-                                                              profileImage: profileImageView.image ?? UIImage(systemName: "person")! )
+                                                              profileImage: profileImageView.image ?? UIImage(systemName: "person")!,
+                                                              isArtist: UserDefaults.standard.bool(forKey: "isArtist") )
             await CurrentUserDataManager.shared.saveUserDefault()
             self?.navigationController?.popViewController(animated: true)
             

@@ -10,16 +10,16 @@ import SkeletonView
 
 final class ArtistPortfolioCell: UICollectionViewCell {
 
-    let imageView: UIImageView = UIImageView(frame: .zero).then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
-        $0.isSkeletonable = true
-    }
-    
     var image: UIImage? {
         didSet {
             imageView.image = image
         }
+    }
+
+    let imageView: UIImageView = UIImageView(frame: .zero).then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.isSkeletonable = true
     }
 
     override init(frame: CGRect) {
