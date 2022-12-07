@@ -299,14 +299,20 @@ final class FirebaseManager: NSObject {
     // MARK: - storing Artist Data to the Database
     func storeArtistInformation(_ artist: Artist) async {
         guard let uid = auth.currentUser?.uid else { return }
+        let isArtistBool = UserDefaults.standard.bool(forKey: "isArtist")
         do {
             let artistData = ["state": artist.state, "regions": artist.regions, "camera": artist.camera, "lens": artist.lens, "tags": artist.tags, "detailDescription": artist.detailDescription, "portfolioImageUrls":  artist.portfolioImageUrls.sorted(), "userInfo": artist.userInfo] as [String : Any]
             try await firestore.collection("artists").document(uid).setData(artistData)
+            try await firestore.collection("users").document(uid).updateData(["isArtist": isArtistBool])
+            print("-------BUG TEST \(isArtistBool) ------")
             print("⭐️⭐️⭐️URL UPLOAD DONE ⭐️⭐️⭐️")
         } catch {
             print("error string Artist Model")
         }
     }
+    
+    /// ⚠️
+    /// 이거 1. 이메일 로그인할때는 서버 get -> isArtist 를 가져오는게 맞고, 2. 회원가입 하고 난 뒤 or 첫 애플 로그인시에는 isArtist = false 를 서버에 올려야 함 3. 작가등록시에 isArtist = true
     
     // MARK: - updating Artist Data using EditData
     func updateArtistInformation(_ artist: EditData) async {
