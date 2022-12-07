@@ -54,7 +54,7 @@ final class FirebaseManager: NSObject {
         }
     }
     
-    func storeUserInformation(email: String, name: String, profileImage: UIImage) async {
+    func storeUserInformation(email: String, name: String, profileImage: UIImage, isArtist: Bool) async {
         guard let uid = auth.currentUser?.uid else { return }
         do {
             let ref = storage.reference(withPath: uid)
@@ -66,8 +66,7 @@ final class FirebaseManager: NSObject {
             let profileImageUrl = try await ref.downloadURL().absoluteString
             let appDelegate = await UIApplication.shared.delegate as! AppDelegate
             let userToken = await appDelegate.userToken
-            let userData = ["email": email, "uid": uid, "name": name, "profileImageUrl": profileImageUrl, "token": userToken]
-            
+            let userData = ["email": email, "uid": uid, "name": name, "profileImageUrl": profileImageUrl, "token": userToken, "isArtist": isArtist] as [String : Any]
             try await firestore.collection("users").document(uid).setData(userData)
         } catch {
             print("Store User error")

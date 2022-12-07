@@ -237,6 +237,11 @@ final class LogInViewController: BaseViewController {
             if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
                 await FirebaseManager.shared.updateUserToken(uid: userId)
                 await CurrentUserDataManager.shared.saveUserDefault()
+
+                if UserDefaults.standard.object(forKey: "isArtist") != nil {
+                    print("isArtistHasValue")
+                } else { UserDefaults.standard.set(false, forKey: "isArtist") }
+
                 self?.goHome()
             } else {
                 makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")
