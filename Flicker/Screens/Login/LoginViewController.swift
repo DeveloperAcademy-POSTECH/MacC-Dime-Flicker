@@ -119,12 +119,14 @@ final class LogInViewController: BaseViewController {
         view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, resetPasswordButton ,loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
+        passwordField.returnKeyType = .done
+
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         resetPasswordButton.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
             $0.leading.trailing.equalToSuperview()
         }
 
