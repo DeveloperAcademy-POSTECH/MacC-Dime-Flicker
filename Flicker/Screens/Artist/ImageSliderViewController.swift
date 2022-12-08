@@ -32,7 +32,7 @@ final class ImageSliderViewController: UIPageViewController {
     }
 
     private func setNavigationItem() {
-        setupRightNavigationBarItem(with: dismissButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: dismissButton)
         self.navigationItem.hidesBackButton = true
     }
 
