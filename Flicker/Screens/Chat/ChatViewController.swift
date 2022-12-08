@@ -228,6 +228,7 @@ final class ChatViewController: BaseViewController {
     func hidekeyboardWhenTappedAroundExceptSendView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
+        view.gestureRecognizers?.removeAll()
         chatTableView.addGestureRecognizer(tap)
     }
 }
