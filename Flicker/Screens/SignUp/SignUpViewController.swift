@@ -14,6 +14,12 @@ final class SignUpViewController: BaseViewController {
 
     private let didTapSignUpEmail = true
 
+    // MARK: - loading UI view
+    private let loadingView = UIView().then {
+        $0.isHidden = true
+        $0.backgroundColor = .clear
+    }
+
     private lazy var backButton = RegisterCustomNavigationView().customBackButton.then {
         $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
     }
@@ -112,6 +118,8 @@ final class SignUpViewController: BaseViewController {
 
         view.addSubviews(backButton, emailValidCheckLabel,signUpTitleLabel, signUpLabel, emailField, passwordField, signUpButton, passwordSameCheckField, passwordValidCheckLabel, passwordSameCheckLabel)
 
+        view.addSubviews(loadingView)
+
         backButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
             $0.leading.equalToSuperview().inset(15)
@@ -167,16 +175,17 @@ final class SignUpViewController: BaseViewController {
             $0.height.equalTo(DeviceFrame.screenHeight * 0.065)
         }
 
+        loadingView.snp.makeConstraints {
+            $0.top.equalTo(view.snp.top)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         super.setupInteractivePopGestureRecognizer()
     }
-
-//    override func setupInteractivePopGestureRecognizer() {
-//        super.setupInteractivePopGestureRecognizer()
-//    }
 
     @objc private func didTapSignUpButton() {
         let viewController = LoginProfileViewController()
@@ -192,14 +201,26 @@ final class SignUpViewController: BaseViewController {
         viewController.isSignUpEmail = self.didTapSignUpEmail
         
         Task { [weak self] in
+            self?.openLoadingView()
             guard let isExistEmail = await FirebaseManager.shared.isEmailSameExist(Email: emailField.text ?? "") else { return }
             if isExistEmail {
                 makeAlert(title: "이미 사용중인 메일 주소입니다.", message: "")
             } else {
+                self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
     }
+
+    // MARK: - changing loading view status action
+    private func openLoadingView() {
+        self.loadingView.isHidden = false
+    }
+
+    private func hideLoadingView() {
+        self.loadingView.isHidden = true
+    }
+
 }
 
 extension SignUpViewController {
