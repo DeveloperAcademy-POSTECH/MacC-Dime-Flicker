@@ -107,9 +107,11 @@ final class ArtistTappedViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupBackButton()
         setupNavigationBar()
         tabBarController?.tabBar.isHidden = true
+        super.setupInteractivePopGestureRecognizer()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
             self.showSkeletonView()
         }
