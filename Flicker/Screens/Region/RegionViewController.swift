@@ -94,7 +94,13 @@ final class RegionViewController: BaseViewController {
         } else {
             selectedRegions = selectedRegions.filter {$0 != "전체"}
             selectedRegions.append(region)
+            
+            if selectedRegions.count > 10 {
+                selectedRegions.removeFirst()
+            }
         }
+        
+        print(selectedRegions)
     }
     
     func removeRegion(region: String) {
