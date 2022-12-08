@@ -119,6 +119,7 @@ final class LogInViewController: BaseViewController {
         view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, resetPasswordButton ,loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
+        passwordField.delegate = self
         passwordField.returnKeyType = .done
 
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
@@ -126,7 +127,7 @@ final class LogInViewController: BaseViewController {
         resetPasswordButton.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(35)
             $0.leading.trailing.equalToSuperview()
         }
 
@@ -202,8 +203,8 @@ final class LogInViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = nil
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     

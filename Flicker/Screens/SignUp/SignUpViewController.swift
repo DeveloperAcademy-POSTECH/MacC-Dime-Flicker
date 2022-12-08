@@ -108,8 +108,8 @@ final class SignUpViewController: BaseViewController {
         passwordField.delegate = self
         passwordSameCheckField.delegate = self
 
-        emailField.returnKeyType = .done
-        passwordField.returnKeyType = .done
+        emailField.returnKeyType = .next
+        passwordField.returnKeyType = .next
         passwordSameCheckField.returnKeyType = .done
 
         emailValidCheckLabel.isHidden = true
