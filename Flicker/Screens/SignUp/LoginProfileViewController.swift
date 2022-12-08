@@ -201,7 +201,7 @@ final class LoginProfileViewController: BaseViewController {
         }
 
         loadingView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.top.equalTo(view.snp.top)
             $0.bottom.leading.trailing.equalToSuperview()
         }
 
