@@ -105,6 +105,6 @@ extension RegionTagListView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return listCollectionView.indexPathsForSelectedItems!.count < 10
+        return regionList.count < 10
     }
 }
