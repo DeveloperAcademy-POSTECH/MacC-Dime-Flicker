@@ -15,11 +15,10 @@ final class ImageSliderViewController: UIPageViewController {
 
     var subViewControllers: [UIViewController] = []
 
-    private lazy var backButton = BackButton().then {
-        $0.frame.size.width = 30
-        $0.frame.size.height = 30
-        $0.layer.cornerRadius = 15
-        $0.backgroundColor = .white.withAlphaComponent(0.7)
+    private lazy var dismissButton = BackButton().then {
+        let imageConfiguration = UIImage.SymbolConfiguration(pointSize: CGFloat(24), weight: .light)
+        $0.setImage(UIImage(systemName: "x.circle.fill", withConfiguration: imageConfiguration), for: .normal)
+        $0.tintColor = .white
         $0.addTarget(self, action: #selector(didTapCustomBackButton), for: .touchUpInside)
     }
 
@@ -29,11 +28,11 @@ final class ImageSliderViewController: UIPageViewController {
         delegate = self
         setImageSlide()
         setViewControllerFromIndex(index: startingPageIndex)
-        configUI()
+        setNavigationItem()
     }
 
-    private func configUI() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    private func setNavigationItem() {
+        setupRightNavigationBarItem(with: dismissButton)
         self.navigationItem.hidesBackButton = true
     }
 
