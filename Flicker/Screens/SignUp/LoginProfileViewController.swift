@@ -20,7 +20,6 @@ final class LoginProfileViewController: BaseViewController {
 
     private var nickNameCount: Int = 0
     private var isNickNameWrite = false
-    private var isTapArtistButton = false
 
     // MARK: - loading UI view
     private let loadingView = UIView().then {
@@ -262,11 +261,9 @@ final class LoginProfileViewController: BaseViewController {
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
         self.nickNameCountLabel.isHidden = true
+        self.signUpButton.backgroundColor = .systemGray2
+        self.signUpButton.isEnabled = false
 
-        if isTapArtistButton {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .systemGray2
-        }
     }
 
     // MARK: - changing loading view status action
@@ -314,18 +311,13 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
 
         signUpButton.isEnabled = nickNameField.text!.isEmpty ? false : true
 
-        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .systemGray2
+        signUpButton.backgroundColor = !nickNameField.text!.isEmpty ? .mainPink : .systemGray2
     }
+
     override func textFieldDidEndEditing(_ textField: UITextField) {
         if !nickNameField.text!.isEmpty {
             isNickNameWrite = true
-            nickNameTextFieldClearButton.isHidden = true
-
-            signUpButton.isEnabled = isTapArtistButton ? true : false
-            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .systemGray2
-
         }
-
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
