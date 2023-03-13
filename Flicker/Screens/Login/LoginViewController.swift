@@ -119,12 +119,15 @@ final class LogInViewController: BaseViewController {
         view.addSubviews(loginTitleLabel,loginBoldLabel,loginNormalLabel, emailField, passwordField, logInbutton, signUpButton, resetPasswordButton ,loginDividerFirst, loginDividerSecond, loginDividerText)
         view.addSubview(appleLoginButton)
 
+        passwordField.delegate = self
+        passwordField.returnKeyType = .done
+
         logInbutton.addTarget(self, action: #selector(didTapLogInbutton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         resetPasswordButton.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
 
         loginTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(60)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(35)
             $0.leading.trailing.equalToSuperview()
         }
 
@@ -200,8 +203,8 @@ final class LogInViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = nil
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -237,6 +240,11 @@ final class LogInViewController: BaseViewController {
             if let userId = await FirebaseManager.shared.signInUser(email: email, password: password) {
                 await FirebaseManager.shared.updateUserToken(uid: userId)
                 await CurrentUserDataManager.shared.saveUserDefault()
+
+                if UserDefaults.standard.object(forKey: "isArtist") != nil {
+                    print("isArtistHasValue")
+                } else { UserDefaults.standard.set(false, forKey: "isArtist") }
+
                 self?.goHome()
             } else {
                 makeAlert(title: "아이디 또는 비밀번호가 일치하지 않습니다.", message: "")

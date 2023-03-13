@@ -11,6 +11,7 @@ import UIKit
 struct User: Codable, Identifiable {
     @DocumentID var id: String?
     let uid, email, name, profileImageUrl, token: String
+    let isArtist: Bool?
 }
 
 final class CurrentUserDataManager {
@@ -25,6 +26,7 @@ final class CurrentUserDataManager {
             defaults.set(userData.id, forKey: "userId")
             defaults.set(userData.profileImageUrl, forKey: "userProfileImageUrl")
             defaults.set(userData.token, forKey: "userToken")
+            defaults.set(userData.isArtist, forKey: "isArtist")
         }
     }
 

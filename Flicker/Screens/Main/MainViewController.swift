@@ -32,6 +32,7 @@ final class MainViewController: BaseViewController {
     private var selectedRegions: [String] = ["전체"]
     private var artists = [Artist]()
     private var artistThumbnails = [ArtistThumbnail]()
+    private var currentUserId: String = ""
     
     private var cursor: DocumentSnapshot?
     private var dataMayContinue = true
@@ -77,6 +78,11 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func render() {
@@ -141,6 +147,8 @@ final class MainViewController: BaseViewController {
                 self.artistThumbnails = result.artistThumbnails
                 self.cursor = result.cursor
             }
+            
+            currentUserId = await FirebaseManager.shared.getUser()?.id ?? "none"
             
             if artists.isEmpty {
                 emptyThumnailView.isHidden = false
@@ -223,6 +231,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let artist = artists[indexPath.item] // 선택한 아티스트 데이터
         let vc = ArtistTappedViewController()
         vc.artist = artist
+        vc.currentUserID = self.currentUserId
         navigationController?.pushViewController(vc, animated: true)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }

@@ -20,7 +20,6 @@ final class LoginProfileViewController: BaseViewController {
 
     private var nickNameCount: Int = 0
     private var isNickNameWrite = false
-    private var isTapArtistButton = false
 
     // MARK: - loading UI view
     private let loadingView = UIView().then {
@@ -52,11 +51,19 @@ final class LoginProfileViewController: BaseViewController {
     }
 
     private lazy var profileImageView = UIImageView().then {
+        $0.layer.borderColor = UIColor.systemGray5.cgColor
+        $0.layer.borderWidth = 2
         $0.backgroundColor = .loginGray
         $0.layer.cornerRadius = 50
+        $0.layer.masksToBounds = true
         $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectButtonTouched)))
+    }
+
+    private let plusImage = UIImageView().then {
+        $0.tintColor = .mainPink
+        $0.image = UIImage(systemName: "plus.circle.fill")
     }
 
     private let cameraImage = UIImageView().then {
@@ -76,8 +83,6 @@ final class LoginProfileViewController: BaseViewController {
 
     private let profileLabelSecond = UILabel().makeBasicLabel(labelText: "프로필 사진은 작가와 모델의 매칭에 도움을 줍니다", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
     private let nickNameLabel = UILabel().makeBasicLabel(labelText: "닉네임", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private let isArtistLabel = UILabel().makeBasicLabel(labelText: "사진작가로 활동할 예정이신가요?", textColor: .black, fontStyle: .title3, fontWeight: .bold)
-    private let afterJoinLabel = UILabel().makeBasicLabel(labelText: "가입 후 마이프로필에서 작가등록을 하실 수 있어요!", textColor: .textSubBlack, fontStyle: .caption1, fontWeight: .medium)
 
     private lazy var nickNameField = UITextField().then {
         let attributes = [
@@ -103,20 +108,6 @@ final class LoginProfileViewController: BaseViewController {
         $0.tintColor = .textSubBlack
     }
 
-    private let artistTrueButton = UIButton().then {
-        $0.setTitle("네", for: .normal)
-        $0.backgroundColor = .loginGray
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
-    }
-
-    private let artistFalseButton = UIButton().then {
-        $0.setTitle("아니오", for: .normal)
-        $0.backgroundColor = .loginGray
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = DeviceFrame.screenHeight * 0.012
-    }
-
     private let signUpButton = UIButton().then {
         $0.backgroundColor = .systemGray2
         $0.setTitleColor(.white, for: .normal)
@@ -134,13 +125,10 @@ final class LoginProfileViewController: BaseViewController {
         nickNameTextFieldClearButton.isHidden = true
         nickNameCountLabel.isHidden = true
 
-        view.addSubviews(backButton, profileImageView, cameraImage ,profileLabelFirst, profileLabelSecond, nickNameLabel, isArtistLabel, afterJoinLabel, nickNameField, nickNameCountLabel ,artistTrueButton, artistFalseButton, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
+        view.addSubviews(backButton, profileImageView, cameraImage, plusImage, profileLabelFirst, profileLabelSecond, nickNameLabel, nickNameField, nickNameCountLabel, signUpButton, nickNameTextFieldClearButton, nickNameDivider)
 
         view.addSubviews(loadingView, spinnerView,loadingLabel)
 
-
-        artistTrueButton.addTarget(self, action: #selector(didTapArtistTrueButton), for: .touchUpInside)
-        artistFalseButton.addTarget(self, action: #selector(didTapArtistFalseButton), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         nickNameTextFieldClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
 
@@ -150,7 +138,7 @@ final class LoginProfileViewController: BaseViewController {
         }
 
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(120)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100)
         }
@@ -159,6 +147,12 @@ final class LoginProfileViewController: BaseViewController {
             $0.center.equalTo(profileImageView.snp.center)
             $0.width.equalTo(50)
             $0.height.equalTo(40)
+        }
+
+        plusImage.snp.makeConstraints {
+            $0.leading.equalTo(profileImageView.snp.trailing).inset(30)
+            $0.top.equalTo(profileImageView.snp.bottom).inset(35)
+            $0.width.height.equalTo(35)
         }
 
         profileLabelFirst.snp.makeConstraints {
@@ -199,28 +193,6 @@ final class LoginProfileViewController: BaseViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
-        isArtistLabel.snp.makeConstraints {
-            $0.top.equalTo(nickNameField.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(20)
-        }
-
-        afterJoinLabel.snp.makeConstraints {
-            $0.top.equalTo(isArtistLabel.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview().inset(20)
-        }
-
-        artistTrueButton.snp.makeConstraints {
-            $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalTo(view.snp.centerX).inset(25)
-        }
-
-        artistFalseButton.snp.makeConstraints {
-            $0.top.equalTo(afterJoinLabel.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.leading.equalTo(view.snp.centerX).offset(10)
-        }
-
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -228,7 +200,7 @@ final class LoginProfileViewController: BaseViewController {
         }
 
         loadingView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.top.equalTo(view.snp.top)
             $0.bottom.leading.trailing.equalToSuperview()
         }
 
@@ -245,45 +217,13 @@ final class LoginProfileViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         super.setupInteractivePopGestureRecognizer()
+        nickNameField.becomeFirstResponder()
     }
 
     @objc private func selectButtonTouched(_ recognizer: UITapGestureRecognizer) {
         self.present(imagePicker, animated: true)
     }
 
-    @objc private func didTapArtistTrueButton() {
-        artistTrueButton.backgroundColor = .mainPink
-        artistTrueButton.setTitleColor(.white, for: .normal)
-        artistFalseButton.backgroundColor = .loginGray
-        artistFalseButton.setTitleColor(.black, for: .normal)
-
-        if isNickNameWrite && !nickNameField.text!.isEmpty {
-            signUpButton.isEnabled = true
-            signUpButton.backgroundColor = .mainPink
-        } else {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .systemGray2
-        }
-
-        isTapArtistButton = true
-    }
-
-    @objc private func didTapArtistFalseButton() {
-        artistTrueButton.backgroundColor = .loginGray
-        artistTrueButton.setTitleColor(.black, for: .normal)
-        artistFalseButton.backgroundColor = .mainPink
-        artistFalseButton.setTitleColor(.white, for: .normal)
-
-        if isNickNameWrite && !nickNameField.text!.isEmpty {
-            signUpButton.isEnabled = true
-            signUpButton.backgroundColor = .mainPink
-        } else {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .systemGray2
-        }
-
-        isTapArtistButton = true
-    }
     //TODO: profileImage가 없을 경우 이미지 값을 SFSymbol에서 받으려고 하는데 그 값조차 옵셔널 값으로 인식함 그래서 일단 강제언래핑 해놓음
     @objc private func didTapSignUpButton() {
         let viewController = TabbarViewController()
@@ -295,7 +235,8 @@ final class LoginProfileViewController: BaseViewController {
                 await FirebaseManager.shared.createNewAccount(email: authEmail, password: authPassword)
                 await FirebaseManager.shared.storeUserInformation(email: authEmail,
                                                                   name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
+                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile,
+                                                                  isArtist: false )
                 await CurrentUserDataManager.shared.saveUserDefault()
                 self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
@@ -307,7 +248,8 @@ final class LoginProfileViewController: BaseViewController {
                 guard let fireBaseUser = fireBaseUser else { return }
                 await FirebaseManager.shared.storeUserInformation(email: fireBaseUser.email ?? "",
                                                                   name: nickNameField.text ?? "",
-                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile )
+                                                                  profileImage: profileImageView.image ?? ImageLiteral.defaultProfile,
+                                                                  isArtist: false )
                 await CurrentUserDataManager.shared.saveUserDefault()
                 self?.hideLoadingView()
                 self?.navigationController?.pushViewController(viewController, animated: true)
@@ -319,11 +261,9 @@ final class LoginProfileViewController: BaseViewController {
     @objc private func didTapClearButton() {
         self.nickNameField.text = ""
         self.nickNameCountLabel.isHidden = true
+        self.signUpButton.backgroundColor = .systemGray2
+        self.signUpButton.isEnabled = false
 
-        if isTapArtistButton {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .systemGray2
-        }
     }
 
     // MARK: - changing loading view status action
@@ -371,18 +311,13 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
 
         signUpButton.isEnabled = nickNameField.text!.isEmpty ? false : true
 
-        signUpButton.backgroundColor = (!nickNameField.text!.isEmpty && isTapArtistButton) ? .mainPink : .systemGray2
+        signUpButton.backgroundColor = !nickNameField.text!.isEmpty ? .mainPink : .systemGray2
     }
+
     override func textFieldDidEndEditing(_ textField: UITextField) {
         if !nickNameField.text!.isEmpty {
             isNickNameWrite = true
-            nickNameTextFieldClearButton.isHidden = true
-
-            signUpButton.isEnabled = isTapArtistButton ? true : false
-            signUpButton.backgroundColor = isTapArtistButton ? .mainPink : .systemGray2
-
         }
-
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -395,6 +330,7 @@ extension LoginProfileViewController: UIImagePickerControllerDelegate, UINavigat
         }
         self.profileImageView.image = newImage
         self.cameraImage.isHidden = true
+        self.plusImage.isHidden = true
         dismiss(animated: true, completion: nil)
     }
 }
