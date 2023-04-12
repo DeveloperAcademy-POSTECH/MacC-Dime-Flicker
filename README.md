@@ -21,7 +21,9 @@
 
 
 ## :sparkles: Skills & Tech Stack
-- Swift
-- Github
+- UIKit
+- Swift Concurrency
+- Firebase
+- Github & Git
 - Figma
 - Notion
